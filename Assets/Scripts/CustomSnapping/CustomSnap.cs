@@ -1,5 +1,7 @@
 using EchoOfTheTimes.EditorTools;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,24 +10,29 @@ namespace EchoOfTheTimes.CustomSnapping
     public class CustomSnap : MonoBehaviour
     {
         public GameObject SnapPointPrefab;
+        public GameObject EdgePrefab;
 
         [Space]
-        [InspectorButton(nameof(InitializePoints))]
-        public bool IsInitPoints;
+        [InspectorButton(nameof(ResetPoints))]
+        public bool IsResetPoints;
+
+        [Space]
+        [InspectorButton(nameof(ResetEdges))]
+        public bool IsEdgesCreate;
 
         private Mesh _mesh;
         private Vector3[] _snapPointsPositions;
 
         private GameObject[] _spawnedSnapPoints = null;
+        private GameObject[] _spawnedEdges = null;
 
-        public void InitializePoints()
+        public void ResetPoints()
         {
-            Despawn();
+            DespawnPoints();
 
             _mesh = GetComponent<MeshFilter>().sharedMesh;
 
-            _snapPointsPositions = _mesh.vertices;
-            _snapPointsPositions = RemoveDuplicates();
+            _snapPointsPositions = RemoveDuplicates(_mesh.vertices);
 
             _spawnedSnapPoints = new GameObject[_snapPointsPositions.Length];
 
@@ -39,22 +46,97 @@ namespace EchoOfTheTimes.CustomSnapping
             }
         }
 
-        private Vector3[] RemoveDuplicates()
+        public void ResetEdges()
         {
-            List<Vector3> positions = new List<Vector3>();
-
-            for (int i = 0; i < _snapPointsPositions.Length; i++)
+            if (_spawnedSnapPoints != null)
             {
-                if (!positions.Contains(_snapPointsPositions[i]))
+                DespawnEdges();
+
+                List<GameObject> edges = new List<GameObject>();
+                Vector3 middle;
+                List<Vector3> middles = new List<Vector3>();
+
+                for (int i = 0; i < _spawnedSnapPoints.Length; i++)
                 {
-                    positions.Add(_snapPointsPositions[i]);
+                    for (int j = 0; j < _spawnedSnapPoints.Length; j++)
+                    {
+                        if (i == j) continue;
+
+                        middle = (_spawnedSnapPoints[i].transform.localPosition + _spawnedSnapPoints[j].transform.localPosition) / 2f;
+
+                        if (!middles.Contains(middle))
+                        {
+                            middles.Add(middle);
+
+                            var obj = Instantiate(EdgePrefab, transform);
+                            var edge = obj.GetComponent<CustomSnapEdge>();
+                            edge.Head = _spawnedSnapPoints[i].transform.localPosition;
+                            edge.Tail = _spawnedSnapPoints[j].transform.localPosition;
+                            obj.name = $"Edge_{i}_{j}";
+                            obj.transform.localPosition = middle;
+                            obj.transform.LookAt(_snapPointsPositions[i]);
+                            edges.Add(obj);
+                        }
+                    }
+                }
+
+                _spawnedEdges = edges.ToArray();
+
+                //_spawnedEdges = RemoveDuplicatesEdges(edges.ToArray());
+
+                //foreach (var edge in edges)
+                //{
+                //    DestroyImmediate(edge);
+                //}
+
+                //for (int i = 0; i < _spawnedEdges.Length; i++)
+                //{
+                //    Instantiate(_spawnedEdges[i]);
+                //}
+            }
+            else
+            {
+                ResetPoints();
+                ResetEdges();
+            }
+        }
+
+        private Vector3[] RemoveDuplicates(Vector3[] array)
+        {
+            List<Vector3> newArray = new List<Vector3>();
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (!newArray.Contains(array[i]))
+                {
+                    newArray.Add(array[i]);
                 }
             }
 
-            return positions.ToArray();
+            return newArray.ToArray();
         }
 
-        private void Despawn()
+        private GameObject[] RemoveDuplicatesEdges(GameObject[] edges)
+        {
+            List<GameObject> distinctEdges = new List<GameObject>();
+
+            for (int i = 0; i < edges.Length; i++)
+            {
+                for (int j = 0; j < edges.Length; j++)
+                {
+                    if (i == j) continue;
+
+                    if (edges[i].transform.position != edges[j].transform.position)
+                    {
+                        distinctEdges.Add(edges[j]);
+                    }
+                }
+            }
+
+            return distinctEdges.ToArray();
+        }
+
+        private void DespawnPoints()
         {
             if (_spawnedSnapPoints != null)
             {
@@ -67,9 +149,23 @@ namespace EchoOfTheTimes.CustomSnapping
             }
         }
 
+        private void DespawnEdges()
+        {
+            if (_spawnedEdges != null)
+            {
+                foreach (var edge in _spawnedEdges)
+                {
+                    DestroyImmediate(edge);
+                }
+
+                _spawnedEdges = null;
+            }
+        }
+
         private void OnDestroy()
         {
-            Despawn();
+            DespawnEdges();
+            DespawnPoints();
         }
     }
 }
