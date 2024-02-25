@@ -1,8 +1,9 @@
+using EchoOfTheTimes.CustomSnapping;
 using UnityEditor;
 using UnityEditor.EditorTools;
 using UnityEngine;
 
-namespace EchoOfTheTimes.CustomSnapping
+namespace EchoOfTheTimes.EditorTools
 {
     [EditorTool("Level Builder", typeof(CustomSnap))]
     public class CustomSnappingTool : EditorTool
