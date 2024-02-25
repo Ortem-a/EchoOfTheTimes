@@ -9,14 +9,24 @@ namespace EchoOfTheTimes.CustomSnapping
         [Range(0.001f, 1f)]
         public float Radius = 0.08f;
 
-        public Vector3 Head;
-        public Vector3 Tail;
+        public CustomSnapPoint Head;
+        public CustomSnapPoint Tail;
+
+        public Vector3 Rotation => transform.rotation.eulerAngles;
+        public Vector3 LocalRotation => transform.localRotation.eulerAngles;
+
+        public bool IsSelected = false;
 
         private void OnDrawGizmos()
         {
-            Gizmos.color = Color.blue;    
-            Gizmos.DrawLine(Head, Tail);
+            Gizmos.color = IsSelected ? Color.red : Color.blue;
+
+            if (Head != null && Tail != null)
+            {
+                Gizmos.DrawLine(Head.Position, Tail.Position);
+            }
             Gizmos.DrawSphere(transform.position, Radius);
+
             Gizmos.color = Color.white;    
         }
     }

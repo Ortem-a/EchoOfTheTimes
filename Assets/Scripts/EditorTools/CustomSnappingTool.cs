@@ -1,7 +1,9 @@
 using EchoOfTheTimes.CustomSnapping;
+using PlasticGui;
 using UnityEditor;
 using UnityEditor.EditorTools;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace EchoOfTheTimes.EditorTools
 {
@@ -10,7 +12,7 @@ namespace EchoOfTheTimes.EditorTools
     {
         public Texture2D ToolIcon;
 
-        public float DistanceToSnap = 0.5f;
+        public float DistanceToSnap = 1f;
 
         public override GUIContent toolbarIcon
         {
@@ -40,17 +42,20 @@ namespace EchoOfTheTimes.EditorTools
 
         private void MoveWithSnapping(Transform targetTransform, Vector3 newPosition)
         {
-            CustomSnapPoint[] allPoints = FindObjectsOfType<CustomSnapPoint>();
-            CustomSnapPoint[] targetPoints = targetTransform.GetComponentsInChildren<CustomSnapPoint>();
+            //CustomSnapPoint[] allPoints = FindObjectsOfType<CustomSnapPoint>();
+            //CustomSnapPoint[] targetPoints = targetTransform.GetComponentsInChildren<CustomSnapPoint>();
+            CustomSnapEdge[] allPoints = FindObjectsOfType<CustomSnapEdge>();
+            CustomSnapEdge[] targetPoints = targetTransform.GetComponentsInChildren<CustomSnapEdge>();
 
             Vector3 bestPosition = newPosition;
             float closestDistance = float.PositiveInfinity;
+            Quaternion rotation = targetTransform.rotation;
 
-            foreach (CustomSnapPoint point in allPoints)
+            foreach (CustomSnapEdge point in allPoints)
             {
                 if (point.transform.parent == targetTransform) continue;
 
-                foreach (CustomSnapPoint ownPoint in targetPoints)
+                foreach (CustomSnapEdge ownPoint in targetPoints)
                 {
                     Vector3 targetPos = point.transform.position - (ownPoint.transform.position - targetTransform.position);
                     float distance = Vector3.Distance(targetPos, newPosition);
@@ -62,6 +67,31 @@ namespace EchoOfTheTimes.EditorTools
                     }
                 }
             }
+
+            //foreach (CustomSnapPoint point in allPoints)
+            //{
+            //    if (point.transform.parent == targetTransform) continue;
+
+            //    foreach (CustomSnapPoint ownPoint in targetPoints)
+            //    {
+            //        Vector3 targetPos = point.transform.position - (ownPoint.transform.position - targetTransform.position);
+            //        float distance = Vector3.Distance(targetPos, newPosition);
+
+            //        if (distance < closestDistance)
+            //        {
+            //            closestDistance = distance;
+            //            bestPosition = targetPos;
+
+
+
+            //            rotation = Quaternion.Euler(point.Edge.Rotation);
+            //            p = point;
+            //            op = ownPoint;
+
+
+            //        }
+            //    }
+            //}
 
             if (closestDistance < DistanceToSnap)
             {

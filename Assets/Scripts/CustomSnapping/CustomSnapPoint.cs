@@ -7,6 +7,11 @@ namespace EchoOfTheTimes.CustomSnapping
         [Range(0.01f, 1f)]
         public float Radius = 0.3f;
 
+        public CustomSnapEdge Edge;
+
+        public Vector3 Position => transform.position;
+        public Vector3 LocalPosition => transform.localPosition;
+
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.green;
