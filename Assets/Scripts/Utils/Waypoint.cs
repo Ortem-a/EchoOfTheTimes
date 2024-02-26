@@ -11,7 +11,7 @@ namespace EchoOfTheTimes.Utils
         [SerializeField]
         private Vector3 _offset;
 
-        public BezierCurve Curve;
+        //public BezierCurve Curve;
 
         public Vector3 Point => transform.position + _offset;
 
@@ -21,11 +21,11 @@ namespace EchoOfTheTimes.Utils
         //    Curve.transform.position = Point;
         //}
 
-        private void Awake()
-        {
-            Curve = GetComponentInChildren<BezierCurve>();
-            Curve.transform.position = Point;
-        }
+        //private void Awake()
+        //{
+        //    Curve = GetComponentInChildren<BezierCurve>();
+        //    Curve.transform.position = Point;
+        //}
 
         private void OnDrawGizmos()
         {

@@ -1,6 +1,4 @@
 using EchoOfTheTimes.Interfaces;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace EchoOfTheTimes.Core
@@ -14,7 +12,7 @@ namespace EchoOfTheTimes.Core
         {
             Debug.Log($"Move to {position} with speed: {Speed}");
 
-            transform.position += position * Speed * Time.deltaTime;
+            transform.position = position;// * Speed * Time.deltaTime;
         }
     }
 }

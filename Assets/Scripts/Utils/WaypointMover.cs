@@ -36,24 +36,24 @@ namespace EchoOfTheTimes.Utils
             {
                 if (_waypointController.TryGetNextWaypoint(out _newWP))
                 {
-                    //_currentWaypoint = _newWP;
-                    //transform.LookAt(_currentWaypoint.Point);
+                    _currentWaypoint = _newWP;
+                    transform.LookAt(_currentWaypoint.Point);
 
-                    _curve = _currentWaypoint.Curve;
+                    //_curve = _currentWaypoint.Curve;
 
-                    transform.SetPositionAndRotation(
-                        Bezier.GetPoint(_curve.P0.position, _curve.P1.position, _curve.P2.position, _curve.P3.position, _curve.T),
-                        Quaternion.LookRotation(
-                            Bezier.GetFirstDerivative(_curve.P0.position, _curve.P1.position, _curve.P2.position, _curve.P3.position, _curve.T)
-                        ));
+                    //transform.SetPositionAndRotation(
+                    //    Bezier.GetPoint(_curve.P0.position, _curve.P1.position, _curve.P2.position, _curve.P3.position, _curve.T),
+                    //    Quaternion.LookRotation(
+                    //        Bezier.GetFirstDerivative(_curve.P0.position, _curve.P1.position, _curve.P2.position, _curve.P3.position, _curve.T)
+                    //    ));
 
-                    _curve.T += Time.deltaTime;
+                    //_curve.T += Time.deltaTime;
 
-                    if (_curve.T > 1)
-                    {
-                        _currentWaypoint = _newWP;
-                        _curve.T = 0;
-                    }
+                    //if (_curve.T > 1)
+                    //{
+                    //    _currentWaypoint = _newWP;
+                    //    _curve.T = 0;
+                    //}
                 }
             }
             else

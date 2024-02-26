@@ -183,7 +183,8 @@ namespace EchoOfTheTimes.CustomSnapping
             else
             {
                 Accept();
-                DespawnPoints();
+                if (_spawnedSnapPoints != null)
+                    DespawnPoints();
             }
         }
 
@@ -201,7 +202,8 @@ namespace EchoOfTheTimes.CustomSnapping
             else
             {
                 Accept();
-                DespawnEdges();
+                if (_spawnedEdges != null)
+                    DespawnEdges();
             }
         }
 
