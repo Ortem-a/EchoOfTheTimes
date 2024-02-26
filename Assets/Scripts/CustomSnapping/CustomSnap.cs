@@ -123,7 +123,7 @@ namespace EchoOfTheTimes.CustomSnapping
                     snapEdge.Head.Edge = snapEdge;
                     snapEdge.Tail.Edge = snapEdge;
 
-                    points.Add(snapEdge.gameObject);
+                    edges.Add(snapEdge.gameObject);
                 }
                 _spawnedEdges = edges.ToArray();
             }
@@ -180,6 +180,11 @@ namespace EchoOfTheTimes.CustomSnapping
 
                 _spawnedSnapPoints = null;
             }
+            else
+            {
+                Accept();
+                DespawnPoints();
+            }
         }
 
         private void DespawnEdges()
@@ -192,6 +197,11 @@ namespace EchoOfTheTimes.CustomSnapping
                 }
 
                 _spawnedEdges = null;
+            }
+            else
+            {
+                Accept();
+                DespawnEdges();
             }
         }
 
