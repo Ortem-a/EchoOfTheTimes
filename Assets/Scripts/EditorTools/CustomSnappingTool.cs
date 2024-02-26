@@ -1,5 +1,6 @@
 using EchoOfTheTimes.CustomSnapping;
 using PlasticGui;
+using System.Threading;
 using UnityEditor;
 using UnityEditor.EditorTools;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace EchoOfTheTimes.EditorTools
     {
         public Texture2D ToolIcon;
 
-        public float DistanceToSnap = 1f;
+        public float DistanceToSnap = 0.5f;
 
         public override GUIContent toolbarIcon
         {
@@ -42,22 +43,19 @@ namespace EchoOfTheTimes.EditorTools
 
         private void MoveWithSnapping(Transform targetTransform, Vector3 newPosition)
         {
-            //CustomSnapPoint[] allPoints = FindObjectsOfType<CustomSnapPoint>();
-            //CustomSnapPoint[] targetPoints = targetTransform.GetComponentsInChildren<CustomSnapPoint>();
-            CustomSnapEdge[] allPoints = FindObjectsOfType<CustomSnapEdge>();
-            CustomSnapEdge[] targetPoints = targetTransform.GetComponentsInChildren<CustomSnapEdge>();
+            CustomSnapEdge[] allEdges = FindObjectsOfType<CustomSnapEdge>();
+            CustomSnapEdge[] targetEdges = targetTransform.GetComponentsInChildren<CustomSnapEdge>();
 
             Vector3 bestPosition = newPosition;
             float closestDistance = float.PositiveInfinity;
-            Quaternion rotation = targetTransform.rotation;
 
-            foreach (CustomSnapEdge point in allPoints)
+            foreach (CustomSnapEdge edge in allEdges)
             {
-                if (point.transform.parent == targetTransform) continue;
+                if (edge.transform.parent == targetTransform) continue;
 
-                foreach (CustomSnapEdge ownPoint in targetPoints)
+                foreach (CustomSnapEdge ownEdge in targetEdges)
                 {
-                    Vector3 targetPos = point.transform.position - (ownPoint.transform.position - targetTransform.position);
+                    Vector3 targetPos = edge.transform.position - (ownEdge.transform.position - targetTransform.position);
                     float distance = Vector3.Distance(targetPos, newPosition);
 
                     if (distance < closestDistance)
@@ -67,31 +65,6 @@ namespace EchoOfTheTimes.EditorTools
                     }
                 }
             }
-
-            //foreach (CustomSnapPoint point in allPoints)
-            //{
-            //    if (point.transform.parent == targetTransform) continue;
-
-            //    foreach (CustomSnapPoint ownPoint in targetPoints)
-            //    {
-            //        Vector3 targetPos = point.transform.position - (ownPoint.transform.position - targetTransform.position);
-            //        float distance = Vector3.Distance(targetPos, newPosition);
-
-            //        if (distance < closestDistance)
-            //        {
-            //            closestDistance = distance;
-            //            bestPosition = targetPos;
-
-
-
-            //            rotation = Quaternion.Euler(point.Edge.Rotation);
-            //            p = point;
-            //            op = ownPoint;
-
-
-            //        }
-            //    }
-            //}
 
             if (closestDistance < DistanceToSnap)
             {

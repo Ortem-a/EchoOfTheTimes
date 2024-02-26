@@ -17,5 +17,12 @@ namespace EchoOfTheTimes.CustomSnapping
             Gizmos.color = Color.green;
             Gizmos.DrawSphere(transform.position, Radius);
         }
+
+        public override string ToString()
+        {
+            return $"[{transform.parent.name}]->[{name}] Edge: {Edge.name} | " +
+                $"Position: {Position} | Local Position: {LocalPosition} " +
+                $"Rotation: {transform.rotation.eulerAngles} | Local Rotation: {transform.localRotation.eulerAngles}";
+        }
     }
 }

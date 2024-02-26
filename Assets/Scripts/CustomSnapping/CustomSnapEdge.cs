@@ -15,11 +15,9 @@ namespace EchoOfTheTimes.CustomSnapping
         public Vector3 Rotation => transform.rotation.eulerAngles;
         public Vector3 LocalRotation => transform.localRotation.eulerAngles;
 
-        public bool IsSelected = false;
-
         private void OnDrawGizmos()
         {
-            Gizmos.color = IsSelected ? Color.red : Color.blue;
+            Gizmos.color = Color.blue;
 
             if (Head != null && Tail != null)
             {
@@ -28,6 +26,13 @@ namespace EchoOfTheTimes.CustomSnapping
             Gizmos.DrawSphere(transform.position, Radius);
 
             Gizmos.color = Color.white;    
+        }
+
+        public override string ToString()
+        {
+            return $"[{transform.parent.name}]->[{name}] Head: <{Head.name}> | Tail: <{Tail.name}> | " +
+                $"Position: {transform.position} | Local Position: {transform.localPosition} " +
+                $"Rotation: {Rotation} | Local Rotation: {LocalRotation}";
         }
     }
 }

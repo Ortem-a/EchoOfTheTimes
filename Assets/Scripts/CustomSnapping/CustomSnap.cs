@@ -9,6 +9,13 @@ namespace EchoOfTheTimes.CustomSnapping
 {
     public class CustomSnap : MonoBehaviour
     {
+        public float RotationAngle = 90f;
+        [Space]
+        [InspectorButton(nameof(Rotate))]
+        public bool IsRotate;
+        [Space]
+        [Space]
+
         public GameObject SnapPointPrefab;
         public GameObject EdgePrefab;
 
@@ -120,6 +127,11 @@ namespace EchoOfTheTimes.CustomSnapping
                 }
                 _spawnedEdges = edges.ToArray();
             }
+        }
+
+        public void Rotate()
+        {
+            transform.Rotate(Vector3.up, RotationAngle);
         }
 
         private Vector3[] RemoveDuplicates(Vector3[] array)
