@@ -1,4 +1,5 @@
 using EchoOfTheTimes.Core;
+using EchoOfTheTimes.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,9 +8,6 @@ namespace EchoOfTheTimes.Movement
 {
     public class ClickMover : AbstractUnit
     {
-        public GameObject source;
-        public GameObject destination;
-
         [SerializeField]
         private List<Vertex> _path;
 
@@ -19,30 +17,60 @@ namespace EchoOfTheTimes.Movement
         [SerializeField]
         private Graph _graph;
 
+        [SerializeField]
+        private Vertex _source;
+        private Vertex _destination;
+
+        private int _index = 0;
+        private bool _isMoving;
+        private int _pathLength;
+
         private void Start()
         {
-            MoveTo(source.transform.position);
+            MoveTo(_source.transform.position);
         }
 
         private void Update()
         {
             if (Input.GetMouseButtonDown(0))
             {
-                //if (TryGetNodeByClick(Input.mousePosition, out Vertex node))
-                //{
-                //    MoveTo(node.transform.position);
-                //}
+                Vector3 clickPosition = ScreenToWorldPosition(Input.mousePosition);
+                _destination = _graph.GetNearestVertex(clickPosition);
 
-                Vector3 wp = ScreenToWorldPosition(Input.mousePosition);
-                destination = _graph.GetNearestVertex(wp).gameObject;
-
-                _path = _graph.GetPathBFS(source, destination);
+                _path = _graph.GetPathBFS(_source, _destination);
 
                 _path.Reverse();
 
-                StartCoroutine(MoveByPath(_path));
+                _pathLength = _path.Count;
+                _isMoving = true;
+                _index = 0;
+                transform.LookAt(_path[0].transform.position);
 
-                source = destination;
+                //StartCoroutine(MoveByPath(_path));
+
+                //_source = _destination;
+            }
+
+            if (_isMoving)
+            {
+                if (Vector3.Distance(transform.position, _path[_index].transform.position) < 0.0001f)
+                {
+                    if (_index < _pathLength - 1)
+                    {
+                        _index++;
+                        transform.LookAt(_path[_index].transform.position);
+                    }
+                    else
+                    {
+                        _isMoving = false;
+                        _index = 0;
+                        _source = _destination;
+                    }
+                }
+                else
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, _path[_index].transform.position, Speed * Time.deltaTime);
+                }
             }
         }
 

@@ -113,6 +113,52 @@ namespace EchoOfTheTimes.Core
             return new List<Vertex>();
         }
 
+        public List<Vertex> GetPathBFS(Vertex src, Vertex dst)
+        {
+            if (src == null || dst == null)
+            {
+                return new List<Vertex>();
+            }
+
+            Vertex[] neighbours;
+            Queue<Vertex> queue = new Queue<Vertex>();
+            Vertex source = GetNearestVertex(src.transform.position);
+            Vertex destination = GetNearestVertex(dst.transform.position);
+            Vertex vertex;
+            int[] previous = new int[vertices.Count];
+
+            for (int i = 0; i < previous.Length; i++)
+            {
+                previous[i] = -1;
+            }
+            previous[source.Id] = source.Id;
+            queue.Enqueue(source);
+
+            while (queue.Count != 0)
+            {
+                vertex = queue.Dequeue();
+
+                if (ReferenceEquals(vertex, destination))
+                {
+                    return BuildPath(source.Id, vertex.Id, ref previous);
+                }
+
+                neighbours = GetNeighbours(vertex);
+
+                foreach (Vertex neighbour in neighbours)
+                {
+                    if (previous[neighbour.Id] != -1)
+                    {
+                        continue;
+                    }
+                    previous[neighbour.Id] = vertex.Id;
+                    queue.Enqueue(neighbour);
+                }
+            }
+
+            return new List<Vertex>();
+        }
+
         private List<Vertex> BuildPath(int sourceId, int destinationId, ref int[] prevList)
         {
             List<Vertex> path = new List<Vertex>();

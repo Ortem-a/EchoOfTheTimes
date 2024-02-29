@@ -31,7 +31,7 @@ namespace EchoOfTheTimes.Core
             Vertex vertex = null;
             float distance = Mathf.Infinity;
             float distanceNear = distance;
-            Vector3 positionVertex = Vector3.zero;
+            Vector3 positionVertex;
 
             for (int i = 0; i < vertices.Count; i++) 
             {
