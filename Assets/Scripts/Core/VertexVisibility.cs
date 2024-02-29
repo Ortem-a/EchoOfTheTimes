@@ -15,11 +15,12 @@ namespace EchoOfTheTimes.Core
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawSphere(transform.position, 0.5f);
+            Gizmos.DrawWireSphere(transform.position, 0.25f);
 
             foreach (var n in Neighbours) 
             {
                 GizmosHelper.DrawArrowBetween(transform.position, n.Vertex.transform.position, Color.yellow);
+                Gizmos.color = Color.red;
                 Gizmos.DrawLine(transform.position, n.Vertex.transform.position);
             }
         }

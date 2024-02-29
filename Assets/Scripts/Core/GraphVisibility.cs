@@ -13,10 +13,16 @@ namespace EchoOfTheTimes.Core
 
             for (int i = 0; i < vertices.Count; i++) 
             {
-                VertexVisibility vertexVisibility = vertices[i] as VertexVisibility;
-                vertexVisibility.Id = i;
+                vertices[i].Id = i;
+
+                //VertexVisibility vertexVisibility = vertices[i] as VertexVisibility;
+                //vertexVisibility.Id = i;
                 //vertexVisibility.FindAllNeighbours(vertices);
-                vertexVisibility.FindClosestNeighbours(vertices);
+            }
+
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                ((VertexVisibility)vertices[i]).FindClosestNeighbours(vertices);
             }
         }
 

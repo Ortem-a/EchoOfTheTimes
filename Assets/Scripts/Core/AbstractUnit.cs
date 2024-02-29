@@ -12,7 +12,7 @@ namespace EchoOfTheTimes.Core
         {
             Debug.Log($"Move to {position} with speed: {Speed}");
 
-            transform.position = position;// * Speed * Time.deltaTime;
+            transform.position = position;
         }
     }
 }

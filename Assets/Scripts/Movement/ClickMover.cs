@@ -19,16 +19,45 @@ namespace EchoOfTheTimes.Movement
         [SerializeField]
         private Graph _graph;
 
+        private void Start()
+        {
+            MoveTo(source.transform.position);
+        }
+
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0)) 
+            if (Input.GetMouseButtonDown(0))
             {
                 //if (TryGetNodeByClick(Input.mousePosition, out Vertex node))
                 //{
                 //    MoveTo(node.transform.position);
                 //}
 
+                Vector3 wp = ScreenToWorldPosition(Input.mousePosition);
+                destination = _graph.GetNearestVertex(wp).gameObject;
+
                 _path = _graph.GetPathBFS(source, destination);
+
+                _path.Reverse();
+
+                StartCoroutine(MoveByPath(_path));
+
+                source = destination;
+            }
+        }
+
+        private IEnumerator MoveByPath(List<Vertex> path)
+        {
+            for (int i = 0; i < path.Count; i++)
+            {
+                yield return new WaitForSeconds(0.5f);
+
+                MoveTo(path[i].transform.position);
+
+                if (i + 1 < path.Count)
+                {
+                    transform.LookAt(path[i + 1].transform.position);
+                }
             }
         }
 
