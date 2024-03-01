@@ -1,13 +1,16 @@
 using EchoOfTheTimes.Core;
-using EchoOfTheTimes.Utils;
+using EchoOfTheTimes.Interfaces;
+using EchoOfTheTimes.Units;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace EchoOfTheTimes.Movement
 {
-    public class ClickMover : AbstractUnit
+    public class ClickMover : MonoBehaviour
     {
+        private IUnit _target;
+
         [SerializeField]
         private List<Vertex> _path;
 
@@ -25,9 +28,14 @@ namespace EchoOfTheTimes.Movement
         private bool _isMoving;
         private int _pathLength;
 
+        private void Awake()
+        {
+            _target = GetComponent<IUnit>();
+        }
+
         private void Start()
         {
-            MoveTo(_source.transform.position);
+            _target.TeleportTo(_source.transform.position);
         }
 
         private void Update()
@@ -35,25 +43,26 @@ namespace EchoOfTheTimes.Movement
             if (Input.GetMouseButtonDown(0))
             {
                 Vector3 clickPosition = ScreenToWorldPosition(Input.mousePosition);
-                _destination = _graph.GetNearestVertex(clickPosition);
 
-                _path = _graph.GetPathBFS(_source, _destination);
+                if (TryGetNearestVertex(clickPosition, out _destination))
+                {
+                    _path = _graph.GetPathBFS(_source, _destination);
+                    _path.Reverse();
 
-                _path.Reverse();
+                    _pathLength = _path.Count;
+                    _isMoving = true;
+                    _index = 0;
+                    transform.LookAt(_path[0].transform.position);
 
-                _pathLength = _path.Count;
-                _isMoving = true;
-                _index = 0;
-                transform.LookAt(_path[0].transform.position);
+                    //StartCoroutine(MoveByPath(_path));
 
-                //StartCoroutine(MoveByPath(_path));
-
-                //_source = _destination;
+                    //_source = _destination;
+                }
             }
 
             if (_isMoving)
             {
-                if (Vector3.Distance(transform.position, _path[_index].transform.position) < 0.0001f)
+                if (Vector3.Distance(transform.position, _path[_index].transform.position) < Mathf.Epsilon)
                 {
                     if (_index < _pathLength - 1)
                     {
@@ -69,7 +78,7 @@ namespace EchoOfTheTimes.Movement
                 }
                 else
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, _path[_index].transform.position, Speed * Time.deltaTime);
+                    transform.position = Vector3.MoveTowards(transform.position, _path[_index].transform.position, _target.Speed * Time.deltaTime);
                 }
             }
         }
@@ -80,7 +89,7 @@ namespace EchoOfTheTimes.Movement
             {
                 yield return new WaitForSeconds(0.5f);
 
-                MoveTo(path[i].transform.position);
+                _target.TeleportTo(path[i].transform.position);
 
                 if (i + 1 < path.Count)
                 {
@@ -101,17 +110,12 @@ namespace EchoOfTheTimes.Movement
             return worldPosition;
         }
 
-        public bool TryGetNodeByClick(Vector3 screenPosition, out Vertex node)
+        public bool TryGetNearestVertex(Vector3 worldPosition, out Vertex vertex)
         {
-            node = null;
-            Ray ray = _camera.ScreenPointToRay(screenPosition);
-            if (Physics.Raycast(ray, out RaycastHit hitData, 1000f))
-            {
-                if (_graph.TryGetNode(hitData.collider.gameObject.name, out node))
-                {
-                    return true;
-                }
-            }
+            vertex = _graph.GetNearestVertex(worldPosition);
+
+            if (vertex != null)
+                return true;
 
             return false;
         }

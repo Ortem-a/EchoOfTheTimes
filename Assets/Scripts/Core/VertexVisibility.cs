@@ -1,5 +1,4 @@
 using EchoOfTheTimes.Utils;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,7 +16,7 @@ namespace EchoOfTheTimes.Core
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(transform.position, 0.25f);
 
-            foreach (var n in Neighbours) 
+            foreach (var n in Neighbours)
             {
                 GizmosHelper.DrawArrowBetween(transform.position, n.Vertex.transform.position, Color.yellow);
                 Gizmos.color = Color.red;
@@ -37,7 +36,7 @@ namespace EchoOfTheTimes.Core
             Ray ray;
             float distance = 0f;
 
-            for (int i = 0; i < vertices.Count; i++) 
+            for (int i = 0; i < vertices.Count; i++)
             {
                 if (vertices[i] == this) continue;
 
@@ -76,13 +75,14 @@ namespace EchoOfTheTimes.Core
             float minDistance = Mathf.Infinity;
             for (int i = 0; i < vertices.Count; i++)
             {
-                if (vertices[i] == this || current.ContainsNeighbour(vertices[i])) 
+                if (vertices[i] == this || current.ContainsNeighbour(vertices[i]))
                     continue;
 
                 if (current.Neighbours.Count == 2) continue;
+                if (vertices[i].Neighbours.Count >= 2) continue;
 
                 var dist = Vector3.Distance(current.transform.position, vertices[i].transform.position);
-                if (dist < minDistance)
+                if (dist < minDistance && dist < 5f)
                 {
                     closest = vertices[i];
                     minDistance = dist;
