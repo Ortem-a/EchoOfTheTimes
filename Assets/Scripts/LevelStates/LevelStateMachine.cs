@@ -10,6 +10,10 @@ namespace EchoOfTheTimes.LevelStates
         [InspectorButton(nameof(InitializeStates))]
         public bool _isInitFirstState;
         [Space]
+        [Space]
+        [InspectorButton(nameof(AddTransitionsEveryoneWithEvery))]
+        public bool _isAddTransitionsEveryoneWithEvery;
+        [Space]
 
         public List<LevelState> States;
         public List<Transition> Transitions;
@@ -121,6 +125,34 @@ namespace EchoOfTheTimes.LevelStates
                         StatesParameters = stateParameters
                     }
                 };
+            }
+        }
+
+        public void AddTransitionsEveryoneWithEvery()
+        {
+            Transitions = new List<Transition>();
+            List<int> transitions = new List<int>();
+
+            foreach (var state in States)
+            {
+                if (!transitions.Contains(state.Id))
+                {
+                    transitions.Add(state.Id);
+                }
+            }
+
+            for (int i = 0;  i < transitions.Count; i++)
+            {
+                for (int j = 0; j < transitions.Count; j++) 
+                {
+                    if (i == j) continue;
+
+                    Transitions.Add(new Transition()
+                    {
+                        StateFromId = i,
+                        StateToId = j,
+                    });
+                }
             }
         }
     }
