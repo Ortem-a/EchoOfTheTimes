@@ -49,14 +49,16 @@ namespace EchoOfTheTimes.Movement
                     _path = _graph.GetPathBFS(_source, _destination);
                     _path.Reverse();
 
-                    _pathLength = _path.Count;
-                    _isMoving = true;
-                    _index = 0;
-                    transform.LookAt(_path[0].transform.position);
+                    _target.MoveTo(_path[0].transform.position);
+
+                    //_pathLength = _path.Count;
+                    //_isMoving = true;
+                    //_index = 0;
+                    //transform.LookAt(_path[0].transform.position);
 
                     //StartCoroutine(MoveByPath(_path));
 
-                    //_source = _destination;
+                    _source = _destination;
                 }
             }
 

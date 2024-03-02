@@ -3,6 +3,7 @@ using EchoOfTheTimes.Interfaces;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using DG.Tweening;
 
 namespace EchoOfTheTimes.Units
 {
@@ -26,14 +27,21 @@ namespace EchoOfTheTimes.Units
 
         public virtual void MoveTo(Vector3 destination)
         {
-            if (Vector3.Distance(transform.position, destination) < Mathf.Epsilon)
-            {
-                Debug.Log("COMPLETE");
-            }
-            else 
-            {
-                transform.position = Vector3.MoveTowards(transform.position, destination, Speed * Time.deltaTime);
-            }
+            var time = Vector3.Distance(destination, transform.position) / Speed;
+
+            var opts = transform.DOMove(destination, time)
+                .OnStart(() => { Debug.Log("Start"); })
+                .OnComplete(() => { Debug.Log("Complete"); });
+
+            //if (Vector3.Distance(transform.position, destination) < Mathf.Epsilon)
+            //{
+            //    transform.position = destination;
+            //    Debug.Log("COMPLETE");
+            //}
+            //else 
+            //{
+            //    transform.position = Vector3.MoveTowards(transform.position, destination, Speed * Time.deltaTime);
+            //}
         }
     }
 }
