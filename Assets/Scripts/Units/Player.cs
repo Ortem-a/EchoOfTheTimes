@@ -1,22 +1,36 @@
-using EchoOfTheTimes.Animations;
-using EchoOfTheTimes.Interfaces;
-using System.Threading;
-using System.Threading.Tasks;
-using UnityEngine;
 using DG.Tweening;
+using EchoOfTheTimes.Animations;
+using EchoOfTheTimes.Commands;
+using EchoOfTheTimes.Core;
+using EchoOfTheTimes.Interfaces;
+using UnityEngine;
 
 namespace EchoOfTheTimes.Units
 {
-    [RequireComponent(typeof(AnimationManager))]
+    [RequireComponent(typeof(AnimationManager), typeof(CommandManager), typeof(UserInputHandler))]
     public class Player : MonoBehaviour, IUnit
     {
-        // add animation manager here
-        private AnimationManager _animationManager;
-        public AnimationManager Animations => 
+        public AnimationManager Animations =>
             _animationManager = _animationManager != null ? _animationManager : GetComponent<AnimationManager>();
 
         [field: SerializeField]
         public float Speed { get; set; } = 5f;
+
+        public bool IsBusy { get; set; } = false;
+
+        public Vertex Position => _graph.GetNearestVertex(transform.position);
+
+        public Vertex StartVertex;
+
+        [SerializeField]
+        private GraphVisibility _graph;
+
+        private AnimationManager _animationManager;
+
+        private void Start()
+        {
+            TeleportTo(StartVertex.transform.position);
+        }
 
         public virtual void TeleportTo(Vector3 position)
         {
@@ -27,21 +41,24 @@ namespace EchoOfTheTimes.Units
 
         public virtual void MoveTo(Vector3 destination)
         {
-            var time = Vector3.Distance(destination, transform.position) / Speed;
+            OnStartExecution();
 
-            var opts = transform.DOMove(destination, time)
-                .OnStart(() => { Debug.Log("Start"); })
-                .OnComplete(() => { Debug.Log("Complete"); });
+            var time = Vector3.Distance(transform.position, destination) / Speed;
 
-            //if (Vector3.Distance(transform.position, destination) < Mathf.Epsilon)
-            //{
-            //    transform.position = destination;
-            //    Debug.Log("COMPLETE");
-            //}
-            //else 
-            //{
-            //    transform.position = Vector3.MoveTowards(transform.position, destination, Speed * Time.deltaTime);
-            //}
+            Debug.Log($"[MoveTo] to {destination} | duration {time}");
+
+            var options = transform.DOMove(destination, time)
+                .OnComplete(OnCompleteExecution);
+        }
+
+        private void OnStartExecution()
+        {
+            IsBusy = true;
+        }
+
+        private void OnCompleteExecution()
+        {
+            IsBusy = false;
         }
     }
 }

@@ -11,8 +11,8 @@ namespace EchoOfTheTimes.Core
     {
         public int Id;
         public List<Edge> Neighbours;
-        [HideInInspector]
-        public Vertex Previous;
+        //[HideInInspector]
+        //public Vertex Previous;
 
         public bool ContainsNeighbour(Vertex v)
         {

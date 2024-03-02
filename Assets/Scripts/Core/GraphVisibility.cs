@@ -8,7 +8,7 @@ namespace EchoOfTheTimes.Core
     {
         public override void Load()
         {
-            Vertex[] verts = GetComponentsInChildren<Vertex>(); // FindObjectsOfType<Vertex>();
+            Vertex[] verts = GetComponentsInChildren<Vertex>();
             vertices = new List<Vertex>(verts);
 
             for (int i = 0; i < vertices.Count; i++) 

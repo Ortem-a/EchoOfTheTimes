@@ -6,10 +6,10 @@ namespace EchoOfTheTimes.Core
 {
     public class VertexVisibility : Vertex
     {
-        private void Awake()
-        {
-            Neighbours = new List<Edge>();
-        }
+        //private void Awake()
+        //{
+        //    Neighbours = new List<Edge>();
+        //}
 
         private void OnDrawGizmos()
         {

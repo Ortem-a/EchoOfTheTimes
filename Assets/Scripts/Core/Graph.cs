@@ -1,3 +1,5 @@
+using EchoOfTheTimes.EditorTools;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,12 +13,35 @@ namespace EchoOfTheTimes.Core
         protected List<List<Vertex>> neighbours;
         protected List<List<float>> costs;
 
-        public virtual void Start()
+        //[Space]
+        //[InspectorButton(nameof(ResetGraph))]
+        //public bool IsLoad;
+
+        public virtual void Awake()
         {
             Load();
         }
 
         public virtual void Load() { }
+
+        public virtual void ResetGraph()
+        {
+            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+            Debug.Log("Starting reset graph");
+
+            vertices ??= new List<Vertex>();
+
+            for (int i = 0; i < vertices.Count; i++) 
+            {
+                vertices[i].Neighbours = new List<Edge>();
+            }
+
+            Load();
+
+            sw.Stop();
+            Debug.Log($"Complete for {sw.ElapsedMilliseconds} ms");
+        }
 
         public virtual int GetSize()
         {
@@ -172,14 +197,6 @@ namespace EchoOfTheTimes.Core
             while (prev != sourceId);
 
             return path;
-        }
-
-        public bool TryGetNode(string name, out Vertex node)
-        {
-            Debug.LogWarning("not implemented");
-
-            node = null;
-            return false;
         }
     }
 }
