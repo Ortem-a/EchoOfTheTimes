@@ -1,9 +1,12 @@
 using EchoOfTheTimes.EditorTools;
+using EchoOfTheTimes.ScriptableObjects;
+using EchoOfTheTimes.Utils;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace EchoOfTheTimes.LevelStates
 {
+    [RequireComponent(typeof(StateableGizmosDrawer))]
     public class Stateable : MonoBehaviour
     {
         [Space]
@@ -18,18 +21,6 @@ namespace EchoOfTheTimes.LevelStates
         [Space]
 
         public List<StateParameter> States = new List<StateParameter>();
-
-        private void OnDrawGizmosSelected()
-        {
-            if (States != null) 
-            {
-                foreach (var state in States) 
-                {
-                    Gizmos.color = Color.yellow;
-                    Gizmos.DrawWireCube(state.Position, state.LocalScale);
-                }
-            }
-        }
 
         public void AcceptState(int stateId)
         {
