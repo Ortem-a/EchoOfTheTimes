@@ -7,12 +7,12 @@ namespace EchoOfTheTimes.LevelStates
     public class LevelStateMachine : MonoBehaviour
     {
         [Space]
-        [InspectorButton(nameof(InitializeFirstState))]
+        [InspectorButton(nameof(InitializeStates))]
         public bool _isInitFirstState;
         [Space]
 
         public List<LevelState> States;
-        public List<Transicion> Transicions;
+        public List<Transition> Transitions;
 
         private LevelState _current;
 
@@ -34,7 +34,17 @@ namespace EchoOfTheTimes.LevelStates
 
         public void ChangeState(int newStateId)
         {
-            var transicion = Transicions.Find((x) => x.StateFromId == _current.Id && x.StateToId == newStateId);
+            Debug.Log($"[LevelStateMachine] ChangeState: {(_current != null ? _current.Id : "<null>")} -> {newStateId}");
+
+            if (_current != null) 
+            {
+                if (_current.Id == newStateId) 
+                {
+                    return;
+                }
+            }
+
+            var transicion = Transitions.Find((x) => x.StateFromId == _current.Id && x.StateToId == newStateId);
 
             if (transicion != null)
             {
@@ -43,30 +53,75 @@ namespace EchoOfTheTimes.LevelStates
             }
         }
 
-        public void InitializeFirstState()
+        public void InitializeStates()
         {
-            var objects = FindObjectsOfType<StateParameter>();
+            var stateables = FindObjectsOfType<Stateable>();
 
-            var objsState = new List<ObjectState>();
+            States = new List<LevelState>();
 
-            for (int i = 0; i < objects.Length; i++)
+            foreach (var stateable in stateables) 
             {
-                objsState.Add(new ObjectState()
+                foreach (var state in stateable.States)
                 {
-                    Target = objects[i].Target,
-                    Position = objects[i].Position,
-                    Rotation = objects[i].Rotation,
-                    LocalScale = objects[i].LocalScale,
-                });
+                    if (!HasState(state.StateId))
+                    {
+                        States.Add(new LevelState() 
+                        { 
+                            Id = state.StateId,
+                        });
+                    }
+                }
             }
 
-            LevelState firstState = new LevelState()
+            List<StateParameter> statesOfSimilarId;
+            foreach (var state in States)
             {
-                Id = 0,
-                Objects = objsState
-            };
+                statesOfSimilarId = new List<StateParameter>();
 
-            States = new List<LevelState> { firstState };
+                foreach (var stateable in stateables)
+                {
+                    var stateParams = stateable.States.FindAll((x) => x.StateId == state.Id);
+                    statesOfSimilarId.AddRange(stateParams);
+                }
+
+                AddToStateMachine(state.Id, statesOfSimilarId);
+            }
+        }
+
+        private bool HasState(int stateId)
+        {
+            if (States != null)
+            {
+                foreach (var state in States)
+                {
+                    if (state.Id == stateId)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private void AddToStateMachine(int stateId, List<StateParameter> stateParameters)
+        {
+            if (States != null)
+            {
+                int index = States.FindIndex((x) => x.Id == stateId);
+                States[index].StatesParameters = stateParameters;
+            }
+            else
+            {
+                States = new List<LevelState>()
+                {
+                    new LevelState()
+                    {
+                        Id = stateId,
+                        StatesParameters = stateParameters
+                    }
+                };
+            }
         }
     }
 }

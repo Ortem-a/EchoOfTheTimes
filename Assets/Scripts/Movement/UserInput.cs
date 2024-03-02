@@ -38,8 +38,6 @@ namespace EchoOfTheTimes.Movement
 
             if (_input != -1)
             {
-                Debug.Log($"INPUT: {_input}");
-
                 _levelStateMachine.ChangeState(_input);
 
                 _input = -1;

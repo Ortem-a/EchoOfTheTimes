@@ -1,11 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace EchoOfTheTimes.LevelStates
 {
     [System.Serializable]
-    public class Transicion
+    public class Transition
     {
         public int StateFromId;
         public int StateToId;

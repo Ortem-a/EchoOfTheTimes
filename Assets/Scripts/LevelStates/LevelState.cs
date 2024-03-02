@@ -8,15 +8,15 @@ namespace EchoOfTheTimes.LevelStates
     {
         public int Id;
 
-        public List<ObjectState> Objects;
+        public List<StateParameter> StatesParameters;
 
         public void Accept()
         {
-            if (Objects != null)
+            if (StatesParameters != null)
             {
-                for (int i = 0; i < Objects.Count; i++)
+                for (int i = 0; i < StatesParameters.Count; i++)
                 {
-                    Objects[i].AcceptState();
+                    StatesParameters[i].AcceptState();
                 }
             }
             else
