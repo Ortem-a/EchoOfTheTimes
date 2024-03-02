@@ -28,7 +28,7 @@ namespace EchoOfTheTimes.LevelStates
         private void LoadDefaultState()
         {
             _current = States[0];
-            _current.Accept();
+            _current.Accept(null);
         }
 
         public void ChangeState(LevelState newState)
@@ -53,7 +53,7 @@ namespace EchoOfTheTimes.LevelStates
             if (transicion != null)
             {
                 _current = States.Find((x) => x.Id == newStateId);
-                _current.Accept();
+                _current.Accept(transicion.Parameters);
             }
         }
 
@@ -153,6 +153,29 @@ namespace EchoOfTheTimes.LevelStates
                         StateToId = j,
                     });
                 }
+            }
+        }
+
+        public void SetParamsToTransitions(List<Transition> transitions)
+        {
+            foreach (var transiton in transitions)
+            {
+                SetParamsToTransition(transiton);
+            }
+        }
+
+        public void SetParamsToTransition(Transition transition)
+        {
+            var trans = Transitions.Find((x) => x.StateFromId == transition.StateFromId && x.StateToId == transition.StateToId);
+
+            if (trans != null) 
+            {
+                int index = Transitions.FindIndex((x) => x.StateFromId == transition.StateFromId && x.StateToId == transition.StateToId);
+                Transitions[index].Parameters = transition.Parameters;
+            }
+            else
+            {
+                Debug.LogWarning($"There is no transition: {trans}");
             }
         }
     }

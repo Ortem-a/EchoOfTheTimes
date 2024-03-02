@@ -12,7 +12,19 @@ namespace EchoOfTheTimes.LevelStates
         public Vector3 Rotation;
         public Vector3 LocalScale;
 
-        public void AcceptState()
+        public void AcceptState(StateParameter stateParameter = null)
+        {
+            if (stateParameter != null)
+            {
+                SpecialBehaiour(stateParameter);
+            }
+            else
+            {
+                DefaultBehaviour();
+            }
+        }
+
+        private void DefaultBehaviour()
         {
             if (Target.position != Position)
             {
@@ -25,6 +37,22 @@ namespace EchoOfTheTimes.LevelStates
             if (Target.localScale != LocalScale)
             {
                 Target.DOScale(LocalScale, 1f);
+            }
+        }
+
+        private void SpecialBehaiour(StateParameter stateParameter)
+        {
+            if (stateParameter.Target.position != stateParameter.Position)
+            {
+                stateParameter.Target.DOMove(stateParameter.Position, 1f);
+            }
+            if (stateParameter.Target.rotation.eulerAngles != stateParameter.Rotation)
+            {
+                stateParameter.Target.DORotate(stateParameter.Rotation, 1f);
+            }
+            if (stateParameter.Target.localScale != stateParameter.LocalScale)
+            {
+                stateParameter.Target.DOScale(stateParameter.LocalScale, 1f);
             }
         }
     }

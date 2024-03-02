@@ -21,20 +21,21 @@ namespace EchoOfTheTimes.LevelStates
         [Space]
 
         public List<StateParameter> States = new List<StateParameter>();
+        public List<Transition> SpecialTransitions = new List<Transition>();
 
-        public void AcceptState(int stateId)
-        {
-            var state = States.Find((x) => x.StateId == stateId);
+        //public void AcceptState(int stateId)
+        //{
+        //    var state = States.Find((x) => x.StateId == stateId);
 
-            if (state != null) 
-            {
-                state.AcceptState();
-            }
-            else
-            {
-                Debug.LogWarning($"[{name}] There is no state with Id [{stateId}]");
-            }
-        }
+        //    if (state != null) 
+        //    {
+        //        state.AcceptState();
+        //    }
+        //    else
+        //    {
+        //        Debug.LogWarning($"[{name}] There is no state with Id [{stateId}]");
+        //    }
+        //}
 
         public void SetOrUpdateParamsToState()
         {
