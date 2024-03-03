@@ -4821,12 +4821,20 @@ MonoBehaviour:
     Position: {x: -4.5, y: 3.4, z: 7.05}
     Rotation: {x: 339.45377, y: 125.83457, z: 0.0000018235443}
     LocalScale: {x: 1, y: 1, z: 1}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
+  CurrentSpecialStateFromId: 1
+  CurrentSpecialStateToId: 2
+  CurrentSpecialStateId: 2
   IsSetParamsToSpecialState: 0
   IsTransformObjectBySpecialState: 0
-  SpecialTransitions: []
+  SpecialTransitions:
+  - StateFromId: 1
+    StateToId: 2
+    Parameters:
+    - StateId: 2
+      Target: {fileID: 678805176}
+      Position: {x: -1.2, y: 3.4, z: 7.05}
+      Rotation: {x: -0, y: 90, z: -0}
+      LocalScale: {x: 1, y: 1, z: 1}
 --- !u!114 &678805178
 MonoBehaviour:
   m_ObjectHideFlags: 0
