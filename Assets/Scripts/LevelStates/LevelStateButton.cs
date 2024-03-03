@@ -1,3 +1,4 @@
+using EchoOfTheTimes.EditorTools;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +11,14 @@ namespace EchoOfTheTimes.LevelStates
 
         public LevelStateMachine StateMachine;
 
-        public List<Transition> Transitions;
+        [Space]
+        [Space]
+        [InspectorButton(nameof(AcceptInfluenceToObjects))]
+        public bool IsAcceptInfluenceToObjects;
+        [Space]
+        [Space]
+
+        public List<SpecialTransition> Influences;
 
         private void Update()
         {
@@ -29,7 +37,33 @@ namespace EchoOfTheTimes.LevelStates
 
         public void OnPressed()
         {
-            StateMachine.SetParamsToTransitions(Transitions);
+            if (IsEnable)
+            {
+                StateMachine.SetParamsToTransitions(Influences);
+            }
+        }
+
+        public void AcceptInfluenceToObjects()
+        {
+            if (Influences != null)
+            {
+                foreach (SpecialTransition influence in Influences) 
+                {
+                    if (influence.Influenced != null)
+                    {
+                        foreach (Stateable stateable in influence.Influenced)
+                        {
+                            Transition trans = new Transition()
+                            {
+                                StateFromId = influence.StateFromId,
+                                StateToId = influence.StateToId,
+                            };
+
+                            stateable.SpecialTransitions.Add(trans);
+                        }
+                    }
+                }
+            }
         }
     }
 }

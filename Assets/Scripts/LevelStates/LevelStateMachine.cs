@@ -156,7 +156,7 @@ namespace EchoOfTheTimes.LevelStates
             }
         }
 
-        public void SetParamsToTransitions(List<Transition> transitions)
+        public void SetParamsToTransitions(List<SpecialTransition> transitions)
         {
             foreach (var transiton in transitions)
             {
@@ -164,18 +164,33 @@ namespace EchoOfTheTimes.LevelStates
             }
         }
 
-        public void SetParamsToTransition(Transition transition)
+        public void SetParamsToTransition(SpecialTransition specialTransition)
         {
-            var trans = Transitions.Find((x) => x.StateFromId == transition.StateFromId && x.StateToId == transition.StateToId);
+            var transition = Transitions.Find((x) => x.StateFromId == specialTransition.StateFromId && x.StateToId == specialTransition.StateToId);
 
-            if (trans != null) 
+            if (transition != null) 
             {
-                int index = Transitions.FindIndex((x) => x.StateFromId == transition.StateFromId && x.StateToId == transition.StateToId);
-                Transitions[index].Parameters = transition.Parameters;
+                if (specialTransition.Influenced != null)
+                {
+                    foreach (var stateable in specialTransition.Influenced)
+                    {
+                        var specTrans = stateable.SpecialTransitions.Find((x) =>
+                            x.StateFromId == specialTransition.StateFromId && x.StateToId == specialTransition.StateToId);
+
+                        if (specTrans != null)
+                        {
+                            transition.Parameters.AddRange(specTrans.Parameters);
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"There is no special transition: {specTrans.StateFromId} -> {specTrans.StateToId}");
+                        }
+                    }
+                }
             }
             else
             {
-                Debug.LogWarning($"There is no transition: {trans}");
+                Debug.LogWarning($"There is no transition: {transition}");
             }
         }
     }

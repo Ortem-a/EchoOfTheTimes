@@ -4821,15 +4821,12 @@ MonoBehaviour:
     Position: {x: -4.5, y: 3.4, z: 7.05}
     Rotation: {x: 339.45377, y: 125.83457, z: 0.0000018235443}
     LocalScale: {x: 1, y: 1, z: 1}
-  SpecialTransitions:
-  - StateFromId: 0
-    StateToId: 2
-    Parameters:
-    - StateId: 2
-      Target: {fileID: 678805176}
-      Position: {x: 2.5, y: 3.4, z: 7.05}
-      Rotation: {x: 0, y: 90, z: 0}
-      LocalScale: {x: 1, y: 1, z: 1}
+  CurrentSpecialStateFromId: 0
+  CurrentSpecialStateToId: 0
+  CurrentSpecialStateId: 0
+  IsSetParamsToSpecialState: 0
+  IsTransformObjectBySpecialState: 0
+  SpecialTransitions: []
 --- !u!114 &678805178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5337,6 +5334,11 @@ MonoBehaviour:
     Position: {x: 0, y: 0, z: 3.6}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
+  CurrentSpecialStateFromId: 0
+  CurrentSpecialStateToId: 0
+  CurrentSpecialStateId: 0
+  IsSetParamsToSpecialState: 0
+  IsTransformObjectBySpecialState: 0
   SpecialTransitions: []
 --- !u!23 &807530019
 MeshRenderer:
@@ -5988,18 +5990,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa0b1bb25db4b9489d56913599ede84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsEnable: 0
+  IsEnable: 1
   IsPressed: 0
   StateMachine: {fileID: 1897557513}
-  Transitions:
-  - StateFromId: 0
-    StateToId: 2
-    Parameters:
-    - StateId: 2
-      Target: {fileID: 678805176}
-      Position: {x: 2.5, y: 3.4, z: 7.05}
-      Rotation: {x: 0, y: 90, z: 0}
-      LocalScale: {x: 1, y: 1, z: 1}
+  IsAcceptInfluenceToObjects: 0
+  Influences: []
 --- !u!1 &936151867
 GameObject:
   m_ObjectHideFlags: 0
@@ -10036,6 +10031,11 @@ MonoBehaviour:
     Position: {x: 0, y: 5, z: 7.2}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
+  CurrentSpecialStateFromId: 0
+  CurrentSpecialStateToId: 0
+  CurrentSpecialStateId: 0
+  IsSetParamsToSpecialState: 0
+  IsTransformObjectBySpecialState: 0
   SpecialTransitions: []
 --- !u!23 &1621985376
 MeshRenderer:
@@ -10125,7 +10125,7 @@ Transform:
   m_GameObject: {fileID: 1622313104}
   serializedVersion: 2
   m_LocalRotation: {x: 0.57357645, y: 0, z: 0, w: 0.81915206}
-  m_LocalPosition: {x: 0, y: 25.8, z: -12}
+  m_LocalPosition: {x: 0, y: 24, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11469,6 +11469,11 @@ MonoBehaviour:
       LocalScale: {x: 1, y: 1, z: 1}
   - Id: 1
     StatesParameters:
+    - StateId: 1
+      Target: {fileID: 678805176}
+      Position: {x: -4.5, y: 3.4, z: 7.05}
+      Rotation: {x: 339.45377, y: 125.83457, z: 0.0000018235443}
+      LocalScale: {x: 1, y: 1, z: 1}
     - StateId: 1
       Target: {fileID: 807530016}
       Position: {x: 0, y: 0, z: 3.6}

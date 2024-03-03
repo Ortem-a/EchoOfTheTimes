@@ -1,5 +1,4 @@
 using EchoOfTheTimes.EditorTools;
-using EchoOfTheTimes.ScriptableObjects;
 using EchoOfTheTimes.Utils;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,27 +20,27 @@ namespace EchoOfTheTimes.LevelStates
         [Space]
 
         public List<StateParameter> States = new List<StateParameter>();
+
+        [Space]
+        public int CurrentSpecialStateFromId;
+        public int CurrentSpecialStateToId;
+        public int CurrentSpecialStateId;
+        [Space]
+        [InspectorButton(nameof(SetOrUpdateParamsToSpecialState))]
+        public bool IsSetParamsToSpecialState;
+        [Space]
+        [Space]
+        [InspectorButton(nameof(TransformObjectBySpecialState))]
+        public bool IsTransformObjectBySpecialState;
+        [Space]
+
         public List<Transition> SpecialTransitions = new List<Transition>();
-
-        //public void AcceptState(int stateId)
-        //{
-        //    var state = States.Find((x) => x.StateId == stateId);
-
-        //    if (state != null) 
-        //    {
-        //        state.AcceptState();
-        //    }
-        //    else
-        //    {
-        //        Debug.LogWarning($"[{name}] There is no state with Id [{stateId}]");
-        //    }
-        //}
 
         public void SetOrUpdateParamsToState()
         {
             var stateParam = States.Find((x) => x.StateId == CurrentStateId);
 
-            var newStateParam  =new StateParameter
+            var newStateParam = new StateParameter
             {
                 StateId = CurrentStateId,
                 Target = transform,
@@ -65,7 +64,7 @@ namespace EchoOfTheTimes.LevelStates
         {
             var stateParam = States.Find((x) => x.StateId == CurrentStateId);
 
-            if (stateParam != null) 
+            if (stateParam != null)
             {
                 transform.SetPositionAndRotation(stateParam.Position, Quaternion.Euler(stateParam.Rotation));
                 transform.localScale = stateParam.LocalScale;
@@ -73,6 +72,64 @@ namespace EchoOfTheTimes.LevelStates
             else
             {
                 Debug.LogWarning($"There is no state with Id [{CurrentStateId}]!");
+            }
+        }
+
+        public void SetOrUpdateParamsToSpecialState()
+        {
+            var specTransition = SpecialTransitions.Find(
+                (x) => x.StateFromId == CurrentSpecialStateFromId && x.StateToId == CurrentSpecialStateToId);
+
+            var newSpecTransition = new StateParameter
+            {
+                StateId = CurrentSpecialStateId,
+                Target = transform,
+                Position = transform.position,
+                Rotation = transform.rotation.eulerAngles,
+                LocalScale = transform.localScale,
+            };
+
+            if (specTransition != null)
+            {
+                int index = SpecialTransitions.FindIndex(
+                    (x) => x.StateFromId == CurrentSpecialStateFromId && x.StateToId == CurrentSpecialStateToId);
+                if (SpecialTransitions[index].Parameters == null)
+                {
+                    SpecialTransitions[index].Parameters = new List<StateParameter> { newSpecTransition };
+                }
+                else if (SpecialTransitions[index].Parameters.Count == 0)
+                {
+                    SpecialTransitions[index].Parameters.Add(newSpecTransition);
+                }
+                else
+                {
+                    SpecialTransitions[index].Parameters[0] = newSpecTransition;
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"There is no special transition with params: " +
+                    $"{CurrentSpecialStateFromId} -> {CurrentSpecialStateToId} | " +
+                    $"Current special state Id: {CurrentSpecialStateId}");
+                Debug.LogWarning("Add special transition with some button first!");
+            }
+        }
+
+        public void TransformObjectBySpecialState()
+        {
+            var specTransition = SpecialTransitions.Find((x) =>
+                x.StateFromId == CurrentSpecialStateFromId && x.StateToId == CurrentSpecialStateToId);
+
+            if (specTransition != null)
+            {
+                transform.SetPositionAndRotation(
+                    specTransition.Parameters[0].Position,
+                    Quaternion.Euler(specTransition.Parameters[0].Rotation));
+                transform.localScale = specTransition.Parameters[0].LocalScale;
+            }
+            else
+            {
+                Debug.LogWarning($"There is no special transition with [{CurrentSpecialStateFromId} -> {CurrentSpecialStateToId}]!");
             }
         }
     }
