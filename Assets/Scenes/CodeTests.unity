@@ -5994,7 +5994,11 @@ MonoBehaviour:
   IsPressed: 0
   StateMachine: {fileID: 1897557513}
   IsAcceptInfluenceToObjects: 0
-  Influences: []
+  Influences:
+  - StateFromId: 1
+    StateToId: 2
+    Influenced:
+    - {fileID: 678805177}
 --- !u!1 &936151867
 GameObject:
   m_ObjectHideFlags: 0
