@@ -1,5 +1,4 @@
-using log4net.Util;
-using System.Collections;
+using EchoOfTheTimes.LevelStates;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,6 +23,28 @@ namespace EchoOfTheTimes.Utils
         public static void DrawArrowBetween(Vector3 from, Vector3 to, Color color, float arrowHeadLength = 0.25f, float arrowHeadAngle = 20.0f)
         {
             DrawArrow((from + to) / 2f, (to - from).normalized, color, arrowHeadLength, arrowHeadAngle);
+        }
+
+        public static void DrawWireMeshesByTRS(List<(Mesh mesh, Transform t)> meshes, StateParameter stateParameter)
+        {
+            foreach (var mesh in meshes)
+            {
+                DrawWireMeshByTRS(mesh.mesh, mesh.t, stateParameter);
+            }
+        }
+
+        public static void DrawWireMeshByTRS(Mesh mesh, Transform parent, StateParameter stateParameter)
+        {
+            Matrix4x4 rotationMatrix = Matrix4x4.TRS(
+                stateParameter.Position, 
+                Quaternion.Euler(stateParameter.Rotation), 
+                stateParameter.LocalScale);
+            Gizmos.matrix = rotationMatrix;
+
+            Gizmos.DrawWireMesh(mesh,
+                parent.localPosition,
+                parent.localRotation,
+                parent.localScale);
         }
     }
 }
