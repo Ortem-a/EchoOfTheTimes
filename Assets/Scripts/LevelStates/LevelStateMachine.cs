@@ -19,6 +19,7 @@ namespace EchoOfTheTimes.LevelStates
         public List<Transition> Transitions;
 
         private LevelState _current;
+        public Transition LastTransition { get; private set; } = null;
 
         private void Awake()
         {
@@ -54,6 +55,8 @@ namespace EchoOfTheTimes.LevelStates
             {
                 _current = States.Find((x) => x.Id == newStateId);
                 _current.Accept(transicion.Parameters);
+
+                LastTransition = transicion;
             }
         }
 

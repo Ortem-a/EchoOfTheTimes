@@ -36,6 +36,33 @@ namespace EchoOfTheTimes.LevelStates
 
         public List<Transition> SpecialTransitions = new List<Transition>();
 
+        public void TransitSpecial(int fromId, int toId)
+        {
+            var spec = SpecialTransitions.Find((x) => x.StateFromId == fromId && x.StateToId == toId);
+
+            if (spec != null) 
+            {
+                int index = SpecialTransitions.FindIndex((x) => x.StateFromId == fromId && x.StateToId == toId);
+
+                foreach (var parameters in SpecialTransitions[index].Parameters)
+                {
+                    parameters.AcceptState(parameters);
+                }
+            }
+        }
+
+        public void Transit(int toId)
+        {
+            var state = States.Find((x) => x.StateId == toId);
+
+            if (state != null)
+            {
+                int index = States.FindIndex((x) => x.StateId == toId);
+
+                States[index].AcceptState();
+            }
+        }
+
         public void SetOrUpdateParamsToState()
         {
             var stateParam = States.Find((x) => x.StateId == CurrentStateId);

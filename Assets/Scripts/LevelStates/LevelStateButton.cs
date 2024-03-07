@@ -41,6 +41,7 @@ namespace EchoOfTheTimes.LevelStates
 
             Debug.Log($"[LevelStateButton] {name} pressed! IsPressed: {IsPressed}");
 
+            ExecutePress();
 
             StateMachine.SetParamsToTransitions(Influences);
         }
@@ -51,7 +52,43 @@ namespace EchoOfTheTimes.LevelStates
 
             Debug.Log($"[LevelStateButton] {name} released! IsPressed: {IsPressed}");
 
+            ExecuteRelease();
+
             StateMachine.RemoveParamsFromTransitions(Influences);
+        }
+
+        private void ExecutePress()
+        {
+            foreach (SpecialTransition specTransition in Influences)
+            {
+                if (specTransition.EqualsWith(StateMachine.LastTransition))
+                {
+                    foreach (var stateable in specTransition.Influenced)
+                    {
+                        var transition = stateable.SpecialTransitions.Find(
+                            (x) => x.StateFromId == specTransition.StateFromId && x.StateToId == specTransition.StateToId);
+
+                        stateable.TransitSpecial(transition.StateFromId, transition.StateToId);
+                    }
+                }
+            }
+        }
+
+        private void ExecuteRelease()
+        {
+            foreach (SpecialTransition specTransition in Influences)
+            {
+                if (specTransition.EqualsWith(StateMachine.LastTransition))
+                {
+                    foreach (var stateable in specTransition.Influenced)
+                    {
+                        var transition = stateable.SpecialTransitions.Find(
+                            (x) => x.StateFromId == specTransition.StateFromId && x.StateToId == specTransition.StateToId);
+
+                        stateable.Transit(transition.StateFromId);
+                    }
+                }
+            }
         }
 
         public void AcceptInfluenceToObjects()

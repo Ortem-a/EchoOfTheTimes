@@ -10,5 +10,10 @@ namespace EchoOfTheTimes.LevelStates
         public int StateToId;
 
         public List<Stateable> Influenced;
+
+        public bool EqualsWith(Transition transition)
+        {
+            return transition.StateFromId == StateFromId && transition.StateToId == StateToId;
+        }
     }
 }
