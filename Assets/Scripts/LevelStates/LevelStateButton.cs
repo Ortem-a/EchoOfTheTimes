@@ -6,8 +6,11 @@ namespace EchoOfTheTimes.LevelStates
 {
     public class LevelStateButton : MonoBehaviour
     {
-        public bool IsEnable = true;
-        public bool IsPressed = false;
+        public bool IsPressed { get; private set; } = false;
+
+        public delegate void ButtonEventHandler();
+        public ButtonEventHandler OnPress;
+        public ButtonEventHandler OnRelease;
 
         public LevelStateMachine StateMachine;
 
@@ -20,34 +23,42 @@ namespace EchoOfTheTimes.LevelStates
 
         public List<SpecialTransition> Influences;
 
-        private void Update()
+        private void OnEnable()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                IsPressed = !IsPressed;
-
-                Debug.Log($"[LevelStateButton] {name} pressed! IsPressed: {IsPressed}");
-
-                if (IsPressed)
-                {
-                    OnPressed();
-                }
-            }
+            OnPress += Press;
+            OnRelease += Release;
         }
 
-        public void OnPressed()
+        private void OnDisable()
         {
-            if (IsEnable)
-            {
-                StateMachine.SetParamsToTransitions(Influences);
-            }
+            OnPress -= Press;
+            OnRelease -= Release;
+        }
+
+        private void Press()
+        {
+            IsPressed = true;
+
+            Debug.Log($"[LevelStateButton] {name} pressed! IsPressed: {IsPressed}");
+
+
+            StateMachine.SetParamsToTransitions(Influences);
+        }
+
+        private void Release()
+        {
+            IsPressed = false;
+
+            Debug.Log($"[LevelStateButton] {name} released! IsPressed: {IsPressed}");
+
+            StateMachine.RemoveParamsFromTransitions(Influences);
         }
 
         public void AcceptInfluenceToObjects()
         {
             if (Influences != null)
             {
-                foreach (SpecialTransition influence in Influences) 
+                foreach (SpecialTransition influence in Influences)
                 {
                     if (influence.Influenced != null)
                     {

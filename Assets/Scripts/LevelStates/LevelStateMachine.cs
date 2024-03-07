@@ -183,14 +183,57 @@ namespace EchoOfTheTimes.LevelStates
                         }
                         else
                         {
-                            Debug.LogWarning($"There is no special transition: {specTrans.StateFromId} -> {specTrans.StateToId}");
+                            Debug.LogWarning($"There is no special transition: {specialTransition.StateFromId}  ->  {specialTransition.StateToId}");
                         }
                     }
                 }
             }
             else
             {
-                Debug.LogWarning($"There is no transition: {transition}");
+                Debug.LogWarning($"There is no transition: {specialTransition.StateFromId}  ->  {specialTransition.StateToId}");
+            }
+        }
+
+        public void RemoveParamsFromTransitions(List<SpecialTransition> transitions)
+        {
+            foreach (var transiton in transitions)
+            {
+                RemoveParamsFromTransition(transiton);
+            }
+        }
+
+        public void RemoveParamsFromTransition(SpecialTransition specialTransition)
+        {
+            var transition = Transitions.Find((x) => x.StateFromId == specialTransition.StateFromId && x.StateToId == specialTransition.StateToId);
+
+            if (transition != null)
+            {
+                int index = Transitions.FindIndex((x) => x.StateFromId == specialTransition.StateFromId && x.StateToId == specialTransition.StateToId);
+
+                if (specialTransition.Influenced != null)
+                {
+                    foreach (var stateable in specialTransition.Influenced)
+                    {
+                        var specTrans = stateable.SpecialTransitions.Find((x) =>
+                            x.StateFromId == specialTransition.StateFromId && x.StateToId == specialTransition.StateToId);
+
+                        if (specTrans != null)
+                        {
+                            foreach (var p in specTrans.Parameters)
+                            {
+                                Transitions[index].Parameters.Remove(p);
+                            }
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"There is no special transition: {specialTransition.StateFromId} -> {specialTransition.StateToId}");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"There is no transition: {specialTransition.StateFromId} -> {specialTransition.StateToId}");
             }
         }
     }

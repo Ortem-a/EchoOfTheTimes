@@ -16,6 +16,10 @@ namespace EchoOfTheTimes.Movement
         private LevelStateMachine _levelStateMachine;
         private int _input = -1;
 
+        [SerializeField]
+        private LevelStateButton _stateButton;
+        private bool _isPressed = false; // йняршкей
+
         private void Update()
         {
             if (Input.GetMouseButtonDown(0))
@@ -41,6 +45,20 @@ namespace EchoOfTheTimes.Movement
                 _levelStateMachine.ChangeState(_input);
 
                 _input = -1;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (!_isPressed)
+                {
+                    _isPressed = !_isPressed;
+                    _stateButton.OnPress?.Invoke();
+                }
+                else
+                {
+                    _isPressed = !_isPressed;
+                    _stateButton.OnRelease?.Invoke();
+                }
             }
         }
 
