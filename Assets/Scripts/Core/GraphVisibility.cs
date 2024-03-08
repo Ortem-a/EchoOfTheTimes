@@ -10,10 +10,6 @@ namespace EchoOfTheTimes.Core
     {
         public LevelStateMachine StateMachine;
 
-        [Space]
-        [InspectorButton(nameof(ResetAndLoad))]
-        public bool IsGraphLoaded;
-
         public override void Awake()
         {
             StateMachine.OnTransitionStart += ResetVertices;

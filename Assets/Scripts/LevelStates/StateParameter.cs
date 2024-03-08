@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using UnityEngine;
 
 namespace EchoOfTheTimes.LevelStates
@@ -12,33 +13,54 @@ namespace EchoOfTheTimes.LevelStates
         public Vector3 Rotation;
         public Vector3 LocalScale;
 
-        public void AcceptState(StateParameter stateParameter = null, bool isDebug = false)
+        [NonSerialized]
+        private Sequence _sequence;
+
+        public void AcceptState(StateParameter stateParameter = null, bool isDebug = false, TweenCallback onComplete = null)
         {
+            _sequence = DOTween.Sequence();
+            _sequence.OnComplete(onComplete);
+
             if (stateParameter != null)
             {
                 SpecialBehaiour(stateParameter, isDebug);
             }
             else
             {
-                DefaultBehaviour(isDebug);
+                DefaultBehaviour(isDebug, onComplete);
             }
         }
 
-        private void DefaultBehaviour(bool isDebug)
+        private void DefaultBehaviour(bool isDebug, TweenCallback callback)
         {
+
+
             if (!isDebug)
             {
+                //if (Target.position != Position)
+                //{
+                //    Target.DOMove(Position, 1f);
+                //}
+                //if (Target.rotation.eulerAngles != Rotation)
+                //{
+                //    Target.DORotate(Rotation, 1f);
+                //}
+                //if (Target.localScale != LocalScale)
+                //{
+                //    Target.DOScale(LocalScale, 1f);
+                //}
+
                 if (Target.position != Position)
                 {
-                    Target.DOMove(Position, 1f);
+                    _sequence.Append(Target.DOMove(Position, 1f));
                 }
                 if (Target.rotation.eulerAngles != Rotation)
                 {
-                    Target.DORotate(Rotation, 1f);
+                    _sequence.Append(Target.DORotate(Rotation, 1f));
                 }
                 if (Target.localScale != LocalScale)
                 {
-                    Target.DOScale(LocalScale, 1f);
+                    _sequence.Append(Target.DOScale(LocalScale, 1f));
                 }
             }
             else

@@ -38,15 +38,17 @@ namespace EchoOfTheTimes.LevelStates
         public TransitionHandler OnTransitionStart;
         public TransitionHandler OnTransitionComplete;
 
-        private void Awake()
+        private void Start()
         {
             LoadDefaultState();
         }
 
         private void LoadDefaultState()
         {
+            OnTransitionStart?.Invoke();
+
             _current = States[0];
-            _current.Accept(null);
+            _current.Accept(null, onComplete: () => OnTransitionComplete?.Invoke());
         }
 
         private void LoadStateDebug(int id)
@@ -88,12 +90,10 @@ namespace EchoOfTheTimes.LevelStates
             if (transicion != null)
             {
                 _current = States.Find((x) => x.Id == newStateId);
-                _current.Accept(transicion.Parameters);
+                _current.Accept(transicion.Parameters, onComplete: () => OnTransitionComplete?.Invoke());
 
                 LastTransition = transicion;
             }
-
-            OnTransitionComplete?.Invoke();
         }
 
         public void InitializeStates()
