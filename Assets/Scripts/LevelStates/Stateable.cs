@@ -1,4 +1,3 @@
-using EchoOfTheTimes.Editor;
 using EchoOfTheTimes.Utils;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,31 +7,13 @@ namespace EchoOfTheTimes.LevelStates
     [RequireComponent(typeof(StateableGizmosDrawer))]
     public class Stateable : MonoBehaviour
     {
-        [Space]
         public int CurrentStateId;
-        [Space]
-        [InspectorButton(nameof(SetOrUpdateParamsToState))]
-        public bool IsSetParamsToState;
-        [Space]
-        [Space]
-        [InspectorButton(nameof(TransformObjectByState))]
-        public bool IsTransformObjectByState;
-        [Space]
 
         public List<StateParameter> States = new List<StateParameter>();
 
-        [Space]
         public int CurrentSpecialStateFromId;
         public int CurrentSpecialStateToId;
         public int CurrentSpecialStateId;
-        [Space]
-        [InspectorButton(nameof(SetOrUpdateParamsToSpecialState))]
-        public bool IsSetParamsToSpecialState;
-        [Space]
-        [Space]
-        [InspectorButton(nameof(TransformObjectBySpecialState))]
-        public bool IsTransformObjectBySpecialState;
-        [Space]
 
         public List<Transition> SpecialTransitions = new List<Transition>();
 
@@ -40,7 +21,7 @@ namespace EchoOfTheTimes.LevelStates
         {
             var spec = SpecialTransitions.Find((x) => x.StateFromId == fromId && x.StateToId == toId);
 
-            if (spec != null) 
+            if (spec != null)
             {
                 int index = SpecialTransitions.FindIndex((x) => x.StateFromId == fromId && x.StateToId == toId);
 

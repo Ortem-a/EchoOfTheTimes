@@ -32,6 +32,7 @@ namespace EchoOfTheTimes.Editor
 
                 float step = TopHeight / (float)StairsNumber;
 
+                spawned.name = $"Stair_{i}";
                 spawned.transform.localScale = new Vector3(1f, 1f ,StairWidth);
                 spawned.transform.localPosition = new Vector3(0f, step, StairWidth / 4f) * i;
 
@@ -48,17 +49,6 @@ namespace EchoOfTheTimes.Editor
                     DestroyImmediate(spawned);
                 }
             }
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.color = Color.red;
-
-            Vector3 top = 
-                _spawnedStairs.Last().transform.position + Vector3.up * StairPrefab.transform.localScale.y;
-
-            Gizmos.DrawSphere(top, 0.5f);
-
         }
     }
 }

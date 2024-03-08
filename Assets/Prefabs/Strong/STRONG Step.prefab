@@ -71,6 +71,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1375985358019772702}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 05b8c9253a7a54c4abe7931a9f124f77,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 564841766886045100}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 05b8c9253a7a54c4abe7931a9f124f77,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -5663943996957980753}
   m_SourcePrefab: {fileID: 100100000, guid: 05b8c9253a7a54c4abe7931a9f124f77, type: 3}
 --- !u!1 &569889534016670455 stripped
 GameObject:
@@ -90,9 +98,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c8e6c260e8c2b44c85856e03c7b1771, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RotationAngle: 90
+  IsRotate: 0
   SnapPointPrefab: {fileID: 5530733279021555883, guid: 12ad23e7038732047b42e94cfb33785d,
     type: 3}
   EdgePrefab: {fileID: 8057931983710321881, guid: 9d30682ffb860ab42ab1fdd2e20ca4de,
     type: 3}
+  IsAccept: 0
   IsResetPoints: 0
   IsEdgesCreate: 0
+--- !u!114 &564841766886045100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 569889534016670455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aac842b645a0984087826b5677aae87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-5663943996957980753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 569889534016670455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 522e92388dd056749a344ac1c69bf5db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentStateId: 0
+  States: []
+  CurrentSpecialStateFromId: 0
+  CurrentSpecialStateToId: 0
+  CurrentSpecialStateId: 0
+  SpecialTransitions: []
