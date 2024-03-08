@@ -1,3 +1,4 @@
+using DG.Tweening;
 using EchoOfTheTimes.Editor;
 using System.Collections.Generic;
 using UnityEditorInternal;
@@ -25,11 +26,17 @@ namespace EchoOfTheTimes.LevelStates
         public bool _isAddTransitionsEveryoneWithEvery;
         [Space]
 
+        private Sequence _sequence;
+
         public List<LevelState> States;
         public List<Transition> Transitions;
 
         private LevelState _current;
         public Transition LastTransition { get; private set; } = null;
+
+        public delegate void TransitionHandler();
+        public TransitionHandler OnTransitionStart;
+        public TransitionHandler OnTransitionComplete;
 
         private void Awake()
         {
@@ -74,6 +81,8 @@ namespace EchoOfTheTimes.LevelStates
                 }
             }
 
+            OnTransitionStart?.Invoke();
+
             var transicion = Transitions.Find((x) => x.StateFromId == _current.Id && x.StateToId == newStateId);
 
             if (transicion != null)
@@ -83,6 +92,8 @@ namespace EchoOfTheTimes.LevelStates
 
                 LastTransition = transicion;
             }
+
+            OnTransitionComplete?.Invoke();
         }
 
         public void InitializeStates()

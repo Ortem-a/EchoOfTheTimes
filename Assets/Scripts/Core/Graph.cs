@@ -13,10 +13,6 @@ namespace EchoOfTheTimes.Core
         protected List<List<Vertex>> neighbours;
         protected List<List<float>> costs;
 
-        //[Space]
-        //[InspectorButton(nameof(ResetGraph))]
-        //public bool IsLoad;
-
         public virtual void Awake()
         {
             Load();
