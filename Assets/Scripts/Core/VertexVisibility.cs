@@ -68,36 +68,24 @@ namespace EchoOfTheTimes.Core
             collider.enabled = true;
         }
 
-        public void FindClosestNeighbours(List<Vertex> vertices)
+        public void FindNeighboursInRadius(List<Vertex> vertices, float radius = GraphConsts.NeighbourMaxDistance)
         {
-            Vertex closest = null;
-            Vertex current = this;
-            float minDistance = Mathf.Infinity;
             for (int i = 0; i < vertices.Count; i++)
             {
-                if (vertices[i] == this || current.ContainsNeighbour(vertices[i]))
+                if (vertices[i] == this)
                     continue;
 
-                //if (current.Neighbours.Count == 2) continue;
-                //if (vertices[i].Neighbours.Count >= 2) continue;
-
-                var dist = Vector3.Distance(current.transform.position, vertices[i].transform.position);
-                if (dist < minDistance && dist < GraphConsts.NeighbourMaxDistance)
+                var dist = Vector3.Distance(transform.position, vertices[i].transform.position);
+                if (dist <= radius)
                 {
-                    closest = vertices[i];
-                    minDistance = dist;
+                    Vertex vertex = vertices[i].gameObject.GetComponent<Vertex>();
+
+                    Edge edge = new Edge(vertex, dist);
+
+                    Neighbours.Add(edge);
+
+                    vertex.Neighbours.Add(new Edge(this, dist));
                 }
-            }
-
-            if (closest != null)
-            {
-                Vertex vertex = closest.gameObject.GetComponent<Vertex>();
-
-                Edge edge = new Edge(vertex, minDistance);
-
-                Neighbours.Add(edge);
-
-                vertex.Neighbours.Add(new Edge(this, minDistance));
             }
         }
     }

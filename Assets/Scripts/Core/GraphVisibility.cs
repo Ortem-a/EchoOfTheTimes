@@ -34,7 +34,7 @@ namespace EchoOfTheTimes.Core
 
             for (int i = 0; i < vertices.Count; i++)
             {
-                ((VertexVisibility)vertices[i]).FindClosestNeighbours(vertices);
+                ((VertexVisibility)vertices[i]).FindNeighboursInRadius(vertices);
             }
         }
 
@@ -51,7 +51,7 @@ namespace EchoOfTheTimes.Core
 
             for (int i = 0; i < vertices.Count; i++)
             {
-                ((VertexVisibility)vertices[i]).FindClosestNeighbours(vertices);
+                ((VertexVisibility)vertices[i]).FindNeighboursInRadius(vertices);
             }
         }
 
