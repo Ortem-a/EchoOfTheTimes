@@ -1,4 +1,4 @@
-using EchoOfTheTimes.EditorTools;
+using EchoOfTheTimes.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Android.Types;

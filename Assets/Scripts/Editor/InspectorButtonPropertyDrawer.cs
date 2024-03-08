@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace EchoOfTheTimes.EditorTools
+namespace EchoOfTheTimes.Editor
 {
     [CustomPropertyDrawer(typeof(InspectorButtonAttribute))]
     public class InspectorButtonPropertyDrawer : PropertyDrawer

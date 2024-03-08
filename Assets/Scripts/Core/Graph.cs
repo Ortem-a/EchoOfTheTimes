@@ -1,4 +1,4 @@
-using EchoOfTheTimes.EditorTools;
+using EchoOfTheTimes.Editor;
 using System;
 using System.Collections.Generic;
 using UnityEngine;

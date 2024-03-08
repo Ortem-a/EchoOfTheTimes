@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace EchoOfTheTimes.EditorTools
+namespace EchoOfTheTimes.Editor
 {
     public class InspectorButtonAttribute : PropertyAttribute
     {

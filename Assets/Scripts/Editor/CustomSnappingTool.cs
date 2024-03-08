@@ -6,7 +6,7 @@ using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace EchoOfTheTimes.EditorTools
+namespace EchoOfTheTimes.Editor
 {
     [EditorTool("Level Builder", typeof(CustomSnap))]
     public class CustomSnappingTool : EditorTool

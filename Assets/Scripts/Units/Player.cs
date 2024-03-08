@@ -3,13 +3,20 @@ using EchoOfTheTimes.Animations;
 using EchoOfTheTimes.Commands;
 using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Interfaces;
+using EchoOfTheTimes.Persistence;
+using EchoOfTheTimes.Utils;
 using UnityEngine;
 
 namespace EchoOfTheTimes.Units
 {
     [RequireComponent(typeof(AnimationManager), typeof(CommandManager), typeof(UserInputHandler))]
-    public class Player : MonoBehaviour, IUnit
+    public class Player : MonoBehaviour, IUnit, IBind<PlayerData>
     {
+        [field: SerializeField]
+        public SerializableGuid Id { get; set; } = SerializableGuid.NewGuid();
+        [SerializeField]
+        private PlayerData _data;
+
         public AnimationManager Animations =>
             _animationManager = _animationManager != null ? _animationManager : GetComponent<AnimationManager>();
 
@@ -61,6 +68,15 @@ namespace EchoOfTheTimes.Units
         private void OnCompleteExecution()
         {
             IsBusy = false;
+        }
+
+        public void Bind(PlayerData data)
+        {
+            _data = data;
+            _data.Id = Id;
+
+            transform.SetPositionAndRotation(_data.Position, _data.Rotation);
+            transform.localScale = _data.LocalScale;
         }
     }
 }
