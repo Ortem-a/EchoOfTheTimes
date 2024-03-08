@@ -51,14 +51,14 @@ namespace EchoOfTheTimes.Movement
             {
                 if (!_isPressed)
                 {
-                    _isPressed = !_isPressed;
                     _stateButton.OnPress?.Invoke();
                 }
                 else
                 {
-                    _isPressed = !_isPressed;
                     _stateButton.OnRelease?.Invoke();
                 }
+
+                _isPressed = !_isPressed;
             }
         }
 

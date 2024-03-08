@@ -43,7 +43,7 @@ namespace EchoOfTheTimes.Units
         {
             OnStartExecution();
 
-            transform.LookAt(destination);
+            transform.DOLookAt(destination, 0.2f);
 
             var time = Vector3.Distance(transform.position, destination) / Speed;
 

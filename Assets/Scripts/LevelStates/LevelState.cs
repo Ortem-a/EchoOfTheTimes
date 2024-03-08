@@ -10,7 +10,7 @@ namespace EchoOfTheTimes.LevelStates
 
         public List<StateParameter> StatesParameters;
 
-        public void Accept(List<StateParameter> parameters)
+        public void Accept(List<StateParameter> parameters, bool isDebug = false)
         {
             List<Transform> acceptedTargets = null;
 
@@ -22,7 +22,7 @@ namespace EchoOfTheTimes.LevelStates
                 {
                     acceptedTargets.Add(param.Target);
 
-                    param.AcceptState(param);
+                    param.AcceptState(param, isDebug);
                 }
             }
 
@@ -33,11 +33,11 @@ namespace EchoOfTheTimes.LevelStates
                     if (parameters != null && parameters.Count != 0)
                     {
                         if (!acceptedTargets.Contains(StatesParameters[i].Target))
-                            StatesParameters[i].AcceptState();
+                            StatesParameters[i].AcceptState(isDebug: isDebug);
                     }
                     else
                     {
-                        StatesParameters[i].AcceptState();
+                        StatesParameters[i].AcceptState(isDebug: isDebug);
                     }
                 }
             }

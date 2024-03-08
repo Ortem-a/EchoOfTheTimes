@@ -12,47 +12,63 @@ namespace EchoOfTheTimes.LevelStates
         public Vector3 Rotation;
         public Vector3 LocalScale;
 
-        public void AcceptState(StateParameter stateParameter = null)
+        public void AcceptState(StateParameter stateParameter = null, bool isDebug = false)
         {
             if (stateParameter != null)
             {
-                SpecialBehaiour(stateParameter);
+                SpecialBehaiour(stateParameter, isDebug);
             }
             else
             {
-                DefaultBehaviour();
+                DefaultBehaviour(isDebug);
             }
         }
 
-        private void DefaultBehaviour()
+        private void DefaultBehaviour(bool isDebug)
         {
-            if (Target.position != Position)
+            if (!isDebug)
             {
-                Target.DOMove(Position, 1f);
+                if (Target.position != Position)
+                {
+                    Target.DOMove(Position, 1f);
+                }
+                if (Target.rotation.eulerAngles != Rotation)
+                {
+                    Target.DORotate(Rotation, 1f);
+                }
+                if (Target.localScale != LocalScale)
+                {
+                    Target.DOScale(LocalScale, 1f);
+                }
             }
-            if (Target.rotation.eulerAngles != Rotation)
+            else
             {
-                Target.DORotate(Rotation, 1f);
-            }
-            if (Target.localScale != LocalScale)
-            {
-                Target.DOScale(LocalScale, 1f);
+                Target.SetPositionAndRotation(Position, Quaternion.Euler(Rotation));
+                Target.localScale = LocalScale;
             }
         }
 
-        private void SpecialBehaiour(StateParameter stateParameter)
+        private void SpecialBehaiour(StateParameter stateParameter, bool isDebug)
         {
-            if (stateParameter.Target.position != stateParameter.Position)
+            if (!isDebug)
             {
-                stateParameter.Target.DOMove(stateParameter.Position, 1f);
+                if (stateParameter.Target.position != stateParameter.Position)
+                {
+                    stateParameter.Target.DOMove(stateParameter.Position, 1f);
+                }
+                if (stateParameter.Target.rotation.eulerAngles != stateParameter.Rotation)
+                {
+                    stateParameter.Target.DORotate(stateParameter.Rotation, 1f);
+                }
+                if (stateParameter.Target.localScale != stateParameter.LocalScale)
+                {
+                    stateParameter.Target.DOScale(stateParameter.LocalScale, 1f);
+                }
             }
-            if (stateParameter.Target.rotation.eulerAngles != stateParameter.Rotation)
+            else
             {
-                stateParameter.Target.DORotate(stateParameter.Rotation, 1f);
-            }
-            if (stateParameter.Target.localScale != stateParameter.LocalScale)
-            {
-                stateParameter.Target.DOScale(stateParameter.LocalScale, 1f);
+                stateParameter.Target.SetPositionAndRotation(stateParameter.Position, Quaternion.Euler(stateParameter.Rotation));
+                stateParameter.Target.localScale = stateParameter.LocalScale;
             }
         }
     }

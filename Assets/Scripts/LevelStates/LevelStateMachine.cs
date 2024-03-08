@@ -1,11 +1,21 @@
 using EchoOfTheTimes.EditorTools;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace EchoOfTheTimes.LevelStates
 {
     public class LevelStateMachine : MonoBehaviour
     {
+        [Header("DEBUG")]
+        public int StateId;
+        [Space]
+        [InspectorButton(nameof(SetInStateDebug))]
+        public bool IsDebugSetInState;
+        [Header("END DEBUG")]
+        [Space]
+
+
         [Space]
         [InspectorButton(nameof(InitializeStates))]
         public bool _isInitFirstState;
@@ -30,6 +40,21 @@ namespace EchoOfTheTimes.LevelStates
         {
             _current = States[0];
             _current.Accept(null);
+        }
+
+        private void LoadStateDebug(int id)
+        {
+            var state = States.Find((x) => x.Id == id);
+
+            if (state != null)
+            {
+                _current = state;
+                _current.Accept(null, true);
+            }
+            else
+            {
+                Debug.LogWarning($"There is no state with id: {id}");
+            }
         }
 
         public void ChangeState(LevelState newState)
@@ -238,6 +263,11 @@ namespace EchoOfTheTimes.LevelStates
             {
                 Debug.LogWarning($"There is no transition: {specialTransition.StateFromId} -> {specialTransition.StateToId}");
             }
+        }
+
+        public void SetInStateDebug()
+        {
+            LoadStateDebug(StateId);
         }
     }
 }

@@ -1,11 +1,17 @@
+using EchoOfTheTimes.EditorTools;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Android.Types;
 using UnityEngine;
 
 namespace EchoOfTheTimes.Core
 {
     public class GraphVisibility : Graph
     {
+        [Space]
+        [InspectorButton(nameof(ResetAndLoad))]
+        public bool IsGraphLoaded;
+
         public override void Load()
         {
             Vertex[] verts = GetComponentsInChildren<Vertex>();
@@ -18,6 +24,23 @@ namespace EchoOfTheTimes.Core
                 //VertexVisibility vertexVisibility = vertices[i] as VertexVisibility;
                 //vertexVisibility.Id = i;
                 //vertexVisibility.FindAllNeighbours(vertices);
+            }
+
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                ((VertexVisibility)vertices[i]).FindClosestNeighbours(vertices);
+            }
+        }
+
+        public void ResetAndLoad()
+        {
+            Vertex[] verts = GetComponentsInChildren<Vertex>();
+            vertices = new List<Vertex>(verts);
+
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                vertices[i].Id = i;
+                vertices[i].Neighbours = new List<Edge>();
             }
 
             for (int i = 0; i < vertices.Count; i++)

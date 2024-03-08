@@ -82,7 +82,7 @@ namespace EchoOfTheTimes.Core
                 if (vertices[i].Neighbours.Count >= 2) continue;
 
                 var dist = Vector3.Distance(current.transform.position, vertices[i].transform.position);
-                if (dist < minDistance && dist < 5f)
+                if (dist < minDistance && dist < 2f)
                 {
                     closest = vertices[i];
                     minDistance = dist;
