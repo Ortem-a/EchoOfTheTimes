@@ -78,11 +78,11 @@ namespace EchoOfTheTimes.Core
                 if (vertices[i] == this || current.ContainsNeighbour(vertices[i]))
                     continue;
 
-                if (current.Neighbours.Count == 2) continue;
-                if (vertices[i].Neighbours.Count >= 2) continue;
+                //if (current.Neighbours.Count == 2) continue;
+                //if (vertices[i].Neighbours.Count >= 2) continue;
 
                 var dist = Vector3.Distance(current.transform.position, vertices[i].transform.position);
-                if (dist < minDistance && dist < 2f)
+                if (dist < minDistance && dist < GraphConsts.NeighbourMaxDistance)
                 {
                     closest = vertices[i];
                     minDistance = dist;
