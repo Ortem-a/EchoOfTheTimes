@@ -5,6 +5,8 @@ namespace EchoOfTheTimes.Core
 {
     public abstract class Graph : MonoBehaviour
     {
+        public float MaxDistanceToNeighbourVertex;
+
         protected List<Vertex> vertices;
         protected List<List<Vertex>> neighbours;
         protected List<List<float>> costs;
