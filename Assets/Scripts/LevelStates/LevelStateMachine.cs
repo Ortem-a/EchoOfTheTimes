@@ -1,7 +1,6 @@
 using DG.Tweening;
 using EchoOfTheTimes.Editor;
 using System.Collections.Generic;
-using UnityEditorInternal;
 using UnityEngine;
 
 namespace EchoOfTheTimes.LevelStates
@@ -75,9 +74,9 @@ namespace EchoOfTheTimes.LevelStates
         {
             Debug.Log($"[LevelStateMachine] ChangeState: {(_current != null ? _current.Id : "<null>")} -> {newStateId}");
 
-            if (_current != null) 
+            if (_current != null)
             {
-                if (_current.Id == newStateId) 
+                if (_current.Id == newStateId)
                 {
                     return;
                 }
@@ -102,14 +101,14 @@ namespace EchoOfTheTimes.LevelStates
 
             States = new List<LevelState>();
 
-            foreach (var stateable in stateables) 
+            foreach (var stateable in stateables)
             {
                 foreach (var state in stateable.States)
                 {
                     if (!HasState(state.StateId))
                     {
-                        States.Add(new LevelState() 
-                        { 
+                        States.Add(new LevelState()
+                        {
                             Id = state.StateId,
                         });
                     }
@@ -180,9 +179,9 @@ namespace EchoOfTheTimes.LevelStates
                 }
             }
 
-            for (int i = 0;  i < transitions.Count; i++)
+            for (int i = 0; i < transitions.Count; i++)
             {
-                for (int j = 0; j < transitions.Count; j++) 
+                for (int j = 0; j < transitions.Count; j++)
                 {
                     if (i == j) continue;
 
@@ -207,7 +206,7 @@ namespace EchoOfTheTimes.LevelStates
         {
             var transition = Transitions.Find((x) => x.StateFromId == specialTransition.StateFromId && x.StateToId == specialTransition.StateToId);
 
-            if (transition != null) 
+            if (transition != null)
             {
                 if (specialTransition.Influenced != null)
                 {

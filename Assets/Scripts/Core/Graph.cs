@@ -1,5 +1,3 @@
-using EchoOfTheTimes.Editor;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,8 +5,6 @@ namespace EchoOfTheTimes.Core
 {
     public abstract class Graph : MonoBehaviour
     {
-        public GameObject VertexPrefab;
-
         protected List<Vertex> vertices;
         protected List<List<Vertex>> neighbours;
         protected List<List<float>> costs;
@@ -28,7 +24,7 @@ namespace EchoOfTheTimes.Core
 
             vertices ??= new List<Vertex>();
 
-            for (int i = 0; i < vertices.Count; i++) 
+            for (int i = 0; i < vertices.Count; i++)
             {
                 vertices[i].Neighbours = new List<Edge>();
             }
@@ -60,7 +56,7 @@ namespace EchoOfTheTimes.Core
             {
                 return null;
             }
-            if (id < 0 || id >= vertices.Count) 
+            if (id < 0 || id >= vertices.Count)
             {
                 return null;
             }
@@ -109,7 +105,7 @@ namespace EchoOfTheTimes.Core
             previous[source.Id] = source.Id;
             queue.Enqueue(source);
 
-            while (queue.Count != 0) 
+            while (queue.Count != 0)
             {
                 vertex = queue.Dequeue();
 
@@ -120,7 +116,7 @@ namespace EchoOfTheTimes.Core
 
                 neighbours = GetNeighbours(vertex);
 
-                foreach (Vertex neighbour in neighbours) 
+                foreach (Vertex neighbour in neighbours)
                 {
                     if (previous[neighbour.Id] != -1)
                     {
@@ -189,7 +185,7 @@ namespace EchoOfTheTimes.Core
             {
                 path.Add(vertices[prev]);
                 prev = prevList[prev];
-            } 
+            }
             while (prev != sourceId);
 
             return path;

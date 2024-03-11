@@ -29,13 +29,14 @@ namespace EchoOfTheTimes.Units
 
         public Vertex StartVertex;
 
-        [SerializeField]
         private GraphVisibility _graph;
 
         private AnimationManager _animationManager;
 
-        private void Start()
+        public void Initialize()
         {
+            _graph = LinksContainer.Instance.Graph;
+
             TeleportTo(StartVertex.transform.position);
         }
 

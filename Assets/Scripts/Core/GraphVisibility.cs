@@ -1,8 +1,3 @@
-using Codice.Client.BaseCommands;
-using Codice.CM.Common.Tree;
-using EchoOfTheTimes.Editor;
-using EchoOfTheTimes.LevelStates;
-using EchoOfTheTimes.Movement;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,25 +5,9 @@ namespace EchoOfTheTimes.Core
 {
     public class GraphVisibility : Graph
     {
-        public VertexFollower VertexFollower;
-        public LevelStateMachine StateMachine;
-
         public override void Awake()
         {
-            StateMachine.OnTransitionStart += VertexFollower.LinkDefault;
-            StateMachine.OnTransitionStart += ResetVertices;
-            StateMachine.OnTransitionComplete += Load;
-            StateMachine.OnTransitionComplete += VertexFollower.Unlink;
-
             ResetAndLoad();
-        }
-
-        private void OnDestroy()
-        {
-            StateMachine.OnTransitionStart -= ResetVertices;
-            StateMachine.OnTransitionComplete -= Load;
-            StateMachine.OnTransitionStart -= VertexFollower.LinkDefault;
-            StateMachine.OnTransitionComplete -= VertexFollower.Unlink;
         }
 
         public override void Load()
