@@ -1,5 +1,4 @@
 using EchoOfTheTimes.Interfaces;
-using EchoOfTheTimes.Units;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,6 +22,11 @@ namespace EchoOfTheTimes.Commands
             _execCommadns = commands;
 
             _isRunning = true;
+        }
+
+        public void ForceStop()
+        {
+            _isRunning = false;
         }
 
         private void Update()

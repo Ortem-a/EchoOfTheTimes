@@ -43,14 +43,18 @@ namespace EchoOfTheTimes.Core
             if (TryGetNearestVertex(clickPosition, out Vertex destination))
             {
                 _path = _graph.GetPathBFS(_target.Position, destination);
-                _path.Reverse();
 
-                var commands = new List<Vector3>();
-                foreach (var v in _path)
+                if (_path.Count != 0)
                 {
-                    commands.Add(v.transform.position);
+                    _path.Reverse();
+
+                    var commands = new List<Vector3>();
+                    foreach (var v in _path)
+                    {
+                        commands.Add(v.transform.position);
+                    }
+                    _commandManager.UpdateCommands(commands);
                 }
-                _commandManager.UpdateCommands(commands);
             }
         }
 

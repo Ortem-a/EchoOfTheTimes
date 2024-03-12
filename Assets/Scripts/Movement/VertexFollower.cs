@@ -32,9 +32,7 @@ namespace EchoOfTheTimes.Movement
         {
             if (TryGetComponent(out Player player))
             {
-                _vertex = player.Position;
-                _target = player.transform;
-                _isLinked = true;
+                Link(player.transform, player.Position);
             }
             else
             {

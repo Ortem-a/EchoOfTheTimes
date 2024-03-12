@@ -13,6 +13,7 @@ namespace EchoOfTheTimes.Core
         public VertexFollower VertexFollower;
         public UserInputHandler UserInputHandler;
         public Player Player;
+        public CommandManager CommandManager;
 
         public static LinksContainer Instance { get; private set; }
 
