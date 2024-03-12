@@ -1,6 +1,3 @@
-using Codice.Client.BaseCommands;
-using EchoOfTheTimes.Editor;
-using EchoOfTheTimes.LevelStates;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,18 +5,9 @@ namespace EchoOfTheTimes.Core
 {
     public class GraphVisibility : Graph
     {
-        public LevelStateMachine StateMachine;
-
         public override void Awake()
         {
-            StateMachine.OnTransitionStart += ResetVertices;
-            StateMachine.OnTransitionComplete += Load;
-        }
-
-        private void OnDestroy()
-        {
-            StateMachine.OnTransitionStart -= ResetVertices;
-            StateMachine.OnTransitionComplete -= Load;
+            ResetAndLoad();
         }
 
         public override void Load()
@@ -34,7 +22,7 @@ namespace EchoOfTheTimes.Core
 
             for (int i = 0; i < vertices.Count; i++)
             {
-                ((VertexVisibility)vertices[i]).FindNeighboursInRadius(vertices);
+                ((VertexVisibility)vertices[i]).FindNeighboursInRadius(vertices, MaxDistanceToNeighbourVertex);
             }
         }
 
@@ -51,7 +39,7 @@ namespace EchoOfTheTimes.Core
 
             for (int i = 0; i < vertices.Count; i++)
             {
-                ((VertexVisibility)vertices[i]).FindNeighboursInRadius(vertices);
+                ((VertexVisibility)vertices[i]).FindNeighboursInRadius(vertices, MaxDistanceToNeighbourVertex);
             }
         }
 

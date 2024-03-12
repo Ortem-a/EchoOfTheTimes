@@ -68,7 +68,7 @@ namespace EchoOfTheTimes.Core
             collider.enabled = true;
         }
 
-        public void FindNeighboursInRadius(List<Vertex> vertices, float radius = GraphConsts.NeighbourMaxDistance)
+        public void FindNeighboursInRadius(List<Vertex> vertices, float radius)
         {
             for (int i = 0; i < vertices.Count; i++)
             {

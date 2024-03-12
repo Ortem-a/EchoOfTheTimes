@@ -18,7 +18,6 @@ namespace EchoOfTheTimes.Core
         [SerializeField]
         private List<Vertex> _path;
 
-        [SerializeField]
         private GraphVisibility _graph;
 
         private void Awake()
@@ -32,6 +31,11 @@ namespace EchoOfTheTimes.Core
         private void OnDestroy()
         {
             OnMousePressed -= HandleMousePressed;
+        }
+
+        public void Initialize()
+        {
+            _graph = LinksContainer.Instance.Graph;
         }
 
         private void HandleMousePressed(Vector3 clickPosition)
