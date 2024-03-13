@@ -73,25 +73,7 @@ namespace EchoOfTheTimes.Units
         {
             IsBusy = false;
 
-            UseCheckpoint();
-        }
-
-        private void UseCheckpoint()
-        {
-            if (Position.gameObject.TryGetComponent(out Checkpoint checkpoint))
-            {
-                if (!checkpoint.IsVisited)
-                {
-                    checkpoint.IsVisited = true;
-
-                    _checkpointManager.OnCheckpointChanged?.Invoke(checkpoint);
-
-                    _data.Id = Id;
-                    _data.Checkpoint = transform.position;
-                    _data.StateId = _levelStateMachine.GetCurrentStateId();
-                    SaveLoadSystem.Instance.SaveGame(_data);
-                }
-            }
+            _checkpointManager.UpdateCheckpoint(Position);
         }
 
         public void Bind(PlayerData data)
@@ -101,11 +83,8 @@ namespace EchoOfTheTimes.Units
 
             var vertex = _graph.GetNearestVertex(data.Checkpoint);
 
-            if (vertex.gameObject.TryGetComponent(out Checkpoint checkpoint))
-            {
-                _checkpointManager.OnCheckpointChanged?.Invoke(checkpoint);
-                _levelStateMachine.LoadState(data.StateId);
-            }
+            _checkpointManager.OnCheckpointChanged?.Invoke(vertex);
+            _levelStateMachine.LoadState(data.StateId);
         }
     }
 }

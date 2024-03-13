@@ -88,12 +88,11 @@ namespace EchoOfTheTimes.Persistence
                 GameData.CurrentLevelName = "CodeTests";
             }
 
+#warning ÈÂÀÍ ÃÎÂÍÎÂ
             var vertex = GameManager.Instance.Graph.GetNearestVertex(GameData.PlayerData.Checkpoint);
-            GameManager.Instance.CheckpointManager.OnCheckpointChanged?.Invoke(vertex.gameObject.GetComponent<Checkpoint>());
+            GameManager.Instance.CheckpointManager.OnCheckpointChanged?.Invoke(vertex);
             GameManager.Instance.StateMachine.LoadState(GameData.PlayerData.StateId);
             GameManager.Instance.Player.TeleportTo(GameData.PlayerData.Checkpoint);
-
-            //SceneManager.LoadSceneAsync(GameData.CurrentLevelName);
         }
 
         public void SaveGame(PlayerData playerData)

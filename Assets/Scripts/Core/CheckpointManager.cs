@@ -1,41 +1,48 @@
+using EchoOfTheTimes.LevelStates;
+using EchoOfTheTimes.Persistence;
 using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace EchoOfTheTimes.Core
 {
     public class CheckpointManager : MonoBehaviour
     {
-        public Action<Checkpoint> OnCheckpointChanged;
+        public Action<Vertex> OnCheckpointChanged;
 
-        public Checkpoint[] Checkpoints;
+        public GameData GameData { get; private set; }
 
         [field: SerializeField]
         public Checkpoint ActiveCheckpoint { get; private set; }
 
         private void Awake()
         {
-            OnCheckpointChanged += ChangeCheckpoint;
+            OnCheckpointChanged += UpdateCheckpoint;
         }
 
         private void OnDestroy()
         {
-            OnCheckpointChanged -= ChangeCheckpoint;
+            OnCheckpointChanged -= UpdateCheckpoint;
         }
 
-        public void ResetCheckpoints()
+        public void UpdateCheckpoint(Vertex vertex)
         {
-            Checkpoints = new Checkpoint[0];
+# warning какая-то хуета. можно лучше.
+            if (vertex.gameObject.TryGetComponent(out Checkpoint checkpoint))
+            {
+                if (!checkpoint.IsVisited)
+                {
+                    checkpoint.IsVisited = true;
 
-            var checkpoints = FindObjectsOfType<Checkpoint>();
+                    GameData.PlayerData.Id = GameManager.Instance.Player.Id;
+                    GameData.PlayerData.Checkpoint = vertex.transform.position;
+                    GameData.PlayerData.StateId = GameManager.Instance.StateMachine.GetCurrentStateId();
+                    //SaveLoadSystem.Instance.SaveGame(GameData);
+                }
 
-            Checkpoints = checkpoints;
-        }
-
-        private void ChangeCheckpoint(Checkpoint checkpoint)
-        {
-            ActiveCheckpoint = checkpoint;
-
-            Debug.Log($"[CheckpointManager] Checkpoint changed!");
+                ActiveCheckpoint = checkpoint;
+                Debug.Log($"[CheckpointManager] Checkpoint changed!");
+            }
         }
     }
 }
