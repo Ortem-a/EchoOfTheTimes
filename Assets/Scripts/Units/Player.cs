@@ -4,6 +4,7 @@ using EchoOfTheTimes.Commands;
 using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Interfaces;
 using EchoOfTheTimes.LevelStates;
+using EchoOfTheTimes.Movement;
 using EchoOfTheTimes.Persistence;
 using EchoOfTheTimes.Utils;
 using UnityEngine;
@@ -45,7 +46,7 @@ namespace EchoOfTheTimes.Units
         {
             Debug.Log($"[TeleportTo] {position}");
 
-            transform.position = position;
+            this.transform.position = position;
         }
 
         public void MoveTo(Vector3 destination)
@@ -65,20 +66,30 @@ namespace EchoOfTheTimes.Units
         private void OnStartExecution()
         {
             IsBusy = true;
+
+#warning дерьмо
+            if (Position.gameObject.TryGetComponent(out LevelStateButton button))
+            {
+                button.OnRelease?.Invoke();
+            }
         }
 
         private void OnCompleteExecution()
         {
             IsBusy = false;
 
+#warning говно + моча
             if (Position.gameObject.TryGetComponent(out Checkpoint checkpoint))
             {
-                if (!checkpoint.IsVisited)
-                {
-                    checkpoint.IsVisited = true;
-
-                    _checkpointManager.OnCheckpointChanged?.Invoke(checkpoint);
-                }
+                _checkpointManager.OnCheckpointChanged?.Invoke(checkpoint);
+            }
+            else if (Position.gameObject.TryGetComponent(out Teleportator teleportator))
+            {
+                teleportator.Teleport();
+            }
+            else if (Position.gameObject.TryGetComponent(out LevelStateButton button))
+            {
+                button.OnPress?.Invoke();
             }
         }
 

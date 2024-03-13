@@ -1,3 +1,4 @@
+using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Editor;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace EchoOfTheTimes.LevelStates
         public ButtonEventHandler OnPress;
         public ButtonEventHandler OnRelease;
 
-        public LevelStateMachine StateMachine;
+        private LevelStateMachine _stateMachine;
 
         [Space]
         [Space]
@@ -35,6 +36,11 @@ namespace EchoOfTheTimes.LevelStates
             OnRelease -= Release;
         }
 
+        public void Initialize()
+        {
+            _stateMachine = GameManager.Instance.StateMachine;
+        }
+
         private void Press()
         {
             IsPressed = true;
@@ -43,7 +49,7 @@ namespace EchoOfTheTimes.LevelStates
 
             ExecutePress();
 
-            StateMachine.SetParamsToTransitions(Influences);
+            _stateMachine.SetParamsToTransitions(Influences);
         }
 
         private void Release()
@@ -54,14 +60,14 @@ namespace EchoOfTheTimes.LevelStates
 
             ExecuteRelease();
 
-            StateMachine.RemoveParamsFromTransitions(Influences);
+            _stateMachine.RemoveParamsFromTransitions(Influences);
         }
 
         private void ExecutePress()
         {
             foreach (SpecialTransition specTransition in Influences)
             {
-                if (specTransition.EqualsWith(StateMachine.LastTransition))
+                if (specTransition.EqualsWith(_stateMachine.LastTransition))
                 {
                     foreach (var stateable in specTransition.Influenced)
                     {
@@ -78,7 +84,7 @@ namespace EchoOfTheTimes.LevelStates
         {
             foreach (SpecialTransition specTransition in Influences)
             {
-                if (specTransition.EqualsWith(StateMachine.LastTransition))
+                if (specTransition.EqualsWith(_stateMachine.LastTransition))
                 {
                     foreach (var stateable in specTransition.Influenced)
                     {
