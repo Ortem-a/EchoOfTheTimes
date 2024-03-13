@@ -37,10 +37,10 @@ namespace EchoOfTheTimes.LevelStates
         public TransitionHandler OnTransitionStart;
         public TransitionHandler OnTransitionComplete;
 
-        private void Start()
-        {
-            LoadDefaultState();
-        }
+        //private void Start()
+        //{
+        //    LoadDefaultState();
+        //}
 
         private void LoadDefaultState()
         {
@@ -48,6 +48,23 @@ namespace EchoOfTheTimes.LevelStates
 
             _current = States[0];
             _current.Accept(null, onComplete: () => OnTransitionComplete?.Invoke());
+        }
+
+        public void LoadState(int id)
+        {
+            OnTransitionStart?.Invoke();
+
+            var state = States.Find((x) => x.Id == id);
+
+            if (state != null)
+            {
+                _current = state;
+                _current.Accept(null, onComplete: () => OnTransitionComplete?.Invoke());
+            }
+            else
+            {
+                Debug.LogWarning($"There is no state with id: {id}");
+            }
         }
 
         private void LoadStateDebug(int id)
@@ -278,6 +295,11 @@ namespace EchoOfTheTimes.LevelStates
         public void SetInStateDebug()
         {
             LoadStateDebug(StateId);
+        }
+
+        public int GetCurrentStateId()
+        {
+            return _current.Id;
         }
     }
 }

@@ -2,11 +2,12 @@ using EchoOfTheTimes.Commands;
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Movement;
 using EchoOfTheTimes.Units;
+using EchoOfTheTimes.Utils;
 using UnityEngine;
 
 namespace EchoOfTheTimes.Core
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : PersistentSingleton<GameManager> //MonoBehaviour
     {
         [field: SerializeField]
         public float TimeToChangeState_sec { get; private set; }
@@ -20,11 +21,36 @@ namespace EchoOfTheTimes.Core
         public UserInput UserInput;
         public CheckpointManager CheckpointManager;
 
-        public static GameManager Instance { get; private set; }
-
-        private void Awake()
+        protected override void Awake()
         {
-            Instance = this;
+            base.Awake();
+
+            SubscribeEvents();
+        }
+
+        private void OnDestroy()
+        {
+            UnsubscribeEvents();
+        }
+
+        private void SubscribeEvents()
+        {
+            StateMachine.OnTransitionStart += CommandManager.ForceStop;
+            StateMachine.OnTransitionStart += VertexFollower.LinkDefault;
+            StateMachine.OnTransitionStart += Graph.ResetVertices;
+
+            StateMachine.OnTransitionComplete += Graph.Load;
+            StateMachine.OnTransitionComplete += VertexFollower.Unlink;
+        }
+
+        private void UnsubscribeEvents()
+        {
+            StateMachine.OnTransitionStart -= CommandManager.ForceStop;
+            StateMachine.OnTransitionStart -= VertexFollower.LinkDefault;
+            StateMachine.OnTransitionStart -= Graph.ResetVertices;
+
+            StateMachine.OnTransitionComplete -= Graph.Load;
+            StateMachine.OnTransitionComplete -= VertexFollower.Unlink;
         }
     }
 }

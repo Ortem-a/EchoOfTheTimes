@@ -1,3 +1,4 @@
+using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Interfaces;
 using EchoOfTheTimes.Units;
 using EchoOfTheTimes.Utils;
@@ -21,10 +22,15 @@ namespace EchoOfTheTimes.Persistence
             _dataService = new FileDataService(new JsonSerializer());
         }
 
-        private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
-        private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
+        //private void Start() => SceneManager.sceneLoaded += OnSceneLoaded;
+        //private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
 
-        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        //private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        //{
+        //    Bind<Player, PlayerData>(GameData.PlayerData);
+        //}
+
+        public void BindPlayer()
         {
             Bind<Player, PlayerData>(GameData.PlayerData);
         }
@@ -82,7 +88,24 @@ namespace EchoOfTheTimes.Persistence
                 GameData.CurrentLevelName = "CodeTests";
             }
 
-            SceneManager.LoadScene(GameData.CurrentLevelName);
+            var vertex = GameManager.Instance.Graph.GetNearestVertex(GameData.PlayerData.Checkpoint);
+            GameManager.Instance.CheckpointManager.OnCheckpointChanged?.Invoke(vertex.gameObject.GetComponent<Checkpoint>());
+            GameManager.Instance.StateMachine.LoadState(GameData.PlayerData.StateId);
+            GameManager.Instance.Player.TeleportTo(GameData.PlayerData.Checkpoint);
+
+            //SceneManager.LoadSceneAsync(GameData.CurrentLevelName);
+        }
+
+        public void SaveGame(PlayerData playerData)
+        {
+            GameData = new GameData()
+            {
+                Name = "TestSave",
+                CurrentLevelName = SceneManager.GetActiveScene().name,
+                PlayerData = playerData
+            };
+
+            SaveGame();
         }
 
         public void SaveGame() => _dataService.Save(GameData);

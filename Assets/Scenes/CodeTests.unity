@@ -235,9 +235,8 @@ MonoBehaviour:
       Part2: 0
       Part3: 0
       Part4: 0
-    Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 0}
-    LocalScale: {x: 0, y: 0, z: 0}
+    Checkpoint: {x: 0, y: 0, z: 0}
+    StateId: 0
   <Speed>k__BackingField: 5
 --- !u!114 &23088200
 MonoBehaviour:
@@ -2434,7 +2433,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &405868889
 Transform:
   m_ObjectHideFlags: 0
@@ -2457,24 +2456,23 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 405868888}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a7a71b22111ff64680b5e5259c67e8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   AutoUnparentOnAwake: 1
   GameData:
-    Name: 
-    CurrentLevelName: 
+    Name: TestSave
+    CurrentLevelName: CodeTests
     PlayerData:
       <Id>k__BackingField:
         Part1: 0
         Part2: 0
         Part3: 0
         Part4: 0
-      Position: {x: 0, y: 0, z: 0}
-      Rotation: {x: 0, y: 0, z: 0, w: 0}
-      LocalScale: {x: 0, y: 0, z: 0}
+      Checkpoint: {x: 0, y: 0, z: 0}
+      StateId: 0
 --- !u!1 &410078803
 GameObject:
   m_ObjectHideFlags: 0
@@ -4244,9 +4242,9 @@ GameObject:
   m_Component:
   - component: {fileID: 676113515}
   - component: {fileID: 676113517}
-  - component: {fileID: 676113516}
+  - component: {fileID: 676113518}
   m_Layer: 0
-  m_Name: LevelManager
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4267,18 +4265,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1404483519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &676113516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 676113514}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0af6681d42ddf6340a3d312f0401f813, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &676113517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4291,6 +4277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9a0243362b3dff4396272c1f4642157, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AutoUnparentOnAwake: 0
   <TimeToChangeState_sec>k__BackingField: 1
   StateMachine: {fileID: 1897557513}
   Graph: {fileID: 436562144}
@@ -4300,6 +4287,18 @@ MonoBehaviour:
   CommandManager: {fileID: 23088200}
   UserInput: {fileID: 2113709826}
   CheckpointManager: {fileID: 1844840746}
+--- !u!114 &676113518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676113514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0af6681d42ddf6340a3d312f0401f813, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &678805175
 GameObject:
   m_ObjectHideFlags: 0
@@ -4480,7 +4479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6af8d88bdeb05c049bc4e9e9d104b274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Point>k__BackingField: {fileID: 714060858}
+  Point: {fileID: 714060858}
   IsVisited: 0
 --- !u!1 &720185360
 GameObject:
@@ -10032,7 +10031,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6af8d88bdeb05c049bc4e9e9d104b274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Point>k__BackingField: {fileID: 1835977037}
+  Point: {fileID: 1835977037}
   IsVisited: 0
 --- !u!1 &1844840744
 GameObject:

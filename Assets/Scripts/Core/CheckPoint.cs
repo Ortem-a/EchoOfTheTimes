@@ -4,8 +4,7 @@ namespace EchoOfTheTimes.Core
 {
     public class Checkpoint : MonoBehaviour
     {
-        [field: SerializeField]
-        public Vertex Point { get; private set; }
+        public Vertex Point;
 
         public bool IsVisited = false;
     }

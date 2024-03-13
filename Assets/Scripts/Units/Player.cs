@@ -3,6 +3,7 @@ using EchoOfTheTimes.Animations;
 using EchoOfTheTimes.Commands;
 using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Interfaces;
+using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Persistence;
 using EchoOfTheTimes.Utils;
 using UnityEngine;
@@ -29,6 +30,7 @@ namespace EchoOfTheTimes.Units
 
         private GraphVisibility _graph;
         private CheckpointManager _checkpointManager;
+        private LevelStateMachine _levelStateMachine;
 
         private AnimationManager _animationManager;
 
@@ -36,6 +38,7 @@ namespace EchoOfTheTimes.Units
         {
             _graph = GameManager.Instance.Graph;
             _checkpointManager = GameManager.Instance.CheckpointManager;
+            _levelStateMachine = GameManager.Instance.StateMachine;
 
             TeleportTo(_checkpointManager.ActiveCheckpoint.transform.position);
         }
@@ -82,6 +85,11 @@ namespace EchoOfTheTimes.Units
                     checkpoint.IsVisited = true;
 
                     _checkpointManager.OnCheckpointChanged?.Invoke(checkpoint);
+
+                    _data.Id = Id;
+                    _data.Checkpoint = transform.position;
+                    _data.StateId = _levelStateMachine.GetCurrentStateId();
+                    SaveLoadSystem.Instance.SaveGame(_data);
                 }
             }
         }
@@ -91,8 +99,13 @@ namespace EchoOfTheTimes.Units
             _data = data;
             _data.Id = Id;
 
-            transform.SetPositionAndRotation(_data.Position, _data.Rotation);
-            transform.localScale = _data.LocalScale;
+            var vertex = _graph.GetNearestVertex(data.Checkpoint);
+
+            if (vertex.gameObject.TryGetComponent(out Checkpoint checkpoint))
+            {
+                _checkpointManager.OnCheckpointChanged?.Invoke(checkpoint);
+                _levelStateMachine.LoadState(data.StateId);
+            }
         }
     }
 }
