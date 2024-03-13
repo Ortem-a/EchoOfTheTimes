@@ -58,6 +58,8 @@ namespace EchoOfTheTimes.LevelStates
 
             if (state != null)
             {
+                Debug.Log($"[LevelStateMachine] LoadState: {(_current != null ? _current.Id : "<null>")} -> {id}");
+
                 _current = state;
                 _current.Accept(null, onComplete: () => OnTransitionComplete?.Invoke());
             }

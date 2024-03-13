@@ -41,18 +41,18 @@ namespace EchoOfTheTimes.Units
             _levelStateMachine = GameManager.Instance.StateMachine;
         }
 
-        public virtual void TeleportTo(Vector3 position)
+        public void TeleportTo(Vector3 position)
         {
-            Debug.Log($"[TeleportTo] {position} with speed: {Speed}");
+            Debug.Log($"[TeleportTo] {position}");
 
             transform.position = position;
         }
 
-        public virtual void MoveTo(Vector3 destination)
+        public void MoveTo(Vector3 destination)
         {
             OnStartExecution();
 
-            transform.DOLookAt(destination, 0.2f);
+            //transform.DOLookAt(destination, 0.2f);
 
             var time = Vector3.Distance(transform.position, destination) / Speed;
 

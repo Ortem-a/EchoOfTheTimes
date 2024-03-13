@@ -66,7 +66,9 @@ namespace EchoOfTheTimes.Core
 
         public void GoToCheckpoint()
         {
-            _target.TeleportTo(_checkpointManager.ActiveCheckpoint.transform.position);
+            Debug.Log("[UserInputHandler] Go To Checkpoint");
+
+            _checkpointManager.AcceptActiveCheckpointToScene();
         }
     }
 }

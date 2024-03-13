@@ -1,4 +1,3 @@
-using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Persistence;
 using System;
 using UnityEngine;
@@ -15,17 +14,30 @@ namespace EchoOfTheTimes.Core
         public PlayerData PlayerData;
         public Checkpoint ActiveCheckpoint;
 
+        private void OnValidate()
+        {
+            if (StartCheckpoint != null) 
+            {
+                StartPlayerData.Checkpoint = StartCheckpoint.transform.position;
+            }
+        }
+
         private void Awake()
         {
             OnCheckpointChanged += UpdateCheckpoint;
-
-            ActiveCheckpoint = StartCheckpoint;
-            PlayerData.StateId = StartPlayerData.StateId;
-            PlayerData.Checkpoint = StartPlayerData.Checkpoint;
         }
 
         public void Initialize()
         {
+            ActiveCheckpoint = StartCheckpoint;
+
+            PlayerData = new PlayerData()
+            {
+                Id = StartPlayerData.Id,
+                StateId = StartPlayerData.StateId,
+                Checkpoint = StartPlayerData.Checkpoint
+            };
+
             AcceptActiveCheckpointToScene();
         }
 
@@ -44,13 +56,15 @@ namespace EchoOfTheTimes.Core
             //SaveLoadSystem.Instance.SaveGame(GameData);
 
             ActiveCheckpoint = checkpoint;
-            Debug.Log($"[CheckpointManager] Checkpoint changed!");
+            Debug.Log($"[CheckpointManager] Checkpoint changed! | PlayerData {PlayerData} | ActiveCheckpoint {ActiveCheckpoint}");
         }
 
-        private void AcceptActiveCheckpointToScene()
+        public void AcceptActiveCheckpointToScene()
         {
-            GameManager.Instance.StateMachine.LoadState(PlayerData.StateId);
+            Debug.Log($"[CheckpointManager] Accept Active Checkpoint To Scene '{PlayerData}'");
+
             GameManager.Instance.Player.TeleportTo(PlayerData.Checkpoint);
+            GameManager.Instance.StateMachine.LoadState(PlayerData.StateId);
         }
     }
 }

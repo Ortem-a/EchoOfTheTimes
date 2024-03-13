@@ -12,5 +12,10 @@ namespace EchoOfTheTimes.Persistence
 
         public Vector3 Checkpoint;
         public int StateId;
+
+        public override string ToString()
+        {
+            return $"Id: {Id} | StateId {StateId} | Checkpoint {Checkpoint}";
+        }
     }
 }
