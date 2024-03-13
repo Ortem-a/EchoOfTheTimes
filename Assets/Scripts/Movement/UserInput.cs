@@ -9,16 +9,19 @@ namespace EchoOfTheTimes.Movement
         [SerializeField]
         private Camera _camera;
 
-        [SerializeField]
         private UserInputHandler _userInputHandler;
-
-        [SerializeField]
         private LevelStateMachine _levelStateMachine;
         private int _input = -1;
 
         [SerializeField]
         private LevelStateButton _stateButton;
         private bool _isPressed = false; // йняршкей
+
+        public void Initialize()
+        {
+            _userInputHandler = GameManager.Instance.UserInputHandler;
+            _levelStateMachine = GameManager.Instance.StateMachine;
+        }
 
         private void Update()
         {

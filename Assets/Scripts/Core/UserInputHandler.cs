@@ -12,20 +12,12 @@ namespace EchoOfTheTimes.Core
         public Action<Vector3> OnMousePressed;
 
         private IUnit _target;
-
         private CommandManager _commandManager;
-
-        [SerializeField]
-        private List<Vertex> _path;
-
         private GraphVisibility _graph;
 
         private void Awake()
         {
             OnMousePressed += HandleMousePressed;
-
-            _target = GetComponent<IUnit>();
-            _commandManager = GetComponent<CommandManager>();
         }
 
         private void OnDestroy()
@@ -35,21 +27,23 @@ namespace EchoOfTheTimes.Core
 
         public void Initialize()
         {
-            _graph = LinksContainer.Instance.Graph;
+            _graph = GameManager.Instance.Graph;
+            _commandManager = GameManager.Instance.CommandManager;
+            _target = GameManager.Instance.Player;
         }
 
         private void HandleMousePressed(Vector3 clickPosition)
         {
             if (TryGetNearestVertex(clickPosition, out Vertex destination))
             {
-                _path = _graph.GetPathBFS(_target.Position, destination);
+                List<Vertex> path = _graph.GetPathBFS(_target.Position, destination);
 
-                if (_path.Count != 0)
+                if (path.Count != 0)
                 {
-                    _path.Reverse();
+                    path.Reverse();
 
                     var commands = new List<Vector3>();
-                    foreach (var v in _path)
+                    foreach (var v in path)
                     {
                         commands.Add(v.transform.position);
                     }

@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace EchoOfTheTimes.Units
 {
-    [RequireComponent(typeof(AnimationManager), typeof(CommandManager), typeof(UserInputHandler))]
+    [RequireComponent(typeof(AnimationManager), typeof(CommandManager))]
     public class Player : MonoBehaviour, IUnit, IBind<PlayerData>
     {
         [field: SerializeField]
@@ -35,7 +35,7 @@ namespace EchoOfTheTimes.Units
 
         public void Initialize()
         {
-            _graph = LinksContainer.Instance.Graph;
+            _graph = GameManager.Instance.Graph;
 
             TeleportTo(StartVertex.transform.position);
         }

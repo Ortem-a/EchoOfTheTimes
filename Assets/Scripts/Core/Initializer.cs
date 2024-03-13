@@ -11,25 +11,26 @@ namespace EchoOfTheTimes.Core
 
         private void Initialize()
         {
-            LinksContainer.Instance.StateMachine.OnTransitionStart += LinksContainer.Instance.VertexFollower.LinkDefault;
-            LinksContainer.Instance.StateMachine.OnTransitionStart += LinksContainer.Instance.Graph.ResetVertices;
-            LinksContainer.Instance.StateMachine.OnTransitionStart += LinksContainer.Instance.CommandManager.ForceStop;
+            GameManager.Instance.StateMachine.OnTransitionStart += GameManager.Instance.CommandManager.ForceStop;
+            GameManager.Instance.StateMachine.OnTransitionStart += GameManager.Instance.VertexFollower.LinkDefault;
+            GameManager.Instance.StateMachine.OnTransitionStart += GameManager.Instance.Graph.ResetVertices;
 
-            LinksContainer.Instance.StateMachine.OnTransitionComplete += LinksContainer.Instance.Graph.Load;
-            LinksContainer.Instance.StateMachine.OnTransitionComplete += LinksContainer.Instance.VertexFollower.Unlink;
+            GameManager.Instance.StateMachine.OnTransitionComplete += GameManager.Instance.Graph.Load;
+            GameManager.Instance.StateMachine.OnTransitionComplete += GameManager.Instance.VertexFollower.Unlink;
 
-            LinksContainer.Instance.Player.Initialize();
-            LinksContainer.Instance.UserInputHandler.Initialize();
+            GameManager.Instance.Player.Initialize();
+            GameManager.Instance.UserInputHandler.Initialize();
+            GameManager.Instance.UserInput.Initialize();
         }
 
         private void OnDestroy()
         {
-            LinksContainer.Instance.StateMachine.OnTransitionStart -= LinksContainer.Instance.Graph.ResetVertices;
-            LinksContainer.Instance.StateMachine.OnTransitionStart -= LinksContainer.Instance.VertexFollower.LinkDefault;
-            LinksContainer.Instance.StateMachine.OnTransitionStart -= LinksContainer.Instance.CommandManager.ForceStop;
+            GameManager.Instance.StateMachine.OnTransitionStart -= GameManager.Instance.CommandManager.ForceStop;
+            GameManager.Instance.StateMachine.OnTransitionStart -= GameManager.Instance.VertexFollower.LinkDefault;
+            GameManager.Instance.StateMachine.OnTransitionStart -= GameManager.Instance.Graph.ResetVertices;
 
-            LinksContainer.Instance.StateMachine.OnTransitionComplete -= LinksContainer.Instance.Graph.Load;
-            LinksContainer.Instance.StateMachine.OnTransitionComplete -= LinksContainer.Instance.VertexFollower.Unlink;
+            GameManager.Instance.StateMachine.OnTransitionComplete -= GameManager.Instance.Graph.Load;
+            GameManager.Instance.StateMachine.OnTransitionComplete -= GameManager.Instance.VertexFollower.Unlink;
         }
     }
 }

@@ -6,16 +6,20 @@ using UnityEngine;
 
 namespace EchoOfTheTimes.Core
 {
-    public class LinksContainer : MonoBehaviour
+    public class GameManager : MonoBehaviour
     {
+        [field: SerializeField]
+        public float TimeToChangeState_sec { get; private set; }
+
         public LevelStateMachine StateMachine;
         public GraphVisibility Graph;
         public VertexFollower VertexFollower;
         public UserInputHandler UserInputHandler;
         public Player Player;
         public CommandManager CommandManager;
+        public UserInput UserInput;
 
-        public static LinksContainer Instance { get; private set; }
+        public static GameManager Instance { get; private set; }
 
         private void Awake()
         {

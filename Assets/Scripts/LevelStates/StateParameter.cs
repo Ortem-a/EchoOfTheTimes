@@ -1,4 +1,5 @@
 using DG.Tweening;
+using EchoOfTheTimes.Core;
 using System;
 using UnityEngine;
 
@@ -39,28 +40,28 @@ namespace EchoOfTheTimes.LevelStates
             {
                 //if (Target.position != Position)
                 //{
-                //    Target.DOMove(Position, 1f);
+                //    Target.DOMove(Position, GameManager.Instance.TimeToChangeState_sec);
                 //}
                 //if (Target.rotation.eulerAngles != Rotation)
                 //{
-                //    Target.DORotate(Rotation, 1f);
+                //    Target.DORotate(Rotation, GameManager.Instance.TimeToChangeState_sec);
                 //}
                 //if (Target.localScale != LocalScale)
                 //{
-                //    Target.DOScale(LocalScale, 1f);
+                //    Target.DOScale(LocalScale, GameManager.Instance.TimeToChangeState_sec);
                 //}
 
                 if (Target.position != Position)
                 {
-                    _sequence.Append(Target.DOMove(Position, 1f));
+                    _sequence.Append(Target.DOMove(Position, GameManager.Instance.TimeToChangeState_sec));
                 }
                 if (Target.rotation.eulerAngles != Rotation)
                 {
-                    _sequence.Append(Target.DORotate(Rotation, 1f));
+                    _sequence.Append(Target.DORotate(Rotation, GameManager.Instance.TimeToChangeState_sec));
                 }
                 if (Target.localScale != LocalScale)
                 {
-                    _sequence.Append(Target.DOScale(LocalScale, 1f));
+                    _sequence.Append(Target.DOScale(LocalScale, GameManager.Instance.TimeToChangeState_sec));
                 }
             }
             else
@@ -76,15 +77,15 @@ namespace EchoOfTheTimes.LevelStates
             {
                 if (stateParameter.Target.position != stateParameter.Position)
                 {
-                    stateParameter.Target.DOMove(stateParameter.Position, 1f);
+                    stateParameter.Target.DOMove(stateParameter.Position, GameManager.Instance.TimeToChangeState_sec);
                 }
                 if (stateParameter.Target.rotation.eulerAngles != stateParameter.Rotation)
                 {
-                    stateParameter.Target.DORotate(stateParameter.Rotation, 1f);
+                    stateParameter.Target.DORotate(stateParameter.Rotation, GameManager.Instance.TimeToChangeState_sec);
                 }
                 if (stateParameter.Target.localScale != stateParameter.LocalScale)
                 {
-                    stateParameter.Target.DOScale(stateParameter.LocalScale, 1f);
+                    stateParameter.Target.DOScale(stateParameter.LocalScale, GameManager.Instance.TimeToChangeState_sec);
                 }
             }
             else
