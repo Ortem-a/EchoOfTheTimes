@@ -89,8 +89,12 @@ namespace EchoOfTheTimes.Persistence
             }
 
 #warning ИВАН ГОВНОВ
+            // здесь должен быть 1ый чекпоинт на уровне.
+            // он загружается разрабом на диск, потом только загружается.
+            // пользователь не может менять его, сохранять и перезаписывать.
+            // фактически пользователь не может ничего сохранять. он терпила
             var vertex = GameManager.Instance.Graph.GetNearestVertex(GameData.PlayerData.Checkpoint);
-            GameManager.Instance.CheckpointManager.OnCheckpointChanged?.Invoke(vertex);
+            GameManager.Instance.CheckpointManager.OnCheckpointChanged?.Invoke(vertex.gameObject.GetComponent<Checkpoint>());
             GameManager.Instance.StateMachine.LoadState(GameData.PlayerData.StateId);
             GameManager.Instance.Player.TeleportTo(GameData.PlayerData.Checkpoint);
         }

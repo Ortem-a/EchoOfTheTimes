@@ -15,6 +15,7 @@ namespace EchoOfTheTimes.Core
             GameManager.Instance.Player.Initialize();
             GameManager.Instance.UserInputHandler.Initialize();
             GameManager.Instance.UserInput.Initialize();
+            GameManager.Instance.CheckpointManager.Initialize();
 
             SaveLoadSystem.Instance.BindPlayer();
         }

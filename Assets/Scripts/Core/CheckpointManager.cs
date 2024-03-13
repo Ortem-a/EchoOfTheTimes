@@ -2,22 +2,31 @@ using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Persistence;
 using System;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace EchoOfTheTimes.Core
 {
     public class CheckpointManager : MonoBehaviour
     {
-        public Action<Vertex> OnCheckpointChanged;
+        public Action<Checkpoint> OnCheckpointChanged;
 
-        public GameData GameData { get; private set; }
+        public PlayerData StartPlayerData;
+        public Checkpoint StartCheckpoint;
 
-        [field: SerializeField]
-        public Checkpoint ActiveCheckpoint { get; private set; }
+        public PlayerData PlayerData;
+        public Checkpoint ActiveCheckpoint;
 
         private void Awake()
         {
             OnCheckpointChanged += UpdateCheckpoint;
+
+            ActiveCheckpoint = StartCheckpoint;
+            PlayerData.StateId = StartPlayerData.StateId;
+            PlayerData.Checkpoint = StartPlayerData.Checkpoint;
+        }
+
+        public void Initialize()
+        {
+            AcceptActiveCheckpointToScene();
         }
 
         private void OnDestroy()
@@ -25,24 +34,23 @@ namespace EchoOfTheTimes.Core
             OnCheckpointChanged -= UpdateCheckpoint;
         }
 
-        public void UpdateCheckpoint(Vertex vertex)
+        private void UpdateCheckpoint(Checkpoint checkpoint)
         {
-# warning какая-то хуета. можно лучше.
-            if (vertex.gameObject.TryGetComponent(out Checkpoint checkpoint))
-            {
-                if (!checkpoint.IsVisited)
-                {
-                    checkpoint.IsVisited = true;
+#warning какая-то хуета. можно лучше.
 
-                    GameData.PlayerData.Id = GameManager.Instance.Player.Id;
-                    GameData.PlayerData.Checkpoint = vertex.transform.position;
-                    GameData.PlayerData.StateId = GameManager.Instance.StateMachine.GetCurrentStateId();
-                    //SaveLoadSystem.Instance.SaveGame(GameData);
-                }
+            PlayerData.Id = GameManager.Instance.Player.Id;
+            PlayerData.Checkpoint = checkpoint.transform.position;
+            PlayerData.StateId = GameManager.Instance.StateMachine.GetCurrentStateId();
+            //SaveLoadSystem.Instance.SaveGame(GameData);
 
-                ActiveCheckpoint = checkpoint;
-                Debug.Log($"[CheckpointManager] Checkpoint changed!");
-            }
+            ActiveCheckpoint = checkpoint;
+            Debug.Log($"[CheckpointManager] Checkpoint changed!");
+        }
+
+        private void AcceptActiveCheckpointToScene()
+        {
+            GameManager.Instance.StateMachine.LoadState(PlayerData.StateId);
+            GameManager.Instance.Player.TeleportTo(PlayerData.Checkpoint);
         }
     }
 }

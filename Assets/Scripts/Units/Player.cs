@@ -39,8 +39,6 @@ namespace EchoOfTheTimes.Units
             _graph = GameManager.Instance.Graph;
             _checkpointManager = GameManager.Instance.CheckpointManager;
             _levelStateMachine = GameManager.Instance.StateMachine;
-
-            TeleportTo(_checkpointManager.ActiveCheckpoint.transform.position);
         }
 
         public virtual void TeleportTo(Vector3 position)
@@ -73,18 +71,27 @@ namespace EchoOfTheTimes.Units
         {
             IsBusy = false;
 
-            _checkpointManager.UpdateCheckpoint(Position);
+            if (Position.gameObject.TryGetComponent(out Checkpoint checkpoint))
+            {
+                if (!checkpoint.IsVisited)
+                {
+                    checkpoint.IsVisited = true;
+
+                    _checkpointManager.OnCheckpointChanged?.Invoke(checkpoint);
+                }
+            }
         }
 
         public void Bind(PlayerData data)
         {
+#warning выключил нахуй
             _data = data;
             _data.Id = Id;
 
             var vertex = _graph.GetNearestVertex(data.Checkpoint);
 
-            _checkpointManager.OnCheckpointChanged?.Invoke(vertex);
             _levelStateMachine.LoadState(data.StateId);
+            _checkpointManager.OnCheckpointChanged?.Invoke(vertex.gameObject.GetComponent<Checkpoint>());
         }
     }
 }
