@@ -18,6 +18,7 @@ namespace EchoOfTheTimes.Core
         public Player Player;
         public CommandManager CommandManager;
         public UserInput UserInput;
+        public CheckpointManager CheckpointManager;
 
         public static GameManager Instance { get; private set; }
 

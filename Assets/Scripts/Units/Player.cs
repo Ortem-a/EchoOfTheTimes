@@ -27,17 +27,17 @@ namespace EchoOfTheTimes.Units
 
         public Vertex Position => _graph.GetNearestVertex(transform.position);
 
-        public Vertex StartVertex;
-
         private GraphVisibility _graph;
+        private CheckpointManager _checkpointManager;
 
         private AnimationManager _animationManager;
 
         public void Initialize()
         {
             _graph = GameManager.Instance.Graph;
+            _checkpointManager = GameManager.Instance.CheckpointManager;
 
-            TeleportTo(StartVertex.transform.position);
+            TeleportTo(_checkpointManager.ActiveCheckpoint.transform.position);
         }
 
         public virtual void TeleportTo(Vector3 position)
@@ -69,6 +69,21 @@ namespace EchoOfTheTimes.Units
         private void OnCompleteExecution()
         {
             IsBusy = false;
+
+            UseCheckpoint();
+        }
+
+        private void UseCheckpoint()
+        {
+            if (Position.gameObject.TryGetComponent(out Checkpoint checkpoint))
+            {
+                if (!checkpoint.IsVisited)
+                {
+                    checkpoint.IsVisited = true;
+
+                    _checkpointManager.OnCheckpointChanged?.Invoke(checkpoint);
+                }
+            }
         }
 
         public void Bind(PlayerData data)

@@ -63,6 +63,11 @@ namespace EchoOfTheTimes.Movement
 
                 _isPressed = !_isPressed;
             }
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                _userInputHandler.GoToCheckpoint();
+            }
         }
 
         public Vector3 ScreenToWorldPosition(Vector3 screenPosition)

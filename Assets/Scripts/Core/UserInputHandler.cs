@@ -14,6 +14,7 @@ namespace EchoOfTheTimes.Core
         private IUnit _target;
         private CommandManager _commandManager;
         private GraphVisibility _graph;
+        private CheckpointManager _checkpointManager;
 
         private void Awake()
         {
@@ -30,6 +31,7 @@ namespace EchoOfTheTimes.Core
             _graph = GameManager.Instance.Graph;
             _commandManager = GameManager.Instance.CommandManager;
             _target = GameManager.Instance.Player;
+            _checkpointManager = GameManager.Instance.CheckpointManager;
         }
 
         private void HandleMousePressed(Vector3 clickPosition)
@@ -62,19 +64,9 @@ namespace EchoOfTheTimes.Core
             return false;
         }
 
-        private IEnumerator MoveByPath(List<Vertex> path)
+        public void GoToCheckpoint()
         {
-            for (int i = 0; i < path.Count; i++)
-            {
-                yield return new WaitForSeconds(0.5f);
-
-                _target.TeleportTo(path[i].transform.position);
-
-                if (i + 1 < path.Count)
-                {
-                    transform.LookAt(path[i + 1].transform.position);
-                }
-            }
+            _target.TeleportTo(_checkpointManager.ActiveCheckpoint.transform.position);
         }
     }
 }
