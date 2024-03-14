@@ -1,5 +1,7 @@
 using DG.Tweening;
 using EchoOfTheTimes.Editor;
+using PlasticPipe.PlasticProtocol.Messages;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,7 +35,8 @@ namespace EchoOfTheTimes.LevelStates
         private LevelState _current;
         public Transition LastTransition { get; private set; } = null;
 
-        public delegate void TransitionHandler();
+        public delegate void StateMachineCallback();
+        public delegate void TransitionHandler(StateMachineCallback onCompletePrepare = null);
         public TransitionHandler OnTransitionStart;
         public TransitionHandler OnTransitionComplete;
 
@@ -52,16 +55,16 @@ namespace EchoOfTheTimes.LevelStates
 
         public void LoadState(int id)
         {
-            OnTransitionStart?.Invoke();
-
             var state = States.Find((x) => x.Id == id);
 
             if (state != null)
             {
                 Debug.Log($"[LevelStateMachine] LoadState: {(_current != null ? _current.Id : "<null>")} -> {id}");
 
-                _current = state;
-                _current.Accept(null, onComplete: () => OnTransitionComplete?.Invoke());
+                OnTransitionStart?.Invoke(() => ChangeState(state, null));
+
+                //_current = state;
+                //_current.Accept(null, onComplete: () => OnTransitionComplete?.Invoke());
             }
             else
             {
@@ -101,16 +104,32 @@ namespace EchoOfTheTimes.LevelStates
                 }
             }
 
-            OnTransitionStart?.Invoke();
+            var transition = Transitions.Find((x) => x.StateFromId == _current.Id && x.StateToId == newStateId);
 
-            var transicion = Transitions.Find((x) => x.StateFromId == _current.Id && x.StateToId == newStateId);
-
-            if (transicion != null)
+            if (transition != null)
             {
-                _current = States.Find((x) => x.Id == newStateId);
-                _current.Accept(transicion.Parameters, onComplete: () => OnTransitionComplete?.Invoke());
+                OnTransitionStart?.Invoke(() => ChangeState(States.Find((x) => x.Id == newStateId), transition));
 
-                LastTransition = transicion;
+                //_current = States.Find((x) => x.Id == newStateId);
+                //_current.Accept(transicion.Parameters, onComplete: () => OnTransitionComplete?.Invoke());
+
+                //LastTransition = transicion;
+            }
+        }
+
+        private void ChangeState(LevelState state, Transition transition = null)
+        {
+            _current = state;
+
+            if (transition == null)
+            {
+                _current.Accept(null, onComplete: () => OnTransitionComplete?.Invoke());
+            }
+            else
+            {
+                _current.Accept(transition.Parameters, onComplete: () => OnTransitionComplete?.Invoke());
+
+                LastTransition = transition;
             }
         }
 

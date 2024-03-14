@@ -1,4 +1,6 @@
 using EchoOfTheTimes.Interfaces;
+using EchoOfTheTimes.LevelStates;
+using EchoOfTheTimes.Units;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +8,8 @@ namespace EchoOfTheTimes.Commands
 {
     public class CommandManager : MonoBehaviour
     {
-        private IUnit _target;
+        //private IUnit _target;
+        private Player _target;
 
         private List<Vector3> _execCommadns;
 
@@ -14,17 +17,20 @@ namespace EchoOfTheTimes.Commands
 
         private void Awake()
         {
-            _target = GetComponent<IUnit>();
+            //_target = GetComponent<IUnit>();
+            _target = GetComponent<Player>();
         }
 
         public void UpdateCommands(List<Vector3> commands)
         {
             _execCommadns = commands;
 
-            _isRunning = true;
+            _target.MoveTo(_execCommadns);
+
+            //_isRunning = true;
         }
 
-        public void ForceStop()
+        public void ForceStop(LevelStateMachine.StateMachineCallback callback = null)
         {
             _isRunning = false;
         }

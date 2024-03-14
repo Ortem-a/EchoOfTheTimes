@@ -1,3 +1,4 @@
+using EchoOfTheTimes.LevelStates;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ namespace EchoOfTheTimes.Core
             Load();
         }
 
-        public virtual void Load() { }
+        public virtual void Load(LevelStateMachine.StateMachineCallback callback = null) { }
 
         public virtual void ResetGraph()
         {

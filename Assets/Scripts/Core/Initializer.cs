@@ -14,6 +14,7 @@ namespace EchoOfTheTimes.Core
 
         private void Initialize()
         {
+            GameManager.Instance.VertexFollower.Initialize();
             GameManager.Instance.Player.Initialize();
             GameManager.Instance.UserInputHandler.Initialize();
             GameManager.Instance.UserInput.Initialize();

@@ -7,6 +7,8 @@ using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Movement;
 using EchoOfTheTimes.Persistence;
 using EchoOfTheTimes.Utils;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace EchoOfTheTimes.Units
@@ -32,21 +34,43 @@ namespace EchoOfTheTimes.Units
         private GraphVisibility _graph;
         private CheckpointManager _checkpointManager;
         private LevelStateMachine _levelStateMachine;
+        private VertexFollower _vertexFollower;
 
         private AnimationManager _animationManager;
+
+        private bool IsNeedLink = false;
+        private Sequence _sequence;
 
         public void Initialize()
         {
             _graph = GameManager.Instance.Graph;
             _checkpointManager = GameManager.Instance.CheckpointManager;
             _levelStateMachine = GameManager.Instance.StateMachine;
+            _vertexFollower = GameManager.Instance.VertexFollower;
         }
 
         public void TeleportTo(Vector3 position)
         {
             Debug.Log($"[TeleportTo] {position}");
 
-            this.transform.position = position;
+            transform.position = position;
+        }
+
+        public void MoveTo(List<Vector3> waypoints)
+        {
+            _sequence = DOTween.Sequence();
+
+            OnStartExecution();
+
+            foreach (var waypoint in waypoints)
+            {
+                var time = Vector3.Distance(transform.position, waypoint) / Speed;
+
+                _sequence.Append(
+                    transform.DOMove(waypoint, time)
+                        .OnComplete(OnCompleteExecution)
+                    );
+            }
         }
 
         public void MoveTo(Vector3 destination)
@@ -91,7 +115,33 @@ namespace EchoOfTheTimes.Units
             {
                 button.OnPress?.Invoke();
             }
+
+            if (IsNeedLink)
+            {
+                IsNeedLink = false;
+                Debug.Log("Accept link");
+
+                _vertexFollower.OnAcceptLink?.Invoke(true);
+                _callback?.Invoke();
+
+                _sequence.Kill();
+            }
         }
+
+        LevelStateMachine.StateMachineCallback _callback;
+        public void MarkAsNeedStop(LevelStateMachine.StateMachineCallback callback = null)
+        {
+            IsNeedLink = true;
+
+            _callback = callback;
+
+            if (!IsBusy)
+            {
+                _vertexFollower.OnAcceptLink?.Invoke(true);
+                _callback?.Invoke();
+            }
+        }
+
 
         public void Bind(PlayerData data)
         {

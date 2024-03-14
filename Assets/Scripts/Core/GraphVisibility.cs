@@ -1,3 +1,4 @@
+using EchoOfTheTimes.LevelStates;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ namespace EchoOfTheTimes.Core
             ResetAndLoad();
         }
 
-        public override void Load()
+        public override void Load(LevelStateMachine.StateMachineCallback callback = null)
         {
             Vertex[] verts = GetComponentsInChildren<Vertex>();
             vertices = new List<Vertex>(verts);
@@ -43,7 +44,7 @@ namespace EchoOfTheTimes.Core
             }
         }
 
-        public void ResetVertices()
+        public void ResetVertices(LevelStateMachine.StateMachineCallback callback = null)
         {
             Vertex[] verts = GetComponentsInChildren<Vertex>();
             vertices = new List<Vertex>(verts);

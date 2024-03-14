@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace EchoOfTheTimes.Core
 {
-    public class GameManager : PersistentSingleton<GameManager> //MonoBehaviour
+    public class GameManager : PersistentSingleton<GameManager>
     {
         [field: SerializeField]
         public float TimeToChangeState_sec { get; private set; }
@@ -35,8 +35,9 @@ namespace EchoOfTheTimes.Core
 
         private void SubscribeEvents()
         {
-            StateMachine.OnTransitionStart += CommandManager.ForceStop;
-            StateMachine.OnTransitionStart += VertexFollower.LinkDefault;
+            //StateMachine.OnTransitionStart += CommandManager.ForceStop;
+            StateMachine.OnTransitionStart += Player.MarkAsNeedStop;
+            //StateMachine.OnTransitionStart += VertexFollower.LinkPlayer;
             StateMachine.OnTransitionStart += Graph.ResetVertices;
 
             StateMachine.OnTransitionComplete += Graph.Load;
@@ -45,8 +46,9 @@ namespace EchoOfTheTimes.Core
 
         private void UnsubscribeEvents()
         {
-            StateMachine.OnTransitionStart -= CommandManager.ForceStop;
-            StateMachine.OnTransitionStart -= VertexFollower.LinkDefault;
+            //StateMachine.OnTransitionStart -= CommandManager.ForceStop;
+            StateMachine.OnTransitionStart += Player.MarkAsNeedStop;
+            //StateMachine.OnTransitionStart -= VertexFollower.LinkPlayer;
             StateMachine.OnTransitionStart -= Graph.ResetVertices;
 
             StateMachine.OnTransitionComplete -= Graph.Load;
