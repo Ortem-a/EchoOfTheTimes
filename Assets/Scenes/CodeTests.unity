@@ -1925,7 +1925,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -1950,13 +1950,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1622313105}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4683,7 +4683,7 @@ Transform:
   m_GameObject: {fileID: 737137536}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19.84, y: -15.19, z: 18.97}
+  m_LocalPosition: {x: -7, y: 0, z: 6.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9230,7 +9230,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1622313105}
-  - component: {fileID: 1622313107}
+  - component: {fileID: 1622313106}
   m_Layer: 0
   m_Name: CameraParent
   m_TagString: Untagged
@@ -9254,7 +9254,7 @@ Transform:
   - {fileID: 330585546}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -16.699, y: 0, z: 0}
---- !u!114 &1622313107
+--- !u!114 &1622313106
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9263,14 +9263,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1622313104}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba33d304cb8ca674aa85fccbdc22af7d, type: 3}
+  m_Script: {fileID: 11500000, guid: 5376889425999a247a466eb16cf82ab9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 330585545}
   centralAxis: {fileID: 737137537}
   player: {fileID: 23088197}
-  orbitDistance: 14
-  orbitHeight: 7
-  followSpeed: 5
+  minOrthographicSize: 4
+  maxOrthographicSize: 15
+  idealOrthographicSize: 10
+  zoomSpeed: 8
+  returnSpeed: 5
+  tiltAngle: 10
+  inactivityReturnDelay: 5
+  orbitHeight: 10
+  orbitDistance: 10
 --- !u!1 &1625058906
 GameObject:
   m_ObjectHideFlags: 0
