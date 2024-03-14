@@ -42,6 +42,8 @@ namespace EchoOfTheTimes.Units
         private bool IsNeedLink = false;
         private Sequence _sequence;
 
+        private Action _onPlayerStop;
+
         public void Initialize()
         {
             _graph = GameManager.Instance.Graph;
@@ -108,23 +110,22 @@ namespace EchoOfTheTimes.Units
                 IsNeedLink = false;
 
                 _vertexFollower.OnAcceptLink?.Invoke();
-                _callback?.Invoke();
+                _onPlayerStop?.Invoke();
 
                 _sequence.Kill();
             }
         }
 
-        Action _callback;
         public void Stop(Action onComplete)
         {
             IsNeedLink = true;
 
-            _callback = onComplete;
+            _onPlayerStop = onComplete;
 
             if (!IsBusy)
             {
                 _vertexFollower.OnAcceptLink?.Invoke();
-                _callback?.Invoke();
+                _onPlayerStop?.Invoke();
                 _sequence.Kill();
             }
         }
