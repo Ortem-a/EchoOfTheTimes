@@ -2,25 +2,119 @@ using UnityEngine;
 
 public class RefinedOrbitCamera : MonoBehaviour
 {
-    public Transform centralAxis; // Central axis to orbit around.
-    public Transform player; // The player, which the camera keeps in view when not manually rotating.
-    public float orbitDistance = 10f; // Distance of the camera from the central axis.
-    public float orbitHeight = 5f; // Height of the camera orbit relative to the central axis.
-    public float followSpeed = 5f; // Speed at which the camera adjusts its orbit.
+    public Camera cam; // Добавим ссылку на ортографическую камеру
+    public Transform centralAxis;
+    public Transform player;
+    public float minOrthographicSize = 4f; // Минимальный размер ортографической проекции
+    public float maxOrthographicSize = 15f; // Максимальный размер ортографической проекции
+    public float idealOrthographicSize = 10f; // Идеальный размер ортографической проекции
+    public float zoomSpeed = 8f;
+    public float returnSpeed = 5f;
+    public float tiltAngle = 10f;
+    public float inactivityReturnDelay = 5f;
+    public float orbitHeight = 10f;
+    public float orbitDistance = 10;
+    private float followSpeed = 500f;
+
+    private float timeSinceLastZoom = 0f;
+
+    private float timeSinceLastManualRotation = 0f; // Время с момента последней ручной смены поворота
+    private bool isFollowingPlayer = true; // Следует ли камера за игроком
+    private Vector3 lastPlayerPosition; // Последняя позиция игрока для отслеживания его движения
+
+    void Start()
+    {
+        // Пытаемся найти компонент Camera среди дочерних объектов, если он не был установлен вручную
+        if (cam == null)
+        {
+            cam = GetComponentInChildren<Camera>();
+        }
+
+        // Проверяем, удалось ли найти компонент Camera
+        if (cam == null)
+        {
+            Debug.LogError("Camera component not found on " + gameObject.name + " or its children.");
+        }
+        else
+        {
+            cam.orthographicSize = idealOrthographicSize;
+        }
+    }
+
+    void Update()
+    {
+        if (cam == null) return; // Выход, если компонент Camera отсутствует
+
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        if (scroll != 0f)
+        {
+            Debug.Log("Scroll Value: " + scroll); // Добавьте это для отладки
+            cam.orthographicSize -= scroll * zoomSpeed;
+            cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, minOrthographicSize, maxOrthographicSize);
+            timeSinceLastZoom = 0f;
+        }
+        else
+        {
+            timeSinceLastZoom += Time.deltaTime;
+            if (timeSinceLastZoom >= inactivityReturnDelay && cam.orthographicSize != idealOrthographicSize)
+            {
+                cam.orthographicSize = Mathf.MoveTowards(cam.orthographicSize, idealOrthographicSize, Time.deltaTime * returnSpeed);
+            }
+        }
+
+        // Обработка ввода для вращения камеры
+        if (Input.GetKey(KeyCode.Q))
+        {
+            RotateCamera(-1);
+        }
+        else if (Input.GetKey(KeyCode.E))
+        {
+            RotateCamera(1);
+        }
+        else
+        {
+            timeSinceLastManualRotation += Time.deltaTime;
+        }
+
+        // Проверка на движение игрока
+        if (player.position != lastPlayerPosition)
+        {
+            isFollowingPlayer = true;
+        }
+
+        // Автоматическое возвращение камеры к игроку
+        if (timeSinceLastManualRotation >= inactivityReturnDelay && !isFollowingPlayer)
+        {
+            isFollowingPlayer = true;
+        }
+
+        lastPlayerPosition = player.position; // Обновляем последнюю позицию игрока
+    }
 
     void LateUpdate()
     {
-        // Calculate direction from the axis to the player
-        Vector3 axisToPlayerDirection = (player.position - centralAxis.position).normalized;
+        if (isFollowingPlayer)
+        {
+            Vector3 axisToPlayerDirection = (player.position - centralAxis.position).normalized;
+            axisToPlayerDirection.y = 0; // Игнорируем вертикальную компоненту для сохранения горизонтального направления
 
-        // Position the camera behind the player, maintaining the specified orbit distance and height
-        Vector3 cameraPositionBehindPlayer = player.position + axisToPlayerDirection * orbitDistance;
-        cameraPositionBehindPlayer.y += orbitHeight; // Adjust height
+            Vector3 cameraPosition = centralAxis.position + axisToPlayerDirection * orbitDistance;
+            cameraPosition.y = centralAxis.position.y + orbitHeight;
 
-        // Smoothly move the camera to the new position
-        transform.position = Vector3.Lerp(transform.position, cameraPositionBehindPlayer, Time.deltaTime * followSpeed);
+            transform.position = Vector3.Lerp(transform.position, cameraPosition, Time.deltaTime * followSpeed);
 
-        // Look at the axis through the player
-        transform.LookAt(centralAxis.position);
+            // Устанавливаем угол наклона камеры
+            Vector3 relativePosition = centralAxis.position - transform.position;
+            Quaternion rotation = Quaternion.LookRotation(relativePosition);
+            Quaternion tilt = Quaternion.Euler(tiltAngle, rotation.eulerAngles.y, 0);
+            transform.rotation = Quaternion.Lerp(transform.rotation, tilt, Time.deltaTime * followSpeed);
+        }
+    }
+
+    void RotateCamera(float direction)
+    {
+        transform.RotateAround(centralAxis.position, Vector3.up, direction * 20 * Time.deltaTime); // Вращение вокруг оси Y
+        timeSinceLastManualRotation = 0f;
+        isFollowingPlayer = false;
     }
 }
