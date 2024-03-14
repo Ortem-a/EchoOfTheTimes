@@ -36,23 +36,27 @@ namespace EchoOfTheTimes.Core
         private void SubscribeEvents()
         {
             //StateMachine.OnTransitionStart += CommandManager.ForceStop;
-            StateMachine.OnTransitionStart += Player.MarkAsNeedStop;
+            //StateMachine.OnTransitionStart += Player.MarkAsNeedStop;
             //StateMachine.OnTransitionStart += VertexFollower.LinkPlayer;
             StateMachine.OnTransitionStart += Graph.ResetVertices;
+            StateMachine.OnTransitionStart += StateMachine.StartTransition;
 
             StateMachine.OnTransitionComplete += Graph.Load;
             StateMachine.OnTransitionComplete += VertexFollower.Unlink;
+            StateMachine.OnTransitionComplete += StateMachine.CompleteTransition;
         }
 
         private void UnsubscribeEvents()
         {
             //StateMachine.OnTransitionStart -= CommandManager.ForceStop;
-            StateMachine.OnTransitionStart += Player.MarkAsNeedStop;
+            //StateMachine.OnTransitionStart += Player.MarkAsNeedStop;
             //StateMachine.OnTransitionStart -= VertexFollower.LinkPlayer;
             StateMachine.OnTransitionStart -= Graph.ResetVertices;
+            StateMachine.OnTransitionStart -= StateMachine.StartTransition;
 
             StateMachine.OnTransitionComplete -= Graph.Load;
             StateMachine.OnTransitionComplete -= VertexFollower.Unlink;
+            StateMachine.OnTransitionComplete -= StateMachine.CompleteTransition;
         }
     }
 }

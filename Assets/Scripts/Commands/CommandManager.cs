@@ -13,7 +13,7 @@ namespace EchoOfTheTimes.Commands
 
         private List<Vector3> _execCommadns;
 
-        private bool _isRunning = false;
+        //private bool _isRunning = false;
 
         private void Awake()
         {
@@ -30,27 +30,27 @@ namespace EchoOfTheTimes.Commands
             //_isRunning = true;
         }
 
-        public void ForceStop(LevelStateMachine.StateMachineCallback callback = null)
-        {
-            _isRunning = false;
-        }
+        //public void ForceStop(LevelStateMachine.StateMachineCallback callback = null)
+        //{
+        //    _isRunning = false;
+        //}
 
-        private void Update()
-        {
-            if (_isRunning)
-            {
-                if (!_target.IsBusy)
-                {
-                    _target.MoveTo(_execCommadns[0]);
+        //private void Update()
+        //{
+        //    if (_isRunning)
+        //    {
+        //        if (!_target.IsBusy)
+        //        {
+        //            _target.MoveTo(_execCommadns[0]);
 
-                    _execCommadns.RemoveAt(0);
+        //            _execCommadns.RemoveAt(0);
 
-                    if (_execCommadns.Count == 0)
-                    {
-                        _isRunning = false;
-                    }
-                }
-            }
-        }
+        //            if (_execCommadns.Count == 0)
+        //            {
+        //                _isRunning = false;
+        //            }
+        //        }
+        //    }
+        //}
     }
 }

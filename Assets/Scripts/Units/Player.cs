@@ -27,6 +27,8 @@ namespace EchoOfTheTimes.Units
         [field: SerializeField]
         public float Speed { get; set; } = 5f;
 
+        public float Duration;
+
         public bool IsBusy { get; set; } = false;
 
         public Vertex Position => _graph.GetNearestVertex(transform.position);
@@ -64,28 +66,28 @@ namespace EchoOfTheTimes.Units
 
             foreach (var waypoint in waypoints)
             {
-                var time = Vector3.Distance(transform.position, waypoint) / Speed;
+                //var time = Vector3.Distance(transform.position, waypoint) / Speed;
 
                 _sequence.Append(
-                    transform.DOMove(waypoint, time)
+                    transform.DOMove(waypoint, Duration)
                         .OnComplete(OnCompleteExecution)
                     );
             }
         }
 
-        public void MoveTo(Vector3 destination)
-        {
-            OnStartExecution();
+        //public void MoveTo(Vector3 destination)
+        //{
+        //    OnStartExecution();
 
-            //transform.DOLookAt(destination, 0.2f);
+        //    //transform.DOLookAt(destination, 0.2f);
 
-            var time = Vector3.Distance(transform.position, destination) / Speed;
+        //    var time = Vector3.Distance(transform.position, destination) / Speed;
 
-            Debug.Log($"[MoveTo] to {destination} | duration {time}");
+        //    Debug.Log($"[MoveTo] to {destination} | duration {time}");
 
-            var options = transform.DOMove(destination, time)
-                .OnComplete(OnCompleteExecution);
-        }
+        //    var options = transform.DOMove(destination, time)
+        //        .OnComplete(OnCompleteExecution);
+        //}
 
         private void OnStartExecution()
         {
@@ -119,33 +121,31 @@ namespace EchoOfTheTimes.Units
             if (IsNeedLink)
             {
                 IsNeedLink = false;
-                Debug.Log("Accept link");
 
-                _vertexFollower.OnAcceptLink?.Invoke(true);
+                _vertexFollower.OnAcceptLink?.Invoke();
                 _callback?.Invoke();
 
                 _sequence.Kill();
             }
         }
 
-        LevelStateMachine.StateMachineCallback _callback;
-        public void MarkAsNeedStop(LevelStateMachine.StateMachineCallback callback = null)
+        Action _callback;
+        public void Stop(Action onComplete)
         {
             IsNeedLink = true;
 
-            _callback = callback;
+            _callback = onComplete;
 
             if (!IsBusy)
             {
-                _vertexFollower.OnAcceptLink?.Invoke(true);
+                _vertexFollower.OnAcceptLink?.Invoke();
                 _callback?.Invoke();
+                _sequence.Kill();
             }
         }
 
-
         public void Bind(PlayerData data)
         {
-#warning выключил нахуй
             _data = data;
             _data.Id = Id;
 

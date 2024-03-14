@@ -11,7 +11,7 @@ namespace EchoOfTheTimes.Core
             ResetAndLoad();
         }
 
-        public override void Load(LevelStateMachine.StateMachineCallback callback = null)
+        public override void Load()
         {
             Vertex[] verts = GetComponentsInChildren<Vertex>();
             vertices = new List<Vertex>(verts);
@@ -44,7 +44,7 @@ namespace EchoOfTheTimes.Core
             }
         }
 
-        public void ResetVertices(LevelStateMachine.StateMachineCallback callback = null)
+        public void ResetVertices()
         {
             Vertex[] verts = GetComponentsInChildren<Vertex>();
             vertices = new List<Vertex>(verts);

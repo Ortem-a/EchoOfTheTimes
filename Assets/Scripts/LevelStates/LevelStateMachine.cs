@@ -27,7 +27,7 @@ namespace EchoOfTheTimes.LevelStates
         public bool _isAddTransitionsEveryoneWithEvery;
         [Space]
 
-        private Sequence _sequence;
+        //private Sequence _sequence;
 
         public List<LevelState> States;
         public List<Transition> Transitions;
@@ -35,23 +35,35 @@ namespace EchoOfTheTimes.LevelStates
         private LevelState _current;
         public Transition LastTransition { get; private set; } = null;
 
-        public delegate void StateMachineCallback();
-        public delegate void TransitionHandler(StateMachineCallback onCompletePrepare = null);
+        public delegate void TransitionHandler();
         public TransitionHandler OnTransitionStart;
         public TransitionHandler OnTransitionComplete;
+
+        public bool IsChanging { get; private set; }
 
         //private void Start()
         //{
         //    LoadDefaultState();
         //}
 
-        private void LoadDefaultState()
-        {
-            OnTransitionStart?.Invoke();
+        //private void LoadDefaultState()
+        //{
+        //    OnTransitionStart?.Invoke();
 
-            _current = States[0];
-            _current.Accept(null, onComplete: () => OnTransitionComplete?.Invoke());
+        //    _current = States[0];
+        //    _current.Accept(null, onComplete: () => OnTransitionComplete?.Invoke());
+        //}
+
+        public void StartTransition()
+        {
+            IsChanging = true;
         }
+
+        public void CompleteTransition()
+        {
+            IsChanging = false;
+        }
+
 
         public void LoadState(int id)
         {
@@ -61,10 +73,9 @@ namespace EchoOfTheTimes.LevelStates
             {
                 Debug.Log($"[LevelStateMachine] LoadState: {(_current != null ? _current.Id : "<null>")} -> {id}");
 
-                OnTransitionStart?.Invoke(() => ChangeState(state, null));
+                OnTransitionStart?.Invoke();
 
-                //_current = state;
-                //_current.Accept(null, onComplete: () => OnTransitionComplete?.Invoke());
+                ChangeState(state);
             }
             else
             {
@@ -87,11 +98,6 @@ namespace EchoOfTheTimes.LevelStates
             }
         }
 
-        public void ChangeState(LevelState newState)
-        {
-            ChangeState(newState.Id);
-        }
-
         public void ChangeState(int newStateId)
         {
             Debug.Log($"[LevelStateMachine] ChangeState: {(_current != null ? _current.Id : "<null>")} -> {newStateId}");
@@ -108,12 +114,10 @@ namespace EchoOfTheTimes.LevelStates
 
             if (transition != null)
             {
-                OnTransitionStart?.Invoke(() => ChangeState(States.Find((x) => x.Id == newStateId), transition));
+                OnTransitionStart?.Invoke();
 
-                //_current = States.Find((x) => x.Id == newStateId);
-                //_current.Accept(transicion.Parameters, onComplete: () => OnTransitionComplete?.Invoke());
-
-                //LastTransition = transicion;
+                var state = States.Find((x) => x.Id == newStateId);
+                ChangeState(state, transition);
             }
         }
 

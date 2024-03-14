@@ -13,7 +13,7 @@ namespace EchoOfTheTimes.Movement
 
         private bool _isLinked = false;
 
-        public Action<bool> OnAcceptLink;
+        public Action OnAcceptLink;
 
         private void Awake()
         {
@@ -46,25 +46,27 @@ namespace EchoOfTheTimes.Movement
             }
         }
 
-        private void LinkPlayer(LevelStateMachine.StateMachineCallback callback = null) 
+        private void LinkPlayer() 
         {
             _vertex = _target.Position;
 
             _isLinked = true;
+
+            Debug.Log($"[VertexFollower] Link Player with {_vertex}");
         }
 
-        public void Unlink(LevelStateMachine.StateMachineCallback callback = null)
+        public void Unlink()
         {
             _vertex = null;
 
             _isLinked = false;
+
+            Debug.Log($"[VertexFollower] Unlink Player");
         }
 
-        private void AcceptLink(bool accept = true)
+        private void AcceptLink()
         {
             LinkPlayer();
-
-            //_isLinked = accept;
         }
     }
 }

@@ -1,7 +1,7 @@
 using EchoOfTheTimes.Commands;
-using EchoOfTheTimes.Interfaces;
+using EchoOfTheTimes.LevelStates;
+using EchoOfTheTimes.Units;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,10 +11,11 @@ namespace EchoOfTheTimes.Core
     {
         public Action<Vector3> OnMousePressed;
 
-        private IUnit _target;
+        private Player _player;
         private CommandManager _commandManager;
         private GraphVisibility _graph;
         private CheckpointManager _checkpointManager;
+        private LevelStateMachine _levelStateMachine;
 
         private void Awake()
         {
@@ -30,15 +31,16 @@ namespace EchoOfTheTimes.Core
         {
             _graph = GameManager.Instance.Graph;
             _commandManager = GameManager.Instance.CommandManager;
-            _target = GameManager.Instance.Player;
+            _player = GameManager.Instance.Player;
             _checkpointManager = GameManager.Instance.CheckpointManager;
+            _levelStateMachine = GameManager.Instance.StateMachine;
         }
 
         private void HandleMousePressed(Vector3 clickPosition)
         {
             if (TryGetNearestVertex(clickPosition, out Vertex destination))
             {
-                List<Vertex> path = _graph.GetPathBFS(_target.Position, destination);
+                List<Vertex> path = _graph.GetPathBFS(_player.Position, destination);
 
                 if (path.Count != 0)
                 {
@@ -69,6 +71,17 @@ namespace EchoOfTheTimes.Core
             Debug.Log("[UserInputHandler] Go To Checkpoint");
 
             _checkpointManager.AcceptActiveCheckpointToScene();
+        }
+
+        public void ChangeLevelState(int levelStateId)
+        {
+            if (_levelStateMachine.IsChanging || levelStateId == _levelStateMachine.GetCurrentStateId()) 
+                return;
+
+            _player.Stop(onComplete: () =>
+            {
+                _levelStateMachine.ChangeState(levelStateId);
+            });
         }
     }
 }

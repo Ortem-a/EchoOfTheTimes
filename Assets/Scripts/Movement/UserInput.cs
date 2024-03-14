@@ -10,17 +10,11 @@ namespace EchoOfTheTimes.Movement
         private Camera _camera;
 
         private UserInputHandler _userInputHandler;
-        private LevelStateMachine _levelStateMachine;
         private int _input = -1;
-
-        [SerializeField]
-        private LevelStateButton _stateButton;
-        private bool _isPressed = false; // йняршкей
 
         public void Initialize()
         {
             _userInputHandler = GameManager.Instance.UserInputHandler;
-            _levelStateMachine = GameManager.Instance.StateMachine;
         }
 
         private void Update()
@@ -45,23 +39,9 @@ namespace EchoOfTheTimes.Movement
 
             if (_input != -1)
             {
-                _levelStateMachine.ChangeState(_input);
+                _userInputHandler.ChangeLevelState(_input);
 
                 _input = -1;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                if (!_isPressed)
-                {
-                    _stateButton.OnPress?.Invoke();
-                }
-                else
-                {
-                    _stateButton.OnRelease?.Invoke();
-                }
-
-                _isPressed = !_isPressed;
             }
 
             if (Input.GetKeyDown(KeyCode.R))

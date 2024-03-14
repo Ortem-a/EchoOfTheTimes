@@ -17,7 +17,7 @@ namespace EchoOfTheTimes.Core
             Load();
         }
 
-        public virtual void Load(LevelStateMachine.StateMachineCallback callback = null) { }
+        public virtual void Load() { }
 
         public virtual void ResetGraph()
         {
