@@ -1,4 +1,3 @@
-using EchoOfTheTimes.Commands;
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Movement;
 using EchoOfTheTimes.Units;
@@ -17,7 +16,6 @@ namespace EchoOfTheTimes.Core
         public VertexFollower VertexFollower;
         public UserInputHandler UserInputHandler;
         public Player Player;
-        public CommandManager CommandManager;
         public UserInput UserInput;
         public CheckpointManager CheckpointManager;
 

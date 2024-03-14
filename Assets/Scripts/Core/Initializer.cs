@@ -1,6 +1,4 @@
 using EchoOfTheTimes.LevelStates;
-using EchoOfTheTimes.Movement;
-using EchoOfTheTimes.Persistence;
 using UnityEngine;
 
 namespace EchoOfTheTimes.Core

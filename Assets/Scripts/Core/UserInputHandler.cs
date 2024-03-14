@@ -1,4 +1,3 @@
-using EchoOfTheTimes.Commands;
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Units;
 using System;
@@ -12,7 +11,6 @@ namespace EchoOfTheTimes.Core
         public Action<Vector3> OnMousePressed;
 
         private Player _player;
-        private CommandManager _commandManager;
         private GraphVisibility _graph;
         private CheckpointManager _checkpointManager;
         private LevelStateMachine _levelStateMachine;
@@ -30,7 +28,6 @@ namespace EchoOfTheTimes.Core
         public void Initialize()
         {
             _graph = GameManager.Instance.Graph;
-            _commandManager = GameManager.Instance.CommandManager;
             _player = GameManager.Instance.Player;
             _checkpointManager = GameManager.Instance.CheckpointManager;
             _levelStateMachine = GameManager.Instance.StateMachine;
@@ -46,12 +43,13 @@ namespace EchoOfTheTimes.Core
                 {
                     path.Reverse();
 
-                    var commands = new List<Vector3>();
-                    foreach (var v in path)
+                    var waypoints = new List<Vector3>();
+                    foreach (var vertex in path)
                     {
-                        commands.Add(v.transform.position);
+                        waypoints.Add(vertex.transform.position);
                     }
-                    _commandManager.UpdateCommands(commands);
+
+                    _player.MoveTo(waypoints);
                 }
             }
         }
@@ -75,7 +73,7 @@ namespace EchoOfTheTimes.Core
 
         public void ChangeLevelState(int levelStateId)
         {
-            if (_levelStateMachine.IsChanging || levelStateId == _levelStateMachine.GetCurrentStateId()) 
+            if (_levelStateMachine.IsChanging || levelStateId == _levelStateMachine.GetCurrentStateId())
                 return;
 
             _player.Stop(onComplete: () =>

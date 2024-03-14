@@ -1,6 +1,5 @@
 using DG.Tweening;
 using EchoOfTheTimes.Animations;
-using EchoOfTheTimes.Commands;
 using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Interfaces;
 using EchoOfTheTimes.LevelStates;
@@ -13,7 +12,7 @@ using UnityEngine;
 
 namespace EchoOfTheTimes.Units
 {
-    [RequireComponent(typeof(AnimationManager), typeof(CommandManager))]
+    [RequireComponent(typeof(AnimationManager))]
     public class Player : MonoBehaviour, IUnit, IBind<PlayerData>
     {
         [field: SerializeField]
@@ -24,7 +23,7 @@ namespace EchoOfTheTimes.Units
         public AnimationManager Animations =>
             _animationManager = _animationManager != null ? _animationManager : GetComponent<AnimationManager>();
 
-        [field: SerializeField]
+        [Obsolete("NOT USE NOW")]
         public float Speed { get; set; } = 5f;
 
         public float Duration;
@@ -74,20 +73,6 @@ namespace EchoOfTheTimes.Units
                     );
             }
         }
-
-        //public void MoveTo(Vector3 destination)
-        //{
-        //    OnStartExecution();
-
-        //    //transform.DOLookAt(destination, 0.2f);
-
-        //    var time = Vector3.Distance(transform.position, destination) / Speed;
-
-        //    Debug.Log($"[MoveTo] to {destination} | duration {time}");
-
-        //    var options = transform.DOMove(destination, time)
-        //        .OnComplete(OnCompleteExecution);
-        //}
 
         private void OnStartExecution()
         {
