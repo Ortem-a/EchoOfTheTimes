@@ -1,3 +1,4 @@
+using EchoOfTheTimes.LevelStates;
 using UnityEngine;
 
 namespace EchoOfTheTimes.Core
@@ -11,21 +12,20 @@ namespace EchoOfTheTimes.Core
 
         private void Initialize()
         {
-            LinksContainer.Instance.StateMachine.OnTransitionStart += LinksContainer.Instance.VertexFollower.LinkDefault;
-            LinksContainer.Instance.StateMachine.OnTransitionStart += LinksContainer.Instance.Graph.ResetVertices;
-            LinksContainer.Instance.StateMachine.OnTransitionComplete += LinksContainer.Instance.Graph.Load;
-            LinksContainer.Instance.StateMachine.OnTransitionComplete += LinksContainer.Instance.VertexFollower.Unlink;
+            GameManager.Instance.VertexFollower.Initialize();
+            GameManager.Instance.Player.Initialize();
+            GameManager.Instance.UserInputHandler.Initialize();
+            GameManager.Instance.UserInput.Initialize();
+            GameManager.Instance.CheckpointManager.Initialize();
 
-            LinksContainer.Instance.Player.Initialize();
-            LinksContainer.Instance.UserInputHandler.Initialize();
-        }
+#warning результаты сраной реализации кнопок
+            var buttons = FindObjectsOfType<LevelStateButton>();
+            for (int i = 0; i < buttons.Length; i++)
+            {
+                buttons[i].Initialize();
+            }
 
-        private void OnDestroy()
-        {
-            LinksContainer.Instance.StateMachine.OnTransitionStart -= LinksContainer.Instance.Graph.ResetVertices;
-            LinksContainer.Instance.StateMachine.OnTransitionComplete -= LinksContainer.Instance.Graph.Load;
-            LinksContainer.Instance.StateMachine.OnTransitionStart -= LinksContainer.Instance.VertexFollower.LinkDefault;
-            LinksContainer.Instance.StateMachine.OnTransitionComplete -= LinksContainer.Instance.VertexFollower.Unlink;
+            //SaveLoadSystem.Instance.BindPlayer();
         }
     }
 }

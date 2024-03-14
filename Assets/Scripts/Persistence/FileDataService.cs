@@ -29,7 +29,7 @@ namespace EchoOfTheTimes.Persistence
         {
             string fileLocation = GetPathToFile(data.Name);
 
-            if (!overwrite && File.Exists(fileLocation)) 
+            if (!overwrite && File.Exists(fileLocation))
             {
                 throw new IOException($"The file {data.Name}.{_fileExtension} already exist and cannot be overwritten.");
             }

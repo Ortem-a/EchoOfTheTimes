@@ -6,6 +6,8 @@ namespace EchoOfTheTimes.SceneManagement
 {
     public class SceneLoader : MonoBehaviour
     {
+        public int GroupToLoad;
+
         [SerializeField]
         private Image _loadingBar;
         [SerializeField]
@@ -32,7 +34,13 @@ namespace EchoOfTheTimes.SceneManagement
 
         private async void Start()
         {
-            await LoadSceneGroupAsync(0);
+            if (GroupToLoad < 0 || GroupToLoad >= _sceneGroups.Length)
+            {
+                Debug.LogError($"Incorrect group to load '{GroupToLoad}'! You have only 0...{_sceneGroups.Length-1}");
+                return;
+            }
+
+            await LoadSceneGroupAsync(GroupToLoad);
         }
 
         private void Update()

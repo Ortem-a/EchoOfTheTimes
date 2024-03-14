@@ -1,7 +1,6 @@
-using EchoOfTheTimes.Commands;
-using EchoOfTheTimes.Interfaces;
+using EchoOfTheTimes.LevelStates;
+using EchoOfTheTimes.Units;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,21 +10,14 @@ namespace EchoOfTheTimes.Core
     {
         public Action<Vector3> OnMousePressed;
 
-        private IUnit _target;
-
-        private CommandManager _commandManager;
-
-        [SerializeField]
-        private List<Vertex> _path;
-
+        private Player _player;
         private GraphVisibility _graph;
+        private CheckpointManager _checkpointManager;
+        private LevelStateMachine _levelStateMachine;
 
         private void Awake()
         {
             OnMousePressed += HandleMousePressed;
-
-            _target = GetComponent<IUnit>();
-            _commandManager = GetComponent<CommandManager>();
         }
 
         private void OnDestroy()
@@ -35,22 +27,30 @@ namespace EchoOfTheTimes.Core
 
         public void Initialize()
         {
-            _graph = LinksContainer.Instance.Graph;
+            _graph = GameManager.Instance.Graph;
+            _player = GameManager.Instance.Player;
+            _checkpointManager = GameManager.Instance.CheckpointManager;
+            _levelStateMachine = GameManager.Instance.StateMachine;
         }
 
         private void HandleMousePressed(Vector3 clickPosition)
         {
             if (TryGetNearestVertex(clickPosition, out Vertex destination))
             {
-                _path = _graph.GetPathBFS(_target.Position, destination);
-                _path.Reverse();
+                List<Vertex> path = _graph.GetPathBFS(_player.Position, destination);
 
-                var commands = new List<Vector3>();
-                foreach (var v in _path)
+                if (path.Count != 0)
                 {
-                    commands.Add(v.transform.position);
+                    path.Reverse();
+
+                    var waypoints = new List<Vector3>();
+                    foreach (var vertex in path)
+                    {
+                        waypoints.Add(vertex.transform.position);
+                    }
+
+                    _player.MoveTo(waypoints);
                 }
-                _commandManager.UpdateCommands(commands);
             }
         }
 
@@ -64,19 +64,22 @@ namespace EchoOfTheTimes.Core
             return false;
         }
 
-        private IEnumerator MoveByPath(List<Vertex> path)
+        public void GoToCheckpoint()
         {
-            for (int i = 0; i < path.Count; i++)
+            Debug.Log("[UserInputHandler] Go To Checkpoint");
+
+            _checkpointManager.AcceptActiveCheckpointToScene();
+        }
+
+        public void ChangeLevelState(int levelStateId)
+        {
+            if (_levelStateMachine.IsChanging || levelStateId == _levelStateMachine.GetCurrentStateId())
+                return;
+
+            _player.Stop(onComplete: () =>
             {
-                yield return new WaitForSeconds(0.5f);
-
-                _target.TeleportTo(path[i].transform.position);
-
-                if (i + 1 < path.Count)
-                {
-                    transform.LookAt(path[i + 1].transform.position);
-                }
-            }
+                _levelStateMachine.ChangeState(levelStateId);
+            });
         }
     }
 }

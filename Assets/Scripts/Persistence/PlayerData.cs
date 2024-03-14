@@ -10,8 +10,12 @@ namespace EchoOfTheTimes.Persistence
         [field: SerializeField]
         public SerializableGuid Id { get; set; }
 
-        public Vector3 Position;
-        public Quaternion Rotation;
-        public Vector3 LocalScale;
+        public Vector3 Checkpoint;
+        public int StateId;
+
+        public override string ToString()
+        {
+            return $"Id: {Id} | StateId {StateId} | Checkpoint {Checkpoint}";
+        }
     }
 }

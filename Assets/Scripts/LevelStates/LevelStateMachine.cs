@@ -1,5 +1,7 @@
 using DG.Tweening;
 using EchoOfTheTimes.Editor;
+using PlasticPipe.PlasticProtocol.Messages;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,7 +27,7 @@ namespace EchoOfTheTimes.LevelStates
         public bool _isAddTransitionsEveryoneWithEvery;
         [Space]
 
-        private Sequence _sequence;
+        //private Sequence _sequence;
 
         public List<LevelState> States;
         public List<Transition> Transitions;
@@ -37,17 +39,48 @@ namespace EchoOfTheTimes.LevelStates
         public TransitionHandler OnTransitionStart;
         public TransitionHandler OnTransitionComplete;
 
-        private void Start()
+        public bool IsChanging { get; private set; }
+
+        //private void Start()
+        //{
+        //    LoadDefaultState();
+        //}
+
+        //private void LoadDefaultState()
+        //{
+        //    OnTransitionStart?.Invoke();
+
+        //    _current = States[0];
+        //    _current.Accept(null, onComplete: () => OnTransitionComplete?.Invoke());
+        //}
+
+        public void StartTransition()
         {
-            LoadDefaultState();
+            IsChanging = true;
         }
 
-        private void LoadDefaultState()
+        public void CompleteTransition()
         {
-            OnTransitionStart?.Invoke();
+            IsChanging = false;
+        }
 
-            _current = States[0];
-            _current.Accept(null, onComplete: () => OnTransitionComplete?.Invoke());
+
+        public void LoadState(int id)
+        {
+            var state = States.Find((x) => x.Id == id);
+
+            if (state != null)
+            {
+                Debug.Log($"[LevelStateMachine] LoadState: {(_current != null ? _current.Id : "<null>")} -> {id}");
+
+                OnTransitionStart?.Invoke();
+
+                ChangeState(state);
+            }
+            else
+            {
+                Debug.LogWarning($"There is no state with id: {id}");
+            }
         }
 
         private void LoadStateDebug(int id)
@@ -65,11 +98,6 @@ namespace EchoOfTheTimes.LevelStates
             }
         }
 
-        public void ChangeState(LevelState newState)
-        {
-            ChangeState(newState.Id);
-        }
-
         public void ChangeState(int newStateId)
         {
             Debug.Log($"[LevelStateMachine] ChangeState: {(_current != null ? _current.Id : "<null>")} -> {newStateId}");
@@ -82,16 +110,30 @@ namespace EchoOfTheTimes.LevelStates
                 }
             }
 
-            OnTransitionStart?.Invoke();
+            var transition = Transitions.Find((x) => x.StateFromId == _current.Id && x.StateToId == newStateId);
 
-            var transicion = Transitions.Find((x) => x.StateFromId == _current.Id && x.StateToId == newStateId);
-
-            if (transicion != null)
+            if (transition != null)
             {
-                _current = States.Find((x) => x.Id == newStateId);
-                _current.Accept(transicion.Parameters, onComplete: () => OnTransitionComplete?.Invoke());
+                OnTransitionStart?.Invoke();
 
-                LastTransition = transicion;
+                var state = States.Find((x) => x.Id == newStateId);
+                ChangeState(state, transition);
+            }
+        }
+
+        private void ChangeState(LevelState state, Transition transition = null)
+        {
+            _current = state;
+
+            if (transition == null)
+            {
+                _current.Accept(null, onComplete: () => OnTransitionComplete?.Invoke());
+            }
+            else
+            {
+                _current.Accept(transition.Parameters, onComplete: () => OnTransitionComplete?.Invoke());
+
+                LastTransition = transition;
             }
         }
 
@@ -278,6 +320,11 @@ namespace EchoOfTheTimes.LevelStates
         public void SetInStateDebug()
         {
             LoadStateDebug(StateId);
+        }
+
+        public int GetCurrentStateId()
+        {
+            return _current.Id;
         }
     }
 }
