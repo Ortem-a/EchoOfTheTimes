@@ -124,6 +124,8 @@ namespace EchoOfTheTimes.Units
 
             if (!IsBusy)
             {
+                IsNeedLink = false;
+
                 _vertexFollower.OnAcceptLink?.Invoke();
                 _onPlayerStop?.Invoke();
                 _sequence.Kill();
@@ -135,10 +137,10 @@ namespace EchoOfTheTimes.Units
             _data = data;
             _data.Id = Id;
 
-            var vertex = _graph.GetNearestVertex(data.Checkpoint);
+            //var vertex = _graph.GetNearestVertex(data.Checkpoint);
 
-            _levelStateMachine.LoadState(data.StateId);
-            _checkpointManager.OnCheckpointChanged?.Invoke(vertex.gameObject.GetComponent<Checkpoint>());
+            //_levelStateMachine.LoadState(data.StateId);
+            //_checkpointManager.OnCheckpointChanged?.Invoke(vertex.gameObject.GetComponent<Checkpoint>());
         }
     }
 }

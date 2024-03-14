@@ -52,7 +52,7 @@ namespace EchoOfTheTimes.Movement
 
             _isLinked = true;
 
-            Debug.Log($"[VertexFollower] Link Player with {_vertex}");
+            Debug.Log($"[VertexFollower] Link Player with {_vertex.Id}");
         }
 
         public void Unlink()

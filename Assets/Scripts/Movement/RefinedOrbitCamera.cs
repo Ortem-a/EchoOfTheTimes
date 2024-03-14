@@ -49,12 +49,9 @@ public class RefinedOrbitCamera : MonoBehaviour
 
     void Update()
     {
-        if (cam == null) return; // Выход, если компонент Camera отсутствует
-
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0f)
         {
-            Debug.Log("Scroll Value: " + scroll); // Добавьте это для отладки
             cam.orthographicSize -= scroll * zoomSpeed;
             cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, minOrthographicSize, maxOrthographicSize);
             timeSinceLastZoom = 0f;
