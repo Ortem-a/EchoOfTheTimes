@@ -15,7 +15,7 @@ namespace EchoOfTheTimes.CustomSnapping
         public Vector3 Rotation => transform.rotation.eulerAngles;
         public Vector3 LocalRotation => transform.localRotation.eulerAngles;
 
-        private void OnDrawGizmos()
+        private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.blue;
 

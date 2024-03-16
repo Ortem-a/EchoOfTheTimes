@@ -12,7 +12,7 @@ namespace EchoOfTheTimes.CustomSnapping
         public Vector3 Position => transform.position;
         public Vector3 LocalPosition => transform.localPosition;
 
-        private void OnDrawGizmos()
+        private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.green;
             Gizmos.DrawSphere(transform.position, Radius);
