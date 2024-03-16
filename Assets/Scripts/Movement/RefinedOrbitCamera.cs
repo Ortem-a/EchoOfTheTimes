@@ -19,7 +19,8 @@ public class RefinedOrbitCamera : MonoBehaviour
     public float tiltAngle = 10f;
     public float inactivityReturnDelay = 5f;
     public float orbitHeight = 10f;
-    public float orbitDistance = 10;
+    public float orbitDistance = 10f;
+    public float speedHandleRotation = 50f;
     private float followSpeed = 500f;
 
     private float timeSinceLastZoom = 0f;
@@ -116,7 +117,7 @@ public class RefinedOrbitCamera : MonoBehaviour
 
     void RotateCamera(float direction)
     {
-        transform.RotateAround(centralAxis.position, Vector3.up, direction * 20 * Time.deltaTime); // Вращение вокруг оси Y
+        transform.RotateAround(centralAxis.position, Vector3.up, direction * speedHandleRotation * Time.deltaTime); // Вращение вокруг оси Y
         timeSinceLastManualRotation = 0f;
         isFollowingPlayer = false;
     }
