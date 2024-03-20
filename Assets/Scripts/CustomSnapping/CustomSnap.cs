@@ -1,4 +1,4 @@
-using EchoOfTheTimes.EditorTools;
+using EchoOfTheTimes.Editor;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -9,8 +9,19 @@ namespace EchoOfTheTimes.CustomSnapping
 {
     public class CustomSnap : MonoBehaviour
     {
+        public float RotationAngle = 90f;
+        [Space]
+        [InspectorButton(nameof(Rotate))]
+        public bool IsRotate;
+        [Space]
+        [Space]
+
         public GameObject SnapPointPrefab;
         public GameObject EdgePrefab;
+
+        [Space]
+        [InspectorButton(nameof(Accept))]
+        public bool IsAccept;
 
         [Space]
         [InspectorButton(nameof(ResetPoints))]
@@ -56,6 +67,7 @@ namespace EchoOfTheTimes.CustomSnapping
                 Vector3 middle;
                 List<Vector3> middles = new List<Vector3>();
 
+                int count = 0;
                 for (int i = 0; i < _spawnedSnapPoints.Length; i++)
                 {
                     for (int j = 0; j < _spawnedSnapPoints.Length; j++)
@@ -68,37 +80,58 @@ namespace EchoOfTheTimes.CustomSnapping
                         {
                             middles.Add(middle);
 
+                            count++;
                             var obj = Instantiate(EdgePrefab, transform);
                             var edge = obj.GetComponent<CustomSnapEdge>();
-                            edge.Head = _spawnedSnapPoints[i].transform.localPosition;
-                            edge.Tail = _spawnedSnapPoints[j].transform.localPosition;
-                            obj.name = $"Edge_{i}_{j}";
+                            edge.Head = _spawnedSnapPoints[i].GetComponent<CustomSnapPoint>();
+                            edge.Tail = _spawnedSnapPoints[j].GetComponent<CustomSnapPoint>();
+                            edge.Head.Edge = edge;
+                            edge.Tail.Edge = edge;
+                            obj.name = $"Edge_{count}";
                             obj.transform.localPosition = middle;
-                            obj.transform.LookAt(_snapPointsPositions[i]);
+                            obj.transform.LookAt(_spawnedSnapPoints[i].transform);
                             edges.Add(obj);
                         }
                     }
                 }
 
                 _spawnedEdges = edges.ToArray();
-
-                //_spawnedEdges = RemoveDuplicatesEdges(edges.ToArray());
-
-                //foreach (var edge in edges)
-                //{
-                //    DestroyImmediate(edge);
-                //}
-
-                //for (int i = 0; i < _spawnedEdges.Length; i++)
-                //{
-                //    Instantiate(_spawnedEdges[i]);
-                //}
             }
             else
             {
                 ResetPoints();
                 ResetEdges();
             }
+        }
+
+        public void Accept()
+        {
+            if (transform.childCount != 0)
+            {
+                var snapPoints = transform.GetComponentsInChildren<CustomSnapPoint>();
+                List<GameObject> points = new List<GameObject>();
+                foreach (var snapPoint in snapPoints)
+                {
+                    points.Add(snapPoint.gameObject);
+                }
+                _spawnedSnapPoints = points.ToArray();
+
+                var edgesPoints = transform.GetComponentsInChildren<CustomSnapEdge>();
+                List<GameObject> edges = new List<GameObject>();
+                foreach (var snapEdge in edgesPoints)
+                {
+                    snapEdge.Head.Edge = snapEdge;
+                    snapEdge.Tail.Edge = snapEdge;
+
+                    edges.Add(snapEdge.gameObject);
+                }
+                _spawnedEdges = edges.ToArray();
+            }
+        }
+
+        public void Rotate()
+        {
+            transform.Rotate(Vector3.up, RotationAngle);
         }
 
         private Vector3[] RemoveDuplicates(Vector3[] array)
@@ -147,6 +180,12 @@ namespace EchoOfTheTimes.CustomSnapping
 
                 _spawnedSnapPoints = null;
             }
+            else
+            {
+                Accept();
+                if (_spawnedSnapPoints != null)
+                    DespawnPoints();
+            }
         }
 
         private void DespawnEdges()
@@ -159,6 +198,12 @@ namespace EchoOfTheTimes.CustomSnapping
                 }
 
                 _spawnedEdges = null;
+            }
+            else
+            {
+                Accept();
+                if (_spawnedEdges != null)
+                    DespawnEdges();
             }
         }
 

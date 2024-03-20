@@ -7,10 +7,22 @@ namespace EchoOfTheTimes.CustomSnapping
         [Range(0.01f, 1f)]
         public float Radius = 0.3f;
 
-        private void OnDrawGizmos()
+        public CustomSnapEdge Edge;
+
+        public Vector3 Position => transform.position;
+        public Vector3 LocalPosition => transform.localPosition;
+
+        private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.green;
             Gizmos.DrawSphere(transform.position, Radius);
+        }
+
+        public override string ToString()
+        {
+            return $"[{transform.parent.name}]->[{name}] Edge: {Edge.name} | " +
+                $"Position: {Position} | Local Position: {LocalPosition} " +
+                $"Rotation: {transform.rotation.eulerAngles} | Local Rotation: {transform.localRotation.eulerAngles}";
         }
     }
 }
