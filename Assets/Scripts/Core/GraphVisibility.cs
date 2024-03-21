@@ -6,9 +6,14 @@ namespace EchoOfTheTimes.Core
 {
     public class GraphVisibility : Graph
     {
-        public override void Awake()
+        //public override void Awake()
+        //{
+        //    ResetAndLoad();
+        //}
+
+        public List<Vertex> GetVertices()
         {
-            ResetAndLoad();
+            return vertices;
         }
 
         public override void Load()
