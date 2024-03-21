@@ -8,24 +8,32 @@ using UnityEngine;
 
 namespace EchoOfTheTimes.Core
 {
-    public class GameManager : PersistentSingleton<GameManager>
+    public class GameManager : MonoBehaviour
     {
+        [field: Header("Parameters")]
         [field: SerializeField]
         public float TimeToChangeState_sec { get; private set; }
 
+        [Header("Systems")]
         public LevelStateMachine StateMachine;
         public GraphVisibility Graph;
-        public VertexFollower VertexFollower;
-        public UserInputHandler UserInputHandler;
-        public Player Player;
-        public UserInput UserInput;
         public CheckpointManager CheckpointManager;
+
+        [Header("Player")]
+        public Player Player;
+        public VertexFollower VertexFollower;
+        public UserInput UserInput;
+        public UserInputHandler UserInputHandler;
+
+        [Header("Scriptable Objects")]
         public ColorStateSettingsScriptableObject ColorStateSettings;
 
-        protected override void Awake()
-        {
-            base.Awake();
+        public static GameManager Instance { get; private set; }
 
+        private void Awake()
+        {
+            Instance = this;
+             
             SubscribeEvents();
         }
 

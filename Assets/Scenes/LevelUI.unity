@@ -159,8 +159,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 895}
-  m_SizeDelta: {x: -20, y: -1810}
+  m_AnchoredPosition: {x: 0, y: 1095}
+  m_SizeDelta: {x: -20, y: -2210}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &493574089
 MonoBehaviour:
@@ -389,6 +389,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 661206745}
   m_CullTransparentMesh: 1
+--- !u!1 &992223568
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 992223569}
+  - component: {fileID: 992223570}
+  m_Layer: 0
+  m_Name: UiViews
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &992223569
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992223568}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &992223570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992223568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c955f578a52f994c81cda1f74b413ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InfoLabel: {fileID: 1895012510}
 --- !u!1 &1084947399
 GameObject:
   m_ObjectHideFlags: 0
@@ -735,9 +780,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1287857227}
-  - component: {fileID: 1287857228}
+  - component: {fileID: 1287857229}
   m_Layer: 0
-  m_Name: UiController
+  m_Name: UiManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -758,7 +803,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1287857228
+--- !u!114 &1287857229
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -767,15 +812,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1287857226}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e5e0543900e30c479d76bba3541764d, type: 3}
+  m_Script: {fileID: 11500000, guid: ee2d7a079e350b443a732d5f0b3df2a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ToMainMenuButton: {fileID: 661206747}
-  BottomPanel: {fileID: 1086058280}
-  ButtonPrefab: {fileID: 3564362910765533992, guid: cf0e89975fe3b404ead327ce80f3628d,
-    type: 3}
-  InfoLabel: {fileID: 1895012510}
-  StatesNumber: 4
+  UiSceneController: {fileID: 1989631074}
+  UiSceneView: {fileID: 992223570}
 --- !u!1 &1895012508
 GameObject:
   m_ObjectHideFlags: 0
@@ -833,7 +874,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'State: WORK IN PROGRESS'
+  m_text: 'State: -1'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -860,8 +901,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 54
+  m_fontSizeBase: 54
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -910,6 +951,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1895012508}
   m_CullTransparentMesh: 1
+--- !u!1 &1989631072
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1989631073}
+  - component: {fileID: 1989631074}
+  m_Layer: 0
+  m_Name: UiControllers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1989631073
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989631072}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1989631074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989631072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e5e0543900e30c479d76bba3541764d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ToMainMenuButton: {fileID: 661206747}
+  BottomPanel: {fileID: 1086058280}
+  ButtonPrefab: {fileID: 3564362910765533992, guid: cf0e89975fe3b404ead327ce80f3628d,
+    type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -917,3 +1006,5 @@ SceneRoots:
   - {fileID: 1158349051}
   - {fileID: 531403610}
   - {fileID: 1287857227}
+  - {fileID: 1989631073}
+  - {fileID: 992223569}
