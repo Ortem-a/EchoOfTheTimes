@@ -56,7 +56,8 @@ namespace EchoOfTheTimes.Core
 
         private bool TryGetNearestVertex(Vector3 worldPosition, out Vertex vertex)
         {
-            vertex = _graph.GetNearestVertex(worldPosition);
+            //vertex = _graph.GetNearestVertex(worldPosition);
+            vertex = _graph.GetNearestVertexInRadius(worldPosition, _graph.MaxDistanceToNeighbourVertex);
 
             if (vertex != null)
                 return true;

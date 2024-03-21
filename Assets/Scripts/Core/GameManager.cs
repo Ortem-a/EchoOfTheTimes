@@ -1,6 +1,7 @@
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Movement;
 using EchoOfTheTimes.ScriptableObjects;
+using EchoOfTheTimes.UI;
 using EchoOfTheTimes.Units;
 using EchoOfTheTimes.Utils;
 using UnityEngine;
@@ -35,9 +36,6 @@ namespace EchoOfTheTimes.Core
 
         private void SubscribeEvents()
         {
-            //StateMachine.OnTransitionStart += CommandManager.ForceStop;
-            //StateMachine.OnTransitionStart += Player.MarkAsNeedStop;
-            //StateMachine.OnTransitionStart += VertexFollower.LinkPlayer;
             StateMachine.OnTransitionStart += Graph.ResetVertices;
             StateMachine.OnTransitionStart += StateMachine.StartTransition;
 
@@ -48,9 +46,6 @@ namespace EchoOfTheTimes.Core
 
         private void UnsubscribeEvents()
         {
-            //StateMachine.OnTransitionStart -= CommandManager.ForceStop;
-            //StateMachine.OnTransitionStart += Player.MarkAsNeedStop;
-            //StateMachine.OnTransitionStart -= VertexFollower.LinkPlayer;
             StateMachine.OnTransitionStart -= Graph.ResetVertices;
             StateMachine.OnTransitionStart -= StateMachine.StartTransition;
 
