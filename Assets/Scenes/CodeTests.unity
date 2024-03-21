@@ -4366,6 +4366,14 @@ MonoBehaviour:
       Position: {x: -1.2, y: 3.4, z: 7.2}
       Rotation: {x: -0, y: 90, z: -0}
       LocalScale: {x: 1, y: 1, z: 1}
+  - StateFromId: 0
+    StateToId: 1
+    Parameters:
+    - StateId: 1
+      Target: {fileID: 678805176}
+      Position: {x: -11, y: 3.4, z: 7.2}
+      Rotation: {x: -0, y: 90, z: -0}
+      LocalScale: {x: 1, y: 1, z: 1}
 --- !u!114 &678805178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8687,6 +8695,10 @@ MonoBehaviour:
     StateToId: 2
     Influenced:
     - {fileID: 678805177}
+  - StateFromId: 0
+    StateToId: 1
+    Influenced:
+    - {fileID: 678805177}
 --- !u!1 &1569914654
 GameObject:
   m_ObjectHideFlags: 0
@@ -9266,7 +9278,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5376889425999a247a466eb16cf82ab9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 330585545}
   centralAxis: {fileID: 737137537}
   player: {fileID: 23088197}
   minOrthographicSize: 4
@@ -9278,6 +9289,7 @@ MonoBehaviour:
   inactivityReturnDelay: 5
   orbitHeight: 10
   orbitDistance: 10
+  speedHandleRotation: 50
 --- !u!1 &1625058906
 GameObject:
   m_ObjectHideFlags: 0
