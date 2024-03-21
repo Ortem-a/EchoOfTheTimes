@@ -26,6 +26,8 @@ namespace EchoOfTheTimes.LevelStates
         {
             _onComplete = onComplete;
 
+            ChangeColorByState(stateParameter);
+
             if (stateParameter != null)
             {
                 _specialCompleteCounter = 0;
@@ -91,6 +93,52 @@ namespace EchoOfTheTimes.LevelStates
             if (_specialCompleteCounter == _completeChecker)
             {
                 _onComplete?.Invoke();
+            }
+        }
+
+        private void ChangeColorByState(StateParameter stateParameter = null)
+        {
+            if (stateParameter == null) 
+            {
+                var color = GameManager.Instance.ColorStateSettings.GetColor(StateId);
+
+                if (Target.gameObject.TryGetComponent(out Renderer renderer))
+                {
+                    renderer.material.color = color;
+                }
+                else
+                {
+                    var renderers = Target.GetComponentsInChildren<Renderer>();
+
+                    if (renderers != null && renderers.Length > 0)
+                    {
+                        foreach (var r in renderers)
+                        {
+                            r.material.color = color;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                var color = GameManager.Instance.ColorStateSettings.GetColor(stateParameter.StateId);
+
+                if (stateParameter.Target.gameObject.TryGetComponent(out Renderer renderer))
+                {
+                    renderer.material.color = color;
+                }
+                else
+                {
+                    var renderers = stateParameter.Target.GetComponentsInChildren<Renderer>();
+
+                    if (renderers != null && renderers.Length > 0)
+                    {
+                        foreach (var r in renderers)
+                        {
+                            r.material.color = color;
+                        }
+                    }
+                }
             }
         }
     }

@@ -1,5 +1,6 @@
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Movement;
+using EchoOfTheTimes.ScriptableObjects;
 using EchoOfTheTimes.Units;
 using EchoOfTheTimes.Utils;
 using UnityEngine;
@@ -18,6 +19,7 @@ namespace EchoOfTheTimes.Core
         public Player Player;
         public UserInput UserInput;
         public CheckpointManager CheckpointManager;
+        public ColorStateSettingsScriptableObject ColorStateSettings;
 
         protected override void Awake()
         {
