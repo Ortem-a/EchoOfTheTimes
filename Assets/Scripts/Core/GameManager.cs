@@ -1,9 +1,7 @@
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Movement;
 using EchoOfTheTimes.ScriptableObjects;
-using EchoOfTheTimes.UI;
 using EchoOfTheTimes.Units;
-using EchoOfTheTimes.Utils;
 using UnityEngine;
 
 namespace EchoOfTheTimes.Core
@@ -33,7 +31,7 @@ namespace EchoOfTheTimes.Core
         private void Awake()
         {
             Instance = this;
-             
+
             SubscribeEvents();
         }
 

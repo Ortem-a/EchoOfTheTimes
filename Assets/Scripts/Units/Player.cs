@@ -107,12 +107,7 @@ namespace EchoOfTheTimes.Units
 
             if (IsNeedLink)
             {
-                IsNeedLink = false;
-
-                _vertexFollower.OnAcceptLink?.Invoke();
-                _onPlayerStop?.Invoke();
-
-                _sequence.Kill();
+                ForceStop();
             }
         }
 
@@ -124,12 +119,17 @@ namespace EchoOfTheTimes.Units
 
             if (!IsBusy)
             {
-                IsNeedLink = false;
-
-                _vertexFollower.OnAcceptLink?.Invoke();
-                _onPlayerStop?.Invoke();
-                _sequence.Kill();
+                ForceStop();
             }
+        }
+
+        private void ForceStop()
+        {
+            IsNeedLink = false;
+
+            _vertexFollower.OnAcceptLink?.Invoke();
+            _onPlayerStop?.Invoke();
+            _sequence.Kill();
         }
 
         public void Bind(PlayerData data)
