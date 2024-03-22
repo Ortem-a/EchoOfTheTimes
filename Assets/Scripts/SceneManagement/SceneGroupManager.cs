@@ -76,7 +76,8 @@ namespace EchoOfTheTimes.SceneManagement
 
                 var sceneName = sceneAt.name;
 
-                if (sceneName.Equals(activeScene) || sceneName == "Bootstrapper") continue;
+                //if (sceneName.Equals(activeScene) || sceneName == "Bootstrapper") continue;
+                if (sceneName == "Bootstrapper") continue;
 
                 scenes.Add(sceneName);
             }

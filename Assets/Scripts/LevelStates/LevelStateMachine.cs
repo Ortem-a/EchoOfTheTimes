@@ -1,7 +1,5 @@
-using DG.Tweening;
 using EchoOfTheTimes.Editor;
-using PlasticPipe.PlasticProtocol.Messages;
-using System;
+using EchoOfTheTimes.UI;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,7 +15,6 @@ namespace EchoOfTheTimes.LevelStates
         [Header("END DEBUG")]
         [Space]
 
-
         [Space]
         [InspectorButton(nameof(InitializeStates))]
         public bool _isInitFirstState;
@@ -26,8 +23,6 @@ namespace EchoOfTheTimes.LevelStates
         [InspectorButton(nameof(AddTransitionsEveryoneWithEvery))]
         public bool _isAddTransitionsEveryoneWithEvery;
         [Space]
-
-        //private Sequence _sequence;
 
         public List<LevelState> States;
         public List<Transition> Transitions;
@@ -40,19 +35,6 @@ namespace EchoOfTheTimes.LevelStates
         public TransitionHandler OnTransitionComplete;
 
         public bool IsChanging { get; private set; }
-
-        //private void Start()
-        //{
-        //    LoadDefaultState();
-        //}
-
-        //private void LoadDefaultState()
-        //{
-        //    OnTransitionStart?.Invoke();
-
-        //    _current = States[0];
-        //    _current.Accept(null, onComplete: () => OnTransitionComplete?.Invoke());
-        //}
 
         public void StartTransition()
         {

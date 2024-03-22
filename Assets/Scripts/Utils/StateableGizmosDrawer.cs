@@ -1,7 +1,5 @@
-using EchoOfTheTimes.Core;
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.ScriptableObjects;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -20,26 +18,8 @@ namespace EchoOfTheTimes.Utils
         {
             if (_stateable != null && _colorStateSettings != null)
             {
-                if (_stateable.States != null)
-                {
-                    foreach (var stateParameter in _stateable.States)
-                    {
-                        Gizmos.color = _colorStateSettings.GetColor(stateParameter.StateId);
-
-                        if (_mesh != null)
-                        {
-                            Gizmos.DrawWireMesh(_mesh, stateParameter.Position, Quaternion.Euler(stateParameter.Rotation), stateParameter.LocalScale);
-                        }
-                        else if (_meshes != null)
-                        {
-                            GizmosHelper.DrawWireMeshesByTRS(_meshes, stateParameter);
-                        }
-                        else
-                        {
-                            InitComponents();
-                        }
-                    }
-                }
+                DrawStates();
+                DrawSpecialStates();
             }
             else
             {
@@ -68,6 +48,57 @@ namespace EchoOfTheTimes.Utils
 
             _colorStateSettings = AssetDatabase.LoadAssetAtPath<ColorStateSettingsScriptableObject>(
                 @"Assets/ScriptableObjects/ColorStateSettings.asset");
+        }
+
+        private void DrawStates()
+        {
+            if (_stateable.States != null)
+            {
+                foreach (var stateParameter in _stateable.States)
+                {
+                    Gizmos.color = _colorStateSettings.GetColor(stateParameter.StateId);
+
+                    if (_mesh != null)
+                    {
+                        Gizmos.DrawWireMesh(_mesh, stateParameter.Position, Quaternion.Euler(stateParameter.Rotation), stateParameter.LocalScale);
+                    }
+                    else if (_meshes != null)
+                    {
+                        GizmosHelper.DrawWireMeshesByTRS(_meshes, stateParameter);
+                    }
+                    else
+                    {
+                        InitComponents();
+                    }
+                }
+            }
+        }
+
+        private void DrawSpecialStates()
+        {
+            if (_stateable.SpecialTransitions != null)
+            {
+                foreach (var specTransition in _stateable.SpecialTransitions)
+                {
+                    foreach (var stateParameter in specTransition.Parameters)
+                    {
+                        Gizmos.color = _colorStateSettings.GetColor(stateParameter.StateId);
+
+                        if (_mesh != null)
+                        {
+                            Gizmos.DrawWireMesh(_mesh, stateParameter.Position, Quaternion.Euler(stateParameter.Rotation), stateParameter.LocalScale);
+                        }
+                        else if (_meshes != null)
+                        {
+                            GizmosHelper.DrawWireMeshesByTRS(_meshes, stateParameter);
+                        }
+                        else
+                        {
+                            InitComponents();
+                        }
+                    }
+                }
+            }
         }
     }
 }

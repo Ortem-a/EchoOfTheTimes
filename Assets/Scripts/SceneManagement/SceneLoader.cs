@@ -18,7 +18,7 @@ namespace EchoOfTheTimes.SceneManagement
         private Camera _loadingCamera;
 
         [SerializeField]
-        private SceneGroup[] _sceneGroups;
+        public SceneGroup[] _sceneGroups;
 
         private float _targetProgress;
         private bool _isLoading;
@@ -36,7 +36,7 @@ namespace EchoOfTheTimes.SceneManagement
         {
             if (GroupToLoad < 0 || GroupToLoad >= _sceneGroups.Length)
             {
-                Debug.LogError($"Incorrect group to load '{GroupToLoad}'! You have only 0...{_sceneGroups.Length-1}");
+                Debug.LogError($"Incorrect group to load '{GroupToLoad}'! You have only 0...{_sceneGroups.Length - 1}");
                 return;
             }
 
@@ -54,12 +54,12 @@ namespace EchoOfTheTimes.SceneManagement
             _loadingBar.fillAmount = Mathf.Lerp(currentFillAmount, _targetProgress, Time.deltaTime * dynamicFillSpeed);
         }
 
-        private async Task LoadSceneGroupAsync(int index)
+        public async Task LoadSceneGroupAsync(int index)
         {
             _loadingBar.fillAmount = 0f;
             _targetProgress = 1f;
 
-            if (index < 0 || index >= _sceneGroups.Length) 
+            if (index < 0 || index >= _sceneGroups.Length)
             {
                 Debug.LogError($"Invalid scene group index: [{index}]");
                 return;
@@ -75,7 +75,7 @@ namespace EchoOfTheTimes.SceneManagement
             EnableLoadingCanvas(false);
         }
 
-        private void EnableLoadingCanvas(bool enable = true) 
+        private void EnableLoadingCanvas(bool enable = true)
         {
             _isLoading = enable;
             _loadingCamera.gameObject.SetActive(enable);

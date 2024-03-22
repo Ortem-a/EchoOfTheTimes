@@ -1,6 +1,5 @@
 using DG.Tweening;
 using EchoOfTheTimes.Core;
-using System;
 using UnityEngine;
 
 namespace EchoOfTheTimes.LevelStates
@@ -14,55 +13,43 @@ namespace EchoOfTheTimes.LevelStates
         public Vector3 Rotation;
         public Vector3 LocalScale;
 
-        [NonSerialized]
-        private Sequence _sequence;
+        [System.NonSerialized]
+        private int _defaultCompleteCounter = 0;
+        [System.NonSerialized]
+        private int _specialCompleteCounter = 0;
+        [System.NonSerialized]
+        private int _completeChecker = 3;
+        [System.NonSerialized]
+        private TweenCallback _onComplete;
 
         public void AcceptState(StateParameter stateParameter = null, bool isDebug = false, TweenCallback onComplete = null)
         {
-            _sequence = DOTween.Sequence();
-            _sequence.OnComplete(onComplete);
+            _onComplete = onComplete;
+
+            ChangeColorByState(stateParameter);
 
             if (stateParameter != null)
             {
+                _specialCompleteCounter = 0;
                 SpecialBehaiour(stateParameter, isDebug);
             }
             else
             {
-                DefaultBehaviour(isDebug, onComplete);
+                _defaultCompleteCounter = 0;
+                DefaultBehaviour(isDebug);
             }
         }
 
-        private void DefaultBehaviour(bool isDebug, TweenCallback callback)
+        private void DefaultBehaviour(bool isDebug)
         {
-
-
             if (!isDebug)
             {
-                //if (Target.position != Position)
-                //{
-                //    Target.DOMove(Position, GameManager.Instance.TimeToChangeState_sec);
-                //}
-                //if (Target.rotation.eulerAngles != Rotation)
-                //{
-                //    Target.DORotate(Rotation, GameManager.Instance.TimeToChangeState_sec);
-                //}
-                //if (Target.localScale != LocalScale)
-                //{
-                //    Target.DOScale(LocalScale, GameManager.Instance.TimeToChangeState_sec);
-                //}
-
-                if (Target.position != Position)
-                {
-                    _sequence.Append(Target.DOMove(Position, GameManager.Instance.TimeToChangeState_sec));
-                }
-                if (Target.rotation.eulerAngles != Rotation)
-                {
-                    _sequence.Append(Target.DORotate(Rotation, GameManager.Instance.TimeToChangeState_sec));
-                }
-                if (Target.localScale != LocalScale)
-                {
-                    _sequence.Append(Target.DOScale(LocalScale, GameManager.Instance.TimeToChangeState_sec));
-                }
+                Target.DOMove(Position, GameManager.Instance.TimeToChangeState_sec)
+                    .OnComplete(() => OnCompleteDefaultTransformation());
+                Target.DORotate(Rotation, GameManager.Instance.TimeToChangeState_sec)
+                    .OnComplete(() => OnCompleteDefaultTransformation());
+                Target.DOScale(LocalScale, GameManager.Instance.TimeToChangeState_sec)
+                    .OnComplete(() => OnCompleteDefaultTransformation());
             }
             else
             {
@@ -75,23 +62,83 @@ namespace EchoOfTheTimes.LevelStates
         {
             if (!isDebug)
             {
-                if (stateParameter.Target.position != stateParameter.Position)
-                {
-                    stateParameter.Target.DOMove(stateParameter.Position, GameManager.Instance.TimeToChangeState_sec);
-                }
-                if (stateParameter.Target.rotation.eulerAngles != stateParameter.Rotation)
-                {
-                    stateParameter.Target.DORotate(stateParameter.Rotation, GameManager.Instance.TimeToChangeState_sec);
-                }
-                if (stateParameter.Target.localScale != stateParameter.LocalScale)
-                {
-                    stateParameter.Target.DOScale(stateParameter.LocalScale, GameManager.Instance.TimeToChangeState_sec);
-                }
+                stateParameter.Target.DOMove(stateParameter.Position, GameManager.Instance.TimeToChangeState_sec)
+                    .OnComplete(() => OnCompleteSpecialTransformation());
+                stateParameter.Target.DORotate(stateParameter.Rotation, GameManager.Instance.TimeToChangeState_sec)
+                    .OnComplete(() => OnCompleteSpecialTransformation());
+                stateParameter.Target.DOScale(stateParameter.LocalScale, GameManager.Instance.TimeToChangeState_sec)
+                    .OnComplete(() => OnCompleteSpecialTransformation());
             }
             else
             {
                 stateParameter.Target.SetPositionAndRotation(stateParameter.Position, Quaternion.Euler(stateParameter.Rotation));
                 stateParameter.Target.localScale = stateParameter.LocalScale;
+            }
+        }
+
+        private void OnCompleteDefaultTransformation()
+        {
+            _defaultCompleteCounter++;
+
+            if (_defaultCompleteCounter == _completeChecker)
+            {
+                _onComplete?.Invoke();
+            }
+        }
+
+        private void OnCompleteSpecialTransformation()
+        {
+            _specialCompleteCounter++;
+
+            if (_specialCompleteCounter == _completeChecker)
+            {
+                _onComplete?.Invoke();
+            }
+        }
+
+        private void ChangeColorByState(StateParameter stateParameter = null)
+        {
+            if (stateParameter == null) 
+            {
+                var color = GameManager.Instance.ColorStateSettings.GetColor(StateId);
+
+                if (Target.gameObject.TryGetComponent(out Renderer renderer))
+                {
+                    renderer.material.color = color;
+                }
+                else
+                {
+                    var renderers = Target.GetComponentsInChildren<Renderer>();
+
+                    if (renderers != null && renderers.Length > 0)
+                    {
+                        foreach (var r in renderers)
+                        {
+                            r.material.color = color;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                var color = GameManager.Instance.ColorStateSettings.GetColor(stateParameter.StateId);
+
+                if (stateParameter.Target.gameObject.TryGetComponent(out Renderer renderer))
+                {
+                    renderer.material.color = color;
+                }
+                else
+                {
+                    var renderers = stateParameter.Target.GetComponentsInChildren<Renderer>();
+
+                    if (renderers != null && renderers.Length > 0)
+                    {
+                        foreach (var r in renderers)
+                        {
+                            r.material.color = color;
+                        }
+                    }
+                }
             }
         }
     }
