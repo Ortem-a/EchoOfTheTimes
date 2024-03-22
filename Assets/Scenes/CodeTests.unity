@@ -236,7 +236,7 @@ MonoBehaviour:
       Part4: 0
     Checkpoint: {x: 0, y: 0, z: 0}
     StateId: 0
-  Duration: 1.5
+  Duration: 0.5
 --- !u!114 &23088201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4352,7 +4352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 522e92388dd056749a344ac1c69bf5db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentStateId: 0
+  CurrentStateId: 1
   States: []
   CurrentSpecialStateFromId: 1
   CurrentSpecialStateToId: 2
@@ -9266,7 +9266,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5376889425999a247a466eb16cf82ab9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 330585545}
   centralAxis: {fileID: 737137537}
   player: {fileID: 23088197}
   minOrthographicSize: 4
@@ -9278,6 +9277,7 @@ MonoBehaviour:
   inactivityReturnDelay: 5
   orbitHeight: 10
   orbitDistance: 10
+  speedHandleRotation: 50
 --- !u!1 &1625058906
 GameObject:
   m_ObjectHideFlags: 0
