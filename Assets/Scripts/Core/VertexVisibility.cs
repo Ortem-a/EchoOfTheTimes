@@ -72,7 +72,7 @@ namespace EchoOfTheTimes.Core
         {
             for (int i = 0; i < vertices.Count; i++)
             {
-                if (vertices[i] == this || this.ContainsNeighbour(vertices[i]))
+                if (vertices[i] == this || this.ContainsNeighbour(vertices[i]) || vertices[i].CompareTag("DisabledVertex"))
                     continue;
 
                 var dist = Vector3.Distance(transform.position, vertices[i].transform.position);

@@ -1,5 +1,6 @@
+using EchoOfTheTimes.Core;
+using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.SceneManagement;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,22 +11,25 @@ namespace EchoOfTheTimes.UI
         public Button ToMainMenuButton;
         public Transform BottomPanel;
         public GameObject ButtonPrefab;
-        public TMP_Text InfoLabel;
-
-        public int StatesNumber;
 
         private SceneLoader _loader;
+        private LevelStateMachine _stateMachine;
+
+        private UiSceneView _sceneView;
 
         private void Awake()
         {
+            _loader = FindObjectOfType<SceneLoader>();
+
             ToMainMenuButton.onClick.AddListener(ExitToMainMenu);
         }
 
-        private void Start()
+        public void Initialize()
         {
-            _loader = FindObjectOfType<SceneLoader>();
+            _stateMachine = GameManager.Instance.StateMachine;
+            _sceneView = UiManager.Instance.UiSceneView;
 
-            for (int i = 0; i < StatesNumber; i++)
+            for (int i = 0; i < _stateMachine.States.Count; i++)
             {
                 var obj = Instantiate(ButtonPrefab, BottomPanel);
                 obj.GetComponent<UiButtonController>().Initialize(i);
@@ -37,9 +41,10 @@ namespace EchoOfTheTimes.UI
             _loader.LoadSceneGroupAsync(0);
         }
 
-        public void UpdateLabel(int stateId)
+        public void UpdateLabel()
         {
-            InfoLabel.text = $"State: {stateId}";
+            int stateId = _stateMachine.GetCurrentStateId();
+            _sceneView.UpdateLabel(stateId);
         }
     }
 }

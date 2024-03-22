@@ -4281,15 +4281,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9a0243362b3dff4396272c1f4642157, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AutoUnparentOnAwake: 0
   <TimeToChangeState_sec>k__BackingField: 1
   StateMachine: {fileID: 1897557513}
   Graph: {fileID: 436562144}
-  VertexFollower: {fileID: 23088203}
-  UserInputHandler: {fileID: 2113709827}
-  Player: {fileID: 23088198}
-  UserInput: {fileID: 2113709826}
   CheckpointManager: {fileID: 1844840746}
+  Player: {fileID: 23088198}
+  VertexFollower: {fileID: 23088203}
+  UserInput: {fileID: 2113709826}
+  UserInputHandler: {fileID: 2113709827}
   ColorStateSettings: {fileID: 11400000, guid: 8a55bf53d92e37b47b59aae68b911027, type: 2}
 --- !u!114 &676113518
 MonoBehaviour:
@@ -5483,6 +5482,16 @@ PrefabInstance:
     - target: {fileID: 2199246226485754272, guid: 9a95047c035e08e4b87dad034c02985b,
         type: 3}
       propertyPath: m_Name
+      value: Vertex
+      objectReference: {fileID: 0}
+    - target: {fileID: 2199246226485754272, guid: 9a95047c035e08e4b87dad034c02985b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2199246226485754272, guid: 9a95047c035e08e4b87dad034c02985b,
+        type: 3}
+      propertyPath: m_TagString
       value: Vertex
       objectReference: {fileID: 0}
     - target: {fileID: 3405291171876702710, guid: 9a95047c035e08e4b87dad034c02985b,

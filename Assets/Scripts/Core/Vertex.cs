@@ -1,7 +1,4 @@
-using EchoOfTheTimes.Utils;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 namespace EchoOfTheTimes.Core
@@ -11,16 +8,14 @@ namespace EchoOfTheTimes.Core
     {
         public int Id;
         public List<Edge> Neighbours;
-        //[HideInInspector]
-        //public Vertex Previous;
 
         public bool ContainsNeighbour(Vertex v)
         {
             if (Neighbours != null)
             {
-                foreach (Edge e in Neighbours) 
+                foreach (Edge e in Neighbours)
                 {
-                    if (e.Vertex.Id == v.Id) 
+                    if (e.Vertex.Id == v.Id)
                         return true;
                 }
             }
