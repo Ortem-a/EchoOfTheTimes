@@ -65,6 +65,11 @@ namespace EchoOfTheTimes.Units
 
             OnStartExecution();
 
+            //transform.DOPath(waypoints.ToArray(), Duration * waypoints.Count)
+            //    .OnWaypointChange((x) => { Debug.Log("WP CHange " + x); })
+            //    .SetEase(Ease.Linear)
+            //    .OnComplete(OnCompleteExecution);
+
             foreach (var waypoint in waypoints)
             {
                 //var time = Vector3.Distance(transform.position, waypoint) / Speed;
