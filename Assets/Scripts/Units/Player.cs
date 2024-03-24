@@ -56,7 +56,10 @@ namespace EchoOfTheTimes.Units
         {
             Debug.Log($"[TeleportTo] {position}");
 
-            transform.position = position;
+            transform.DOMove(position, 1f)
+                .SetEase(Ease.Linear);
+
+            //transform.position = position;
         }
 
         public void MoveTo(List<Vector3> waypoints)
@@ -66,9 +69,9 @@ namespace EchoOfTheTimes.Units
             OnStartExecution();
 
             //transform.DOPath(waypoints.ToArray(), Duration * waypoints.Count)
-            //    .OnWaypointChange((x) => { Debug.Log("WP CHange " + x); })
-            //    .SetEase(Ease.Linear)
-            //    .OnComplete(OnCompleteExecution);
+            //    .OnWaypointChange((x) => OnCompleteExecution())
+            //    .SetEase(Ease.Linear);
+            //.OnComplete(OnCompleteExecution);
 
             foreach (var waypoint in waypoints)
             {
@@ -76,6 +79,7 @@ namespace EchoOfTheTimes.Units
 
                 _sequence.Append(
                     transform.DOMove(waypoint, Duration)
+                        .SetEase(Ease.Linear)
                         .OnComplete(OnCompleteExecution)
                     );
             }
@@ -85,30 +89,40 @@ namespace EchoOfTheTimes.Units
         {
             IsBusy = true;
 
-#warning дерьмо
-            if (Position.gameObject.TryGetComponent(out LevelStateButton button))
+            if (Position.gameObject.TryGetComponent(out ISpecialVertex specialVertex))
             {
-                button.OnRelease?.Invoke();
+                Debug.Log($"[Player] [OnExit] FROM special");
+                specialVertex.OnExit?.Invoke();
             }
+
+            //if (Position.gameObject.TryGetComponent(out LevelStateButton button))
+            //{
+            //    button.OnRelease?.Invoke();
+            //}
         }
 
         private void OnCompleteExecution()
         {
             IsBusy = false;
 
-#warning говно + моча
-            if (Position.gameObject.TryGetComponent(out Checkpoint checkpoint))
+            if (Position.gameObject.TryGetComponent(out ISpecialVertex specialVertex))
             {
-                _checkpointManager.OnCheckpointChanged?.Invoke(checkpoint);
+                Debug.Log($"[Player] [OnEnter] TO special");
+                specialVertex.OnEnter?.Invoke();
             }
-            else if (Position.gameObject.TryGetComponent(out Teleportator teleportator))
-            {
-                teleportator.Teleport();
-            }
-            else if (Position.gameObject.TryGetComponent(out LevelStateButton button))
-            {
-                button.OnPress?.Invoke();
-            }
+
+            //if (Position.gameObject.TryGetComponent(out Checkpoint checkpoint))
+            //{
+            //    _checkpointManager.OnCheckpointChanged?.Invoke(checkpoint);
+            //}
+            //else if (Position.gameObject.TryGetComponent(out Teleportator teleportator))
+            //{
+            //    teleportator.Teleport();
+            //}
+            //else if (Position.gameObject.TryGetComponent(out LevelStateButton button))
+            //{
+            //    button.OnPress?.Invoke();
+            //}
 
             if (IsNeedLink)
             {
