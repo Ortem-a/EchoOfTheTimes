@@ -1,3 +1,4 @@
+using DG.Tweening;
 using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Interfaces;
 using EchoOfTheTimes.Units;
@@ -25,7 +26,21 @@ namespace EchoOfTheTimes.Movement
         {
             Debug.Log($"[Teleportator] Teleport to {Destination.transform.position}");
 
-            _player.TeleportTo(Destination.transform.position);
+            _player.Teleportate(
+                Destination.transform.position,
+                GameManager.Instance.TeleportDuration_sec,
+                onStart: OnStartTeleportation,
+                onComplete: OnCompleteTeleportation); ;
+        }
+
+        private void OnStartTeleportation()
+        {
+            _player.transform.DOScale(0f, GameManager.Instance.TeleportDisappearDuration_sec);
+        }
+
+        private void OnCompleteTeleportation()
+        {
+            _player.transform.DOScale(1f, GameManager.Instance.TeleportDisappearDuration_sec);
         }
     }
 }

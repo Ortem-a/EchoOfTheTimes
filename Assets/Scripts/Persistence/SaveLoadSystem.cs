@@ -96,7 +96,7 @@ namespace EchoOfTheTimes.Persistence
             var vertex = GameManager.Instance.Graph.GetNearestVertex(GameData.PlayerData.Checkpoint);
             GameManager.Instance.CheckpointManager.OnCheckpointChanged?.Invoke(vertex.gameObject.GetComponent<Checkpoint>());
             GameManager.Instance.StateMachine.LoadState(GameData.PlayerData.StateId);
-            GameManager.Instance.Player.TeleportTo(GameData.PlayerData.Checkpoint);
+            GameManager.Instance.Player.Teleportate(GameData.PlayerData.Checkpoint, 0f);
         }
 
         public void SaveGame(PlayerData playerData)

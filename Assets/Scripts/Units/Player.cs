@@ -50,12 +50,14 @@ namespace EchoOfTheTimes.Units
             _vertexFollower = GameManager.Instance.VertexFollower;
         }
 
-        public void TeleportTo(Vector3 position)
+        public void Teleportate(Vector3 to, float duration, TweenCallback onStart = null, TweenCallback onComplete = null)
         {
-            Debug.Log($"[TeleportTo] {position}");
+            Debug.Log($"[TeleportTo] {to}");
 
-            transform.DOMove(position, 1f)
-                .SetEase(Ease.Linear);
+            transform.DOMove(to, duration)
+                .SetEase(Ease.Linear)
+                .OnStart(onStart)
+                .OnComplete(onComplete);
         }
 
         public void MoveTo(Vector3[] waypoints)

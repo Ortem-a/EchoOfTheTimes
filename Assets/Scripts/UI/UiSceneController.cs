@@ -35,8 +35,6 @@ namespace EchoOfTheTimes.UI
 
         public void Initialize()
         {
-            FinishPanel.DOScale(0f, 0f);
-
             _stateMachine = GameManager.Instance.StateMachine;
             _sceneView = UiManager.Instance.UiSceneView;
 
@@ -45,6 +43,8 @@ namespace EchoOfTheTimes.UI
                 var obj = Instantiate(ButtonPrefab, BottomPanel);
                 obj.GetComponent<UiButtonController>().Initialize(i);
             }
+
+            FinishPanel.DOScale(0f, 0f);
         }
 
         private void ExitToMainMenu()
