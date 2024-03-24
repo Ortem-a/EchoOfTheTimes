@@ -1,4 +1,7 @@
 using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Core.PathCore;
+using DG.Tweening.Plugins.Options;
 using EchoOfTheTimes.Animations;
 using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Interfaces;
@@ -13,7 +16,7 @@ using UnityEngine;
 namespace EchoOfTheTimes.Units
 {
     [RequireComponent(typeof(AnimationManager))]
-    public class Player : MonoBehaviour, IUnit, IBind<PlayerData>
+    public class Player : MonoBehaviour, IBind<PlayerData>
     {
         [field: SerializeField]
         public SerializableGuid Id { get; set; } = SerializableGuid.NewGuid();
@@ -23,9 +26,6 @@ namespace EchoOfTheTimes.Units
         public AnimationManager Animations =>
             _animationManager = _animationManager != null ? _animationManager : GetComponent<AnimationManager>();
 
-        [Obsolete("NOT USE NOW")]
-        public float Speed { get; set; } = 5f;
-
         public float Duration;
 
         public bool IsBusy { get; set; } = false;
@@ -33,22 +33,20 @@ namespace EchoOfTheTimes.Units
         public Vertex Position => _graph.GetNearestVertex(transform.position);
 
         private GraphVisibility _graph;
-        private CheckpointManager _checkpointManager;
-        private LevelStateMachine _levelStateMachine;
         private VertexFollower _vertexFollower;
 
         private AnimationManager _animationManager;
 
-        private bool IsNeedLink = false;
-        private Sequence _sequence;
+        private bool _isNeedLink = false;
+        private bool _isNeedStop = false;
+        //private Sequence _sequence;
+        private TweenerCore<Vector3, Path, PathOptions> _pathTweener;
 
         private Action _onPlayerStop;
 
         public void Initialize()
         {
             _graph = GameManager.Instance.Graph;
-            _checkpointManager = GameManager.Instance.CheckpointManager;
-            _levelStateMachine = GameManager.Instance.StateMachine;
             _vertexFollower = GameManager.Instance.VertexFollower;
         }
 
@@ -58,31 +56,38 @@ namespace EchoOfTheTimes.Units
 
             transform.DOMove(position, 1f)
                 .SetEase(Ease.Linear);
-
-            //transform.position = position;
         }
 
-        public void MoveTo(List<Vector3> waypoints)
+        public void MoveTo(Vector3[] waypoints)
         {
-            _sequence = DOTween.Sequence();
+            //_sequence = DOTween.Sequence();
 
             OnStartExecution();
 
-            //transform.DOPath(waypoints.ToArray(), Duration * waypoints.Count)
-            //    .OnWaypointChange((x) => OnCompleteExecution())
-            //    .SetEase(Ease.Linear);
-            //.OnComplete(OnCompleteExecution);
+            transform.DOLookAt(waypoints[0], 0.25f, AxisConstraint.Y);
 
-            foreach (var waypoint in waypoints)
-            {
-                //var time = Vector3.Distance(transform.position, waypoint) / Speed;
+            _pathTweener = transform.DOPath(waypoints, Duration * waypoints.Length)
+                .OnWaypointChange((x) =>
+                    {
+                        if (x != 0)
+                        {
+                            OnCompleteExecution();
+                            if (x < waypoints.Length)
+                            {
+                                transform.DOLookAt(waypoints[x], 0.25f, AxisConstraint.Y);
+                            }
+                        }
+                    })
+                .SetEase(Ease.Linear);
 
-                _sequence.Append(
-                    transform.DOMove(waypoint, Duration)
-                        .SetEase(Ease.Linear)
-                        .OnComplete(OnCompleteExecution)
-                    );
-            }
+            //foreach (var waypoint in waypoints)
+            //{
+            //    _sequence.Append(
+            //        transform.DOMove(waypoint, Duration)
+            //            .SetEase(Ease.Linear)
+            //            .OnComplete(OnCompleteExecution)
+            //        );
+            //}
         }
 
         private void OnStartExecution()
@@ -91,14 +96,8 @@ namespace EchoOfTheTimes.Units
 
             if (Position.gameObject.TryGetComponent(out ISpecialVertex specialVertex))
             {
-                Debug.Log($"[Player] [OnExit] FROM special");
                 specialVertex.OnExit?.Invoke();
             }
-
-            //if (Position.gameObject.TryGetComponent(out LevelStateButton button))
-            //{
-            //    button.OnRelease?.Invoke();
-            //}
         }
 
         private void OnCompleteExecution()
@@ -107,32 +106,44 @@ namespace EchoOfTheTimes.Units
 
             if (Position.gameObject.TryGetComponent(out ISpecialVertex specialVertex))
             {
-                Debug.Log($"[Player] [OnEnter] TO special");
                 specialVertex.OnEnter?.Invoke();
             }
 
-            //if (Position.gameObject.TryGetComponent(out Checkpoint checkpoint))
-            //{
-            //    _checkpointManager.OnCheckpointChanged?.Invoke(checkpoint);
-            //}
-            //else if (Position.gameObject.TryGetComponent(out Teleportator teleportator))
-            //{
-            //    teleportator.Teleport();
-            //}
-            //else if (Position.gameObject.TryGetComponent(out LevelStateButton button))
-            //{
-            //    button.OnPress?.Invoke();
-            //}
+            if (_isNeedLink)
+            {
+                ForceStopAndLink();
+            }
 
-            if (IsNeedLink)
+            if (_isNeedStop)
             {
                 ForceStop();
             }
         }
 
+        public void StopAndLink(Action onComplete)
+        {
+            _isNeedLink = true;
+
+            _onPlayerStop = onComplete;
+
+            if (!IsBusy)
+            {
+                ForceStopAndLink();
+            }
+        }
+
+        private void ForceStopAndLink()
+        {
+            _isNeedLink = false;
+
+            _vertexFollower.OnAcceptLink?.Invoke();
+
+            ForceStop();
+        }
+
         public void Stop(Action onComplete)
         {
-            IsNeedLink = true;
+            _isNeedStop = true;
 
             _onPlayerStop = onComplete;
 
@@ -144,11 +155,12 @@ namespace EchoOfTheTimes.Units
 
         private void ForceStop()
         {
-            IsNeedLink = false;
+            _isNeedStop = false;
 
-            _vertexFollower.OnAcceptLink?.Invoke();
+            _pathTweener.Kill();
+            //_sequence.Kill();
+
             _onPlayerStop?.Invoke();
-            _sequence.Kill();
         }
 
         public void Bind(PlayerData data)

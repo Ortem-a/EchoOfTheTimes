@@ -1,3 +1,4 @@
+using DG.Tweening;
 using EchoOfTheTimes.Core;
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.SceneManagement;
@@ -12,6 +13,11 @@ namespace EchoOfTheTimes.UI
         public Transform BottomPanel;
         public GameObject ButtonPrefab;
 
+        [Header("Finish UI")]
+        public Canvas FinishCanvas;
+        public Transform FinishPanel;
+        public Button FinishButton;
+
         private SceneLoader _loader;
         private LevelStateMachine _stateMachine;
 
@@ -21,11 +27,16 @@ namespace EchoOfTheTimes.UI
         {
             _loader = FindObjectOfType<SceneLoader>();
 
+            FinishCanvas.gameObject.SetActive(false);
+
             ToMainMenuButton.onClick.AddListener(ExitToMainMenu);
+            FinishButton.onClick.AddListener(ExitToMainMenu);
         }
 
         public void Initialize()
         {
+            FinishPanel.DOScale(0f, 0f);
+
             _stateMachine = GameManager.Instance.StateMachine;
             _sceneView = UiManager.Instance.UiSceneView;
 
@@ -45,6 +56,14 @@ namespace EchoOfTheTimes.UI
         {
             int stateId = _stateMachine.GetCurrentStateId();
             _sceneView.UpdateLabel(stateId);
+        }
+
+        public void EnableFinishCanvas()
+        {
+            BottomPanel.gameObject.SetActive(false);
+            FinishCanvas.gameObject.SetActive(true);
+
+            FinishPanel.DOScale(1f, 0.5f);
         }
     }
 }
