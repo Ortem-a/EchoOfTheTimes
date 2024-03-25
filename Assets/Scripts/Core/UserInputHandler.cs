@@ -35,29 +35,34 @@ namespace EchoOfTheTimes.Core
 
         private void HandleMousePressed(Vector3 clickPosition)
         {
-            if (TryGetNearestVertex(clickPosition, out Vertex destination))
+            if (TryGetNearestVertexInRadius(clickPosition, _graph.MaxDistanceToNeighbourVertex, out Vertex destination))
             {
-                List<Vertex> path = _graph.GetPathBFS(_player.Position, destination);
-
-                if (path.Count != 0)
-                {
-                    path.Reverse();
-
-                    var waypoints = new List<Vector3>();
-                    foreach (var vertex in path)
-                    {
-                        waypoints.Add(vertex.transform.position);
-                    }
-
-                    _player.MoveTo(waypoints);
-                }
+                _player.Stop(() => CreatePathAndMove(destination));
             }
         }
 
-        private bool TryGetNearestVertex(Vector3 worldPosition, out Vertex vertex)
+        private void CreatePathAndMove(Vertex destination)
+        {
+            List<Vertex> path = _graph.GetPathBFS(_player.Position, destination);
+
+            if (path.Count != 0)
+            {
+                path.Reverse();
+
+                var waypoints = new Vector3[path.Count];
+                for (int i = 0; i < path.Count; i++)
+                {
+                    waypoints[i] = path[i].transform.position;
+                }
+
+                _player.MoveTo(waypoints);
+            }
+        }
+
+        private bool TryGetNearestVertexInRadius(Vector3 worldPosition, float radius, out Vertex vertex)
         {
             //vertex = _graph.GetNearestVertex(worldPosition);
-            vertex = _graph.GetNearestVertexInRadius(worldPosition, _graph.MaxDistanceToNeighbourVertex);
+            vertex = _graph.GetNearestVertexInRadius(worldPosition, radius);
 
             if (vertex != null)
                 return true;
@@ -77,7 +82,7 @@ namespace EchoOfTheTimes.Core
             if (_levelStateMachine.IsChanging || levelStateId == _levelStateMachine.GetCurrentStateId())
                 return;
 
-            _player.Stop(onComplete: () =>
+            _player.StopAndLink(onComplete: () =>
             {
                 _levelStateMachine.ChangeState(levelStateId);
             });

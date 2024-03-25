@@ -32,8 +32,11 @@ namespace EchoOfTheTimes.Editor
                 float step = TopHeight / (float)StairsNumber;
 
                 spawned.name = $"Stair_{i}";
-                spawned.transform.localScale = new Vector3(1f, 1f, StairWidth);
-                spawned.transform.localPosition = new Vector3(0f, step, StairWidth / 4f) * i;
+                spawned.transform.localScale =
+                    new Vector3(spawned.transform.localScale.x,
+                    spawned.transform.localScale.y,
+                    spawned.transform.localScale.z * StairWidth);
+                spawned.transform.localPosition = new Vector3(0f, step, StairWidth) * i;
 
                 _spawnedStairs.Add(spawned);
             }

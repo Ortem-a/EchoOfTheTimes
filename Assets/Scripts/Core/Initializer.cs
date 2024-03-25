@@ -1,4 +1,6 @@
+using EchoOfTheTimes.Interfaces;
 using EchoOfTheTimes.LevelStates;
+using System.Linq;
 using UnityEngine;
 
 namespace EchoOfTheTimes.Core
@@ -18,11 +20,10 @@ namespace EchoOfTheTimes.Core
             GameManager.Instance.UserInput.Initialize();
             GameManager.Instance.CheckpointManager.Initialize();
 
-#warning результаты сраной реализации кнопок
-            var buttons = FindObjectsOfType<LevelStateButton>();
-            for (int i = 0; i < buttons.Length; i++)
+            var specialVertices = FindObjectsOfType<MonoBehaviour>().OfType<ISpecialVertex>().ToArray();
+            for (int i = 0; i < specialVertices.Length; i++)
             {
-                buttons[i].Initialize();
+                specialVertices[i].Initialize();
             }
 
             //SaveLoadSystem.Instance.BindPlayer();

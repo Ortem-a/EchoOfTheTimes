@@ -1,17 +1,18 @@
 using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Editor;
+using EchoOfTheTimes.Interfaces;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace EchoOfTheTimes.LevelStates
 {
-    public class LevelStateButton : MonoBehaviour
+    public class LevelStateButton : MonoBehaviour, ISpecialVertex
     {
         public bool IsPressed { get; private set; } = false;
 
-        public delegate void ButtonEventHandler();
-        public ButtonEventHandler OnPress;
-        public ButtonEventHandler OnRelease;
+        public Action OnEnter => Press;
+        public Action OnExit => Release;
 
         private LevelStateMachine _stateMachine;
 
@@ -23,18 +24,6 @@ namespace EchoOfTheTimes.LevelStates
         [Space]
 
         public List<SpecialTransition> Influences;
-
-        private void OnEnable()
-        {
-            OnPress += Press;
-            OnRelease += Release;
-        }
-
-        private void OnDisable()
-        {
-            OnPress -= Press;
-            OnRelease -= Release;
-        }
 
         public void Initialize()
         {

@@ -10,6 +10,10 @@ namespace EchoOfTheTimes.Core
     {
         [field: Header("Parameters")]
         [field: SerializeField]
+        public float TeleportDuration_sec { get; private set; }
+        [field: SerializeField]
+        public float TeleportDisappearDuration_sec { get; private set; }
+        [field: SerializeField]
         public float TimeToChangeState_sec { get; private set; }
 
         [Header("Systems")]
