@@ -26,6 +26,12 @@ namespace EchoOfTheTimes.Core
                 specialVertices[i].Initialize();
             }
 
+            var freezers = FindObjectsOfType<StateFreezer>();
+            for (int i = 0; i < freezers.Length; i++)
+            {
+                freezers[i].Initialize();
+            }
+
             //SaveLoadSystem.Instance.BindPlayer();
         }
     }

@@ -11,6 +11,8 @@ namespace EchoOfTheTimes.Core
         //public Action<Vector3> OnMousePressed;
         public Action<Vertex> OnMousePressed;
 
+        public bool CanChangeStates = true;
+
         private Player _player;
         private GraphVisibility _graph;
         private CheckpointManager _checkpointManager;
@@ -82,6 +84,8 @@ namespace EchoOfTheTimes.Core
 
         public void ChangeLevelState(int levelStateId)
         {
+            if (!CanChangeStates) return;
+
             if (_levelStateMachine.IsChanging || levelStateId == _levelStateMachine.GetCurrentStateId())
                 return;
 

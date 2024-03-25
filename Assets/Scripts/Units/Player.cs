@@ -10,7 +10,6 @@ using EchoOfTheTimes.Movement;
 using EchoOfTheTimes.Persistence;
 using EchoOfTheTimes.Utils;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace EchoOfTheTimes.Units
@@ -96,6 +95,11 @@ namespace EchoOfTheTimes.Units
         {
             IsBusy = true;
 
+            if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
+            {
+                freezer.OnCancel?.Invoke();
+            }
+
             if (Position.gameObject.TryGetComponent(out ISpecialVertex specialVertex))
             {
                 specialVertex.OnExit?.Invoke();
@@ -105,6 +109,11 @@ namespace EchoOfTheTimes.Units
         private void OnCompleteExecution()
         {
             IsBusy = false;
+
+            if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
+            {
+                freezer.OnFreeze?.Invoke();
+            }
 
             if (Position.gameObject.TryGetComponent(out ISpecialVertex specialVertex))
             {
