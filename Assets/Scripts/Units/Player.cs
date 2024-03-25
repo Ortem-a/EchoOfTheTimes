@@ -147,9 +147,14 @@ namespace EchoOfTheTimes.Units
         {
             _isNeedLink = false;
 
-            _vertexFollower.OnAcceptLink?.Invoke();
+            //_vertexFollower.OnAcceptLink?.Invoke();
 
             ForceStop();
+        }
+
+        public void ForceLink()
+        {
+            _vertexFollower.OnAcceptLink?.Invoke();
         }
 
         public void Stop(Action onComplete)

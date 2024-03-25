@@ -11,7 +11,7 @@ namespace EchoOfTheTimes.Core
         //public Action<Vector3> OnMousePressed;
         public Action<Vertex> OnMousePressed;
 
-        public bool CanChangeStates = true;
+        public bool CanChangeStates { get; set; } = true;
 
         private Player _player;
         private GraphVisibility _graph;
@@ -91,7 +91,11 @@ namespace EchoOfTheTimes.Core
 
             _player.StopAndLink(onComplete: () =>
             {
-                _levelStateMachine.ChangeState(levelStateId);
+                if (CanChangeStates)
+                {
+                    _player.ForceLink();
+                    _levelStateMachine.ChangeState(levelStateId);
+                }
             });
         }
     }

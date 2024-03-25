@@ -70,12 +70,12 @@ namespace EchoOfTheTimes.UI
         {
             if (isActive)
             {
-                BottomPanel.DOScale(1f, 0.25f)
+                BottomPanel.DOScale(1f, 0.2f)
                     .OnStart(() => BottomPanel.gameObject.SetActive(isActive));
             }
             else
             {
-                BottomPanel.DOScale(0f, 0.25f)
+                BottomPanel.DOScale(0f, 0.2f)
                     .OnComplete(() => BottomPanel.gameObject.SetActive(isActive));
             }
         }
