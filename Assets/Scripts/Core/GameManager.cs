@@ -29,6 +29,7 @@ namespace EchoOfTheTimes.Core
 
         [Header("Scriptable Objects")]
         public ColorStateSettingsScriptableObject ColorStateSettings;
+        public PlayerSettingsScriptableObject PlayerSettings;
 
         public static GameManager Instance { get; private set; }
 

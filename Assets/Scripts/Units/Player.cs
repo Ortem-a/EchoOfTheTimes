@@ -8,6 +8,7 @@ using EchoOfTheTimes.Interfaces;
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Movement;
 using EchoOfTheTimes.Persistence;
+using EchoOfTheTimes.ScriptableObjects;
 using EchoOfTheTimes.Utils;
 using System;
 using UnityEngine;
@@ -25,20 +26,19 @@ namespace EchoOfTheTimes.Units
         public AnimationManager Animations =>
             _animationManager = _animationManager != null ? _animationManager : GetComponent<AnimationManager>();
 
-        public float Duration;
-
         public bool IsBusy { get; set; } = false;
 
         public Vertex Position => _graph.GetNearestVertex(transform.position);
 
         private GraphVisibility _graph;
         private VertexFollower _vertexFollower;
+        private PlayerSettingsScriptableObject _playerSettings;
 
         private AnimationManager _animationManager;
 
         private bool _isNeedLink = false;
         private bool _isNeedStop = false;
-        //private Sequence _sequence;
+        
         private TweenerCore<Vector3, Path, PathOptions> _pathTweener;
 
         private Action _onPlayerStop;
@@ -47,6 +47,7 @@ namespace EchoOfTheTimes.Units
         {
             _graph = GameManager.Instance.Graph;
             _vertexFollower = GameManager.Instance.VertexFollower;
+            _playerSettings = GameManager.Instance.PlayerSettings;
         }
 
         public void Teleportate(Vector3 to, float duration, TweenCallback onStart = null, TweenCallback onComplete = null)
@@ -61,13 +62,17 @@ namespace EchoOfTheTimes.Units
 
         public void MoveTo(Vector3[] waypoints)
         {
-            //_sequence = DOTween.Sequence();
-
             OnStartExecution();
 
-            transform.DOLookAt(waypoints[0], 0.25f, AxisConstraint.Y);
+            transform.DOLookAt(waypoints[0], _playerSettings.RotateDuration, _playerSettings.AxisConstraint);
 
-            _pathTweener = transform.DOPath(waypoints, Duration * waypoints.Length)
+            _pathTweener = transform.DOPath(
+                path: waypoints,
+                duration: _playerSettings.MoveDuration * waypoints.Length,
+                pathType: _playerSettings.PathType,
+                pathMode: _playerSettings.PathMode,
+                gizmoColor: _playerSettings.GizmoColor
+                )
                 .OnWaypointChange((x) =>
                     {
                         if (x != 0)
@@ -75,20 +80,11 @@ namespace EchoOfTheTimes.Units
                             OnCompleteExecution();
                             if (x < waypoints.Length)
                             {
-                                transform.DOLookAt(waypoints[x], 0.25f, AxisConstraint.Y);
+                                transform.DOLookAt(waypoints[x], _playerSettings.RotateDuration, _playerSettings.AxisConstraint);
                             }
                         }
                     })
-                .SetEase(Ease.Linear);
-
-            //foreach (var waypoint in waypoints)
-            //{
-            //    _sequence.Append(
-            //        transform.DOMove(waypoint, Duration)
-            //            .SetEase(Ease.Linear)
-            //            .OnComplete(OnCompleteExecution)
-            //        );
-            //}
+                .SetEase(_playerSettings.Ease);
         }
 
         private void OnStartExecution()
@@ -147,6 +143,8 @@ namespace EchoOfTheTimes.Units
         {
             _isNeedLink = false;
 
+            // перенес в ForceLink() эту строку
+            // это из-за StateFreezer'a
             //_vertexFollower.OnAcceptLink?.Invoke();
 
             ForceStop();
@@ -174,7 +172,6 @@ namespace EchoOfTheTimes.Units
             _isNeedStop = false;
 
             _pathTweener.Kill();
-            //_sequence.Kill();
 
             _onPlayerStop?.Invoke();
         }
