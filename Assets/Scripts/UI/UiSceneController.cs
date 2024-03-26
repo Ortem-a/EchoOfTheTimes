@@ -60,10 +60,24 @@ namespace EchoOfTheTimes.UI
 
         public void EnableFinishCanvas()
         {
-            BottomPanel.gameObject.SetActive(false);
-            FinishCanvas.gameObject.SetActive(true);
+            SetActiveBottomPanel(false);
 
+            FinishCanvas.gameObject.SetActive(true);
             FinishPanel.DOScale(1f, 0.5f);
+        }
+
+        public void SetActiveBottomPanel(bool isActive)
+        {
+            if (isActive)
+            {
+                BottomPanel.DOScale(1f, 0.2f)
+                    .OnStart(() => BottomPanel.gameObject.SetActive(isActive));
+            }
+            else
+            {
+                BottomPanel.DOScale(0f, 0.2f)
+                    .OnComplete(() => BottomPanel.gameObject.SetActive(isActive));
+            }
         }
     }
 }
