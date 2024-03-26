@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2212,6 +2212,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 387337723}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &387337725 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7651214748501870043, guid: 9a95047c035e08e4b87dad034c02985b,
+    type: 3}
+  m_PrefabInstance: {fileID: 387337723}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac5c0b6656c5ad14dbd775bad99f0fd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &395888714
 GameObject:
   m_ObjectHideFlags: 0
@@ -3492,6 +3504,7 @@ MonoBehaviour:
   StateMachine: {fileID: 1897557513}
   Graph: {fileID: 436562144}
   CheckpointManager: {fileID: 1844840746}
+  VerticesBlocker: {fileID: 1544992330}
   Player: {fileID: 23088198}
   VertexFollower: {fileID: 23088203}
   UserInput: {fileID: 2113709826}
@@ -6682,6 +6695,7 @@ Transform:
   - {fileID: 1897557512}
   - {fileID: 405868889}
   - {fileID: 1844840745}
+  - {fileID: 1544992329}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1414667318 stripped
@@ -7243,6 +7257,53 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1527955507}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1544992328
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1544992329}
+  - component: {fileID: 1544992330}
+  m_Layer: 0
+  m_Name: BlockedVertices
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1544992329
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544992328}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1404483519}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1544992330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544992328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48ad3a87934d79b41a3d59899aebf678, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BlockedVertices:
+  - StateId: 0
+    Vertex: {fileID: 387337725}
 --- !u!1 &1562485587 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2199246226485754272, guid: 9a95047c035e08e4b87dad034c02985b,

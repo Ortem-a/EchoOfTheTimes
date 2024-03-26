@@ -20,6 +20,7 @@ namespace EchoOfTheTimes.Core
         public LevelStateMachine StateMachine;
         public GraphVisibility Graph;
         public CheckpointManager CheckpointManager;
+        public VerticesBlocker VerticesBlocker;
 
         [Header("Player")]
         public Player Player;
@@ -50,6 +51,7 @@ namespace EchoOfTheTimes.Core
             StateMachine.OnTransitionStart += Graph.ResetVertices;
             StateMachine.OnTransitionStart += StateMachine.StartTransition;
 
+            StateMachine.OnTransitionComplete += () => VerticesBlocker.Block();
             StateMachine.OnTransitionComplete += Graph.Load;
             StateMachine.OnTransitionComplete += VertexFollower.Unlink;
             StateMachine.OnTransitionComplete += StateMachine.CompleteTransition;
@@ -60,6 +62,7 @@ namespace EchoOfTheTimes.Core
             StateMachine.OnTransitionStart -= Graph.ResetVertices;
             StateMachine.OnTransitionStart -= StateMachine.StartTransition;
 
+            StateMachine.OnTransitionComplete -= () => VerticesBlocker.Block();
             StateMachine.OnTransitionComplete -= Graph.Load;
             StateMachine.OnTransitionComplete -= VertexFollower.Unlink;
             StateMachine.OnTransitionComplete -= StateMachine.CompleteTransition;
