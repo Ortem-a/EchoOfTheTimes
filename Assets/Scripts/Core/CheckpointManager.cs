@@ -63,7 +63,7 @@ namespace EchoOfTheTimes.Core
         {
             Debug.Log($"[CheckpointManager] Accept Active Checkpoint To Scene '{PlayerData}'");
 
-            GameManager.Instance.Player.Teleportate(PlayerData.Checkpoint, 0f);
+            GameManager.Instance.Player.Teleportate(PlayerData.Checkpoint, 0.1f);
             GameManager.Instance.StateMachine.LoadState(PlayerData.StateId);
         }
     }
