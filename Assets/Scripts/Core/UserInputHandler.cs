@@ -8,7 +8,10 @@ namespace EchoOfTheTimes.Core
 {
     public class UserInputHandler : MonoBehaviour
     {
-        public Action<Vector3> OnMousePressed;
+        //public Action<Vector3> OnMousePressed;
+        public Action<Vertex> OnMousePressed;
+
+        public bool CanChangeStates { get; set; } = true;
 
         private Player _player;
         private GraphVisibility _graph;
@@ -33,12 +36,14 @@ namespace EchoOfTheTimes.Core
             _levelStateMachine = GameManager.Instance.StateMachine;
         }
 
-        private void HandleMousePressed(Vector3 clickPosition)
+        //private void HandleMousePressed(Vector3 clickPosition)
+        private void HandleMousePressed(Vertex clickPosition)
         {
-            if (TryGetNearestVertexInRadius(clickPosition, _graph.MaxDistanceToNeighbourVertex, out Vertex destination))
-            {
-                _player.Stop(() => CreatePathAndMove(destination));
-            }
+            _player.Stop(() => CreatePathAndMove(clickPosition));
+            //if (TryGetNearestVertexInRadius(clickPosition, _graph.MaxDistanceToNeighbourVertex, out Vertex destination))
+            //{
+            //    _player.Stop(() => CreatePathAndMove(destination));
+            //}
         }
 
         private void CreatePathAndMove(Vertex destination)
@@ -79,12 +84,18 @@ namespace EchoOfTheTimes.Core
 
         public void ChangeLevelState(int levelStateId)
         {
+            if (!CanChangeStates) return;
+
             if (_levelStateMachine.IsChanging || levelStateId == _levelStateMachine.GetCurrentStateId())
                 return;
 
             _player.StopAndLink(onComplete: () =>
             {
-                _levelStateMachine.ChangeState(levelStateId);
+                if (CanChangeStates)
+                {
+                    _player.ForceLink();
+                    _levelStateMachine.ChangeState(levelStateId);
+                }
             });
         }
     }

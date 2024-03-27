@@ -19,11 +19,18 @@ namespace EchoOfTheTimes.Core
             GameManager.Instance.UserInputHandler.Initialize();
             GameManager.Instance.UserInput.Initialize();
             GameManager.Instance.CheckpointManager.Initialize();
+            GameManager.Instance.VerticesBlocker.Initialize();
 
             var specialVertices = FindObjectsOfType<MonoBehaviour>().OfType<ISpecialVertex>().ToArray();
             for (int i = 0; i < specialVertices.Length; i++)
             {
                 specialVertices[i].Initialize();
+            }
+
+            var freezers = FindObjectsOfType<StateFreezer>();
+            for (int i = 0; i < freezers.Length; i++)
+            {
+                freezers[i].Initialize();
             }
 
             //SaveLoadSystem.Instance.BindPlayer();
