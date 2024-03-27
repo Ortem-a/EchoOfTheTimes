@@ -68,16 +68,16 @@ namespace EchoOfTheTimes.UI
             FinishPanel.DOScale(1f, 0.5f);
         }
 
-        public void SetActiveBottomPanel(bool isActive)
+        public void SetActiveBottomPanel(bool isActive, float duration = 0.2f)
         {
             if (isActive)
             {
-                BottomPanel.DOScale(1f, 0.2f)
+                BottomPanel.DOScale(1f, duration)
                     .OnStart(() => BottomPanel.gameObject.SetActive(isActive));
             }
             else
             {
-                BottomPanel.DOScale(0f, 0.2f)
+                BottomPanel.DOScale(0f, duration)
                     .OnComplete(() => BottomPanel.gameObject.SetActive(isActive));
             }
         }
@@ -85,6 +85,15 @@ namespace EchoOfTheTimes.UI
         public void GoToCheckpoint()
         {
             GameManager.Instance.UserInputHandler.GoToCheckpoint();
+        }
+
+        public void EnableCheckpointButton()
+        {
+            ToCheckpointButton.transform.DOScale(0f, 0f);
+
+            ToCheckpointButton.gameObject.SetActive(true);
+
+            ToCheckpointButton.transform.DOScale(1f, 0.2f);
         }
     }
 }
