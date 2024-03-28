@@ -2016,7 +2016,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2040,13 +2040,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
+  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1622313105}
-  m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3894,6 +3894,7 @@ MonoBehaviour:
   Graph: {fileID: 436562144}
   CheckpointManager: {fileID: 1844840746}
   VerticesBlocker: {fileID: 1544992330}
+  Camera: {fileID: 1622313106}
   Player: {fileID: 23088198}
   VertexFollower: {fileID: 23088203}
   UserInput: {fileID: 2113709826}
@@ -8953,11 +8954,12 @@ MonoBehaviour:
   idealOrthographicSize: 10
   zoomSpeed: 8
   returnSpeed: 5
-  tiltAngle: 10
+  tiltAngle: 0
   inactivityReturnDelay: 5
   orbitHeight: 10
   orbitDistance: 10
   speedHandleRotation: 50
+  Sensitivity: 0.25
   CanMoveCamera: 1
 --- !u!1 &1625058906
 GameObject:

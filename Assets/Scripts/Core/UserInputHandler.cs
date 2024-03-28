@@ -8,7 +8,6 @@ namespace EchoOfTheTimes.Core
 {
     public class UserInputHandler : MonoBehaviour
     {
-        //public Action<Vector3> OnMousePressed;
         public Action<Vertex> OnMousePressed;
 
         public bool CanChangeStates { get; set; } = true;
@@ -36,14 +35,9 @@ namespace EchoOfTheTimes.Core
             _levelStateMachine = GameManager.Instance.StateMachine;
         }
 
-        //private void HandleMousePressed(Vector3 clickPosition)
         private void HandleMousePressed(Vertex clickPosition)
         {
             _player.Stop(() => CreatePathAndMove(clickPosition));
-            //if (TryGetNearestVertexInRadius(clickPosition, _graph.MaxDistanceToNeighbourVertex, out Vertex destination))
-            //{
-            //    _player.Stop(() => CreatePathAndMove(destination));
-            //}
         }
 
         private void CreatePathAndMove(Vertex destination)
@@ -66,7 +60,6 @@ namespace EchoOfTheTimes.Core
 
         private bool TryGetNearestVertexInRadius(Vector3 worldPosition, float radius, out Vertex vertex)
         {
-            //vertex = _graph.GetNearestVertex(worldPosition);
             vertex = _graph.GetNearestVertexInRadius(worldPosition, radius);
 
             if (vertex != null)
