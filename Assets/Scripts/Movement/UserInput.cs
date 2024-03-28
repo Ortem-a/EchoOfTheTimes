@@ -48,7 +48,7 @@ namespace EchoOfTheTimes.Movement
                     }
                     else
                     {
-                        _roc.RotateCamera(deltaX, deltaY);
+                        _roc.RotateCamera(deltaX);
                     }
                 }
             }
