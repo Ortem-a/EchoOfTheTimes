@@ -1,5 +1,4 @@
 using UnityEngine;
-using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
 
 public class RefinedOrbitCamera : MonoBehaviour
 {
@@ -42,7 +41,7 @@ public class RefinedOrbitCamera : MonoBehaviour
         _originRotation = transform.rotation.eulerAngles;
         _rotX = _originRotation.x;
         _rotY = _originRotation.y;
-    
+
         // ѕытаемс€ найти компонент Camera среди дочерних объектов, если он не был установлен вручную
         if (cam == null)
         {
