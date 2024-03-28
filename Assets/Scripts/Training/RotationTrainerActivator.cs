@@ -6,8 +6,10 @@ using UnityEngine;
 namespace EchoOfTheTimes.Training
 {
     [RequireComponent(typeof(BoxCollider))]
-    public class MovementTrainerActivator : MonoBehaviour
+    public class RotationTrainerActivator : MonoBehaviour
     {
+        public RefinedOrbitCamera Camera;
+
         public Artifact Artifact;
 
         public GameObject PointerPrefab;
@@ -21,6 +23,8 @@ namespace EchoOfTheTimes.Training
         {
             _collider = GetComponent<BoxCollider>();
             _collider.isTrigger = true;
+
+            Camera.CanMoveCamera = false;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -49,11 +53,11 @@ namespace EchoOfTheTimes.Training
 
             _pointer = Instantiate(PointerPrefab, SpawnPoint).transform;
 
-            _pointer.DOScale(0.7f, 1f)
+            _pointer.DOLocalMoveX(100f, 1f)
                 .SetLoops(-1, LoopType.Yoyo)
                 .SetEase(Ease.Linear);
 
-            GameManager.Instance.UserInputHandler.gameObject.SetActive(true);
+            Camera.CanMoveCamera = true;
         }
 
         public void Hide()

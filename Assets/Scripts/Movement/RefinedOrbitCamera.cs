@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
 
 public class RefinedOrbitCamera : MonoBehaviour
 {
@@ -29,8 +30,19 @@ public class RefinedOrbitCamera : MonoBehaviour
     private bool isFollowingPlayer = true; // Следует ли камера за игроком
     private Vector3 lastPlayerPosition; // Последняя позиция игрока для отслеживания его движения
 
-    void Start()
+    public bool CanMoveCamera = true;
+    private Touch _initTouch;
+    private float _rotX;
+    private float _rotY;
+    private Vector3 _originRotation;
+    private float _dir = -1;
+
+    private void Awake()
     {
+        _originRotation = transform.rotation.eulerAngles;
+        _rotX = _originRotation.x;
+        _rotY = _originRotation.y;
+    
         // Пытаемся найти компонент Camera среди дочерних объектов, если он не был установлен вручную
         if (cam == null)
         {
@@ -48,7 +60,7 @@ public class RefinedOrbitCamera : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Update()
     {
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0f)
@@ -66,18 +78,50 @@ public class RefinedOrbitCamera : MonoBehaviour
             }
         }
 
-        // Обработка ввода для вращения камеры
-        if (Input.GetKey(KeyCode.Q))
+        if (CanMoveCamera)
         {
-            RotateCamera(-1);
-        }
-        else if (Input.GetKey(KeyCode.E))
-        {
-            RotateCamera(1);
+            if (Input.touchCount > 0)
+            {
+                foreach (var touch in Input.touches)
+                {
+                    if (touch.phase == TouchPhase.Began)
+                    {
+                        _initTouch = touch;
+                    }
+                    else if (touch.phase == TouchPhase.Moved)
+                    {
+                        float deltaX = _initTouch.position.x - touch.position.x;
+                        float deltaY = _initTouch.position.y - touch.position.y;
+                        _rotX -= deltaY * Time.deltaTime * speedHandleRotation / 100f * _dir;
+                        _rotY += deltaX * Time.deltaTime * speedHandleRotation / 100f * _dir;
+
+                        transform.eulerAngles = new Vector3(_rotX, _rotY, 0f);
+
+                        timeSinceLastManualRotation = 0f;
+                        isFollowingPlayer = false;
+                    }
+                    else if (touch.phase == TouchPhase.Ended)
+                    {
+                        _initTouch = new Touch();
+                    }
+                }
+            }
         }
         else
         {
-            timeSinceLastManualRotation += Time.deltaTime;
+            // Обработка ввода для вращения камеры
+            if (Input.GetKey(KeyCode.Q))
+            {
+                RotateCamera(-1);
+            }
+            else if (Input.GetKey(KeyCode.E))
+            {
+                RotateCamera(1);
+            }
+            else
+            {
+                timeSinceLastManualRotation += Time.deltaTime;
+            }
         }
 
         // Проверка на движение игрока
@@ -95,7 +139,7 @@ public class RefinedOrbitCamera : MonoBehaviour
         lastPlayerPosition = player.position; // Обновляем последнюю позицию игрока
     }
 
-    void LateUpdate()
+    private void LateUpdate()
     {
         if (isFollowingPlayer)
         {
@@ -115,7 +159,7 @@ public class RefinedOrbitCamera : MonoBehaviour
         }
     }
 
-    void RotateCamera(float direction)
+    private void RotateCamera(float direction)
     {
         transform.RotateAround(centralAxis.position, Vector3.up, direction * speedHandleRotation * Time.deltaTime); // Вращение вокруг оси Y
         timeSinceLastManualRotation = 0f;
