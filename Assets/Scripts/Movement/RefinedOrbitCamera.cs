@@ -2,6 +2,7 @@ using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Units;
 using EchoOfTheTimes.Utils;
 using UnityEngine;
+using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
 
 public class RefinedOrbitCamera : MonoBehaviour
 {
@@ -32,7 +33,6 @@ public class RefinedOrbitCamera : MonoBehaviour
     private bool _isNeedAutoRotate = true;
     private bool _isAutoRotateTimerStart = false;
     private Player _player;
-
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     private void OnDrawGizmos()
@@ -125,18 +125,17 @@ public class RefinedOrbitCamera : MonoBehaviour
         pc.y = 0;
         pf.y = 0;
         var a = Vector3.SignedAngle(pf, pc, Vector3.up);
-        var dir = 1f;
+        float dir;
 
-        if (Mathf.Abs(a) > 2f)
-        {
-            if (a > 0f) dir = -1f;
-            else dir = 1f;
+        if (a > 0f) dir = -1f;
+        else dir = 1f;
 
-            Rotate(AutoRotationSpeed * dir);
-        }
-        else
+        if (Mathf.Abs(a) > 0.1f)
         {
-            ResetAfkTimer();
+            var s = Mathf.Lerp(transform.rotation.eulerAngles.y, Mathf.Abs(a), AutoRotationSpeed);
+
+            Rotate(s * dir);
+            //Rotate(AutoRotationSpeed * dir);
         }
     }
 
@@ -179,7 +178,6 @@ public class RefinedOrbitCamera : MonoBehaviour
         _isNeedAutoRotate = false;
         ResetAfkTimer();
     }
-
     private void Rotate(float deltaX) 
     {
         transform.RotateAround(Focus.position, Vector3.up, deltaX * Sensitivity * Time.deltaTime);

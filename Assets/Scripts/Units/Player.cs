@@ -11,6 +11,7 @@ using EchoOfTheTimes.Persistence;
 using EchoOfTheTimes.ScriptableObjects;
 using EchoOfTheTimes.Utils;
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace EchoOfTheTimes.Units
@@ -43,6 +44,14 @@ namespace EchoOfTheTimes.Units
 
         private Action _onPlayerStop;
 
+        private Movable _movable;
+
+        private void Awake()
+        {
+            _movable = GetComponent<Movable>();
+            _movable.Initialize(1f, 0.05f);
+        }
+
         public void Initialize()
         {
             _graph = GameManager.Instance.Graph;
@@ -62,29 +71,31 @@ namespace EchoOfTheTimes.Units
 
         public void MoveTo(Vector3[] waypoints)
         {
-            OnStartExecution();
+            _movable.Move(waypoints, OnStartExecution, OnCompleteExecution);
 
-            transform.DOLookAt(waypoints[0], _playerSettings.RotateDuration, _playerSettings.AxisConstraint);
+            //OnStartExecution();
 
-            _pathTweener = transform.DOPath(
-                path: waypoints,
-                duration: _playerSettings.MoveDuration * waypoints.Length,
-                pathType: _playerSettings.PathType,
-                pathMode: _playerSettings.PathMode,
-                gizmoColor: _playerSettings.GizmoColor
-                )
-                .OnWaypointChange((x) =>
-                    {
-                        if (x != 0)
-                        {
-                            OnCompleteExecution();
-                            if (x < waypoints.Length)
-                            {
-                                transform.DOLookAt(waypoints[x], _playerSettings.RotateDuration, _playerSettings.AxisConstraint);
-                            }
-                        }
-                    })
-                .SetEase(_playerSettings.Ease);
+            //transform.DOLookAt(waypoints[0], _playerSettings.RotateDuration, _playerSettings.AxisConstraint);
+
+            //_pathTweener = transform.DOPath(
+            //    path: waypoints,
+            //    duration: _playerSettings.MoveDuration * waypoints.Length,
+            //    pathType: _playerSettings.PathType,
+            //    pathMode: _playerSettings.PathMode,
+            //    gizmoColor: _playerSettings.GizmoColor
+            //    )
+            //    .OnWaypointChange((x) =>
+            //        {
+            //            if (x != 0)
+            //            {
+            //                OnCompleteExecution();
+            //                if (x < waypoints.Length)
+            //                {
+            //                    transform.DOLookAt(waypoints[x], _playerSettings.RotateDuration, _playerSettings.AxisConstraint);
+            //                }
+            //            }
+            //        })
+            //    .SetEase(_playerSettings.Ease);
         }
 
         private void OnStartExecution()
@@ -169,6 +180,8 @@ namespace EchoOfTheTimes.Units
 
         private void ForceStop()
         {
+            _movable.Stop();
+
             _isNeedStop = false;
 
             _pathTweener.Kill();
