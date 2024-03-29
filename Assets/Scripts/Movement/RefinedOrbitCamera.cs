@@ -1,3 +1,5 @@
+using EchoOfTheTimes.Core;
+using EchoOfTheTimes.Units;
 using EchoOfTheTimes.Utils;
 using UnityEngine;
 
@@ -24,6 +26,13 @@ public class RefinedOrbitCamera : MonoBehaviour
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Range(0f, 360f)]
     public float AutoRotationSpeed;
+
+    private float _afkTime = 0f;
+    public float MaxAfkTime_sec;
+    private bool _isNeedAutoRotate = true;
+    private bool _isAutoRotateTimerStart = false;
+    private Player _player;
+
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     private void OnDrawGizmos()
@@ -69,6 +78,20 @@ public class RefinedOrbitCamera : MonoBehaviour
         transform.localRotation = Quaternion.Euler(_orbitAngles);
     }
 
+    private void FixedUpdate()
+    {
+        if (_isAutoRotateTimerStart)
+        {
+            _afkTime += Time.deltaTime;
+
+            if (_afkTime > MaxAfkTime_sec)
+            {
+                _isNeedAutoRotate = true;
+                _isAutoRotateTimerStart = false;
+            }
+        }
+    }
+
     private void LateUpdate()
     {
         UpdateFocusPoint();
@@ -79,7 +102,20 @@ public class RefinedOrbitCamera : MonoBehaviour
 
         transform.SetPositionAndRotation(lookPosition, lookRotation);
 
-        AutoRotateCamera();
+        if (_player.IsBusy)
+        {
+            _isNeedAutoRotate = true;
+        }
+
+        if (_isNeedAutoRotate)
+        {
+            AutoRotateCamera();
+        }
+    }
+
+    public void Initialize()
+    {
+        _player = GameManager.Instance.Player;
     }
 
     private void AutoRotateCamera()
@@ -96,8 +132,17 @@ public class RefinedOrbitCamera : MonoBehaviour
             if (a > 0f) dir = -1f;
             else dir = 1f;
 
-            RotateCamera(AutoRotationSpeed * dir);
+            Rotate(AutoRotationSpeed * dir);
         }
+        else
+        {
+            ResetAfkTimer();
+        }
+    }
+
+    public void ResetAfkTimer()
+    {
+        _afkTime = 0f;
     }
 
     private void UpdateFocusPoint()
@@ -127,6 +172,15 @@ public class RefinedOrbitCamera : MonoBehaviour
     }
 
     public void RotateCamera(float deltaX)
+    {
+        Rotate(deltaX);
+
+        _isAutoRotateTimerStart = true;
+        _isNeedAutoRotate = false;
+        ResetAfkTimer();
+    }
+
+    private void Rotate(float deltaX) 
     {
         transform.RotateAround(Focus.position, Vector3.up, deltaX * Sensitivity * Time.deltaTime);
     }

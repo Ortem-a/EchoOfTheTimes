@@ -38,7 +38,7 @@ namespace EchoOfTheTimes.Units
 
         private bool _isNeedLink = false;
         private bool _isNeedStop = false;
-        
+
         private TweenerCore<Vector3, Path, PathOptions> _pathTweener;
 
         private Action _onPlayerStop;
