@@ -178,6 +178,7 @@ public class RefinedOrbitCamera : MonoBehaviour
         _isNeedAutoRotate = false;
         ResetAfkTimer();
     }
+
     private void Rotate(float deltaX) 
     {
         transform.RotateAround(Focus.position, Vector3.up, deltaX * Sensitivity * Time.deltaTime);
