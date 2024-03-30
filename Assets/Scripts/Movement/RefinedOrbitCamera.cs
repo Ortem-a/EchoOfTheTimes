@@ -1,6 +1,7 @@
-using EchoOfTheTimes.Core;
+﻿using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Units;
 using EchoOfTheTimes.Utils;
+using System;
 using UnityEngine;
 
 namespace EchoOfTheTimes.Movement
@@ -19,12 +20,14 @@ namespace EchoOfTheTimes.Movement
         [SerializeField]
         private float _distance = 5f;
         [SerializeField]
+        private float _projectionSize = 9f;
+        [SerializeField]
         private float _focusRadius = 1f;
 
         private Vector3 _focusPoint;
         private Vector2 _orbitAngles = new Vector2(45f, 0f);
 
-        [Range(0f, 360f)]
+        [Range(0f, 1f)]
         public float AutoRotationSpeed;
 
         private float _afkTime = 0f;
@@ -69,7 +72,7 @@ namespace EchoOfTheTimes.Movement
         private void Awake()
         {
             _camera = Camera.main;
-            _camera.orthographicSize = _distance;
+            _camera.orthographicSize = _projectionSize;
 
             _focusPoint = Focus.position;
             transform.localRotation = Quaternion.Euler(_orbitAngles);
@@ -129,9 +132,9 @@ namespace EchoOfTheTimes.Movement
 
             if (Mathf.Abs(a) > 0.1f)
             {
-                var s = Mathf.Lerp(transform.rotation.eulerAngles.y, Mathf.Abs(a), AutoRotationSpeed);
+                //var s = Mathf.Lerp(transform.rotation.eulerAngles.y, Mathf.Abs(a), AutoRotationSpeed);
 
-                Rotate(s * dir);
+                Rotate(Mathf.Abs(a) * dir);
                 //Rotate(AutoRotationSpeed * dir);
             }
         }

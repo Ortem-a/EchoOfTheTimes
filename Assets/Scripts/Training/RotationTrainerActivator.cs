@@ -1,5 +1,6 @@
 using DG.Tweening;
 using EchoOfTheTimes.Core;
+using EchoOfTheTimes.Movement;
 using EchoOfTheTimes.Units;
 using UnityEngine;
 
@@ -19,6 +20,10 @@ namespace EchoOfTheTimes.Training
         private bool _isShowed = false;
         private BoxCollider _collider;
 
+
+        public RefinedOrbitCamera_PASHA ROC_PASHA;
+
+
         private void Awake()
         {
             _collider = GetComponent<BoxCollider>();
@@ -26,6 +31,8 @@ namespace EchoOfTheTimes.Training
 
             Artifact.gameObject.SetActive(false);
             UserInputHandler.CanRotateCamera = false;
+
+            ROC_PASHA.CanRotateCamera = false;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -60,6 +67,7 @@ namespace EchoOfTheTimes.Training
                 .SetEase(Ease.Linear);
 
             UserInputHandler.CanRotateCamera = true;
+            ROC_PASHA.CanRotateCamera = true;
         }
 
         public void Hide()

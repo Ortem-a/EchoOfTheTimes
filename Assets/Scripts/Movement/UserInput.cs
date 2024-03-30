@@ -10,6 +10,8 @@ namespace EchoOfTheTimes.Movement
 
         private UserInputHandler _userInputHandler;
 
+        public RefinedOrbitCamera_PASHA ROC_PASHA;
+
         private Vector3 _startTouchPosition;
         private Vector3 _endTouchPosition;
         private Touch _touch;
@@ -46,8 +48,8 @@ namespace EchoOfTheTimes.Movement
                     }
                     else
                     {
-                        _userInputHandler.OnSwipe?.Invoke(deltaX);
-                        //_roc.RotateCamera(deltaX);
+                        //_userInputHandler.OnSwipe?.Invoke(deltaX);
+                        ROC_PASHA.HandleSwipe(deltaX);
                     }
                 }
             }
