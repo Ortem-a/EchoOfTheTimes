@@ -16,12 +16,14 @@ namespace EchoOfTheTimes.Training
         {
             _collider = GetComponent<BoxCollider>();
             _collider.isTrigger = true;
+
+            Artifact.gameObject.SetActive(false);
         }
 
-        private void Start()
-        {
-            Artifact.Enable();
-        }
+        //private void Start()
+        //{
+        //    Artifact.Enable();
+        //}
 
         private void OnTriggerEnter(Collider other)
         {
@@ -33,7 +35,8 @@ namespace EchoOfTheTimes.Training
 
         private void EnableStatesChanging()
         {
-            Artifact.Disable();
+            Artifact.gameObject.SetActive(true);
+            Artifact.Enable();
 
             UiManager.Instance.UiSceneController.SetActiveBottomPanel(true);
             UiManager.Instance.UiSceneView.InfoLabel.gameObject.SetActive(true);

@@ -1,4 +1,7 @@
+using DG.Tweening;
 using EchoOfTheTimes.LevelStates;
+using EchoOfTheTimes.Movement;
+using EchoOfTheTimes.Training;
 using EchoOfTheTimes.Units;
 using System;
 using System.Collections.Generic;
@@ -8,23 +11,31 @@ namespace EchoOfTheTimes.Core
 {
     public class UserInputHandler : MonoBehaviour
     {
+#warning Œ¡ﬂ«¿“≈À‹ÕŒ ”¡–¿“‹ √Œ¬ÕŒ
+        public RotationTrainerActivator RTA;
+
         public Action<Vertex> OnTouched;
+        public Action<float> OnSwipe;
 
         public bool CanChangeStates { get; set; } = true;
+        public bool CanRotateCamera { get; set; } = true;
 
         private Player _player;
         private GraphVisibility _graph;
         private CheckpointManager _checkpointManager;
         private LevelStateMachine _levelStateMachine;
+        private RefinedOrbitCamera _camera;
 
         private void Awake()
         {
             OnTouched += HandleTouch;
+            OnSwipe += HandleSwipe;
         }
 
         private void OnDestroy()
         {
             OnTouched -= HandleTouch;
+            OnSwipe -= HandleSwipe;
         }
 
         public void Initialize()
@@ -33,11 +44,25 @@ namespace EchoOfTheTimes.Core
             _player = GameManager.Instance.Player;
             _checkpointManager = GameManager.Instance.CheckpointManager;
             _levelStateMachine = GameManager.Instance.StateMachine;
+            _camera = GameManager.Instance.Camera;
         }
 
-        private void HandleTouch(Vertex clickPosition)
+        private void HandleTouch(Vertex touchPosition)
         {
-            _player.Stop(() => CreatePathAndMove(clickPosition));
+            Paint(touchPosition);
+
+            _player.Stop(() => CreatePathAndMove(touchPosition));
+        }
+
+        private void HandleSwipe(float deltaX) 
+        {
+#warning Œ¡ﬂ«¿“≈À‹ÕŒ ”¡–¿“‹ √Œ¬ÕŒ
+            if (CanRotateCamera)
+            {
+                HideRTA();
+
+                _camera.RotateCamera(deltaX);
+            }
         }
 
         private void CreatePathAndMove(Vertex destination)
@@ -76,6 +101,30 @@ namespace EchoOfTheTimes.Core
             {
                 _levelStateMachine.ChangeState(levelStateId);
             });
+        }
+
+#warning “ŒœŒ–Õ¿ﬂ –≈¿À»«¿÷»ﬂ Œ –¿ÿ»¬¿Õ»ﬂ ¡ÀŒ ¿ Õ¿  Œ“Œ–€… Õ¿∆¿À
+        private void Paint(Vertex vertex)
+        {
+            var mat = vertex.transform.parent.GetComponent<Renderer>().material;
+            var color = mat.color;
+
+            mat.DOColor(Color.red, 0.1f)
+                .OnComplete(() =>
+                {
+                    mat.DOColor(color, 0.1f);
+                });
+        }
+
+#warning Œ¡ﬂ«¿“≈À‹ÕŒ ”¡–¿“‹ √Œ¬ÕŒ
+        private bool _flagOnce = true;
+        private void HideRTA()
+        {
+            if (_flagOnce)
+            {
+                RTA.Hide();
+                _flagOnce = false;
+            }
         }
     }
 }

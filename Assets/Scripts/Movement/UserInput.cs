@@ -9,7 +9,6 @@ namespace EchoOfTheTimes.Movement
         private Camera _camera;
 
         private UserInputHandler _userInputHandler;
-        private RefinedOrbitCamera _roc;
 
         private Vector3 _startTouchPosition;
         private Vector3 _endTouchPosition;
@@ -18,7 +17,6 @@ namespace EchoOfTheTimes.Movement
         public void Initialize()
         {
             _userInputHandler = GameManager.Instance.UserInputHandler;
-            _roc = GameManager.Instance.Camera;
         }
 
         private void Update()
@@ -48,7 +46,8 @@ namespace EchoOfTheTimes.Movement
                     }
                     else
                     {
-                        _roc.RotateCamera(deltaX);
+                        _userInputHandler.OnSwipe?.Invoke(deltaX);
+                        //_roc.RotateCamera(deltaX);
                     }
                 }
             }

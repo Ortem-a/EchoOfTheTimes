@@ -8,7 +8,7 @@ namespace EchoOfTheTimes.Training
     [RequireComponent(typeof(BoxCollider))]
     public class RotationTrainerActivator : MonoBehaviour
     {
-        public RefinedOrbitCamera Camera;
+        public UserInputHandler UserInputHandler;
 
         public Artifact Artifact;
 
@@ -24,7 +24,8 @@ namespace EchoOfTheTimes.Training
             _collider = GetComponent<BoxCollider>();
             _collider.isTrigger = true;
 
-            Camera.CanMoveCamera = false;
+            Artifact.gameObject.SetActive(false);
+            UserInputHandler.CanRotateCamera = false;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -39,16 +40,17 @@ namespace EchoOfTheTimes.Training
             }
         }
 
-        private void OnTriggerExit(Collider other)
-        {
-            if (_isShowed)
-            {
-                Hide();
-            }
-        }
+        //private void OnTriggerExit(Collider other)
+        //{
+        //    if (_isShowed)
+        //    {
+        //        Hide();
+        //    }
+        //}
 
         public void Show()
         {
+            Artifact.gameObject.SetActive(true);
             Artifact.Enable();
 
             _pointer = Instantiate(PointerPrefab, SpawnPoint).transform;
@@ -57,7 +59,7 @@ namespace EchoOfTheTimes.Training
                 .SetLoops(-1, LoopType.Yoyo)
                 .SetEase(Ease.Linear);
 
-            Camera.CanMoveCamera = true;
+            UserInputHandler.CanRotateCamera = true;
         }
 
         public void Hide()
