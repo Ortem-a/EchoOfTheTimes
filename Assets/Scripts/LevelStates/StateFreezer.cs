@@ -22,7 +22,7 @@ namespace EchoOfTheTimes.LevelStates
             Debug.Log($"[StateFreezer] Freeze");
             _inputHandler.CanChangeStates = false;
 
-            UiManager.Instance.UiSceneController.SetActiveBottomPanel(false);
+            UiManager.Instance.UiSceneController.SetActiveBottomPanel(false, 0f);
         }
 
         private void Cancel()
@@ -30,7 +30,7 @@ namespace EchoOfTheTimes.LevelStates
             Debug.Log($"[StateFreezer] Cancel");
             _inputHandler.CanChangeStates = true;
 
-            UiManager.Instance.UiSceneController.SetActiveBottomPanel(true);
+            UiManager.Instance.UiSceneController.SetActiveBottomPanel(true, 0);
         }
     }
 }

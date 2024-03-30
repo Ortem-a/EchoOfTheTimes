@@ -14,7 +14,6 @@ namespace EchoOfTheTimes.Movement
         public Teleportator Destination;
 
         public Action OnEnter => Teleport;
-
         public Action OnExit => null;
 
         public void Initialize()

@@ -8,8 +8,7 @@ namespace EchoOfTheTimes.Core
 {
     public class UserInputHandler : MonoBehaviour
     {
-        //public Action<Vector3> OnMousePressed;
-        public Action<Vertex> OnMousePressed;
+        public Action<Vertex> OnTouched;
 
         public bool CanChangeStates { get; set; } = true;
 
@@ -20,12 +19,12 @@ namespace EchoOfTheTimes.Core
 
         private void Awake()
         {
-            OnMousePressed += HandleMousePressed;
+            OnTouched += HandleTouch;
         }
 
         private void OnDestroy()
         {
-            OnMousePressed -= HandleMousePressed;
+            OnTouched -= HandleTouch;
         }
 
         public void Initialize()
@@ -36,14 +35,9 @@ namespace EchoOfTheTimes.Core
             _levelStateMachine = GameManager.Instance.StateMachine;
         }
 
-        //private void HandleMousePressed(Vector3 clickPosition)
-        private void HandleMousePressed(Vertex clickPosition)
+        private void HandleTouch(Vertex clickPosition)
         {
             _player.Stop(() => CreatePathAndMove(clickPosition));
-            //if (TryGetNearestVertexInRadius(clickPosition, _graph.MaxDistanceToNeighbourVertex, out Vertex destination))
-            //{
-            //    _player.Stop(() => CreatePathAndMove(destination));
-            //}
         }
 
         private void CreatePathAndMove(Vertex destination)
@@ -64,22 +58,11 @@ namespace EchoOfTheTimes.Core
             }
         }
 
-        private bool TryGetNearestVertexInRadius(Vector3 worldPosition, float radius, out Vertex vertex)
-        {
-            //vertex = _graph.GetNearestVertex(worldPosition);
-            vertex = _graph.GetNearestVertexInRadius(worldPosition, radius);
-
-            if (vertex != null)
-                return true;
-
-            return false;
-        }
-
         public void GoToCheckpoint()
         {
             Debug.Log("[UserInputHandler] Go To Checkpoint");
 
-            _checkpointManager.AcceptActiveCheckpointToScene();
+            _player.Stop(onComplete: () => _checkpointManager.AcceptActiveCheckpointToScene());
         }
 
         public void ChangeLevelState(int levelStateId)
@@ -91,11 +74,7 @@ namespace EchoOfTheTimes.Core
 
             _player.StopAndLink(onComplete: () =>
             {
-                if (CanChangeStates)
-                {
-                    _player.ForceLink();
-                    _levelStateMachine.ChangeState(levelStateId);
-                }
+                _levelStateMachine.ChangeState(levelStateId);
             });
         }
     }

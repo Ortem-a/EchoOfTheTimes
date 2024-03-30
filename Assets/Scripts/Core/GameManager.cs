@@ -23,6 +23,7 @@ namespace EchoOfTheTimes.Core
         public VerticesBlocker VerticesBlocker;
 
         [Header("Player")]
+        public RefinedOrbitCamera Camera;
         public Player Player;
         public VertexFollower VertexFollower;
         public UserInput UserInput;
