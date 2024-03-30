@@ -1,6 +1,7 @@
 using DG.Tweening;
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Movement;
+using EchoOfTheTimes.Training;
 using EchoOfTheTimes.Units;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,9 @@ namespace EchoOfTheTimes.Core
 {
     public class UserInputHandler : MonoBehaviour
     {
+#warning Œ¡ﬂ«¿“≈À‹ÕŒ ”¡–¿“‹ √Œ¬ÕŒ
+        public RotationTrainerActivator RTA;
+
         public Action<Vertex> OnTouched;
         public Action<float> OnSwipe;
 
@@ -52,8 +56,11 @@ namespace EchoOfTheTimes.Core
 
         private void HandleSwipe(float deltaX) 
         {
+#warning Œ¡ﬂ«¿“≈À‹ÕŒ ”¡–¿“‹ √Œ¬ÕŒ
             if (CanRotateCamera)
             {
+                HideRTA();
+
                 _camera.RotateCamera(deltaX);
             }
         }
@@ -107,6 +114,17 @@ namespace EchoOfTheTimes.Core
                 {
                     mat.DOColor(color, 0.1f);
                 });
+        }
+
+#warning Œ¡ﬂ«¿“≈À‹ÕŒ ”¡–¿“‹ √Œ¬ÕŒ
+        private bool _flagOnce = true;
+        private void HideRTA()
+        {
+            if (_flagOnce)
+            {
+                RTA.Hide();
+                _flagOnce = false;
+            }
         }
     }
 }

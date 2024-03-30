@@ -1,6 +1,5 @@
 using DG.Tweening;
 using EchoOfTheTimes.Core;
-using EchoOfTheTimes.Movement;
 using EchoOfTheTimes.Units;
 using UnityEngine;
 
@@ -41,13 +40,13 @@ namespace EchoOfTheTimes.Training
             }
         }
 
-        private void OnTriggerExit(Collider other)
-        {
-            if (_isShowed)
-            {
-                Hide();
-            }
-        }
+        //private void OnTriggerExit(Collider other)
+        //{
+        //    if (_isShowed)
+        //    {
+        //        Hide();
+        //    }
+        //}
 
         public void Show()
         {
