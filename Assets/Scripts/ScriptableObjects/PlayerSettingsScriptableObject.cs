@@ -8,15 +8,10 @@ namespace EchoOfTheTimes.ScriptableObjects
     {
         [field: Header("Movement")]
         [field: SerializeField]
-        public float MoveDuration { get; private set; }
+        public float MoveSpeed { get; private set; }
         [field: SerializeField]
-        public PathType PathType { get; private set; }
-        [field: SerializeField]
-        public PathMode PathMode { get; private set; }
-        [field: SerializeField]
-        public Color GizmoColor { get; private set; }
-        [field: SerializeField]
-        public Ease Ease { get; private set; }
+        public float DistanceTreshold { get; private set; }
+
 
         [field: Header("Rotation")]
         [field: SerializeField]

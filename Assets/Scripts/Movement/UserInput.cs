@@ -43,7 +43,7 @@ namespace EchoOfTheTimes.Movement
                         var clickPosition = ScreenToVertex(_touch.position);
                         if (clickPosition != null)
                         {
-                            _userInputHandler.OnMousePressed?.Invoke(clickPosition);
+                            _userInputHandler.OnTouched?.Invoke(clickPosition);
                         }
                     }
                     else

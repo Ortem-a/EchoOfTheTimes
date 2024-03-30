@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System;
 using UnityEngine;
+using UnityEngine.Animations;
 
 namespace EchoOfTheTimes.Movement
 {
@@ -8,6 +9,9 @@ namespace EchoOfTheTimes.Movement
     {
         private float _speed;
         private float _distanceTreshold;
+        private float _rotateDuration;
+        private AxisConstraint _rotateConstraint;
+
         private int _waypointIndex;
         private Vector3 _destination;
         private Vector3[] _path;
@@ -17,6 +21,7 @@ namespace EchoOfTheTimes.Movement
 
         private Action _onStartMoving;
         private Action _onCompleteMoving;
+        private Action _onStoppedMoving;
 
         private void Update()
         {
@@ -26,21 +31,24 @@ namespace EchoOfTheTimes.Movement
                 {
                     _onCompleteMoving?.Invoke();
 
-                    if (!TryGetNextWaypoint(out _destination))
+                    if (_isNeedToStop)
                     {
+                        _isNeedToStop = false;
                         ForceStop();
+                        _onStoppedMoving?.Invoke();
                     }
                     else
                     {
-                        transform.DOLookAt(_destination, 0.1f, AxisConstraint.Y);
+                        if (!TryGetNextWaypoint(out _destination))
+                        {
+                            ForceStop();
+                        }
+                        else
+                        {
+                            transform.DOLookAt(_destination, _rotateDuration, _rotateConstraint);
 
-                        _onStartMoving?.Invoke();
-                    }
-
-                    if (_isNeedToStop) 
-                    {
-                        ForceStop();
-                        _isNeedToStop = false;
+                            _onStartMoving?.Invoke();
+                        }
                     }
                 }
                 else
@@ -50,24 +58,12 @@ namespace EchoOfTheTimes.Movement
             }
         }
 
-        private bool TryGetNextWaypoint(out Vector3 destination)
-        {
-            destination = Vector3.zero;
-            _waypointIndex++;
-
-            if (_waypointIndex < _path.Length) 
-            {
-                destination = _path[_waypointIndex];
-                return true;
-            }
-
-            return false;
-        }
-
-        public void Initialize(float speed, float distanceTreshold)
+        public void Initialize(float speed, float distanceTreshold, float rotateDuration, AxisConstraint rotateConstraint)
         {
             _speed = speed;
             _distanceTreshold = distanceTreshold;
+            _rotateDuration = rotateDuration;
+            _rotateConstraint = rotateConstraint;
         }
 
         public void Move(Vector3[] path, Action onStart, Action onComplete)
@@ -80,19 +76,40 @@ namespace EchoOfTheTimes.Movement
             _onStartMoving = onStart;
             _onCompleteMoving = onComplete;
 
-            transform.DOLookAt(_destination, 0.1f, AxisConstraint.Y);
+            transform.DOLookAt(_destination, _rotateDuration, _rotateConstraint);
 
             _onStartMoving?.Invoke();
         }
 
-        public void Stop()
+        public void Stop(Action onStopped)
         {
             _isNeedToStop = true;
+            _onStoppedMoving = onStopped;
+
+            if (!_isMoving)
+            {
+                ForceStop();
+                _onStoppedMoving?.Invoke();
+            }
         }
 
         private void ForceStop()
         {
             _isMoving = false;
+        }
+
+        private bool TryGetNextWaypoint(out Vector3 destination)
+        {
+            destination = Vector3.zero;
+            _waypointIndex++;
+
+            if (_waypointIndex < _path.Length)
+            {
+                destination = _path[_waypointIndex];
+                return true;
+            }
+
+            return false;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace EchoOfTheTimes.Core
 {
     public class UserInputHandler : MonoBehaviour
     {
-        public Action<Vertex> OnMousePressed;
+        public Action<Vertex> OnTouched;
 
         public bool CanChangeStates { get; set; } = true;
 
@@ -19,12 +19,12 @@ namespace EchoOfTheTimes.Core
 
         private void Awake()
         {
-            OnMousePressed += HandleMousePressed;
+            OnTouched += HandleTouch;
         }
 
         private void OnDestroy()
         {
-            OnMousePressed -= HandleMousePressed;
+            OnTouched -= HandleTouch;
         }
 
         public void Initialize()
@@ -35,7 +35,7 @@ namespace EchoOfTheTimes.Core
             _levelStateMachine = GameManager.Instance.StateMachine;
         }
 
-        private void HandleMousePressed(Vertex clickPosition)
+        private void HandleTouch(Vertex clickPosition)
         {
             _player.Stop(() => CreatePathAndMove(clickPosition));
         }
@@ -58,21 +58,11 @@ namespace EchoOfTheTimes.Core
             }
         }
 
-        private bool TryGetNearestVertexInRadius(Vector3 worldPosition, float radius, out Vertex vertex)
-        {
-            vertex = _graph.GetNearestVertexInRadius(worldPosition, radius);
-
-            if (vertex != null)
-                return true;
-
-            return false;
-        }
-
         public void GoToCheckpoint()
         {
             Debug.Log("[UserInputHandler] Go To Checkpoint");
 
-            _checkpointManager.AcceptActiveCheckpointToScene();
+            _player.Stop(onComplete: () => _checkpointManager.AcceptActiveCheckpointToScene());
         }
 
         public void ChangeLevelState(int levelStateId)
@@ -84,11 +74,7 @@ namespace EchoOfTheTimes.Core
 
             _player.StopAndLink(onComplete: () =>
             {
-                if (CanChangeStates)
-                {
-                    _player.ForceLink();
-                    _levelStateMachine.ChangeState(levelStateId);
-                }
+                _levelStateMachine.ChangeState(levelStateId);
             });
         }
     }
