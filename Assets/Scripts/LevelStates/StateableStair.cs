@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using EchoOfTheTimes.Editor;
 using UnityEngine;
 
@@ -17,3 +18,4 @@ namespace EchoOfTheTimes.LevelStates
         private StairType _type;
     }
 }
+#endif

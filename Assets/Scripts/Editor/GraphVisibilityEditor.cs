@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
+#if UNITY_EDITOR
 using EchoOfTheTimes.Core;
+using UnityEditor;
+using UnityEngine;
 
 namespace EchoOfTheTimes.Editor
 {
@@ -38,3 +37,4 @@ namespace EchoOfTheTimes.Editor
         }
     }
 }
+#endif

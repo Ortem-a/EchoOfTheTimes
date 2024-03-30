@@ -1,8 +1,5 @@
 using EchoOfTheTimes.Editor;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using UnityEditor;
 using UnityEngine;
 
 namespace EchoOfTheTimes.CustomSnapping
@@ -10,15 +7,18 @@ namespace EchoOfTheTimes.CustomSnapping
     public class CustomSnap : MonoBehaviour
     {
         public float RotationAngle = 90f;
+#if UNITY_EDITOR
         [Space]
         [InspectorButton(nameof(Rotate))]
         public bool IsRotate;
         [Space]
         [Space]
+#endif
 
         public GameObject SnapPointPrefab;
         public GameObject EdgePrefab;
 
+#if UNITY_EDITOR
         [Space]
         [InspectorButton(nameof(Accept))]
         public bool IsAccept;
@@ -30,6 +30,7 @@ namespace EchoOfTheTimes.CustomSnapping
         [Space]
         [InspectorButton(nameof(ResetEdges))]
         public bool IsEdgesCreate;
+#endif
 
         private Mesh _mesh;
         private Vector3[] _snapPointsPositions;

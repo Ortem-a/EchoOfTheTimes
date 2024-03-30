@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEngine;
 
 namespace EchoOfTheTimes.Editor
@@ -12,3 +13,4 @@ namespace EchoOfTheTimes.Editor
         }
     }
 }
+#endif

@@ -1,6 +1,5 @@
+#if UNITY_EDITOR
 using EchoOfTheTimes.Persistence;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -55,3 +54,4 @@ namespace EchoOfTheTimes.Editor
         }
     }
 }
+#endif

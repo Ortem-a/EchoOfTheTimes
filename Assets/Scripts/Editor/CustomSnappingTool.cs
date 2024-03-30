@@ -1,13 +1,13 @@
 using EchoOfTheTimes.CustomSnapping;
-using PlasticGui;
-using System.Threading;
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.EditorTools;
+#endif
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace EchoOfTheTimes.Editor
 {
+#if UNITY_EDITOR
     [EditorTool("Level Builder", typeof(CustomSnap))]
     public class CustomSnappingTool : EditorTool
     {
@@ -76,4 +76,5 @@ namespace EchoOfTheTimes.Editor
             }
         }
     }
+#endif
 }
