@@ -1,7 +1,4 @@
 using EchoOfTheTimes.Core;
-using EchoOfTheTimes.Movement;
-using EchoOfTheTimes.Utils;
-using UnityEditorInternal;
 using UnityEngine;
 
 namespace EchoOfTheTimes.UI

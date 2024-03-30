@@ -1,7 +1,5 @@
 using EchoOfTheTimes.Core;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.Plastic.Antlr3.Runtime;
 using UnityEngine;
 
 namespace EchoOfTheTimes.LevelStates

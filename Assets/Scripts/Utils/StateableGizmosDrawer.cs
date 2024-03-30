@@ -1,13 +1,16 @@
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.ScriptableObjects;
 using System.Collections.Generic;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace EchoOfTheTimes.Utils
 {
     public class StateableGizmosDrawer : MonoBehaviour
     {
+#if UNITY_EDITOR
         private ColorStateSettingsScriptableObject _colorStateSettings;
 
         private Stateable _stateable;
@@ -100,5 +103,6 @@ namespace EchoOfTheTimes.Utils
                 }
             }
         }
+#endif
     }
 }

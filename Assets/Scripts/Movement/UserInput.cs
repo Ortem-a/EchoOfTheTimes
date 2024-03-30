@@ -10,6 +10,8 @@ namespace EchoOfTheTimes.Movement
 
         private UserInputHandler _userInputHandler;
 
+        public RefinedOrbitCamera_PASHA ROC_PASHA;
+
         private Vector3 _startTouchPosition;
         private Vector3 _endTouchPosition;
         private Touch _touch;
@@ -36,18 +38,22 @@ namespace EchoOfTheTimes.Movement
                     float deltaX = _endTouchPosition.x - _startTouchPosition.x;
                     float deltaY = _endTouchPosition.y - _startTouchPosition.y;
 
-                    if (Mathf.Abs(deltaX) == 0 && Mathf.Abs(deltaY) == 0)
+                    if (Mathf.Abs(deltaX) <= 5 && Mathf.Abs(deltaY) <= 5)
                     {
                         var clickPosition = ScreenToVertex(_touch.position);
                         if (clickPosition != null)
                         {
                             _userInputHandler.OnTouched?.Invoke(clickPosition);
+
+                            Debug.Log("Touch" + ' ' + Mathf.Abs(deltaX) + ' ' + Mathf.Abs(deltaY));
                         }
                     }
                     else
                     {
-                        _userInputHandler.OnSwipe?.Invoke(deltaX);
-                        //_roc.RotateCamera(deltaX);
+                        //_userInputHandler.OnSwipe?.Invoke(deltaX);
+                        ROC_PASHA.HandleSwipe(deltaX);
+
+                        Debug.Log("Swipe" + ' ' + Mathf.Abs(deltaX) + ' ' + Mathf.Abs(deltaY));
                     }
                 }
             }

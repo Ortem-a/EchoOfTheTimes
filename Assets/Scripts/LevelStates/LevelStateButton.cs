@@ -16,12 +16,14 @@ namespace EchoOfTheTimes.LevelStates
 
         private LevelStateMachine _stateMachine;
 
+#if UNITY_EDITOR
         [Space]
         [Space]
         [InspectorButton(nameof(AcceptInfluenceToObjects))]
         public bool IsAcceptInfluenceToObjects;
         [Space]
         [Space]
+#endif
 
         public List<SpecialTransition> Influences;
 

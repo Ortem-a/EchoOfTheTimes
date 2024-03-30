@@ -1,5 +1,4 @@
 using EchoOfTheTimes.Editor;
-using EchoOfTheTimes.UI;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +8,7 @@ namespace EchoOfTheTimes.LevelStates
     {
         [Header("DEBUG")]
         public int StateId;
+#if UNITY_EDITOR
         [Space]
         [InspectorButton(nameof(SetInStateDebug))]
         public bool IsDebugSetInState;
@@ -23,6 +23,7 @@ namespace EchoOfTheTimes.LevelStates
         [InspectorButton(nameof(AddTransitionsEveryoneWithEvery))]
         public bool _isAddTransitionsEveryoneWithEvery;
         [Space]
+#endif
 
         public List<LevelState> States;
         public List<Transition> Transitions;

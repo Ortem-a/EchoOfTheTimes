@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 
@@ -26,7 +27,7 @@ namespace EchoOfTheTimes.LevelStates.Editor
                 stateable.TransformObjectByState();
             }
 
-            
+
 
             EditorGUILayout.Space();
 
@@ -44,3 +45,4 @@ namespace EchoOfTheTimes.LevelStates.Editor
         }
     }
 }
+#endif

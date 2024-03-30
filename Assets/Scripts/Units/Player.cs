@@ -147,6 +147,11 @@ namespace EchoOfTheTimes.Units
             _position = _graph.GetNearestVertex(transform.position);
 
             //Debug.Log($"[ON START TELEPORTATE] {_position}");
+
+            if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
+            {
+                freezer.OnCancel?.Invoke();
+            }
         }
 
         private void OnCompleteTeleportate()
@@ -156,6 +161,11 @@ namespace EchoOfTheTimes.Units
             _position = _graph.GetNearestVertex(transform.position);
 
             //Debug.Log($"[ON COMPLETE TELEPORTATE] {_position}");
+
+            if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
+            {
+                freezer.OnFreeze?.Invoke();
+            }
         }
 
         public void StopAndLink(Action onComplete)
