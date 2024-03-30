@@ -21,6 +21,8 @@ namespace EchoOfTheTimes.Training
         {
             _collider = GetComponent<BoxCollider>();
             _collider.isTrigger = true;
+
+            Artifact.gameObject.SetActive(false);
         }
 
         private void OnTriggerEnter(Collider other)
@@ -45,6 +47,7 @@ namespace EchoOfTheTimes.Training
 
         public void Show()
         {
+            Artifact.gameObject.SetActive(true);
             Artifact.Enable();
 
             _pointer = Instantiate(PointerPrefab, SpawnPoint).transform;

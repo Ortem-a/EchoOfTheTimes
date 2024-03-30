@@ -39,11 +39,6 @@ namespace EchoOfTheTimes.Units
         private void Awake()
         {
             _movable = GetComponent<Movable>();
-            _movable.Initialize(
-                speed: _playerSettings.MoveSpeed,
-                distanceTreshold: _playerSettings.DistanceTreshold,
-                rotateDuration: _playerSettings.RotateDuration,
-                rotateConstraint: _playerSettings.AxisConstraint);
         }
 
         public void Initialize()
@@ -51,6 +46,13 @@ namespace EchoOfTheTimes.Units
             _graph = GameManager.Instance.Graph;
             _vertexFollower = GameManager.Instance.VertexFollower;
             _playerSettings = GameManager.Instance.PlayerSettings;
+
+            _movable.Initialize(
+                speed: _playerSettings.MoveSpeed,
+                distanceTreshold: _playerSettings.DistanceTreshold,
+                rotateDuration: _playerSettings.RotateDuration,
+                rotateConstraint: _playerSettings.AxisConstraint
+                );
         }
 
         public void Teleportate(Vector3 to, float duration, TweenCallback onStart = null, TweenCallback onComplete = null)
