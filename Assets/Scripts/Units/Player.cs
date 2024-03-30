@@ -1,7 +1,4 @@
 using DG.Tweening;
-using DG.Tweening.Core;
-using DG.Tweening.Plugins.Core.PathCore;
-using DG.Tweening.Plugins.Options;
 using EchoOfTheTimes.Animations;
 using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Interfaces;
@@ -15,7 +12,7 @@ using UnityEngine;
 
 namespace EchoOfTheTimes.Units
 {
-    [RequireComponent(typeof(AnimationManager))]
+    [RequireComponent(typeof(AnimationManager), typeof(Movable))]
     public class Player : MonoBehaviour, IBind<PlayerData>
     {
         [field: SerializeField]
@@ -28,7 +25,8 @@ namespace EchoOfTheTimes.Units
 
         public bool IsBusy { get; set; } = false;
 
-        public Vertex Position => _graph.GetNearestVertex(transform.position);
+        private Vertex _position;
+        public Vertex Position => _position == null ? _graph.GetNearestVertex(transform.position) : _position;
 
         private GraphVisibility _graph;
         private VertexFollower _vertexFollower;
@@ -36,18 +34,25 @@ namespace EchoOfTheTimes.Units
 
         private AnimationManager _animationManager;
 
-        private bool _isNeedLink = false;
-        private bool _isNeedStop = false;
-        
-        private TweenerCore<Vector3, Path, PathOptions> _pathTweener;
+        private Movable _movable;
 
-        private Action _onPlayerStop;
+        private void Awake()
+        {
+            _movable = GetComponent<Movable>();
+        }
 
         public void Initialize()
         {
             _graph = GameManager.Instance.Graph;
             _vertexFollower = GameManager.Instance.VertexFollower;
             _playerSettings = GameManager.Instance.PlayerSettings;
+
+            _movable.Initialize(
+                speed: _playerSettings.MoveSpeed,
+                distanceTreshold: _playerSettings.DistanceTreshold,
+                rotateDuration: _playerSettings.RotateDuration,
+                rotateConstraint: _playerSettings.AxisConstraint
+                );
         }
 
         public void Teleportate(Vector3 to, float duration, TweenCallback onStart = null, TweenCallback onComplete = null)
@@ -56,40 +61,54 @@ namespace EchoOfTheTimes.Units
 
             transform.DOMove(to, duration)
                 .SetEase(Ease.Linear)
-                .OnStart(onStart)
-                .OnComplete(onComplete);
+                .OnStart(() =>
+                {
+                    OnStartTeleportate();
+                    onStart?.Invoke();
+                })
+                .OnComplete(() =>
+                {
+                    OnCompleteTeleportate();
+                    onComplete?.Invoke();
+                });
         }
 
         public void MoveTo(Vector3[] waypoints)
         {
-            OnStartExecution();
+            _movable.Move(waypoints, OnStartMove, OnCompleteMove);
 
-            transform.DOLookAt(waypoints[0], _playerSettings.RotateDuration, _playerSettings.AxisConstraint);
+            //OnStartExecution();
 
-            _pathTweener = transform.DOPath(
-                path: waypoints,
-                duration: _playerSettings.MoveDuration * waypoints.Length,
-                pathType: _playerSettings.PathType,
-                pathMode: _playerSettings.PathMode,
-                gizmoColor: _playerSettings.GizmoColor
-                )
-                .OnWaypointChange((x) =>
-                    {
-                        if (x != 0)
-                        {
-                            OnCompleteExecution();
-                            if (x < waypoints.Length)
-                            {
-                                transform.DOLookAt(waypoints[x], _playerSettings.RotateDuration, _playerSettings.AxisConstraint);
-                            }
-                        }
-                    })
-                .SetEase(_playerSettings.Ease);
+            //transform.DOLookAt(waypoints[0], _playerSettings.RotateDuration, _playerSettings.AxisConstraint);
+
+            //_pathTweener = transform.DOPath(
+            //    path: waypoints,
+            //    duration: _playerSettings.MoveDuration * waypoints.Length,
+            //    pathType: _playerSettings.PathType,
+            //    pathMode: _playerSettings.PathMode,
+            //    gizmoColor: _playerSettings.GizmoColor
+            //    )
+            //    .OnWaypointChange((x) =>
+            //        {
+            //            if (x != 0)
+            //            {
+            //                OnCompleteExecution();
+            //                if (x < waypoints.Length)
+            //                {
+            //                    transform.DOLookAt(waypoints[x], _playerSettings.RotateDuration, _playerSettings.AxisConstraint);
+            //                }
+            //            }
+            //        })
+            //    .SetEase(_playerSettings.Ease);
         }
 
-        private void OnStartExecution()
+        private void OnStartMove()
         {
             IsBusy = true;
+
+            _position = _graph.GetNearestVertex(transform.position);
+
+            //Debug.Log($"[ON START MOVE] {_position}");
 
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
@@ -102,9 +121,13 @@ namespace EchoOfTheTimes.Units
             }
         }
 
-        private void OnCompleteExecution()
+        private void OnCompleteMove()
         {
             IsBusy = false;
+
+            _position = _graph.GetNearestVertex(transform.position);
+
+            //Debug.Log($"[ON COMPLETE MOVE] {_position}");
 
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
@@ -115,65 +138,38 @@ namespace EchoOfTheTimes.Units
             {
                 specialVertex.OnEnter?.Invoke();
             }
+        }
 
-            if (_isNeedLink)
-            {
-                ForceStopAndLink();
-            }
+        private void OnStartTeleportate()
+        {
+            IsBusy = true;
 
-            if (_isNeedStop)
-            {
-                ForceStop();
-            }
+            _position = _graph.GetNearestVertex(transform.position);
+
+            //Debug.Log($"[ON START TELEPORTATE] {_position}");
+        }
+
+        private void OnCompleteTeleportate()
+        {
+            IsBusy = false;
+
+            _position = _graph.GetNearestVertex(transform.position);
+
+            //Debug.Log($"[ON COMPLETE TELEPORTATE] {_position}");
         }
 
         public void StopAndLink(Action onComplete)
         {
-            _isNeedLink = true;
-
-            _onPlayerStop = onComplete;
-
-            if (!IsBusy)
+            _movable.Stop(onStopped: () =>
             {
-                ForceStopAndLink();
-            }
-        }
-
-        private void ForceStopAndLink()
-        {
-            _isNeedLink = false;
-
-            // перенес в ForceLink() эту строку
-            // это из-за StateFreezer'a
-            //_vertexFollower.OnAcceptLink?.Invoke();
-
-            ForceStop();
-        }
-
-        public void ForceLink()
-        {
-            _vertexFollower.OnAcceptLink?.Invoke();
+                _vertexFollower.OnAcceptLink?.Invoke();
+                onComplete?.Invoke();
+            });
         }
 
         public void Stop(Action onComplete)
         {
-            _isNeedStop = true;
-
-            _onPlayerStop = onComplete;
-
-            if (!IsBusy)
-            {
-                ForceStop();
-            }
-        }
-
-        private void ForceStop()
-        {
-            _isNeedStop = false;
-
-            _pathTweener.Kill();
-
-            _onPlayerStop?.Invoke();
+            _movable.Stop(onStopped: onComplete);
         }
 
         public void Bind(PlayerData data)

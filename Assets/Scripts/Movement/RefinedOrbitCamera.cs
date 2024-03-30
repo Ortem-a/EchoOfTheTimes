@@ -1,124 +1,184 @@
+using EchoOfTheTimes.Core;
+using EchoOfTheTimes.Units;
+using EchoOfTheTimes.Utils;
 using UnityEngine;
 
-public class RefinedOrbitCamera : MonoBehaviour
+namespace EchoOfTheTimes.Movement
 {
-#warning TODO нахуй
-    // сделать проверку что идеальное состояние всегда между мин и макс
-    // добавить тул типы к полям
-    // исправить повороты QE
-    // плавные возвраты после QE
-
-    private Camera cam; // Добавим ссылку на ортографическую камеру
-    public Transform centralAxis;
-    public Transform player;
-    public float minOrthographicSize = 4f; // Минимальный размер ортографической проекции
-    public float maxOrthographicSize = 15f; // Максимальный размер ортографической проекции
-    public float idealOrthographicSize = 10f; // Идеальный размер ортографической проекции
-    public float zoomSpeed = 8f;
-    public float returnSpeed = 5f;
-    public float tiltAngle = 10f;
-    public float inactivityReturnDelay = 5f;
-    public float orbitHeight = 10f;
-    public float orbitDistance = 10f;
-    public float speedHandleRotation = 50f;
-    private float followSpeed = 500f;
-
-    private float timeSinceLastZoom = 0f;
-
-    private float timeSinceLastManualRotation = 0f; // Время с момента последней ручной смены поворота
-    private bool isFollowingPlayer = true; // Следует ли камера за игроком
-    private Vector3 lastPlayerPosition; // Последняя позиция игрока для отслеживания его движения
-
-    void Start()
+    public class RefinedOrbitCamera : MonoBehaviour
     {
-        // Пытаемся найти компонент Camera среди дочерних объектов, если он не был установлен вручную
-        if (cam == null)
-        {
-            cam = GetComponentInChildren<Camera>();
-        }
+        public Transform Focus;
 
-        // Проверяем, удалось ли найти компонент Camera
-        if (cam == null)
-        {
-            Debug.LogError("Camera component not found on " + gameObject.name + " or its children.");
-        }
-        else
-        {
-            cam.orthographicSize = idealOrthographicSize;
-        }
-    }
+        private Player _player;
+        public float Sensitivity;
 
-    void Update()
-    {
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-        if (scroll != 0f)
+        private Camera _camera;
+
+        [SerializeField, Range(0f, 1f)]
+        private float _focusCentering = 0.5f;
+        [SerializeField]
+        private float _distance = 5f;
+        [SerializeField]
+        private float _focusRadius = 1f;
+
+        private Vector3 _focusPoint;
+        private Vector2 _orbitAngles = new Vector2(45f, 0f);
+
+        [Range(0f, 360f)]
+        public float AutoRotationSpeed;
+
+        private float _afkTime = 0f;
+        public float MaxAfkTime_sec;
+        private bool _isNeedAutoRotate = true;
+        private bool _isAutoRotateTimerStart = false;
+
+        private void OnDrawGizmos()
         {
-            cam.orthographicSize -= scroll * zoomSpeed;
-            cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, minOrthographicSize, maxOrthographicSize);
-            timeSinceLastZoom = 0f;
-        }
-        else
-        {
-            timeSinceLastZoom += Time.deltaTime;
-            if (timeSinceLastZoom >= inactivityReturnDelay && cam.orthographicSize != idealOrthographicSize)
+            if (_camera != null)
             {
-                cam.orthographicSize = Mathf.MoveTowards(cam.orthographicSize, idealOrthographicSize, Time.deltaTime * returnSpeed);
+                var pc = _camera.transform.position;
+                pc.y = 0f;
+                var pp = _player.transform.position;
+                pp.y = 0f;
+                var pf = Focus.position;
+                pf.y = 0f;
+
+                GizmosHelper.DrawArrowBetween(_camera.transform.position, _player.transform.position, Color.yellow);
+                GizmosHelper.DrawArrowBetween(pc, pp, Color.yellow);
+                Gizmos.color = Color.red;
+                Gizmos.DrawLine(_camera.transform.position, _player.transform.position);
+                Gizmos.DrawLine(pc, pp);
+                GizmosHelper.DrawArrowBetween(_camera.transform.position, Focus.position, Color.yellow);
+                GizmosHelper.DrawArrowBetween(pc, pf, Color.yellow);
+                Gizmos.color = Color.blue;
+                Gizmos.DrawLine(_camera.transform.position, Focus.position);
+                Gizmos.DrawLine(pc, pf);
+                GizmosHelper.DrawArrowBetween(_player.transform.position, Focus.position, Color.yellow);
+                GizmosHelper.DrawArrowBetween(pp, pf, Color.yellow);
+                Gizmos.color = Color.green;
+                Gizmos.DrawLine(_player.transform.position, Focus.position);
+                Gizmos.DrawLine(pp, pf);
+
+                Gizmos.color = Color.white;
+                Gizmos.DrawLine(_camera.transform.position, pc);
+                Gizmos.DrawLine(_player.transform.position, pp);
+                Gizmos.DrawLine(Focus.position, pf);
             }
         }
 
-        // Обработка ввода для вращения камеры
-        if (Input.GetKey(KeyCode.Q))
+        private void Awake()
         {
-            RotateCamera(-1);
-        }
-        else if (Input.GetKey(KeyCode.E))
-        {
-            RotateCamera(1);
-        }
-        else
-        {
-            timeSinceLastManualRotation += Time.deltaTime;
+            _camera = Camera.main;
+            _camera.orthographicSize = _distance;
+
+            _focusPoint = Focus.position;
+            transform.localRotation = Quaternion.Euler(_orbitAngles);
         }
 
-        // Проверка на движение игрока
-        if (player.position != lastPlayerPosition)
+        private void FixedUpdate()
         {
-            isFollowingPlayer = true;
+            if (_isAutoRotateTimerStart)
+            {
+                _afkTime += Time.deltaTime;
+
+                if (_afkTime > MaxAfkTime_sec)
+                {
+                    _isNeedAutoRotate = true;
+                    _isAutoRotateTimerStart = false;
+                }
+            }
         }
 
-        // Автоматическое возвращение камеры к игроку
-        if (timeSinceLastManualRotation >= inactivityReturnDelay && !isFollowingPlayer)
+        private void LateUpdate()
         {
-            isFollowingPlayer = true;
+            UpdateFocusPoint();
+
+            var lookRotation = transform.localRotation;
+            Vector3 lookDirection = lookRotation * Vector3.forward;
+            Vector3 lookPosition = _focusPoint - lookDirection * _distance;
+
+            transform.SetPositionAndRotation(lookPosition, lookRotation);
+
+            if (_player.IsBusy)
+            {
+                _isNeedAutoRotate = true;
+            }
+
+            if (_isNeedAutoRotate)
+            {
+                AutoRotateCamera();
+            }
         }
 
-        lastPlayerPosition = player.position; // Обновляем последнюю позицию игрока
-    }
-
-    void LateUpdate()
-    {
-        if (isFollowingPlayer)
+        public void Initialize()
         {
-            Vector3 axisToPlayerDirection = (player.position - centralAxis.position).normalized;
-            axisToPlayerDirection.y = 0; // Игнорируем вертикальную компоненту для сохранения горизонтального направления
-
-            Vector3 cameraPosition = centralAxis.position + axisToPlayerDirection * orbitDistance;
-            cameraPosition.y = centralAxis.position.y + orbitHeight;
-
-            transform.position = Vector3.Lerp(transform.position, cameraPosition, Time.deltaTime * followSpeed);
-
-            // Устанавливаем угол наклона камеры
-            Vector3 relativePosition = centralAxis.position - transform.position;
-            Quaternion rotation = Quaternion.LookRotation(relativePosition);
-            Quaternion tilt = Quaternion.Euler(tiltAngle, rotation.eulerAngles.y, 0);
-            transform.rotation = Quaternion.Lerp(transform.rotation, tilt, Time.deltaTime * followSpeed);
+            _player = GameManager.Instance.Player;
         }
-    }
 
-    void RotateCamera(float direction)
-    {
-        transform.RotateAround(centralAxis.position, Vector3.up, direction * speedHandleRotation * Time.deltaTime); // Вращение вокруг оси Y
-        timeSinceLastManualRotation = 0f;
-        isFollowingPlayer = false;
+        private void AutoRotateCamera()
+        {
+            var pc = _camera.transform.position - _player.transform.position;
+            var pf = _player.transform.position - Focus.position;
+            pc.y = 0;
+            pf.y = 0;
+            var a = Vector3.SignedAngle(pf, pc, Vector3.up);
+            float dir;
+
+            if (a > 0f) dir = -1f;
+            else dir = 1f;
+
+            if (Mathf.Abs(a) > 0.1f)
+            {
+                var s = Mathf.Lerp(transform.rotation.eulerAngles.y, Mathf.Abs(a), AutoRotationSpeed);
+
+                Rotate(s * dir);
+                //Rotate(AutoRotationSpeed * dir);
+            }
+        }
+
+        public void ResetAfkTimer()
+        {
+            _afkTime = 0f;
+        }
+
+        private void UpdateFocusPoint()
+        {
+            Vector3 targetPoint = Focus.position;
+            if (_focusRadius > 0f)
+            {
+                float distance = Vector3.Distance(targetPoint, _focusPoint);
+
+                float t = 1f;
+                if (distance > 0.01f && _focusCentering > 0f)
+                {
+                    t = Mathf.Pow(1f - _focusCentering, Time.unscaledDeltaTime);
+                }
+
+                if (distance > _focusRadius)
+                {
+                    t = Mathf.Min(t, _focusRadius / distance);
+                }
+
+                _focusPoint = Vector3.Lerp(targetPoint, _focusPoint, t);
+            }
+            else
+            {
+                _focusPoint = targetPoint;
+            }
+        }
+
+        public void RotateCamera(float deltaX)
+        {
+            Rotate(deltaX);
+
+            _isAutoRotateTimerStart = true;
+            _isNeedAutoRotate = false;
+            ResetAfkTimer();
+        }
+
+        private void Rotate(float deltaX)
+        {
+            transform.RotateAround(Focus.position, Vector3.up, deltaX * Sensitivity * Time.deltaTime);
+        }
     }
 }

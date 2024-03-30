@@ -22,5 +22,10 @@ namespace EchoOfTheTimes.Core
 
             return false;
         }
+
+        public override string ToString()
+        {
+            return $"[{name}] ID: {Id} | Neighbours count: {Neighbours.Count}";
+        }
     }
 }

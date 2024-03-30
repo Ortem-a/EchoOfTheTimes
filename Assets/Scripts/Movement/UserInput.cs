@@ -1,5 +1,4 @@
 using EchoOfTheTimes.Core;
-using EchoOfTheTimes.LevelStates;
 using UnityEngine;
 
 namespace EchoOfTheTimes.Movement
@@ -11,6 +10,10 @@ namespace EchoOfTheTimes.Movement
 
         private UserInputHandler _userInputHandler;
 
+        private Vector3 _startTouchPosition;
+        private Vector3 _endTouchPosition;
+        private Touch _touch;
+
         public void Initialize()
         {
             _userInputHandler = GameManager.Instance.UserInputHandler;
@@ -18,26 +21,40 @@ namespace EchoOfTheTimes.Movement
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.touchCount > 0)
             {
-                //Vector3 clickPosition = ScreenToVertex(Input.mousePosition);
-                var clickPosition = ScreenToVertex(Input.mousePosition);
+                _touch = Input.GetTouch(0);
 
-                if (clickPosition != null)
+                if (_touch.phase == TouchPhase.Began)
                 {
-                    _userInputHandler.OnMousePressed(clickPosition);
+                    _startTouchPosition = _touch.position;
                 }
-            }
+                else if (_touch.phase == TouchPhase.Moved || _touch.phase == TouchPhase.Ended)
+                {
+                    _endTouchPosition = _touch.position;
 
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                _userInputHandler.GoToCheckpoint();
+                    float deltaX = _endTouchPosition.x - _startTouchPosition.x;
+                    float deltaY = _endTouchPosition.y - _startTouchPosition.y;
+
+                    if (Mathf.Abs(deltaX) == 0 && Mathf.Abs(deltaY) == 0)
+                    {
+                        var clickPosition = ScreenToVertex(_touch.position);
+                        if (clickPosition != null)
+                        {
+                            _userInputHandler.OnTouched?.Invoke(clickPosition);
+                        }
+                    }
+                    else
+                    {
+                        _userInputHandler.OnSwipe?.Invoke(deltaX);
+                        //_roc.RotateCamera(deltaX);
+                    }
+                }
             }
         }
 
         public Vertex ScreenToVertex(Vector3 screenPosition)
         {
-            //Vector3 worldPosition = Vector3.zero;
             Ray ray = _camera.ScreenPointToRay(screenPosition);
             if (Physics.Raycast(ray, out RaycastHit hitData, 1000f))
             {
@@ -45,7 +62,6 @@ namespace EchoOfTheTimes.Movement
                 {
                     return vertex;
                 }
-                //worldPosition = hitData.point;
             }
 
             return null;

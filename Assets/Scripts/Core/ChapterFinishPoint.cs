@@ -14,6 +14,8 @@ namespace EchoOfTheTimes.Core
         {
             UiManager.Instance.UiSceneController.EnableFinishCanvas();
 
+            GameManager.Instance.Player.Stop(null);
+
             GameManager.Instance.UserInputHandler.gameObject.SetActive(false);
         }
 
