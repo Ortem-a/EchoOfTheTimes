@@ -26,7 +26,7 @@ namespace EchoOfTheTimes.LevelStates
         {
             _onComplete = onComplete;
 
-            //ChangeColorByState(stateParameter);
+            ChangeColorByState(stateParameter);
 
             if (stateParameter != null)
             {
