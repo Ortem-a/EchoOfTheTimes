@@ -47,7 +47,6 @@ namespace EchoOfTheTimes.LevelStates
             IsChanging = false;
         }
 
-
         public void LoadState(int id)
         {
             var state = States.Find((x) => x.Id == id);

@@ -1,5 +1,6 @@
 using EchoOfTheTimes.Core;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.Movement
 {
@@ -15,6 +16,12 @@ namespace EchoOfTheTimes.Movement
         private Vector3 _startTouchPosition;
         private Vector3 _endTouchPosition;
         private Touch _touch;
+
+        [Inject]
+        private void Initialize(UserInputHandler inputHandler)
+        {
+            _userInputHandler = inputHandler;
+        }
 
         public void Initialize()
         {
@@ -45,7 +52,7 @@ namespace EchoOfTheTimes.Movement
                         {
                             _userInputHandler.OnTouched?.Invoke(clickPosition);
 
-                            Debug.Log("Touch" + ' ' + Mathf.Abs(deltaX) + ' ' + Mathf.Abs(deltaY));
+                            //Debug.Log("Touch" + ' ' + Mathf.Abs(deltaX) + ' ' + Mathf.Abs(deltaY));
                         }
                     }
                     else
@@ -53,7 +60,7 @@ namespace EchoOfTheTimes.Movement
                         //_userInputHandler.OnSwipe?.Invoke(deltaX);
                         ROC_PASHA.HandleSwipe(deltaX);
 
-                        Debug.Log("Swipe" + ' ' + Mathf.Abs(deltaX) + ' ' + Mathf.Abs(deltaY));
+                        //Debug.Log("Swipe" + ' ' + Mathf.Abs(deltaX) + ' ' + Mathf.Abs(deltaY));
                     }
                 }
             }

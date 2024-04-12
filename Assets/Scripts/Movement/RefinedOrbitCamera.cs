@@ -3,6 +3,7 @@ using EchoOfTheTimes.Units;
 using EchoOfTheTimes.Utils;
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.Movement
 {
@@ -78,39 +79,45 @@ namespace EchoOfTheTimes.Movement
             transform.localRotation = Quaternion.Euler(_orbitAngles);
         }
 
-        private void FixedUpdate()
+        //private void FixedUpdate()
+        //{
+        //    if (_isAutoRotateTimerStart)
+        //    {
+        //        _afkTime += Time.deltaTime;
+
+        //        if (_afkTime > MaxAfkTime_sec)
+        //        {
+        //            _isNeedAutoRotate = true;
+        //            _isAutoRotateTimerStart = false;
+        //        }
+        //    }
+        //}
+
+        //private void LateUpdate()
+        //{
+        //    UpdateFocusPoint();
+
+        //    var lookRotation = transform.localRotation;
+        //    Vector3 lookDirection = lookRotation * Vector3.forward;
+        //    Vector3 lookPosition = _focusPoint - lookDirection * _distance;
+
+        //    transform.SetPositionAndRotation(lookPosition, lookRotation);
+
+        //    if (_player.IsBusy)
+        //    {
+        //        _isNeedAutoRotate = true;
+        //    }
+
+        //    if (_isNeedAutoRotate)
+        //    {
+        //        AutoRotateCamera();
+        //    }
+        //}
+
+        [Inject]
+        private void Initialize(Player player)
         {
-            if (_isAutoRotateTimerStart)
-            {
-                _afkTime += Time.deltaTime;
-
-                if (_afkTime > MaxAfkTime_sec)
-                {
-                    _isNeedAutoRotate = true;
-                    _isAutoRotateTimerStart = false;
-                }
-            }
-        }
-
-        private void LateUpdate()
-        {
-            UpdateFocusPoint();
-
-            var lookRotation = transform.localRotation;
-            Vector3 lookDirection = lookRotation * Vector3.forward;
-            Vector3 lookPosition = _focusPoint - lookDirection * _distance;
-
-            transform.SetPositionAndRotation(lookPosition, lookRotation);
-
-            if (_player.IsBusy)
-            {
-                _isNeedAutoRotate = true;
-            }
-
-            if (_isNeedAutoRotate)
-            {
-                AutoRotateCamera();
-            }
+            _player = player;
         }
 
         public void Initialize()

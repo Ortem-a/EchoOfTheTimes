@@ -6,12 +6,13 @@ using EchoOfTheTimes.Units;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.Core
 {
     public class UserInputHandler : MonoBehaviour
     {
-#warning наъгюрекэмн сапюрэ цнбмн
+#warning О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫
         public RotationTrainerActivator RTA;
 
         public Action<Vertex> OnTouched;
@@ -38,6 +39,16 @@ namespace EchoOfTheTimes.Core
             OnSwipe -= HandleSwipe;
         }
 
+        [Inject]
+        private void Initialize(GraphVisibility graph, Player player, CheckpointManager checkpointManager, LevelStateMachine stateMachine, RefinedOrbitCamera camera)
+        {
+            _graph = graph;
+            _player = player;
+            _checkpointManager = checkpointManager;
+            _levelStateMachine = stateMachine;
+            _camera = camera;
+        }
+
         public void Initialize()
         {
             _graph = GameManager.Instance.Graph;
@@ -54,9 +65,9 @@ namespace EchoOfTheTimes.Core
             _player.Stop(() => CreatePathAndMove(touchPosition));
         }
 
-        private void HandleSwipe(float deltaX) 
+        private void HandleSwipe(float deltaX)
         {
-#warning наъгюрекэмн сапюрэ цнбмн
+#warning О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫
             if (CanRotateCamera)
             {
                 HideRTA();
@@ -103,7 +114,7 @@ namespace EchoOfTheTimes.Core
             });
         }
 
-#warning рнонпмюъ пеюкхгюжхъ нйпюьхбюмхъ акнйю мю йнрнпши мюфюк
+#warning О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫
         private void Paint(Vertex vertex)
         {
             var mat = vertex.transform.parent.GetComponent<Renderer>().material;
@@ -116,7 +127,7 @@ namespace EchoOfTheTimes.Core
                 });
         }
 
-#warning наъгюрекэмн сапюрэ цнбмн
+#warning О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫
         private bool _flagOnce = true;
         private void HideRTA()
         {

@@ -4,6 +4,7 @@ using EchoOfTheTimes.Interfaces;
 using EchoOfTheTimes.Units;
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.Movement
 {
@@ -15,6 +16,12 @@ namespace EchoOfTheTimes.Movement
 
         public Action OnEnter => Teleport;
         public Action OnExit => null;
+
+        [Inject]
+        private void Initialize(Player player)
+        {
+            _player = player;
+        }
 
         public void Initialize()
         {

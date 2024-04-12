@@ -1,6 +1,8 @@
 using DG.Tweening;
 using EchoOfTheTimes.Core;
+using EchoOfTheTimes.ScriptableObjects;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.LevelStates
 {
@@ -22,11 +24,21 @@ namespace EchoOfTheTimes.LevelStates
         [System.NonSerialized]
         private TweenCallback _onComplete;
 
+        private float _timeToChangeState_sec;
+        private ColorStateSettingsScriptableObject _colorStateSettings;
+
+        [Inject]
+        private void Initialize(LevelSettingsScriptableObject levelSettings, ColorStateSettingsScriptableObject colorStateSettings)
+        {
+            _timeToChangeState_sec = levelSettings.TimeToChangeState_sec;
+            _colorStateSettings = colorStateSettings;
+        }
+
         public void AcceptState(StateParameter stateParameter = null, bool isDebug = false, TweenCallback onComplete = null)
         {
             _onComplete = onComplete;
 
-            ChangeColorByState(stateParameter);
+            //ChangeColorByState(stateParameter);
 
             if (stateParameter != null)
             {
@@ -44,11 +56,11 @@ namespace EchoOfTheTimes.LevelStates
         {
             if (!isDebug)
             {
-                Target.DOMove(Position, GameManager.Instance.TimeToChangeState_sec)
+                Target.DOMove(Position, _timeToChangeState_sec)
                     .OnComplete(() => OnCompleteDefaultTransformation());
-                Target.DORotate(Rotation, GameManager.Instance.TimeToChangeState_sec)
+                Target.DORotate(Rotation, _timeToChangeState_sec)
                     .OnComplete(() => OnCompleteDefaultTransformation());
-                Target.DOScale(LocalScale, GameManager.Instance.TimeToChangeState_sec)
+                Target.DOScale(LocalScale, _timeToChangeState_sec)
                     .OnComplete(() => OnCompleteDefaultTransformation());
             }
             else
@@ -62,11 +74,11 @@ namespace EchoOfTheTimes.LevelStates
         {
             if (!isDebug)
             {
-                stateParameter.Target.DOMove(stateParameter.Position, GameManager.Instance.TimeToChangeState_sec)
+                stateParameter.Target.DOMove(stateParameter.Position, _timeToChangeState_sec)
                     .OnComplete(() => OnCompleteSpecialTransformation());
-                stateParameter.Target.DORotate(stateParameter.Rotation, GameManager.Instance.TimeToChangeState_sec)
+                stateParameter.Target.DORotate(stateParameter.Rotation, _timeToChangeState_sec)
                     .OnComplete(() => OnCompleteSpecialTransformation());
-                stateParameter.Target.DOScale(stateParameter.LocalScale, GameManager.Instance.TimeToChangeState_sec)
+                stateParameter.Target.DOScale(stateParameter.LocalScale, _timeToChangeState_sec)
                     .OnComplete(() => OnCompleteSpecialTransformation());
             }
             else
@@ -75,6 +87,42 @@ namespace EchoOfTheTimes.LevelStates
                 stateParameter.Target.localScale = stateParameter.LocalScale;
             }
         }
+
+        //private void DefaultBehaviour(bool isDebug)
+        //{
+        //    if (!isDebug)
+        //    {
+        //        Target.DOMove(Position, GameManager.Instance.TimeToChangeState_sec)
+        //            .OnComplete(() => OnCompleteDefaultTransformation());
+        //        Target.DORotate(Rotation, GameManager.Instance.TimeToChangeState_sec)
+        //            .OnComplete(() => OnCompleteDefaultTransformation());
+        //        Target.DOScale(LocalScale, GameManager.Instance.TimeToChangeState_sec)
+        //            .OnComplete(() => OnCompleteDefaultTransformation());
+        //    }
+        //    else
+        //    {
+        //        Target.SetPositionAndRotation(Position, Quaternion.Euler(Rotation));
+        //        Target.localScale = LocalScale;
+        //    }
+        //}
+
+        //private void SpecialBehaiour(StateParameter stateParameter, bool isDebug)
+        //{
+        //    if (!isDebug)
+        //    {
+        //        stateParameter.Target.DOMove(stateParameter.Position, GameManager.Instance.TimeToChangeState_sec)
+        //            .OnComplete(() => OnCompleteSpecialTransformation());
+        //        stateParameter.Target.DORotate(stateParameter.Rotation, GameManager.Instance.TimeToChangeState_sec)
+        //            .OnComplete(() => OnCompleteSpecialTransformation());
+        //        stateParameter.Target.DOScale(stateParameter.LocalScale, GameManager.Instance.TimeToChangeState_sec)
+        //            .OnComplete(() => OnCompleteSpecialTransformation());
+        //    }
+        //    else
+        //    {
+        //        stateParameter.Target.SetPositionAndRotation(stateParameter.Position, Quaternion.Euler(stateParameter.Rotation));
+        //        stateParameter.Target.localScale = stateParameter.LocalScale;
+        //    }
+        //}
 
         private void OnCompleteDefaultTransformation()
         {
@@ -100,7 +148,8 @@ namespace EchoOfTheTimes.LevelStates
         {
             if (stateParameter == null) 
             {
-                var color = GameManager.Instance.ColorStateSettings.GetColor(StateId);
+                //var color = GameManager.Instance.ColorStateSettings.GetColor(StateId);
+                var color = _colorStateSettings.GetColor(StateId);
 
                 if (Target.gameObject.TryGetComponent(out Renderer renderer))
                 {
@@ -121,7 +170,8 @@ namespace EchoOfTheTimes.LevelStates
             }
             else
             {
-                var color = GameManager.Instance.ColorStateSettings.GetColor(stateParameter.StateId);
+                //var color = GameManager.Instance.ColorStateSettings.GetColor(stateParameter.StateId);
+                var color = _colorStateSettings.GetColor(stateParameter.StateId);
 
                 if (stateParameter.Target.gameObject.TryGetComponent(out Renderer renderer))
                 {

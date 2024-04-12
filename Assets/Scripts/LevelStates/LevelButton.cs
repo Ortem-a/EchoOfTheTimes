@@ -4,6 +4,7 @@ using EchoOfTheTimes.Units;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.LevelStates
 {
@@ -20,6 +21,16 @@ namespace EchoOfTheTimes.LevelStates
         private Player _player;
         private int _maxMovables;
         private int _counter;
+
+        [Inject]
+        private void Initialize(GraphVisibility graph, Player player)
+        {
+            _graph = graph;
+            _player = player;
+
+            _maxMovables = Movables != null ? Movables.Count : 0;
+            _counter = 0;
+        }
 
         public void Initialize()
         {

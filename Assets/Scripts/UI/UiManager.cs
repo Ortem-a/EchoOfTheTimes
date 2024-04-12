@@ -32,12 +32,12 @@ namespace EchoOfTheTimes.UI
 
         private void SubscribeEvents()
         {
-            GameManager.Instance.StateMachine.OnTransitionComplete += UiSceneController.UpdateLabel;
+           // GameManager.Instance.StateMachine.OnTransitionComplete += UiSceneController.UpdateLabel;
         }
 
         private void UnsubscribeEvents()
         {
-            GameManager.Instance.StateMachine.OnTransitionComplete -= UiSceneController.UpdateLabel;
+            //GameManager.Instance.StateMachine.OnTransitionComplete -= UiSceneController.UpdateLabel;
         }
     }
 }

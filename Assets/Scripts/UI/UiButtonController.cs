@@ -3,6 +3,7 @@ using EchoOfTheTimes.LevelStates;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace EchoOfTheTimes.UI
 {
@@ -14,6 +15,22 @@ namespace EchoOfTheTimes.UI
         private void Awake()
         {
             _button = GetComponent<Button>();
+        }
+
+        [Inject]
+        private void Initialize(UserInputHandler inputHandler)
+        {
+            _userInputHandler = inputHandler;
+        }
+
+        public void Initialize(int stateId, UserInputHandler inputHandler)
+        {
+            _button = GetComponent<Button>();
+
+            _userInputHandler = inputHandler;
+
+            _button.transform.GetChild(0).GetComponent<TMP_Text>().text = $"To {stateId}";
+            _button.onClick.AddListener(() => ChangeState(stateId));
         }
 
         public void Initialize(int stateId)

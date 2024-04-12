@@ -1,6 +1,7 @@
 using EchoOfTheTimes.Interfaces;
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.Core
 {
@@ -16,6 +17,14 @@ namespace EchoOfTheTimes.Core
         private void OnValidate()
         {
             Point = GetComponent<Vertex>();
+        }
+
+        [Inject]
+        private void Initialize(CheckpointManager checkpointManager)
+        {
+            _checkpointManager = checkpointManager;
+
+            Point = Point != null ? Point : GetComponent<Vertex>();
         }
 
         public void Initialize()

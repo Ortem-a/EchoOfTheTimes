@@ -4,6 +4,7 @@ using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace EchoOfTheTimes.UI
 {
@@ -33,6 +34,21 @@ namespace EchoOfTheTimes.UI
             ToMainMenuButton.onClick.AddListener(ExitToMainMenu);
             FinishButton.onClick.AddListener(ExitToMainMenu);
             ToCheckpointButton.onClick.AddListener(GoToCheckpoint);
+        }
+
+        [Inject]
+        private void Initialize(LevelStateMachine stateMachine, UiSceneView uiSceneView, UserInputHandler inputHandler)
+        {
+            _stateMachine = stateMachine;
+            _sceneView = uiSceneView;
+
+            for (int i = 0; i < _stateMachine.States.Count; i++)
+            {
+                var obj = Instantiate(ButtonPrefab, BottomPanel);
+                obj.GetComponent<UiButtonController>().Initialize(i, inputHandler);
+            }
+
+            FinishPanel.DOScale(0f, 0f);
         }
 
         public void Initialize()

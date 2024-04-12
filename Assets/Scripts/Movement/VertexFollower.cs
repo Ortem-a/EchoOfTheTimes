@@ -3,6 +3,7 @@ using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Units;
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.Movement
 {
@@ -25,9 +26,15 @@ namespace EchoOfTheTimes.Movement
             OnAcceptLink -= AcceptLink;
         }
 
-        private void LateUpdate()
+        private void Update()
         {
             Follow();
+        }
+
+        [Inject]
+        private void Initialize(Player player)
+        {
+            _target = player;
         }
 
         public void Initialize()

@@ -9,6 +9,7 @@ using EchoOfTheTimes.ScriptableObjects;
 using EchoOfTheTimes.Utils;
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.Units
 {
@@ -39,6 +40,22 @@ namespace EchoOfTheTimes.Units
         private void Awake()
         {
             _movable = GetComponent<Movable>();
+        }
+
+        [Inject]
+        private void Initialize(GraphVisibility graphVisibility, VertexFollower vertexFollower, PlayerSettingsScriptableObject playerSettings)
+        {
+            _graph = graphVisibility;
+            _vertexFollower = vertexFollower;
+            _playerSettings = playerSettings;
+
+            _movable = GetComponent<Movable>();
+            _movable.Initialize(
+                speed: _playerSettings.MoveSpeed,
+                distanceTreshold: _playerSettings.DistanceTreshold,
+                rotateDuration: _playerSettings.RotateDuration,
+                rotateConstraint: _playerSettings.AxisConstraint
+                );
         }
 
         public void Initialize()

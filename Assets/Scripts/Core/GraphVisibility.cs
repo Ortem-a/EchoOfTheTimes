@@ -1,6 +1,7 @@
 using EchoOfTheTimes.LevelStates;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.Core
 {

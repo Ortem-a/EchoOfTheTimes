@@ -4,6 +4,7 @@ using EchoOfTheTimes.Interfaces;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.LevelStates
 {
@@ -26,6 +27,12 @@ namespace EchoOfTheTimes.LevelStates
 #endif
 
         public List<SpecialTransition> Influences;
+
+        [Inject]
+        private void Initialize(LevelStateMachine stateMachine)
+        {
+            _stateMachine = stateMachine;
+        }
 
         public void Initialize()
         {
