@@ -23,7 +23,7 @@ namespace EchoOfTheTimes.LevelStates
         private int _counter;
 
         [Inject]
-        private void Initialize(GraphVisibility graph, Player player)
+        private void Construct(GraphVisibility graph, Player player)
         {
             _graph = graph;
             _player = player;

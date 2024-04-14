@@ -51,7 +51,7 @@ namespace EchoOfTheTimes.DI
 
         public override void InstallBindings()
         {
-            BindScriptableObjects();
+            //BindScriptableObjects();
             BindSystems();
             BindPlayer();
             BindUi();
@@ -75,10 +75,10 @@ namespace EchoOfTheTimes.DI
         private void BindPlayer()
         {
             Container.Bind<VertexFollower>().FromInstance(_vertexFollower).AsSingle();
-            Container.Bind<Player>().FromInstance(_player).AsSingle();
             Container.Bind<RefinedOrbitCamera>().FromInstance(_camera).AsSingle();
             Container.Bind<UserInput>().FromInstance(_userInput).AsSingle();
             Container.Bind<UserInputHandler>().FromInstance(_userInputHandler).AsSingle();
+            Container.Bind<Player>().FromInstance(_player).AsSingle();
         }
 
         private void BindScriptableObjects()

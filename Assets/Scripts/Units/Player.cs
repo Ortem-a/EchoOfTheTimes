@@ -37,13 +37,13 @@ namespace EchoOfTheTimes.Units
 
         private Movable _movable;
 
-        private void Awake()
-        {
-            _movable = GetComponent<Movable>();
-        }
+        //private void Awake()
+        //{
+        //    _movable = GetComponent<Movable>();
+        //}
 
         [Inject]
-        private void Initialize(GraphVisibility graphVisibility, VertexFollower vertexFollower, PlayerSettingsScriptableObject playerSettings)
+        private void Construct(GraphVisibility graphVisibility, VertexFollower vertexFollower, PlayerSettingsScriptableObject playerSettings)
         {
             _graph = graphVisibility;
             _vertexFollower = vertexFollower;

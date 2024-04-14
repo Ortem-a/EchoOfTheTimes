@@ -1,6 +1,7 @@
 using EchoOfTheTimes.Editor;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.LevelStates
 {
@@ -37,6 +38,14 @@ namespace EchoOfTheTimes.LevelStates
 
         public bool IsChanging { get; private set; }
 
+        private StateService _stateService;
+
+        [Inject]
+        private void Construct(StateService stateService)
+        {
+            _stateService = stateService;
+        }
+
         public void StartTransition()
         {
             IsChanging = true;
@@ -72,7 +81,7 @@ namespace EchoOfTheTimes.LevelStates
             if (state != null)
             {
                 _current = state;
-                _current.Accept(null, true);
+                _stateService.SwitchState(_current, null, true);
             }
             else
             {
@@ -109,11 +118,11 @@ namespace EchoOfTheTimes.LevelStates
 
             if (transition == null)
             {
-                _current.Accept(null, onComplete: () => OnTransitionComplete?.Invoke());
+                _stateService.SwitchState(_current, null, onComplete: () => OnTransitionComplete?.Invoke());
             }
             else
             {
-                _current.Accept(transition.Parameters, onComplete: () => OnTransitionComplete?.Invoke());
+                _stateService.SwitchState(_current, transition.Parameters, onComplete: () => OnTransitionComplete?.Invoke());
 
                 LastTransition = transition;
             }
