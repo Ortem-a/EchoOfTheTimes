@@ -93,10 +93,10 @@ namespace EchoOfTheTimes.Persistence
             // он загружается разрабом на диск, потом только загружается.
             // пользователь не может менять его, сохранять и перезаписывать.
             // фактически пользователь не может ничего сохранять. он терпила
-            var vertex = GameManager.Instance.Graph.GetNearestVertex(GameData.PlayerData.Checkpoint);
-            GameManager.Instance.CheckpointManager.OnCheckpointChanged?.Invoke(vertex.gameObject.GetComponent<Checkpoint>());
-            GameManager.Instance.StateMachine.LoadState(GameData.PlayerData.StateId);
-            GameManager.Instance.Player.Teleportate(GameData.PlayerData.Checkpoint, 0f);
+            //var vertex = GameManager.Instance.Graph.GetNearestVertex(GameData.PlayerData.Checkpoint);
+            //GameManager.Instance.CheckpointManager.OnCheckpointChanged?.Invoke(vertex.gameObject.GetComponent<Checkpoint>());
+            //GameManager.Instance.StateMachine.LoadState(GameData.PlayerData.StateId);
+            //GameManager.Instance.Player.Teleportate(GameData.PlayerData.Checkpoint, 0f);
         }
 
         public void SaveGame(PlayerData playerData)

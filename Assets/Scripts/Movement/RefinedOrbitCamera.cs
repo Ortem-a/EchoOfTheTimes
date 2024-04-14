@@ -1,5 +1,4 @@
-﻿using EchoOfTheTimes.Core;
-using EchoOfTheTimes.Units;
+﻿using EchoOfTheTimes.Units;
 using EchoOfTheTimes.Utils;
 using System;
 using UnityEngine;
@@ -79,50 +78,45 @@ namespace EchoOfTheTimes.Movement
             transform.localRotation = Quaternion.Euler(_orbitAngles);
         }
 
-        //private void FixedUpdate()
-        //{
-        //    if (_isAutoRotateTimerStart)
-        //    {
-        //        _afkTime += Time.deltaTime;
-
-        //        if (_afkTime > MaxAfkTime_sec)
-        //        {
-        //            _isNeedAutoRotate = true;
-        //            _isAutoRotateTimerStart = false;
-        //        }
-        //    }
-        //}
-
-        //private void LateUpdate()
-        //{
-        //    UpdateFocusPoint();
-
-        //    var lookRotation = transform.localRotation;
-        //    Vector3 lookDirection = lookRotation * Vector3.forward;
-        //    Vector3 lookPosition = _focusPoint - lookDirection * _distance;
-
-        //    transform.SetPositionAndRotation(lookPosition, lookRotation);
-
-        //    if (_player.IsBusy)
-        //    {
-        //        _isNeedAutoRotate = true;
-        //    }
-
-        //    if (_isNeedAutoRotate)
-        //    {
-        //        AutoRotateCamera();
-        //    }
-        //}
-
-        [Inject]
-        private void Initialize(Player player)
+        private void FixedUpdate()
         {
-            _player = player;
+            if (_isAutoRotateTimerStart)
+            {
+                _afkTime += Time.deltaTime;
+
+                if (_afkTime > MaxAfkTime_sec)
+                {
+                    _isNeedAutoRotate = true;
+                    _isAutoRotateTimerStart = false;
+                }
+            }
         }
 
-        public void Initialize()
+        private void LateUpdate()
         {
-            _player = GameManager.Instance.Player;
+            UpdateFocusPoint();
+
+            var lookRotation = transform.localRotation;
+            Vector3 lookDirection = lookRotation * Vector3.forward;
+            Vector3 lookPosition = _focusPoint - lookDirection * _distance;
+
+            transform.SetPositionAndRotation(lookPosition, lookRotation);
+
+            if (_player.IsBusy)
+            {
+                _isNeedAutoRotate = true;
+            }
+
+            if (_isNeedAutoRotate)
+            {
+                AutoRotateCamera();
+            }
+        }
+
+        [Inject]
+        private void Construct(Player player)
+        {
+            _player = player;
         }
 
         private void AutoRotateCamera()
@@ -139,10 +133,7 @@ namespace EchoOfTheTimes.Movement
 
             if (Mathf.Abs(a) > 0.1f)
             {
-                //var s = Mathf.Lerp(transform.rotation.eulerAngles.y, Mathf.Abs(a), AutoRotationSpeed);
-
                 Rotate(Mathf.Abs(a) * dir);
-                //Rotate(AutoRotationSpeed * dir);
             }
         }
 

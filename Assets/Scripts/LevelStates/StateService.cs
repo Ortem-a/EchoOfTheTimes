@@ -9,27 +9,18 @@ namespace EchoOfTheTimes.LevelStates
     public class StateService
     {
         private float _timeToChangeState_sec;
-        private ColorStateSettingsScriptableObject _colorStateSettings;
 
-        // for whole level state
         private int _completedCallbackCounter;
         private int _callbackCounter;
         private TweenCallback _onCompleteCallback;
 
-        // for each state parameter
-        private int _defaultCompleteCounter = 0;
-        private int _specialCompleteCounter = 0;
-        private int _completeChecker = 3;
-        private TweenCallback _onComplete;
-
         [Inject]
-        public StateService(LevelSettingsScriptableObject levelSettings, ColorStateSettingsScriptableObject colorStateSettings)
+        public StateService(LevelSettingsScriptableObject levelSettings)
         {
             _timeToChangeState_sec = levelSettings.TimeToChangeState_sec;
-            _colorStateSettings = colorStateSettings;
         }
 
-        public void SwitchState(LevelState levelState, List<StateParameter> parameters, bool isDebug = false, TweenCallback onComplete = null)
+        public void SwitchState(LevelState levelState, List<StateParameter> transitionParameters, bool isDebug = false, TweenCallback onComplete = null)
         {
             List<Transform> acceptedTargets = null;
 
@@ -37,18 +28,20 @@ namespace EchoOfTheTimes.LevelStates
             _completedCallbackCounter = 0;
             _callbackCounter = 0;
 
-            if (parameters != null && parameters.Count != 0)
+            if (transitionParameters != null && transitionParameters.Count != 0)
             {
                 acceptedTargets = new List<Transform>();
 
-                _callbackCounter += parameters.Count;
+                _callbackCounter += transitionParameters.Count;
 
-                foreach (var param in parameters)
+                foreach (var param in transitionParameters)
                 {
                     acceptedTargets.Add(param.Target);
 
-                    AcceptState(null, param, isDebug, IncrementCallbackCounter);
+                    AcceptState(param, isDebug: isDebug, onComplete: IncrementCallbackCounter);
+                    //param.AcceptState(param, isDebug, IncrementCallbackCounter);
                 }
+
             }
 
             if (levelState.StatesParameters != null)
@@ -57,14 +50,18 @@ namespace EchoOfTheTimes.LevelStates
 
                 for (int i = 0; i < levelState.StatesParameters.Count; i++)
                 {
-                    if (parameters != null && parameters.Count != 0)
+                    if (transitionParameters != null && transitionParameters.Count != 0)
                     {
                         if (!acceptedTargets.Contains(levelState.StatesParameters[i].Target))
-                            AcceptState(levelState.StatesParameters[i], isDebug: isDebug, onComplete: IncrementCallbackCounter);
+                            AcceptState(levelState.StatesParameters[i], isDebug: isDebug,
+                                onComplete: IncrementCallbackCounter);
+                        //levelState.StatesParameters[i].AcceptState(isDebug: isDebug, onComplete: IncrementCallbackCounter);
                     }
                     else
                     {
-                        AcceptState(levelState.StatesParameters[i], isDebug: isDebug, onComplete: IncrementCallbackCounter);
+                        AcceptState(levelState.StatesParameters[i], isDebug: isDebug,
+                            onComplete: IncrementCallbackCounter);
+                        //levelState.StatesParameters[i].AcceptState(isDebug: isDebug, onComplete: IncrementCallbackCounter);
                     }
                 }
             }
@@ -84,75 +81,25 @@ namespace EchoOfTheTimes.LevelStates
             }
         }
 
-        public void AcceptState(StateParameter parameter, StateParameter specialParameter = null, bool isDebug = false, TweenCallback onComplete = null)
+        public void AcceptState(StateParameter parameter,
+            StateParameter specialParameter = null, bool isDebug = false,
+            TweenCallback onComplete = null)
         {
-            _onComplete = onComplete;
-
-            if (specialParameter != null)
+            if (parameter != null)
             {
-                _specialCompleteCounter = 0;
-                SpecialBehaiour(specialParameter, isDebug);
+                parameter.AcceptState(
+                    timeToChangeState_sec: _timeToChangeState_sec,
+                    specialParameter: specialParameter,
+                    isDebug: isDebug,
+                    onComplete: onComplete);
             }
             else
             {
-                _defaultCompleteCounter = 0;
-                DefaultBehaviour(parameter, isDebug);
-            }
-        }
-
-        private void DefaultBehaviour(StateParameter parameter, bool isDebug)
-        {
-            if (!isDebug)
-            {
-                parameter.Target.DOMove(parameter.Position, _timeToChangeState_sec)
-                    .OnComplete(() => OnCompleteDefaultTransformation());
-                parameter.Target.DORotate(parameter.Rotation, _timeToChangeState_sec)
-                    .OnComplete(() => OnCompleteDefaultTransformation());
-                parameter.Target.DOScale(parameter.LocalScale, _timeToChangeState_sec)
-                    .OnComplete(() => OnCompleteDefaultTransformation());
-            }
-            else
-            {
-                parameter.Target.SetPositionAndRotation(parameter.Position, Quaternion.Euler(parameter.Rotation));
-                parameter.Target.localScale = parameter.LocalScale;
-            }
-        }
-
-        private void SpecialBehaiour(StateParameter stateParameter, bool isDebug)
-        {
-            if (!isDebug)
-            {
-                stateParameter.Target.DOMove(stateParameter.Position, _timeToChangeState_sec)
-                    .OnComplete(() => OnCompleteSpecialTransformation());
-                stateParameter.Target.DORotate(stateParameter.Rotation, _timeToChangeState_sec)
-                    .OnComplete(() => OnCompleteSpecialTransformation());
-                stateParameter.Target.DOScale(stateParameter.LocalScale, _timeToChangeState_sec)
-                    .OnComplete(() => OnCompleteSpecialTransformation());
-            }
-            else
-            {
-                stateParameter.Target.SetPositionAndRotation(stateParameter.Position, Quaternion.Euler(stateParameter.Rotation));
-                stateParameter.Target.localScale = stateParameter.LocalScale;
-            }
-        }
-
-        private void OnCompleteDefaultTransformation()
-        {
-            _defaultCompleteCounter++;
-
-            if (_defaultCompleteCounter == _completeChecker)
-            {
-                _onComplete?.Invoke();
-            }
-        }
-
-        private void OnCompleteSpecialTransformation()
-        {
-            _specialCompleteCounter++;
-
-            if (_specialCompleteCounter == _completeChecker)
-            {
-                _onComplete?.Invoke();
+                specialParameter.AcceptState(
+                    timeToChangeState_sec: _timeToChangeState_sec,
+                    specialParameter: specialParameter,
+                    isDebug: isDebug,
+                    onComplete: onComplete);
             }
         }
     }

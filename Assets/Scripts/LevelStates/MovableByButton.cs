@@ -20,6 +20,7 @@ namespace EchoOfTheTimes.LevelStates
         public void Move(Action onComplete)
         {
             _stateService.AcceptState(_parameter, onComplete: () => onComplete());
+            //_parameter.AcceptState(onComplete: () => onComplete());
         }
 
         public void SetOrUpdateParams()

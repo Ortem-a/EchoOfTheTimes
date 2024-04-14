@@ -66,7 +66,7 @@ namespace EchoOfTheTimes.LevelStates
 
                 OnTransitionStart?.Invoke();
 
-                ChangeState(state);
+                ChangeState(state, null);
             }
             else
             {
@@ -112,7 +112,7 @@ namespace EchoOfTheTimes.LevelStates
             }
         }
 
-        private void ChangeState(LevelState state, Transition transition = null)
+        private void ChangeState(LevelState state, Transition transition)
         {
             _current = state;
 

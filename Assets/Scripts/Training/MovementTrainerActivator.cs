@@ -56,7 +56,8 @@ namespace EchoOfTheTimes.Training
                 .SetLoops(-1, LoopType.Yoyo)
                 .SetEase(Ease.Linear);
 
-            GameManager.Instance.UserInputHandler.gameObject.SetActive(true);
+#warning Õ≈ –¿¡Œ“¿≈“ œ»ƒŒ–
+            //GameManager.Instance.UserInputHandler.gameObject.SetActive(true);
         }
 
         public void Hide()

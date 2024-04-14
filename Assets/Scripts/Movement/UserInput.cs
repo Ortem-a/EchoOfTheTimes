@@ -11,8 +11,6 @@ namespace EchoOfTheTimes.Movement
 
         private UserInputHandler _userInputHandler;
 
-        public RefinedOrbitCamera_PASHA ROC_PASHA;
-
         private Vector3 _startTouchPosition;
         private Vector3 _endTouchPosition;
         private Touch _touch;
@@ -21,11 +19,6 @@ namespace EchoOfTheTimes.Movement
         private void Initialize(UserInputHandler inputHandler)
         {
             _userInputHandler = inputHandler;
-        }
-
-        public void Initialize()
-        {
-            _userInputHandler = GameManager.Instance.UserInputHandler;
         }
 
         private void Update()
@@ -57,8 +50,7 @@ namespace EchoOfTheTimes.Movement
                     }
                     else
                     {
-                        //_userInputHandler.OnSwipe?.Invoke(deltaX);
-                        ROC_PASHA.HandleSwipe(deltaX);
+                        _userInputHandler.OnSwipe?.Invoke(deltaX);
 
                         //Debug.Log("Swipe" + ' ' + Mathf.Abs(deltaX) + ' ' + Mathf.Abs(deltaY));
                     }
@@ -66,7 +58,7 @@ namespace EchoOfTheTimes.Movement
             }
         }
 
-        public Vertex ScreenToVertex(Vector3 screenPosition)
+        private Vertex ScreenToVertex(Vector3 screenPosition)
         {
             Ray ray = _camera.ScreenPointToRay(screenPosition);
             if (Physics.Raycast(ray, out RaycastHit hitData, 1000f))

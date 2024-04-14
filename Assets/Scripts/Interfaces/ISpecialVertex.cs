@@ -6,7 +6,5 @@ namespace EchoOfTheTimes.Interfaces
     {
         public Action OnEnter { get; }
         public Action OnExit { get; }
-
-        public void Initialize();
     }
 }

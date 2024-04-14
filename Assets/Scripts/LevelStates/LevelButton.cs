@@ -32,15 +32,6 @@ namespace EchoOfTheTimes.LevelStates
             _counter = 0;
         }
 
-        public void Initialize()
-        {
-            _graph = GameManager.Instance.Graph;
-            _player = GameManager.Instance.Player;
-
-            _maxMovables = Movables != null ? Movables.Count : 0;
-            _counter = 0;
-        }
-
         private void Press()
         {
             if (IsPressed) return;
@@ -63,7 +54,7 @@ namespace EchoOfTheTimes.LevelStates
         {
             _counter++;
 
-            if (_counter == _maxMovables) 
+            if (_counter == _maxMovables)
             {
                 _graph.Load();
             }

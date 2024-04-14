@@ -1,8 +1,8 @@
 using EchoOfTheTimes.SceneManagement;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace EchoOfTheTimes.UI
 {
@@ -16,12 +16,11 @@ namespace EchoOfTheTimes.UI
         private void Start()
         {
             _loader = FindObjectOfType<SceneLoader>();
-
             _buttons = ButtonsContainer.GetComponentsInChildren<Button>();
 
-            for (int i = 1; i < _loader._sceneGroups.Length; i++)
+            for (int i = 1; i < _loader.SceneGroups.Length; i++)
             {
-                _buttons[i - 1].transform.GetChild(0).GetComponent<TMP_Text>().text = _loader._sceneGroups[i].GroupName;
+                _buttons[i - 1].transform.GetChild(0).GetComponent<TMP_Text>().text = _loader.SceneGroups[i].GroupName;
             }
         }
 

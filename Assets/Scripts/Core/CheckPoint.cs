@@ -20,16 +20,9 @@ namespace EchoOfTheTimes.Core
         }
 
         [Inject]
-        private void Initialize(CheckpointManager checkpointManager)
+        private void Construct(CheckpointManager checkpointManager)
         {
             _checkpointManager = checkpointManager;
-
-            Point = Point != null ? Point : GetComponent<Vertex>();
-        }
-
-        public void Initialize()
-        {
-            _checkpointManager = GameManager.Instance.CheckpointManager;
 
             Point = Point != null ? Point : GetComponent<Vertex>();
         }

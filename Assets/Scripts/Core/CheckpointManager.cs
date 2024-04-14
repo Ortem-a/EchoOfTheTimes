@@ -22,7 +22,7 @@ namespace EchoOfTheTimes.Core
 
         private void OnValidate()
         {
-            if (StartCheckpoint != null) 
+            if (StartCheckpoint != null)
             {
                 StartPlayerData.Checkpoint = StartCheckpoint.transform.position;
             }
@@ -33,8 +33,13 @@ namespace EchoOfTheTimes.Core
             OnCheckpointChanged += UpdateCheckpoint;
         }
 
+        private void OnDestroy()
+        {
+            OnCheckpointChanged -= UpdateCheckpoint;
+        }
+
         [Inject]
-        private void Initialize(Player player, LevelStateMachine stateMachine)
+        private void Construct(Player player, LevelStateMachine stateMachine)
         {
             _player = player;
             _stateMachine = stateMachine;
@@ -51,44 +56,17 @@ namespace EchoOfTheTimes.Core
             AcceptActiveCheckpointToScene();
         }
 
-        public void Initialize()
-        {
-            ActiveCheckpoint = StartCheckpoint;
-
-            PlayerData = new PlayerData()
-            {
-                Id = StartPlayerData.Id,
-                StateId = StartPlayerData.StateId,
-                Checkpoint = StartPlayerData.Checkpoint
-            };
-
-            AcceptActiveCheckpointToScene(0);
-        }
-
-        private void OnDestroy()
-        {
-            OnCheckpointChanged -= UpdateCheckpoint;
-        }
-
         private void UpdateCheckpoint(Checkpoint checkpoint)
         {
 #warning какая-то хуета. можно лучше.
 
-            PlayerData.Id = GameManager.Instance.Player.Id;
+            PlayerData.Id = _player.Id;
             PlayerData.Checkpoint = checkpoint.transform.position;
-            PlayerData.StateId = GameManager.Instance.StateMachine.GetCurrentStateId();
+            PlayerData.StateId = _stateMachine.GetCurrentStateId();
             //SaveLoadSystem.Instance.SaveGame(GameData);
 
             ActiveCheckpoint = checkpoint;
             Debug.Log($"[CheckpointManager] Checkpoint changed! | PlayerData {PlayerData} | ActiveCheckpoint {ActiveCheckpoint}");
-        }
-
-        public void AcceptActiveCheckpointToScene(int i)
-        {
-            Debug.Log($"[CheckpointManager] Accept Active Checkpoint To Scene '{PlayerData}'");
-
-            GameManager.Instance.Player.Teleportate(PlayerData.Checkpoint, 0.1f);
-            GameManager.Instance.StateMachine.LoadState(PlayerData.StateId);
         }
 
         public void AcceptActiveCheckpointToScene()

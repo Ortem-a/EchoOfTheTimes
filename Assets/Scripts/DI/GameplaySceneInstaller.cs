@@ -1,11 +1,9 @@
 using EchoOfTheTimes.Core;
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Movement;
-using EchoOfTheTimes.ScriptableObjects;
 using EchoOfTheTimes.UI;
 using EchoOfTheTimes.Units;
 using System;
-using UnityEditorInternal;
 using UnityEngine;
 using Zenject;
 
@@ -16,6 +14,7 @@ namespace EchoOfTheTimes.DI
         [Header("Systems")]
         [SerializeField]
         private LevelStateMachine _stateMachine;
+        private StateService _stateService;
         [SerializeField]
         private GraphVisibility _graph;
         [SerializeField]
@@ -35,14 +34,6 @@ namespace EchoOfTheTimes.DI
         [SerializeField]
         private UserInputHandler _userInputHandler;
 
-        [Header("Scriptable Objects")]
-        [SerializeField]
-        private ColorStateSettingsScriptableObject _colorStateSettings;
-        [SerializeField]
-        private PlayerSettingsScriptableObject _playerSettings;
-        [SerializeField]
-        private LevelSettingsScriptableObject _levelSettings;
-
         [Header("UI")]
         [SerializeField]
         private UiSceneController _uiSceneController;
@@ -51,7 +42,6 @@ namespace EchoOfTheTimes.DI
 
         public override void InstallBindings()
         {
-            //BindScriptableObjects();
             BindSystems();
             BindPlayer();
             BindUi();
@@ -66,6 +56,8 @@ namespace EchoOfTheTimes.DI
 
         private void BindSystems()
         {
+            Container.Bind<StateService>().FromNew().AsSingle();
+
             Container.Bind<LevelStateMachine>().FromInstance(_stateMachine).AsSingle();
             Container.Bind<GraphVisibility>().FromInstance(_graph).AsSingle();
             Container.Bind<CheckpointManager>().FromInstance(_checkpointManager).AsSingle();
@@ -81,16 +73,8 @@ namespace EchoOfTheTimes.DI
             Container.Bind<Player>().FromInstance(_player).AsSingle();
         }
 
-        private void BindScriptableObjects()
-        {
-            //Container.Bind<PlayerSettingsScriptableObject>().FromScriptableObject(_playerSettings).AsSingle();
-            //Container.Bind<ColorStateSettingsScriptableObject>().FromScriptableObject(_colorStateSettings).AsSingle();
-            //Container.Bind<LevelSettingsScriptableObject>().FromScriptableObject(_levelSettings).AsSingle();
-        }
-
         private void BindUi()
         {
-            Container.Bind<UiButtonController>().AsSingle();
             Container.Bind<UiSceneController>().FromInstance(_uiSceneController).AsSingle();
             Container.Bind<UiSceneView>().FromInstance(_uiSceneView).AsSingle();
         }
@@ -99,7 +83,7 @@ namespace EchoOfTheTimes.DI
         {
             _stateMachine.OnTransitionStart += _graph.ResetVertices;
             _stateMachine.OnTransitionStart += _stateMachine.StartTransition;
-            
+
             _stateMachine.OnTransitionComplete += () => _verticesBlocker.Block();
             _stateMachine.OnTransitionComplete += _graph.Load;
             _stateMachine.OnTransitionComplete += _vertexFollower.Unlink;

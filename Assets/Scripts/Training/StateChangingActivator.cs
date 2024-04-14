@@ -1,5 +1,4 @@
 using EchoOfTheTimes.Core;
-using EchoOfTheTimes.UI;
 using EchoOfTheTimes.Units;
 using UnityEngine;
 
@@ -20,11 +19,6 @@ namespace EchoOfTheTimes.Training
             Artifact.gameObject.SetActive(false);
         }
 
-        //private void Start()
-        //{
-        //    Artifact.Enable();
-        //}
-
         private void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent(out Player player))
@@ -38,8 +32,9 @@ namespace EchoOfTheTimes.Training
             Artifact.gameObject.SetActive(true);
             Artifact.Enable();
 
-            UiManager.Instance.UiSceneController.SetActiveBottomPanel(true);
-            UiManager.Instance.UiSceneView.InfoLabel.gameObject.SetActive(true);
+#warning —“¿–€… UI
+            //UiManager.Instance.UiSceneController.SetActiveBottomPanel(true);
+            //UiManager.Instance.UiSceneView.InfoLabel.gameObject.SetActive(true);
 
             gameObject.SetActive(false);
         }

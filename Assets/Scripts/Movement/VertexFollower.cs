@@ -1,5 +1,4 @@
 using EchoOfTheTimes.Core;
-using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Units;
 using System;
 using UnityEngine;
@@ -32,14 +31,9 @@ namespace EchoOfTheTimes.Movement
         }
 
         [Inject]
-        private void Initialize(Player player)
+        private void Construct(Player player)
         {
             _target = player;
-        }
-
-        public void Initialize()
-        {
-            _target = GameManager.Instance.Player;
         }
 
         private void Follow()
@@ -53,7 +47,7 @@ namespace EchoOfTheTimes.Movement
             }
         }
 
-        private void LinkPlayer() 
+        private void LinkPlayer()
         {
             _vertex = _target.Position;
 

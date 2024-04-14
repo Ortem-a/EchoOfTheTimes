@@ -1,7 +1,9 @@
 using EchoOfTheTimes.Interfaces;
 using EchoOfTheTimes.UI;
+using EchoOfTheTimes.Units;
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.Core
 {
@@ -10,15 +12,24 @@ namespace EchoOfTheTimes.Core
         public Action OnEnter => Enter;
         public Action OnExit => null;
 
-        private void Enter()
+        private Player _player;
+        private UserInputHandler _inputHandler;
+
+        [Inject]
+        public void Construct(Player player, UserInputHandler inputHandler)
         {
-            UiManager.Instance.UiSceneController.EnableFinishCanvas();
-
-            GameManager.Instance.Player.Stop(null);
-
-            GameManager.Instance.UserInputHandler.gameObject.SetActive(false);
+            _player = player;
+            _inputHandler = inputHandler;
         }
 
-        public void Initialize() { }
+        private void Enter()
+        {
+#warning √Œ¬Õ»Ÿ≈≈≈≈
+            //UiManager.Instance.UiSceneController.EnableFinishCanvas();
+
+            _player.Stop(null);
+
+            _inputHandler.gameObject.SetActive(false);
+        }
     }
 }

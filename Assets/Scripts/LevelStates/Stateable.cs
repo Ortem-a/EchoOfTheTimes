@@ -36,7 +36,7 @@ namespace EchoOfTheTimes.LevelStates
 
                 foreach (StateParameter parameters in SpecialTransitions[index].Parameters)
                 {
-                    //parameters.AcceptState(null, parameters);
+                    //parameters.AcceptState(parameters);
                     _stateService.AcceptState(null, parameters);
                 }
             }
@@ -50,8 +50,8 @@ namespace EchoOfTheTimes.LevelStates
             {
                 int index = States.FindIndex((x) => x.StateId == toId);
 
-                //States[index].AcceptState();
-                _stateService.AcceptState(States[index]);
+                States[index].AcceptState();
+                //_stateService.AcceptState(States[index]);
             }
         }
 

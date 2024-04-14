@@ -29,14 +29,9 @@ namespace EchoOfTheTimes.LevelStates
         public List<SpecialTransition> Influences;
 
         [Inject]
-        private void Initialize(LevelStateMachine stateMachine)
+        private void Construct(LevelStateMachine stateMachine)
         {
             _stateMachine = stateMachine;
-        }
-
-        public void Initialize()
-        {
-            _stateMachine = GameManager.Instance.StateMachine;
         }
 
         private void Press()

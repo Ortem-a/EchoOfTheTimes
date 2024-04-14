@@ -1,7 +1,6 @@
 using DG.Tweening;
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Movement;
-using EchoOfTheTimes.Training;
 using EchoOfTheTimes.Units;
 using System;
 using System.Collections.Generic;
@@ -12,9 +11,6 @@ namespace EchoOfTheTimes.Core
 {
     public class UserInputHandler : MonoBehaviour
     {
-#warning ����������� ������ �����
-        public RotationTrainerActivator RTA;
-
         public Action<Vertex> OnTouched;
         public Action<float> OnSwipe;
 
@@ -40,22 +36,13 @@ namespace EchoOfTheTimes.Core
         }
 
         [Inject]
-        private void Initialize(GraphVisibility graph, Player player, CheckpointManager checkpointManager, LevelStateMachine stateMachine, RefinedOrbitCamera camera)
+        private void Construct(GraphVisibility graph, Player player, CheckpointManager checkpointManager, LevelStateMachine stateMachine, RefinedOrbitCamera camera)
         {
             _graph = graph;
             _player = player;
             _checkpointManager = checkpointManager;
             _levelStateMachine = stateMachine;
             _camera = camera;
-        }
-
-        public void Initialize()
-        {
-            _graph = GameManager.Instance.Graph;
-            _player = GameManager.Instance.Player;
-            _checkpointManager = GameManager.Instance.CheckpointManager;
-            _levelStateMachine = GameManager.Instance.StateMachine;
-            _camera = GameManager.Instance.Camera;
         }
 
         private void HandleTouch(Vertex touchPosition)
@@ -67,13 +54,7 @@ namespace EchoOfTheTimes.Core
 
         private void HandleSwipe(float deltaX)
         {
-#warning ����������� ������ �����
-            if (CanRotateCamera)
-            {
-                HideRTA();
-
-                _camera.RotateCamera(deltaX);
-            }
+            _camera.RotateCamera(deltaX);
         }
 
         private void CreatePathAndMove(Vertex destination)
@@ -114,7 +95,7 @@ namespace EchoOfTheTimes.Core
             });
         }
 
-#warning �������� ���������� ����������� ����� �� ������� �����
+#warning ГОВНО ДОЛЖНО БЫТЬ НЕ ЗДЕСЬ И НЕ ТАК
         private void Paint(Vertex vertex)
         {
             var mat = vertex.transform.parent.GetComponent<Renderer>().material;
@@ -125,17 +106,6 @@ namespace EchoOfTheTimes.Core
                 {
                     mat.DOColor(color, 0.1f);
                 });
-        }
-
-#warning ����������� ������ �����
-        private bool _flagOnce = true;
-        private void HideRTA()
-        {
-            if (_flagOnce)
-            {
-                RTA.Hide();
-                _flagOnce = false;
-            }
         }
     }
 }
