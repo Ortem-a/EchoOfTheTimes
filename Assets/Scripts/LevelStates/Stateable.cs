@@ -19,11 +19,13 @@ namespace EchoOfTheTimes.LevelStates
         public List<Transition> SpecialTransitions = new List<Transition>();
 
         private StateService _stateService;
+        private LevelStateMachine _levelStateMachine;
 
         [Inject]
-        private void Construct(StateService stateService)
+        private void Construct(StateService stateService, LevelStateMachine levelStateMachine)
         {
             _stateService = stateService;
+            _levelStateMachine = levelStateMachine;
         }
 
         public void TransitSpecial(int fromId, int toId)
@@ -34,10 +36,20 @@ namespace EchoOfTheTimes.LevelStates
             {
                 int index = SpecialTransitions.FindIndex((x) => x.StateFromId == fromId && x.StateToId == toId);
 
+#warning ÄÎÁÀÂÈË ÍÀ ÑÏÅÖ ÑÎÑÒÎßÍÈß
+                // ++++++++++++++++++++++++++++++++++++++
+                _levelStateMachine.OnTransitionStart?.Invoke();
+                // ++++++++++++++++++++++++++++++++++++++
+
                 foreach (StateParameter parameters in SpecialTransitions[index].Parameters)
                 {
                     //parameters.AcceptState(parameters);
-                    _stateService.AcceptState(null, parameters);
+                    _stateService.AcceptState(null, parameters, onComplete: () =>
+                // ++++++++++++++++++++++++++++++++++++++
+                    {
+                        _levelStateMachine.OnTransitionComplete?.Invoke();
+                    });
+                // ++++++++++++++++++++++++++++++++++++++
                 }
             }
         }
@@ -50,7 +62,17 @@ namespace EchoOfTheTimes.LevelStates
             {
                 int index = States.FindIndex((x) => x.StateId == toId);
 
-                States[index].AcceptState();
+#warning ÄÎÁÀÂÈË ÍÀ ÑÏÅÖ ÑÎÑÒÎßÍÈß
+                // ++++++++++++++++++++++++++++++++++++++
+                _levelStateMachine.OnTransitionStart?.Invoke();
+                // ++++++++++++++++++++++++++++++++++++++
+
+                States[index].AcceptState(onComplete: () =>
+                // ++++++++++++++++++++++++++++++++++++++
+                {
+                    _levelStateMachine.OnTransitionComplete?.Invoke();
+                });
+                // ++++++++++++++++++++++++++++++++++++++
                 //_stateService.AcceptState(States[index]);
             }
         }

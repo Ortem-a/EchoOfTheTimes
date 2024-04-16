@@ -14,18 +14,19 @@ namespace EchoOfTheTimes.Core
 
         private Player _player;
         private InputMediator _inputHandler;
+        private UiSceneController _sceneController;
 
         [Inject]
-        public void Construct(Player player, InputMediator inputHandler)
+        public void Construct(Player player, InputMediator inputHandler, UiSceneController sceneController)
         {
             _player = player;
             _inputHandler = inputHandler;
+            _sceneController = sceneController;
         }
 
         private void Enter()
         {
-#warning √Œ¬Õ»Ÿ≈≈≈≈
-            //UiManager.Instance.UiSceneController.EnableFinishCanvas();
+            _sceneController.EnableFinishCanvas();
 
             _player.Stop(null);
 

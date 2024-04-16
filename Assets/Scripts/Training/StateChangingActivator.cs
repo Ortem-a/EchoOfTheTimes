@@ -32,7 +32,6 @@ namespace EchoOfTheTimes.Training
             Artifact.gameObject.SetActive(true);
             Artifact.Enable();
 
-#warning —“¿–€… UI
             //UiManager.Instance.UiSceneController.SetActiveBottomPanel(true);
             //UiManager.Instance.UiSceneView.InfoLabel.gameObject.SetActive(true);
 

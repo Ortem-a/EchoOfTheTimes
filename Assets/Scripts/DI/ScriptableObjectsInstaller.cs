@@ -19,12 +19,15 @@ namespace EchoOfTheTimes.DI
         private PlayerSettingsScriptableObject _playerSettings;
         [SerializeField]
         private LevelSettingsScriptableObject _levelSettings;
+        [SerializeField]
+        private CameraSettingsScriptableObject _cameraSettings;
 
         public override void InstallBindings()
         {
             Container.Bind<PlayerSettingsScriptableObject>().FromScriptableObject(_playerSettings).AsSingle();
             Container.Bind<ColorStateSettingsScriptableObject>().FromScriptableObject(_colorStateSettings).AsSingle();
             Container.Bind<LevelSettingsScriptableObject>().FromScriptableObject(_levelSettings).AsSingle();
+            Container.Bind<CameraSettingsScriptableObject>().FromScriptableObject(_cameraSettings).AsSingle();
         }
     }
 }
