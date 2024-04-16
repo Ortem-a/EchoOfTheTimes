@@ -1,5 +1,4 @@
 using DG.Tweening;
-using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Interfaces;
 using EchoOfTheTimes.ScriptableObjects;
 using EchoOfTheTimes.Units;
@@ -34,11 +33,15 @@ namespace EchoOfTheTimes.Movement
         {
             Debug.Log($"[Teleportator] Teleport to {Destination.transform.position}");
 
-            _player.Teleportate(
-                Destination.transform.position,
-                _teleportDuration_sec,
-                onStart: OnStartTeleportation,
-                onComplete: OnCompleteTeleportation); ;
+#warning ÂÎ ÂÐÅÌß ÂÕÎÄÀ Â ÒÅËÅÏÎÐÒ ÄÎËÆÅÍ ÂÑÒÀÂÀÒÜ ÍÀ ÌÅÑÒÅ
+            _player.Stop(() =>
+            {
+                _player.Teleportate(
+                    Destination.transform.position,
+                    _teleportDuration_sec,
+                    onStart: OnStartTeleportation,
+                    onComplete: OnCompleteTeleportation);
+            });
         }
 
         private void OnStartTeleportation()
