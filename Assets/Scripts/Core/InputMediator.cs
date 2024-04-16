@@ -1,4 +1,3 @@
-using DG.Tweening;
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Movement;
 using EchoOfTheTimes.Units;
@@ -9,13 +8,12 @@ using Zenject;
 
 namespace EchoOfTheTimes.Core
 {
-    public class UserInputHandler : MonoBehaviour
+    public class InputMediator : MonoBehaviour
     {
         public Action<Vertex> OnTouched;
         public Action<float> OnSwipe;
 
         public bool CanChangeStates { get; set; } = true;
-        public bool CanRotateCamera { get; set; } = true;
 
         private Player _player;
         private GraphVisibility _graph;
@@ -47,8 +45,6 @@ namespace EchoOfTheTimes.Core
 
         private void HandleTouch(Vertex touchPosition)
         {
-            Paint(touchPosition);
-
             _player.Stop(() => CreatePathAndMove(touchPosition));
         }
 
@@ -93,19 +89,6 @@ namespace EchoOfTheTimes.Core
             {
                 _levelStateMachine.ChangeState(levelStateId);
             });
-        }
-
-#warning ГОВНО ДОЛЖНО БЫТЬ НЕ ЗДЕСЬ И НЕ ТАК
-        private void Paint(Vertex vertex)
-        {
-            var mat = vertex.transform.parent.GetComponent<Renderer>().material;
-            var color = mat.color;
-
-            mat.DOColor(Color.red, 0.1f)
-                .OnComplete(() =>
-                {
-                    mat.DOColor(color, 0.1f);
-                });
         }
     }
 }

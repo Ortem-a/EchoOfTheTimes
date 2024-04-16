@@ -6,19 +6,20 @@ namespace EchoOfTheTimes.Movement
 {
     public class UserInput : MonoBehaviour
     {
-        [SerializeField]
         private Camera _camera;
 
-        private UserInputHandler _userInputHandler;
+        private InputMediator _userInputHandler;
 
         private Vector3 _startTouchPosition;
         private Vector3 _endTouchPosition;
         private Touch _touch;
 
         [Inject]
-        private void Initialize(UserInputHandler inputHandler)
+        private void Construct(InputMediator inputHandler)
         {
             _userInputHandler = inputHandler;
+
+            _camera = Camera.main;
         }
 
         private void Update()

@@ -9,10 +9,10 @@ namespace EchoOfTheTimes.UI
 {
     public class UiButtonController : MonoBehaviour
     {
-        private UserInputHandler _userInputHandler;
+        private InputMediator _userInputHandler;
         private Button _button;
 
-        public void Initialize(int stateId, UserInputHandler inputHandler)
+        public void Initialize(int stateId, InputMediator inputHandler)
         {
             _userInputHandler = inputHandler;
 

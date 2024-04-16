@@ -308,6 +308,11 @@ namespace EchoOfTheTimes.LevelStates
             }
         }
 
+        public void ChangeStateImmediate(int stateId)
+        {
+            LoadStateDebug(stateId);
+        }
+
         public void SetInStateDebug()
         {
             LoadStateDebug(StateId);

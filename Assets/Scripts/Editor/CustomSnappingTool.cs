@@ -43,19 +43,19 @@ namespace EchoOfTheTimes.Editor
 
         private void MoveWithSnapping(Transform targetTransform, Vector3 newPosition)
         {
-            CustomSnapEdge[] allEdges = FindObjectsOfType<CustomSnapEdge>();
-            CustomSnapEdge[] targetEdges = targetTransform.GetComponentsInChildren<CustomSnapEdge>();
+            CustomSnapPoint[] allPoints = FindObjectsOfType<CustomSnapPoint>();
+            CustomSnapPoint[] targetPoints = targetTransform.GetComponentsInChildren<CustomSnapPoint>();
 
             Vector3 bestPosition = newPosition;
             float closestDistance = float.PositiveInfinity;
 
-            foreach (CustomSnapEdge edge in allEdges)
+            foreach (CustomSnapPoint point in allPoints)
             {
-                if (edge.transform.parent == targetTransform) continue;
+                if (point.transform.parent == targetTransform) continue;
 
-                foreach (CustomSnapEdge ownEdge in targetEdges)
+                foreach (CustomSnapPoint ownPoint in targetPoints)
                 {
-                    Vector3 targetPos = edge.transform.position - (ownEdge.transform.position - targetTransform.position);
+                    Vector3 targetPos = point.transform.position - (ownPoint.transform.position - targetTransform.position);
                     float distance = Vector3.Distance(targetPos, newPosition);
 
                     if (distance < closestDistance)

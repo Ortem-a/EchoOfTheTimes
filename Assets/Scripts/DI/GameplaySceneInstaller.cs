@@ -32,7 +32,7 @@ namespace EchoOfTheTimes.DI
         [SerializeField]
         private UserInput _userInput;
         [SerializeField]
-        private UserInputHandler _userInputHandler;
+        private InputMediator _userInputHandler;
 
         [Header("UI")]
         [SerializeField]
@@ -69,7 +69,7 @@ namespace EchoOfTheTimes.DI
             Container.Bind<VertexFollower>().FromInstance(_vertexFollower).AsSingle();
             Container.Bind<RefinedOrbitCamera>().FromInstance(_camera).AsSingle();
             Container.Bind<UserInput>().FromInstance(_userInput).AsSingle();
-            Container.Bind<UserInputHandler>().FromInstance(_userInputHandler).AsSingle();
+            Container.Bind<InputMediator>().FromInstance(_userInputHandler).AsSingle();
             Container.Bind<Player>().FromInstance(_player).AsSingle();
         }
 

@@ -13,10 +13,10 @@ namespace EchoOfTheTimes.Core
         public Action OnExit => null;
 
         private Player _player;
-        private UserInputHandler _inputHandler;
+        private InputMediator _inputHandler;
 
         [Inject]
-        public void Construct(Player player, UserInputHandler inputHandler)
+        public void Construct(Player player, InputMediator inputHandler)
         {
             _player = player;
             _inputHandler = inputHandler;

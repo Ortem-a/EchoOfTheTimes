@@ -4,9 +4,7 @@ using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Interfaces;
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Movement;
-using EchoOfTheTimes.Persistence;
 using EchoOfTheTimes.ScriptableObjects;
-using EchoOfTheTimes.Utils;
 using System;
 using UnityEngine;
 using Zenject;
@@ -14,13 +12,8 @@ using Zenject;
 namespace EchoOfTheTimes.Units
 {
     [RequireComponent(typeof(AnimationManager), typeof(Movable))]
-    public class Player : MonoBehaviour, IBind<PlayerData>
+    public class Player : MonoBehaviour
     {
-        [field: SerializeField]
-        public SerializableGuid Id { get; set; } = SerializableGuid.NewGuid();
-        [SerializeField]
-        private PlayerData _data;
-
         public AnimationManager Animations =>
             _animationManager = _animationManager != null ? _animationManager : GetComponent<AnimationManager>();
 
@@ -154,17 +147,6 @@ namespace EchoOfTheTimes.Units
         public void Stop(Action onComplete)
         {
             _movable.Stop(onStopped: onComplete);
-        }
-
-        public void Bind(PlayerData data)
-        {
-            _data = data;
-            _data.Id = Id;
-
-            //var vertex = _graph.GetNearestVertex(data.Checkpoint);
-
-            //_levelStateMachine.LoadState(data.StateId);
-            //_checkpointManager.OnCheckpointChanged?.Invoke(vertex.gameObject.GetComponent<Checkpoint>());
         }
     }
 }

@@ -71,11 +71,11 @@ namespace EchoOfTheTimes.Movement
 
         private void Awake()
         {
-            _camera = Camera.main;
-            _camera.orthographicSize = _projectionSize;
+            //_camera = Camera.main;
+            //_camera.orthographicSize = _projectionSize;
 
-            _focusPoint = Focus.position;
-            transform.localRotation = Quaternion.Euler(_orbitAngles);
+            //_focusPoint = Focus.position;
+            //transform.localRotation = Quaternion.Euler(_orbitAngles);
         }
 
         private void FixedUpdate()
@@ -117,6 +117,12 @@ namespace EchoOfTheTimes.Movement
         private void Construct(Player player)
         {
             _player = player;
+
+            _camera = Camera.main;
+            _camera.orthographicSize = _projectionSize;
+
+            _focusPoint = Focus.position;
+            transform.localRotation = Quaternion.Euler(_orbitAngles);
         }
 
         private void AutoRotateCamera()

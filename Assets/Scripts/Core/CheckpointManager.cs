@@ -48,22 +48,18 @@ namespace EchoOfTheTimes.Core
 
             PlayerData = new PlayerData()
             {
-                Id = StartPlayerData.Id,
                 StateId = StartPlayerData.StateId,
                 Checkpoint = StartPlayerData.Checkpoint
             };
 
-            AcceptActiveCheckpointToScene();
+            _player.transform.position = StartCheckpoint.transform.position;
+            _stateMachine.ChangeStateImmediate(StartPlayerData.StateId);
         }
 
         private void UpdateCheckpoint(Checkpoint checkpoint)
         {
-#warning какая-то хуета. можно лучше.
-
-            PlayerData.Id = _player.Id;
-            PlayerData.Checkpoint = checkpoint.transform.position;
             PlayerData.StateId = _stateMachine.GetCurrentStateId();
-            //SaveLoadSystem.Instance.SaveGame(GameData);
+            PlayerData.Checkpoint = checkpoint.transform.position;
 
             ActiveCheckpoint = checkpoint;
             Debug.Log($"[CheckpointManager] Checkpoint changed! | PlayerData {PlayerData} | ActiveCheckpoint {ActiveCheckpoint}");

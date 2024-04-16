@@ -22,7 +22,7 @@ namespace EchoOfTheTimes.UI
 
         private SceneLoader _loader;
         private LevelStateMachine _stateMachine;
-        private UserInputHandler _inputHandler;
+        private InputMediator _inputHandler;
 
         private UiSceneView _sceneView;
 
@@ -32,7 +32,7 @@ namespace EchoOfTheTimes.UI
         }
 
         [Inject]
-        private void Construct(LevelStateMachine stateMachine, UiSceneView uiSceneView, UserInputHandler inputHandler)
+        private void Construct(LevelStateMachine stateMachine, UiSceneView uiSceneView, InputMediator inputHandler)
         {
             _stateMachine = stateMachine;
             _sceneView = uiSceneView;
@@ -44,7 +44,7 @@ namespace EchoOfTheTimes.UI
                 obj.GetComponent<UiButtonController>().Initialize(i, inputHandler);
             }
 
-            FinishPanel.DOScale(0f, 0f);
+            FinishPanel.localScale = Vector3.zero;
 
             _loader = FindObjectOfType<SceneLoader>();
 
