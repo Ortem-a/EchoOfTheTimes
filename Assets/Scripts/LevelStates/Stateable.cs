@@ -45,11 +45,11 @@ namespace EchoOfTheTimes.LevelStates
                 {
                     //parameters.AcceptState(parameters);
                     _stateService.AcceptState(null, parameters, onComplete: () =>
-                // ++++++++++++++++++++++++++++++++++++++
+                    // ++++++++++++++++++++++++++++++++++++++
                     {
                         _levelStateMachine.OnTransitionComplete?.Invoke();
                     });
-                // ++++++++++++++++++++++++++++++++++++++
+                    // ++++++++++++++++++++++++++++++++++++++
                 }
             }
         }

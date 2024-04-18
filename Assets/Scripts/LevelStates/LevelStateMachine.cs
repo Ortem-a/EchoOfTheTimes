@@ -81,7 +81,7 @@ namespace EchoOfTheTimes.LevelStates
             if (state != null)
             {
                 _current = state;
-                _stateService.SwitchState(_current, null, true);
+                _stateService.SwitchState(_current.StatesParameters, null, true);
             }
             else
             {
@@ -118,11 +118,11 @@ namespace EchoOfTheTimes.LevelStates
 
             if (transition == null)
             {
-                _stateService.SwitchState(_current, null, onComplete: () => OnTransitionComplete?.Invoke());
+                _stateService.SwitchState(_current.StatesParameters, null, onComplete: () => OnTransitionComplete?.Invoke());
             }
             else
             {
-                _stateService.SwitchState(_current, transition.Parameters, onComplete: () => OnTransitionComplete?.Invoke());
+                _stateService.SwitchState(_current.StatesParameters, transition.Parameters, onComplete: () => OnTransitionComplete?.Invoke());
 
                 LastTransition = transition;
             }

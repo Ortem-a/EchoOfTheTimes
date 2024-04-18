@@ -20,7 +20,7 @@ namespace EchoOfTheTimes.LevelStates
             _timeToChangeState_sec = levelSettings.TimeToChangeState_sec;
         }
 
-        public void SwitchState(LevelState levelState, List<StateParameter> transitionParameters, bool isDebug = false, TweenCallback onComplete = null)
+        public void SwitchState(List<StateParameter> stateParameters, List<StateParameter> transitionParameters, bool isDebug = false, TweenCallback onComplete = null)
         {
             List<Transform> acceptedTargets = null;
 
@@ -44,30 +44,26 @@ namespace EchoOfTheTimes.LevelStates
 
             }
 
-            if (levelState.StatesParameters != null)
+            if (stateParameters != null)
             {
-                _callbackCounter += levelState.StatesParameters.Count;
+                _callbackCounter += stateParameters.Count;
 
-                for (int i = 0; i < levelState.StatesParameters.Count; i++)
+                for (int i = 0; i < stateParameters.Count; i++)
                 {
                     if (transitionParameters != null && transitionParameters.Count != 0)
                     {
-                        if (!acceptedTargets.Contains(levelState.StatesParameters[i].Target))
-                            AcceptState(levelState.StatesParameters[i], isDebug: isDebug,
+                        if (!acceptedTargets.Contains(stateParameters[i].Target))
+                            AcceptState(stateParameters[i], isDebug: isDebug,
                                 onComplete: IncrementCallbackCounter);
                         //levelState.StatesParameters[i].AcceptState(isDebug: isDebug, onComplete: IncrementCallbackCounter);
                     }
                     else
                     {
-                        AcceptState(levelState.StatesParameters[i], isDebug: isDebug,
+                        AcceptState(stateParameters[i], isDebug: isDebug,
                             onComplete: IncrementCallbackCounter);
                         //levelState.StatesParameters[i].AcceptState(isDebug: isDebug, onComplete: IncrementCallbackCounter);
                     }
                 }
-            }
-            else
-            {
-                Debug.LogWarning($"Can't accept Level state [{levelState.Id}] without objects!");
             }
         }
 
