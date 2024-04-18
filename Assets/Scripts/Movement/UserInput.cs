@@ -1,24 +1,25 @@
 using EchoOfTheTimes.Core;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.Movement
 {
     public class UserInput : MonoBehaviour
     {
-        [SerializeField]
         private Camera _camera;
 
-        private UserInputHandler _userInputHandler;
-
-        public RefinedOrbitCamera_PASHA ROC_PASHA;
+        private InputMediator _userInputHandler;
 
         private Vector3 _startTouchPosition;
         private Vector3 _endTouchPosition;
         private Touch _touch;
 
-        public void Initialize()
+        [Inject]
+        private void Construct(InputMediator inputHandler)
         {
-            _userInputHandler = GameManager.Instance.UserInputHandler;
+            _userInputHandler = inputHandler;
+
+            _camera = Camera.main;
         }
 
         private void Update()
@@ -45,21 +46,20 @@ namespace EchoOfTheTimes.Movement
                         {
                             _userInputHandler.OnTouched?.Invoke(clickPosition);
 
-                            Debug.Log("Touch" + ' ' + Mathf.Abs(deltaX) + ' ' + Mathf.Abs(deltaY));
+                            //Debug.Log("Touch" + ' ' + Mathf.Abs(deltaX) + ' ' + Mathf.Abs(deltaY));
                         }
                     }
                     else
                     {
-                        //_userInputHandler.OnSwipe?.Invoke(deltaX);
-                        ROC_PASHA.HandleSwipe(deltaX);
+                        _userInputHandler.OnSwipe?.Invoke(deltaX);
 
-                        Debug.Log("Swipe" + ' ' + Mathf.Abs(deltaX) + ' ' + Mathf.Abs(deltaY));
+                        //Debug.Log("Swipe" + ' ' + Mathf.Abs(deltaX) + ' ' + Mathf.Abs(deltaY));
                     }
                 }
             }
         }
 
-        public Vertex ScreenToVertex(Vector3 screenPosition)
+        private Vertex ScreenToVertex(Vector3 screenPosition)
         {
             Ray ray = _camera.ScreenPointToRay(screenPosition);
             if (Physics.Raycast(ray, out RaycastHit hitData, 1000f))

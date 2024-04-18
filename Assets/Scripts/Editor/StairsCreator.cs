@@ -70,7 +70,6 @@ namespace EchoOfTheTimes.Editor
             }
         }
 
-#warning хяопюбхрэ щрс оюпюьс мю норхлюкэмсч
         public void AddDefaultStates()
         {
             AddExistingStairsIfNeed();

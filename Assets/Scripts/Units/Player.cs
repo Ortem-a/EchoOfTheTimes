@@ -4,22 +4,16 @@ using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Interfaces;
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Movement;
-using EchoOfTheTimes.Persistence;
 using EchoOfTheTimes.ScriptableObjects;
-using EchoOfTheTimes.Utils;
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.Units
 {
     [RequireComponent(typeof(AnimationManager), typeof(Movable))]
-    public class Player : MonoBehaviour, IBind<PlayerData>
+    public class Player : MonoBehaviour
     {
-        [field: SerializeField]
-        public SerializableGuid Id { get; set; } = SerializableGuid.NewGuid();
-        [SerializeField]
-        private PlayerData _data;
-
         public AnimationManager Animations =>
             _animationManager = _animationManager != null ? _animationManager : GetComponent<AnimationManager>();
 
@@ -36,17 +30,14 @@ namespace EchoOfTheTimes.Units
 
         private Movable _movable;
 
-        private void Awake()
+        [Inject]
+        private void Construct(GraphVisibility graphVisibility, VertexFollower vertexFollower, PlayerSettingsScriptableObject playerSettings)
         {
+            _graph = graphVisibility;
+            _vertexFollower = vertexFollower;
+            _playerSettings = playerSettings;
+
             _movable = GetComponent<Movable>();
-        }
-
-        public void Initialize()
-        {
-            _graph = GameManager.Instance.Graph;
-            _vertexFollower = GameManager.Instance.VertexFollower;
-            _playerSettings = GameManager.Instance.PlayerSettings;
-
             _movable.Initialize(
                 speed: _playerSettings.MoveSpeed,
                 distanceTreshold: _playerSettings.DistanceTreshold,
@@ -76,30 +67,6 @@ namespace EchoOfTheTimes.Units
         public void MoveTo(Vector3[] waypoints)
         {
             _movable.Move(waypoints, OnStartMove, OnCompleteMove);
-
-            //OnStartExecution();
-
-            //transform.DOLookAt(waypoints[0], _playerSettings.RotateDuration, _playerSettings.AxisConstraint);
-
-            //_pathTweener = transform.DOPath(
-            //    path: waypoints,
-            //    duration: _playerSettings.MoveDuration * waypoints.Length,
-            //    pathType: _playerSettings.PathType,
-            //    pathMode: _playerSettings.PathMode,
-            //    gizmoColor: _playerSettings.GizmoColor
-            //    )
-            //    .OnWaypointChange((x) =>
-            //        {
-            //            if (x != 0)
-            //            {
-            //                OnCompleteExecution();
-            //                if (x < waypoints.Length)
-            //                {
-            //                    transform.DOLookAt(waypoints[x], _playerSettings.RotateDuration, _playerSettings.AxisConstraint);
-            //                }
-            //            }
-            //        })
-            //    .SetEase(_playerSettings.Ease);
         }
 
         private void OnStartMove()
@@ -180,17 +147,6 @@ namespace EchoOfTheTimes.Units
         public void Stop(Action onComplete)
         {
             _movable.Stop(onStopped: onComplete);
-        }
-
-        public void Bind(PlayerData data)
-        {
-            _data = data;
-            _data.Id = Id;
-
-            //var vertex = _graph.GetNearestVertex(data.Checkpoint);
-
-            //_levelStateMachine.LoadState(data.StateId);
-            //_checkpointManager.OnCheckpointChanged?.Invoke(vertex.gameObject.GetComponent<Checkpoint>());
         }
     }
 }

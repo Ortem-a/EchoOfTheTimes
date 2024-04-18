@@ -16,7 +16,6 @@ namespace EchoOfTheTimes.CustomSnapping
 #endif
 
         public GameObject SnapPointPrefab;
-        public GameObject EdgePrefab;
 
 #if UNITY_EDITOR
         [Space]
@@ -27,16 +26,12 @@ namespace EchoOfTheTimes.CustomSnapping
         [InspectorButton(nameof(ResetPoints))]
         public bool IsResetPoints;
 
-        [Space]
-        [InspectorButton(nameof(ResetEdges))]
-        public bool IsEdgesCreate;
 #endif
 
         private Mesh _mesh;
         private Vector3[] _snapPointsPositions;
 
         private GameObject[] _spawnedSnapPoints = null;
-        private GameObject[] _spawnedEdges = null;
 
         public void ResetPoints()
         {
@@ -58,53 +53,6 @@ namespace EchoOfTheTimes.CustomSnapping
             }
         }
 
-        public void ResetEdges()
-        {
-            if (_spawnedSnapPoints != null)
-            {
-                DespawnEdges();
-
-                List<GameObject> edges = new List<GameObject>();
-                Vector3 middle;
-                List<Vector3> middles = new List<Vector3>();
-
-                int count = 0;
-                for (int i = 0; i < _spawnedSnapPoints.Length; i++)
-                {
-                    for (int j = 0; j < _spawnedSnapPoints.Length; j++)
-                    {
-                        if (i == j) continue;
-
-                        middle = (_spawnedSnapPoints[i].transform.localPosition + _spawnedSnapPoints[j].transform.localPosition) / 2f;
-
-                        if (!middles.Contains(middle))
-                        {
-                            middles.Add(middle);
-
-                            count++;
-                            var obj = Instantiate(EdgePrefab, transform);
-                            var edge = obj.GetComponent<CustomSnapEdge>();
-                            edge.Head = _spawnedSnapPoints[i].GetComponent<CustomSnapPoint>();
-                            edge.Tail = _spawnedSnapPoints[j].GetComponent<CustomSnapPoint>();
-                            edge.Head.Edge = edge;
-                            edge.Tail.Edge = edge;
-                            obj.name = $"Edge_{count}";
-                            obj.transform.localPosition = middle;
-                            obj.transform.LookAt(_spawnedSnapPoints[i].transform);
-                            edges.Add(obj);
-                        }
-                    }
-                }
-
-                _spawnedEdges = edges.ToArray();
-            }
-            else
-            {
-                ResetPoints();
-                ResetEdges();
-            }
-        }
-
         public void Accept()
         {
             if (transform.childCount != 0)
@@ -116,17 +64,6 @@ namespace EchoOfTheTimes.CustomSnapping
                     points.Add(snapPoint.gameObject);
                 }
                 _spawnedSnapPoints = points.ToArray();
-
-                var edgesPoints = transform.GetComponentsInChildren<CustomSnapEdge>();
-                List<GameObject> edges = new List<GameObject>();
-                foreach (var snapEdge in edgesPoints)
-                {
-                    snapEdge.Head.Edge = snapEdge;
-                    snapEdge.Tail.Edge = snapEdge;
-
-                    edges.Add(snapEdge.gameObject);
-                }
-                _spawnedEdges = edges.ToArray();
             }
         }
 
@@ -150,26 +87,6 @@ namespace EchoOfTheTimes.CustomSnapping
             return newArray.ToArray();
         }
 
-        private GameObject[] RemoveDuplicatesEdges(GameObject[] edges)
-        {
-            List<GameObject> distinctEdges = new List<GameObject>();
-
-            for (int i = 0; i < edges.Length; i++)
-            {
-                for (int j = 0; j < edges.Length; j++)
-                {
-                    if (i == j) continue;
-
-                    if (edges[i].transform.position != edges[j].transform.position)
-                    {
-                        distinctEdges.Add(edges[j]);
-                    }
-                }
-            }
-
-            return distinctEdges.ToArray();
-        }
-
         private void DespawnPoints()
         {
             if (_spawnedSnapPoints != null)
@@ -189,28 +106,8 @@ namespace EchoOfTheTimes.CustomSnapping
             }
         }
 
-        private void DespawnEdges()
-        {
-            if (_spawnedEdges != null)
-            {
-                foreach (var edge in _spawnedEdges)
-                {
-                    DestroyImmediate(edge);
-                }
-
-                _spawnedEdges = null;
-            }
-            else
-            {
-                Accept();
-                if (_spawnedEdges != null)
-                    DespawnEdges();
-            }
-        }
-
         private void OnDestroy()
         {
-            DespawnEdges();
             DespawnPoints();
         }
     }

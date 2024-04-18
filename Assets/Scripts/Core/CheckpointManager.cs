@@ -1,6 +1,9 @@
+using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Persistence;
+using EchoOfTheTimes.Units;
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.Core
 {
@@ -14,9 +17,12 @@ namespace EchoOfTheTimes.Core
         public PlayerData PlayerData;
         public Checkpoint ActiveCheckpoint;
 
+        private Player _player;
+        private LevelStateMachine _stateMachine;
+
         private void OnValidate()
         {
-            if (StartCheckpoint != null) 
+            if (StartCheckpoint != null)
             {
                 StartPlayerData.Checkpoint = StartCheckpoint.transform.position;
             }
@@ -27,33 +33,33 @@ namespace EchoOfTheTimes.Core
             OnCheckpointChanged += UpdateCheckpoint;
         }
 
-        public void Initialize()
-        {
-            ActiveCheckpoint = StartCheckpoint;
-
-            PlayerData = new PlayerData()
-            {
-                Id = StartPlayerData.Id,
-                StateId = StartPlayerData.StateId,
-                Checkpoint = StartPlayerData.Checkpoint
-            };
-
-            AcceptActiveCheckpointToScene();
-        }
-
         private void OnDestroy()
         {
             OnCheckpointChanged -= UpdateCheckpoint;
         }
 
+        [Inject]
+        private void Construct(Player player, LevelStateMachine stateMachine)
+        {
+            _player = player;
+            _stateMachine = stateMachine;
+
+            ActiveCheckpoint = StartCheckpoint;
+
+            PlayerData = new PlayerData()
+            {
+                StateId = StartPlayerData.StateId,
+                Checkpoint = StartPlayerData.Checkpoint
+            };
+
+            _player.transform.position = StartCheckpoint.transform.position;
+            _stateMachine.ChangeStateImmediate(StartPlayerData.StateId);
+        }
+
         private void UpdateCheckpoint(Checkpoint checkpoint)
         {
-#warning какая-то хуета. можно лучше.
-
-            PlayerData.Id = GameManager.Instance.Player.Id;
+            PlayerData.StateId = _stateMachine.GetCurrentStateId();
             PlayerData.Checkpoint = checkpoint.transform.position;
-            PlayerData.StateId = GameManager.Instance.StateMachine.GetCurrentStateId();
-            //SaveLoadSystem.Instance.SaveGame(GameData);
 
             ActiveCheckpoint = checkpoint;
             Debug.Log($"[CheckpointManager] Checkpoint changed! | PlayerData {PlayerData} | ActiveCheckpoint {ActiveCheckpoint}");
@@ -63,8 +69,8 @@ namespace EchoOfTheTimes.Core
         {
             Debug.Log($"[CheckpointManager] Accept Active Checkpoint To Scene '{PlayerData}'");
 
-            GameManager.Instance.Player.Teleportate(PlayerData.Checkpoint, 0.1f);
-            GameManager.Instance.StateMachine.LoadState(PlayerData.StateId);
+            _player.Teleportate(PlayerData.Checkpoint, 0.1f);
+            _stateMachine.LoadState(PlayerData.StateId);
         }
     }
 }

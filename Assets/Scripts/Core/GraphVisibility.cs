@@ -1,15 +1,22 @@
-using EchoOfTheTimes.LevelStates;
+using EchoOfTheTimes.ScriptableObjects;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.Core
 {
     public class GraphVisibility : Graph
     {
-        //public override void Awake()
-        //{
-        //    ResetAndLoad();
-        //}
+        [Inject]
+        public void Construct(LevelSettingsScriptableObject levelSettingsScriptableObject)
+        {
+            _maxDistanceToNeighbourVertex = levelSettingsScriptableObject.MaxDistanceToNeighbourVertex;
+        }
+
+        public override void Awake()
+        {
+            ResetAndLoad();
+        }
 
         public List<Vertex> GetVertices()
         {
@@ -28,7 +35,7 @@ namespace EchoOfTheTimes.Core
 
             for (int i = 0; i < vertices.Count; i++)
             {
-                ((VertexVisibility)vertices[i]).FindNeighboursInRadius(vertices, MaxDistanceToNeighbourVertex);
+                ((VertexVisibility)vertices[i]).FindNeighboursInRadius(vertices, _maxDistanceToNeighbourVertex);
             }
         }
 
@@ -45,7 +52,7 @@ namespace EchoOfTheTimes.Core
 
             for (int i = 0; i < vertices.Count; i++)
             {
-                ((VertexVisibility)vertices[i]).FindNeighboursInRadius(vertices, MaxDistanceToNeighbourVertex);
+                ((VertexVisibility)vertices[i]).FindNeighboursInRadius(vertices, _maxDistanceToNeighbourVertex);
             }
         }
 

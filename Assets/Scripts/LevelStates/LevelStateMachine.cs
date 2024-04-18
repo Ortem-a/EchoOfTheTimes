@@ -1,6 +1,7 @@
 using EchoOfTheTimes.Editor;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.LevelStates
 {
@@ -37,6 +38,14 @@ namespace EchoOfTheTimes.LevelStates
 
         public bool IsChanging { get; private set; }
 
+        private StateService _stateService;
+
+        [Inject]
+        private void Construct(StateService stateService)
+        {
+            _stateService = stateService;
+        }
+
         public void StartTransition()
         {
             IsChanging = true;
@@ -46,7 +55,6 @@ namespace EchoOfTheTimes.LevelStates
         {
             IsChanging = false;
         }
-
 
         public void LoadState(int id)
         {
@@ -58,7 +66,7 @@ namespace EchoOfTheTimes.LevelStates
 
                 OnTransitionStart?.Invoke();
 
-                ChangeState(state);
+                ChangeState(state, null);
             }
             else
             {
@@ -73,7 +81,7 @@ namespace EchoOfTheTimes.LevelStates
             if (state != null)
             {
                 _current = state;
-                _current.Accept(null, true);
+                _stateService.SwitchState(_current.StatesParameters, null, true);
             }
             else
             {
@@ -104,17 +112,17 @@ namespace EchoOfTheTimes.LevelStates
             }
         }
 
-        private void ChangeState(LevelState state, Transition transition = null)
+        private void ChangeState(LevelState state, Transition transition)
         {
             _current = state;
 
             if (transition == null)
             {
-                _current.Accept(null, onComplete: () => OnTransitionComplete?.Invoke());
+                _stateService.SwitchState(_current.StatesParameters, null, onComplete: () => OnTransitionComplete?.Invoke());
             }
             else
             {
-                _current.Accept(transition.Parameters, onComplete: () => OnTransitionComplete?.Invoke());
+                _stateService.SwitchState(_current.StatesParameters, transition.Parameters, onComplete: () => OnTransitionComplete?.Invoke());
 
                 LastTransition = transition;
             }
@@ -298,6 +306,11 @@ namespace EchoOfTheTimes.LevelStates
             {
                 Debug.LogWarning($"There is no transition: {specialTransition.StateFromId} -> {specialTransition.StateToId}");
             }
+        }
+
+        public void ChangeStateImmediate(int stateId)
+        {
+            LoadStateDebug(stateId);
         }
 
         public void SetInStateDebug()

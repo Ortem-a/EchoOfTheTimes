@@ -3,22 +3,20 @@ using EchoOfTheTimes.LevelStates;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace EchoOfTheTimes.UI
 {
     public class UiButtonController : MonoBehaviour
     {
-        private UserInputHandler _userInputHandler;
+        private InputMediator _userInputHandler;
         private Button _button;
 
-        private void Awake()
+        public void Initialize(int stateId, InputMediator inputHandler)
         {
-            _button = GetComponent<Button>();
-        }
+            _userInputHandler = inputHandler;
 
-        public void Initialize(int stateId)
-        {
-            _userInputHandler = GameManager.Instance.UserInputHandler;
+            _button = GetComponent<Button>();
 
             _button.transform.GetChild(0).GetComponent<TMP_Text>().text = $"To {stateId}";
             _button.onClick.AddListener(() => ChangeState(stateId));

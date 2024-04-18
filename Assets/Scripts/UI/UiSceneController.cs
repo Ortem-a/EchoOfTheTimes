@@ -4,6 +4,7 @@ using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace EchoOfTheTimes.UI
 {
@@ -21,32 +22,35 @@ namespace EchoOfTheTimes.UI
 
         private SceneLoader _loader;
         private LevelStateMachine _stateMachine;
+        private InputMediator _inputHandler;
 
         private UiSceneView _sceneView;
 
         private void Awake()
         {
-            _loader = FindObjectOfType<SceneLoader>();
-
             FinishCanvas.gameObject.SetActive(false);
-
-            ToMainMenuButton.onClick.AddListener(ExitToMainMenu);
-            FinishButton.onClick.AddListener(ExitToMainMenu);
-            ToCheckpointButton.onClick.AddListener(GoToCheckpoint);
         }
 
-        public void Initialize()
+        [Inject]
+        private void Construct(LevelStateMachine stateMachine, UiSceneView uiSceneView, InputMediator inputHandler)
         {
-            _stateMachine = GameManager.Instance.StateMachine;
-            _sceneView = UiManager.Instance.UiSceneView;
+            _stateMachine = stateMachine;
+            _sceneView = uiSceneView;
+            _inputHandler = inputHandler;
 
             for (int i = 0; i < _stateMachine.States.Count; i++)
             {
                 var obj = Instantiate(ButtonPrefab, BottomPanel);
-                obj.GetComponent<UiButtonController>().Initialize(i);
+                obj.GetComponent<UiButtonController>().Initialize(i, inputHandler);
             }
 
-            FinishPanel.DOScale(0f, 0f);
+            FinishPanel.localScale = Vector3.zero;
+
+            _loader = FindObjectOfType<SceneLoader>();
+
+            ToMainMenuButton.onClick.AddListener(ExitToMainMenu);
+            FinishButton.onClick.AddListener(ExitToMainMenu);
+            ToCheckpointButton.onClick.AddListener(GoToCheckpoint);
         }
 
         private void ExitToMainMenu()
@@ -84,7 +88,7 @@ namespace EchoOfTheTimes.UI
 
         public void GoToCheckpoint()
         {
-            GameManager.Instance.UserInputHandler.GoToCheckpoint();
+            _inputHandler.GoToCheckpoint();
         }
 
         public void EnableCheckpointButton()

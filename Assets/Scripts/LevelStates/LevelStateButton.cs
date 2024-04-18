@@ -1,9 +1,9 @@
-using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Editor;
 using EchoOfTheTimes.Interfaces;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.LevelStates
 {
@@ -27,9 +27,10 @@ namespace EchoOfTheTimes.LevelStates
 
         public List<SpecialTransition> Influences;
 
-        public void Initialize()
+        [Inject]
+        private void Construct(LevelStateMachine stateMachine)
         {
-            _stateMachine = GameManager.Instance.StateMachine;
+            _stateMachine = stateMachine;
         }
 
         private void Press()
