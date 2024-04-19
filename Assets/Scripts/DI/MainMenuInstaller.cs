@@ -2,13 +2,16 @@ using EchoOfTheTimes.UI;
 using UnityEngine;
 using Zenject;
 
-public class MainMenuInstaller : MonoInstaller
+namespace EchoOfTheTimes.DI
 {
-    [SerializeField]
-    private UiLevelsController _uiLevelsController;
-
-    public override void InstallBindings()
+    public class MainMenuInstaller : MonoInstaller
     {
-        //Container.Bind<UiLevelsController>().FromInstance(_uiLevelsController).AsSingle();
+        [SerializeField]
+        private UiLevelsGridService _uiLevelsGrid;
+
+        public override void InstallBindings()
+        {
+            Container.Bind<UiLevelsGridService>().FromInstance(_uiLevelsGrid).AsSingle();
+        }
     }
 }
