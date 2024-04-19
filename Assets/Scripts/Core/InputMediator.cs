@@ -69,13 +69,6 @@ namespace EchoOfTheTimes.Core
             }
         }
 
-        public void GoToCheckpoint()
-        {
-            Debug.Log("[UserInputHandler] Go To Checkpoint");
-
-            _player.Stop(onComplete: () => _checkpointManager.AcceptActiveCheckpointToScene());
-        }
-
         public void ChangeLevelState(int levelStateId)
         {
             if (_levelStateMachine.IsChanging || levelStateId == _levelStateMachine.GetCurrentStateId())

@@ -148,5 +148,10 @@ namespace EchoOfTheTimes.Units
         {
             _movable.Stop(onStopped: onComplete);
         }
+
+        public void ForceUnlink()
+        {
+            _vertexFollower.Unlink();
+        }
     }
 }

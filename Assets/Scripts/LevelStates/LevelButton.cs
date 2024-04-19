@@ -42,12 +42,13 @@ namespace EchoOfTheTimes.LevelStates
 
             Debug.Log($"[LevelButton] {name} pressed! IsPressed: {IsPressed}");
 
-            foreach (var movable in Movables)
+            _player.StopAndLink(onComplete: () =>
             {
-                movable.Move(onComplete: ExecutePostActions);
-            }
-
-            _player.Stop(null);
+                foreach (var movable in Movables)
+                {
+                    movable.Move(onComplete: ExecutePostActions);
+                }
+            });   
         }
 
         private void ExecutePostActions()
@@ -57,6 +58,8 @@ namespace EchoOfTheTimes.LevelStates
             if (_counter == _maxMovables)
             {
                 _graph.Load();
+
+                _player.ForceUnlink();
             }
         }
     }

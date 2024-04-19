@@ -11,7 +11,6 @@ namespace EchoOfTheTimes.UI
     public class UiSceneController : MonoBehaviour
     {
         public Button ToMainMenuButton;
-        public Button ToCheckpointButton;
         public Transform BottomPanel;
         public GameObject ButtonPrefab;
 
@@ -22,7 +21,6 @@ namespace EchoOfTheTimes.UI
 
         private SceneLoader _loader;
         private LevelStateMachine _stateMachine;
-        private InputMediator _inputHandler;
 
         private UiSceneView _sceneView;
 
@@ -31,7 +29,6 @@ namespace EchoOfTheTimes.UI
         {
             _stateMachine = stateMachine;
             _sceneView = uiSceneView;
-            _inputHandler = inputHandler;
 
             for (int i = 0; i < _stateMachine.States.Count; i++)
             {
@@ -45,7 +42,6 @@ namespace EchoOfTheTimes.UI
 
             ToMainMenuButton.onClick.AddListener(ExitToMainMenu);
             FinishButton.onClick.AddListener(ExitToMainMenu);
-            ToCheckpointButton.onClick.AddListener(GoToCheckpoint);
 
             FinishCanvas.gameObject.SetActive(false);
         }
@@ -81,20 +77,6 @@ namespace EchoOfTheTimes.UI
                 BottomPanel.DOScale(0f, duration)
                     .OnComplete(() => BottomPanel.gameObject.SetActive(isActive));
             }
-        }
-
-        public void GoToCheckpoint()
-        {
-            _inputHandler.GoToCheckpoint();
-        }
-
-        public void EnableCheckpointButton()
-        {
-            ToCheckpointButton.transform.DOScale(0f, 0f);
-
-            ToCheckpointButton.gameObject.SetActive(true);
-
-            ToCheckpointButton.transform.DOScale(1f, 0.2f);
         }
     }
 }
