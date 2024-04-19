@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace EchoOfTheTimes.SceneManagement
 {
@@ -24,22 +25,20 @@ namespace EchoOfTheTimes.SceneManagement
 
         public readonly SceneGroupManager Manager = new SceneGroupManager();
 
-        private void Awake()
+        [Inject]
+        public void Construct()
         {
             Manager.OnSceneLoaded += sceneName => Debug.Log($"Loaded: '{sceneName}'");
             Manager.OnSceneUnloaded += sceneName => Debug.Log($"Unloaded: '{sceneName}'");
             Manager.OnSceneGroupLoaded += () => Debug.Log("Scene group loaded");
-        }
 
-        private async void Start()
-        {
             if (GroupToLoad < 0 || GroupToLoad >= SceneGroups.Length)
             {
                 Debug.LogError($"Incorrect group to load '{GroupToLoad}'! You have only 0...{SceneGroups.Length - 1}");
                 return;
             }
 
-            await LoadSceneGroupAsync(GroupToLoad);
+            Task task = LoadSceneGroupAsync(GroupToLoad);
         }
 
         private void Update()

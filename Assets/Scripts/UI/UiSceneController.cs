@@ -26,11 +26,6 @@ namespace EchoOfTheTimes.UI
 
         private UiSceneView _sceneView;
 
-        private void Awake()
-        {
-            FinishCanvas.gameObject.SetActive(false);
-        }
-
         [Inject]
         private void Construct(LevelStateMachine stateMachine, UiSceneView uiSceneView, InputMediator inputHandler)
         {
@@ -41,7 +36,7 @@ namespace EchoOfTheTimes.UI
             for (int i = 0; i < _stateMachine.States.Count; i++)
             {
                 var obj = Instantiate(ButtonPrefab, BottomPanel);
-                obj.GetComponent<UiButtonController>().Initialize(i, inputHandler);
+                obj.GetComponent<UiStateButton>().Init(i, inputHandler);
             }
 
             FinishPanel.localScale = Vector3.zero;
@@ -51,11 +46,13 @@ namespace EchoOfTheTimes.UI
             ToMainMenuButton.onClick.AddListener(ExitToMainMenu);
             FinishButton.onClick.AddListener(ExitToMainMenu);
             ToCheckpointButton.onClick.AddListener(GoToCheckpoint);
+
+            FinishCanvas.gameObject.SetActive(false);
         }
 
-        private void ExitToMainMenu()
+        private async void ExitToMainMenu()
         {
-            _loader.LoadSceneGroupAsync(0);
+            await _loader.LoadSceneGroupAsync(0);
         }
 
         public void UpdateLabel()

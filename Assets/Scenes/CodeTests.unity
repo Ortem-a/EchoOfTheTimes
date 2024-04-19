@@ -1314,6 +1314,7 @@ GameObject:
   m_Component:
   - component: {fileID: 234886210}
   - component: {fileID: 234886209}
+  - component: {fileID: 234886211}
   m_Layer: 0
   m_Name: UiControllers
   m_TagString: Untagged
@@ -1356,6 +1357,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &234886211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234886208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c955f578a52f994c81cda1f74b413ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InfoLabel: {fileID: 1617204843}
 --- !u!1 &236196341
 GameObject:
   m_ObjectHideFlags: 0
@@ -4347,51 +4361,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &783894941
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 783894943}
-  - component: {fileID: 783894942}
-  m_Layer: 0
-  m_Name: UiViews
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &783894942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 783894941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c955f578a52f994c81cda1f74b413ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InfoLabel: {fileID: 1617204843}
---- !u!4 &783894943
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 783894941}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &789696616
 GameObject:
   m_ObjectHideFlags: 0
@@ -6287,6 +6256,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1111629392}
   - component: {fileID: 1111629391}
+  - component: {fileID: 1111629393}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -6308,7 +6278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
-  - {fileID: 1867965601}
+  - {fileID: 1111629393}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -6341,6 +6311,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1973583203}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1111629393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1111629390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbeef3d23bd088444b9c32b6927e0c7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateMachine: {fileID: 1897557513}
+  _graph: {fileID: 436562144}
+  _checkpointManager: {fileID: 1844840746}
+  _verticesBlocker: {fileID: 1544992330}
+  _camera: {fileID: 1622313107}
+  _player: {fileID: 1985317280}
+  _vertexFollower: {fileID: 1985317279}
+  _userInput: {fileID: 2113709826}
+  _userInputHandler: {fileID: 2113709827}
+  _uiSceneController: {fileID: 234886209}
+  _uiSceneView: {fileID: 234886211}
 --- !u!1 &1138531864 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2199246226485754272, guid: 9a95047c035e08e4b87dad034c02985b,
@@ -6667,7 +6660,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1182150197}
   m_Layer: 0
-  m_Name: === == UI = = ======
+  m_Name: ======== UI ========
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11492,61 +11485,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1862734285}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1867965600
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1867965602}
-  - component: {fileID: 1867965601}
-  m_Layer: 0
-  m_Name: SceneInstaller
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1867965601
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1867965600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbeef3d23bd088444b9c32b6927e0c7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _stateMachine: {fileID: 1897557513}
-  _graph: {fileID: 436562144}
-  _checkpointManager: {fileID: 1844840746}
-  _verticesBlocker: {fileID: 1544992330}
-  _camera: {fileID: 1622313107}
-  _player: {fileID: 1985317280}
-  _vertexFollower: {fileID: 1985317279}
-  _userInput: {fileID: 2113709826}
-  _userInputHandler: {fileID: 2113709827}
-  _uiSceneController: {fileID: 234886209}
-  _uiSceneView: {fileID: 783894942}
---- !u!4 &1867965602
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1867965600}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1973583203}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1897557511
 GameObject:
   m_ObjectHideFlags: 0
@@ -11845,7 +11783,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1111629392}
-  - {fileID: 1867965602}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1985317278
@@ -12879,10 +12816,9 @@ SceneRoots:
   - {fileID: 1404483519}
   - {fileID: 436562143}
   - {fileID: 737137537}
+  - {fileID: 1985317278}
   - {fileID: 1182150197}
   - {fileID: 234886210}
   - {fileID: 892869144}
   - {fileID: 836598282}
-  - {fileID: 783894943}
   - {fileID: 488893697}
-  - {fileID: 1985317278}
