@@ -569,7 +569,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 107240131}
-  - component: {fileID: 107240130}
   - component: {fileID: 107240129}
   m_Layer: 0
   m_Name: CameraParent
@@ -591,31 +590,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Focus: {fileID: 1587196740}
---- !u!114 &107240130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 107240128}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5376889425999a247a466eb16cf82ab9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centralAxis: {fileID: 1587196740}
-  player: {fileID: 1411242133}
-  minOrthographicSize: 4
-  maxOrthographicSize: 15
-  idealOrthographicSize: 13
-  zoomSpeed: 8
-  returnSpeed: 5
-  tiltAngle: 45
-  inactivityReturnDelay: 5
-  orbitHeight: 10
-  orbitDistance: 10
-  speedHandleRotation: 50
-  RTA: {fileID: 0}
 --- !u!4 &107240131
 Transform:
   m_ObjectHideFlags: 0
@@ -11329,12 +11303,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c97511f4d90f1b4d951e5e7432f73bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &1411242133 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4882199138161886327, guid: 8e307bf8c72ae7248806573c77ce1c6a,
-    type: 3}
-  m_PrefabInstance: {fileID: 1411242124}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1411320327
 GameObject:
   m_ObjectHideFlags: 0

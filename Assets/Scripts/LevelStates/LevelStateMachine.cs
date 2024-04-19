@@ -56,7 +56,7 @@ namespace EchoOfTheTimes.LevelStates
             IsChanging = false;
         }
 
-        public void LoadState(int id)
+        public void LoadState(int id, bool isDebug = false)
         {
             var state = States.Find((x) => x.Id == id);
 
@@ -66,7 +66,7 @@ namespace EchoOfTheTimes.LevelStates
 
                 OnTransitionStart?.Invoke();
 
-                ChangeState(state, null);
+                ChangeState(state, null, isDebug);
             }
             else
             {
@@ -74,14 +74,14 @@ namespace EchoOfTheTimes.LevelStates
             }
         }
 
-        private void LoadStateDebug(int id)
+        private void LoadStateEditor(int id)
         {
             var state = States.Find((x) => x.Id == id);
 
             if (state != null)
             {
-                _current = state;
-                _stateService.SwitchState(_current.StatesParameters, null, true);
+                _stateService = new StateService();
+                _stateService.SwitchState(state.StatesParameters, null, true);
             }
             else
             {
@@ -108,21 +108,29 @@ namespace EchoOfTheTimes.LevelStates
                 OnTransitionStart?.Invoke();
 
                 var state = States.Find((x) => x.Id == newStateId);
-                ChangeState(state, transition);
+                ChangeState(state, transition, false);
             }
         }
 
-        private void ChangeState(LevelState state, Transition transition)
+        private void ChangeState(LevelState state, Transition transition, bool isDebug)
         {
             _current = state;
 
             if (transition == null)
             {
-                _stateService.SwitchState(_current.StatesParameters, null, onComplete: () => OnTransitionComplete?.Invoke());
+                _stateService.SwitchState(
+                    stateParameters: _current.StatesParameters, 
+                    transitionParameters: null, 
+                    isDebug: isDebug,
+                    onComplete: () => OnTransitionComplete?.Invoke());
             }
             else
             {
-                _stateService.SwitchState(_current.StatesParameters, transition.Parameters, onComplete: () => OnTransitionComplete?.Invoke());
+                _stateService.SwitchState(
+                    stateParameters: _current.StatesParameters, 
+                    transitionParameters: transition.Parameters, 
+                    isDebug: isDebug,
+                    onComplete: () => OnTransitionComplete?.Invoke());
 
                 LastTransition = transition;
             }
@@ -310,12 +318,12 @@ namespace EchoOfTheTimes.LevelStates
 
         public void ChangeStateImmediate(int stateId)
         {
-            LoadStateDebug(stateId);
+            LoadState(stateId, true);
         }
 
         public void SetInStateDebug()
         {
-            LoadStateDebug(StateId);
+            LoadStateEditor(StateId);
         }
 
         public int GetCurrentStateId()

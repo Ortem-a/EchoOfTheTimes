@@ -31,6 +31,9 @@ namespace EchoOfTheTimes.Core
         private void Awake()
         {
             OnCheckpointChanged += UpdateCheckpoint;
+
+            _player.transform.position = StartCheckpoint.transform.position;
+            _stateMachine.ChangeStateImmediate(StartPlayerData.StateId);
         }
 
         private void OnDestroy()
@@ -51,9 +54,6 @@ namespace EchoOfTheTimes.Core
                 StateId = StartPlayerData.StateId,
                 Checkpoint = StartPlayerData.Checkpoint
             };
-
-            _player.transform.position = StartCheckpoint.transform.position;
-            _stateMachine.ChangeStateImmediate(StartPlayerData.StateId);
         }
 
         private void UpdateCheckpoint(Checkpoint checkpoint)

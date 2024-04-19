@@ -58,6 +58,8 @@ namespace EchoOfTheTimes.LevelStates
             {
                 Target.SetPositionAndRotation(Position, Quaternion.Euler(Rotation));
                 Target.localScale = LocalScale;
+
+                _onComplete?.Invoke();
             }
         }
 

@@ -7,12 +7,6 @@ namespace EchoOfTheTimes.Core
 {
     public class GraphVisibility : Graph
     {
-        [Inject]
-        public void Construct(LevelSettingsScriptableObject levelSettingsScriptableObject)
-        {
-            _maxDistanceToNeighbourVertex = levelSettingsScriptableObject.MaxDistanceToNeighbourVertex;
-        }
-
         public override void Awake()
         {
             ResetAndLoad();
@@ -35,7 +29,7 @@ namespace EchoOfTheTimes.Core
 
             for (int i = 0; i < vertices.Count; i++)
             {
-                ((VertexVisibility)vertices[i]).FindNeighboursInRadius(vertices, _maxDistanceToNeighbourVertex);
+                ((VertexVisibility)vertices[i]).FindNeighboursInRadius(vertices, MaxDistanceToNeighbourVertex);
             }
         }
 
@@ -52,7 +46,7 @@ namespace EchoOfTheTimes.Core
 
             for (int i = 0; i < vertices.Count; i++)
             {
-                ((VertexVisibility)vertices[i]).FindNeighboursInRadius(vertices, _maxDistanceToNeighbourVertex);
+                ((VertexVisibility)vertices[i]).FindNeighboursInRadius(vertices, MaxDistanceToNeighbourVertex);
             }
         }
 

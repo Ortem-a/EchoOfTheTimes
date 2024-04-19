@@ -5,7 +5,8 @@ namespace EchoOfTheTimes.Core
 {
     public abstract class Graph : MonoBehaviour
     {
-        protected float _maxDistanceToNeighbourVertex;
+        [SerializeField]
+        protected float MaxDistanceToNeighbourVertex;
 
         protected List<Vertex> vertices;
         protected List<List<Vertex>> neighbours;

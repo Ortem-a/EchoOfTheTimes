@@ -89,7 +89,6 @@ namespace EchoOfTheTimes.DI
             _stateMachine.OnTransitionComplete += _vertexFollower.Unlink;
             _stateMachine.OnTransitionComplete += _stateMachine.CompleteTransition;
 
-
             _stateMachine.OnTransitionComplete += _uiSceneController.UpdateLabel;
         }
 
@@ -102,7 +101,6 @@ namespace EchoOfTheTimes.DI
             _stateMachine.OnTransitionComplete -= _graph.Load;
             _stateMachine.OnTransitionComplete -= _vertexFollower.Unlink;
             _stateMachine.OnTransitionComplete -= _stateMachine.CompleteTransition;
-
 
             _stateMachine.OnTransitionComplete -= _uiSceneController.UpdateLabel;
         }

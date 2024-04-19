@@ -20,6 +20,11 @@ namespace EchoOfTheTimes.LevelStates
             _timeToChangeState_sec = levelSettings.TimeToChangeState_sec;
         }
 
+        public StateService()
+        {
+            _timeToChangeState_sec = 0f;
+        }
+
         public void SwitchState(List<StateParameter> stateParameters, List<StateParameter> transitionParameters, bool isDebug = false, TweenCallback onComplete = null)
         {
             List<Transform> acceptedTargets = null;
