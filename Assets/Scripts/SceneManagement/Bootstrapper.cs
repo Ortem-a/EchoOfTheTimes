@@ -9,7 +9,7 @@ namespace EchoOfTheTimes.SceneManagement
     public class Bootstrapper : PersistentSingleton<Bootstrapper>
     {
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        private static async void Init()
+        private static void Init()
         {
             Debug.Log("Bootstrapper...");
 

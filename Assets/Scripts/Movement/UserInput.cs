@@ -10,6 +10,8 @@ namespace EchoOfTheTimes.Movement
 
         private InputMediator _userInputHandler;
 
+        private float _inputAccuracy = 5f;
+
         private Vector3 _startTouchPosition;
         private Vector3 _endTouchPosition;
         private Touch _touch;
@@ -39,21 +41,17 @@ namespace EchoOfTheTimes.Movement
                     float deltaX = _endTouchPosition.x - _startTouchPosition.x;
                     float deltaY = _endTouchPosition.y - _startTouchPosition.y;
 
-                    if (Mathf.Abs(deltaX) <= 5 && Mathf.Abs(deltaY) <= 5)
+                    if (Mathf.Abs(deltaX) <= _inputAccuracy && Mathf.Abs(deltaY) <= _inputAccuracy)
                     {
                         var clickPosition = ScreenToVertex(_touch.position);
                         if (clickPosition != null)
                         {
                             _userInputHandler.OnTouched?.Invoke(clickPosition);
-
-                            //Debug.Log("Touch" + ' ' + Mathf.Abs(deltaX) + ' ' + Mathf.Abs(deltaY));
                         }
                     }
                     else
                     {
                         _userInputHandler.OnSwipe?.Invoke(deltaX);
-
-                        //Debug.Log("Swipe" + ' ' + Mathf.Abs(deltaX) + ' ' + Mathf.Abs(deltaY));
                     }
                 }
             }

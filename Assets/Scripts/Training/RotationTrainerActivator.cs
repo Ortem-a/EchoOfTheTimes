@@ -21,17 +21,12 @@ namespace EchoOfTheTimes.Training
         private BoxCollider _collider;
 
 
-        public RefinedOrbitCamera_PASHA ROC_PASHA;
-
-
         private void Awake()
         {
             _collider = GetComponent<BoxCollider>();
             _collider.isTrigger = true;
 
             Artifact.gameObject.SetActive(false);
-
-            ROC_PASHA.CanRotateCamera = false;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -64,8 +59,6 @@ namespace EchoOfTheTimes.Training
             _pointer.DOLocalMoveX(100f, 1f)
                 .SetLoops(-1, LoopType.Yoyo)
                 .SetEase(Ease.Linear);
-
-            ROC_PASHA.CanRotateCamera = true;
         }
 
         public void Hide()
