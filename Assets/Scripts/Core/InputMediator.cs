@@ -19,16 +19,21 @@ namespace EchoOfTheTimes.Core
         private LevelStateMachine _levelStateMachine;
         private RefinedOrbitCamera _camera;
 
+        private Vector2 _startSwipePosition;
+        private bool _isSwiping = false;
+        private bool _swipeActivated = false;
+        private const float MinSwipeDistance = 70f; // Минимальное расстояние для активации свайпа
+
         private void Awake()
         {
             OnTouched += HandleTouch;
-            OnSwipe += HandleSwipe;
+            //OnSwipe += HandleSwipe;
         }
 
         private void OnDestroy()
         {
             OnTouched -= HandleTouch;
-            OnSwipe -= HandleSwipe;
+            //OnSwipe -= HandleSwipe;
         }
 
         [Inject]
@@ -46,10 +51,47 @@ namespace EchoOfTheTimes.Core
             _player.Stop(() => CreatePathAndMove(touchPosition));
         }
 
-        private void HandleSwipe(float deltaX)
+        private void Update() // ляляля добавил норм детекцию камеры
         {
-            _camera.RotateCamera(deltaX);
+            if (Input.GetMouseButtonDown(0)) // работает и на тач пальцем
+            {
+                _startSwipePosition = Input.mousePosition;
+                _isSwiping = true;
+                _swipeActivated = false;
+            }
+
+            if (Input.GetMouseButton(0) && _isSwiping)
+            {
+                Vector2 currentSwipePosition = Input.mousePosition;
+
+                if (!_swipeActivated)
+                {
+                    if (Vector2.Distance(_startSwipePosition, currentSwipePosition) > MinSwipeDistance)
+                    {
+                        _swipeActivated = true;
+                        _startSwipePosition = currentSwipePosition;
+                    }
+                }
+
+                if (_swipeActivated)
+                {
+                    float deltaX = currentSwipePosition.x - _startSwipePosition.x;
+                    _camera.RotateCamera(10 * deltaX); // при 10 тут классно на смартфоне управляется, с компа ультрамедленно почему-то
+                    _startSwipePosition = currentSwipePosition;
+                }
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                _isSwiping = false;
+                _swipeActivated = false;
+            }
         }
+
+        //private void HandleSwipe(float deltaX)
+        //{
+        //    _camera.RotateCamera(deltaX);
+        //}
 
         private void CreatePathAndMove(Vertex destination)
         {
