@@ -88,11 +88,6 @@ namespace EchoOfTheTimes.Movement
 
             transform.SetPositionAndRotation(lookPosition, lookRotation);
 
-            if (_player.IsBusy)
-            {
-                _isNeedAutoRotate = true;
-            }
-
             if (_isNeedAutoRotate)
             {
                 AutoRotateCamera();
@@ -134,7 +129,8 @@ namespace EchoOfTheTimes.Movement
 
             if (Mathf.Abs(a) > 0.1f)
             {
-                Rotate(Mathf.Abs(a) * dir);
+                //Rotate(Mathf.Abs(a) * dir);
+                Rotate(Mathf.Abs(a) * dir * _autoRotationSpeed * 3f);
             }
         }
 
@@ -176,6 +172,14 @@ namespace EchoOfTheTimes.Movement
             _isAutoRotateTimerStart = true;
             _isNeedAutoRotate = false;
             ResetAfkTimer();
+        }
+        
+        public void AutoRotateCameraAfterDoubleEmptyClick()
+        {
+            _isAutoRotateTimerStart = false;
+            ResetAfkTimer();
+            _isNeedAutoRotate = true;
+            AutoRotateCamera();
         }
 
         private void Rotate(float deltaX)
