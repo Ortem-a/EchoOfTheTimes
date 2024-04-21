@@ -1,8 +1,8 @@
 using EchoOfTheTimes.Core;
-using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Units;
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.Movement
 {
@@ -25,14 +25,15 @@ namespace EchoOfTheTimes.Movement
             OnAcceptLink -= AcceptLink;
         }
 
-        private void LateUpdate()
+        private void Update()
         {
             Follow();
         }
 
-        public void Initialize()
+        [Inject]
+        private void Construct(Player player)
         {
-            _target = GameManager.Instance.Player;
+            _target = player;
         }
 
         private void Follow()
@@ -46,7 +47,7 @@ namespace EchoOfTheTimes.Movement
             }
         }
 
-        private void LinkPlayer() 
+        private void LinkPlayer()
         {
             _vertex = _target.Position;
 

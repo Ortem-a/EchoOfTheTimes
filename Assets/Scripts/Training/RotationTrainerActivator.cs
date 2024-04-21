@@ -9,7 +9,7 @@ namespace EchoOfTheTimes.Training
     [RequireComponent(typeof(BoxCollider))]
     public class RotationTrainerActivator : MonoBehaviour
     {
-        public UserInputHandler UserInputHandler;
+        public InputMediator UserInputHandler;
 
         public Artifact Artifact;
 
@@ -21,18 +21,12 @@ namespace EchoOfTheTimes.Training
         private BoxCollider _collider;
 
 
-        public RefinedOrbitCamera_PASHA ROC_PASHA;
-
-
         private void Awake()
         {
             _collider = GetComponent<BoxCollider>();
             _collider.isTrigger = true;
 
             Artifact.gameObject.SetActive(false);
-            UserInputHandler.CanRotateCamera = false;
-
-            ROC_PASHA.CanRotateCamera = false;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -65,9 +59,6 @@ namespace EchoOfTheTimes.Training
             _pointer.DOLocalMoveX(100f, 1f)
                 .SetLoops(-1, LoopType.Yoyo)
                 .SetEase(Ease.Linear);
-
-            UserInputHandler.CanRotateCamera = true;
-            ROC_PASHA.CanRotateCamera = true;
         }
 
         public void Hide()

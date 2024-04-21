@@ -1,8 +1,8 @@
-﻿using EchoOfTheTimes.Core;
+﻿using EchoOfTheTimes.ScriptableObjects;
 using EchoOfTheTimes.Units;
 using EchoOfTheTimes.Utils;
-using System;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.Movement
 {
@@ -11,27 +11,22 @@ namespace EchoOfTheTimes.Movement
         public Transform Focus;
 
         private Player _player;
-        public float Sensitivity;
+        private float _sensitivity;
 
         private Camera _camera;
 
-        [SerializeField, Range(0f, 1f)]
         private float _focusCentering = 0.5f;
-        [SerializeField]
         private float _distance = 5f;
-        [SerializeField]
         private float _projectionSize = 9f;
-        [SerializeField]
         private float _focusRadius = 1f;
 
         private Vector3 _focusPoint;
         private Vector2 _orbitAngles = new Vector2(45f, 0f);
 
-        [Range(0f, 1f)]
-        public float AutoRotationSpeed;
+        private float _autoRotationSpeed;
 
         private float _afkTime = 0f;
-        public float MaxAfkTime_sec;
+        private float _maxAfkTime_sec;
         private bool _isNeedAutoRotate = true;
         private bool _isAutoRotateTimerStart = false;
 
@@ -69,22 +64,13 @@ namespace EchoOfTheTimes.Movement
             }
         }
 
-        private void Awake()
-        {
-            _camera = Camera.main;
-            _camera.orthographicSize = _projectionSize;
-
-            _focusPoint = Focus.position;
-            transform.localRotation = Quaternion.Euler(_orbitAngles);
-        }
-
         private void FixedUpdate()
         {
             if (_isAutoRotateTimerStart)
             {
                 _afkTime += Time.deltaTime;
 
-                if (_afkTime > MaxAfkTime_sec)
+                if (_afkTime > _maxAfkTime_sec)
                 {
                     _isNeedAutoRotate = true;
                     _isAutoRotateTimerStart = false;
@@ -102,20 +88,31 @@ namespace EchoOfTheTimes.Movement
 
             transform.SetPositionAndRotation(lookPosition, lookRotation);
 
-            if (_player.IsBusy)
-            {
-                _isNeedAutoRotate = true;
-            }
-
             if (_isNeedAutoRotate)
             {
                 AutoRotateCamera();
             }
         }
 
-        public void Initialize()
+        [Inject]
+        private void Construct(Player player, CameraSettingsScriptableObject cameraSettings)
         {
-            _player = GameManager.Instance.Player;
+            _player = player;
+
+            _sensitivity = cameraSettings.Sensitivity;
+            _focusCentering = cameraSettings.FocusCentering;
+            _distance = cameraSettings.Distance;
+            _projectionSize = cameraSettings.ProjectionSize;
+            _focusRadius = cameraSettings.FocusRadius;
+            _orbitAngles = cameraSettings.OrbitAngles;
+            _autoRotationSpeed = cameraSettings.AutoRotationSpeed;
+            _maxAfkTime_sec = cameraSettings.MaxAfkTime_sec;
+
+            _camera = Camera.main;
+            _camera.orthographicSize = _projectionSize;
+
+            _focusPoint = Focus.position;
+            transform.localRotation = Quaternion.Euler(_orbitAngles);
         }
 
         private void AutoRotateCamera()
@@ -132,10 +129,8 @@ namespace EchoOfTheTimes.Movement
 
             if (Mathf.Abs(a) > 0.1f)
             {
-                //var s = Mathf.Lerp(transform.rotation.eulerAngles.y, Mathf.Abs(a), AutoRotationSpeed);
-
-                Rotate(Mathf.Abs(a) * dir);
-                //Rotate(AutoRotationSpeed * dir);
+                //Rotate(Mathf.Abs(a) * dir);
+                Rotate(Mathf.Abs(a) * dir * _autoRotationSpeed * 3f);
             }
         }
 
@@ -178,10 +173,18 @@ namespace EchoOfTheTimes.Movement
             _isNeedAutoRotate = false;
             ResetAfkTimer();
         }
+        
+        public void AutoRotateCameraAfterDoubleEmptyClick()
+        {
+            _isAutoRotateTimerStart = false;
+            ResetAfkTimer();
+            _isNeedAutoRotate = true;
+            AutoRotateCamera();
+        }
 
         private void Rotate(float deltaX)
         {
-            transform.RotateAround(Focus.position, Vector3.up, deltaX * Sensitivity * Time.deltaTime);
+            transform.RotateAround(Focus.position, Vector3.up, deltaX * _sensitivity * Time.deltaTime);
         }
     }
 }

@@ -7,8 +7,6 @@ namespace EchoOfTheTimes.CustomSnapping
         [Range(0.01f, 1f)]
         public float Radius = 0.3f;
 
-        public CustomSnapEdge Edge;
-
         public Vector3 Position => transform.position;
         public Vector3 LocalPosition => transform.localPosition;
 
@@ -20,7 +18,7 @@ namespace EchoOfTheTimes.CustomSnapping
 
         public override string ToString()
         {
-            return $"[{transform.parent.name}]->[{name}] Edge: {Edge.name} | " +
+            return $"[{transform.parent.name}]->[{name}] " +
                 $"Position: {Position} | Local Position: {LocalPosition} " +
                 $"Rotation: {transform.rotation.eulerAngles} | Local Rotation: {transform.localRotation.eulerAngles}";
         }

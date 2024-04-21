@@ -1,6 +1,6 @@
-using EchoOfTheTimes.Core;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.LevelStates
 {
@@ -10,9 +10,10 @@ namespace EchoOfTheTimes.LevelStates
 
         public List<BlockedVertex> BlockedVertices;
 
-        public void Initialize()
+        [Inject]
+        private void Construct(LevelStateMachine stateMachine)
         {
-            _stateMachine = GameManager.Instance.StateMachine;
+            _stateMachine = stateMachine;
         }
 
         public void Block()

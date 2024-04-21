@@ -1,5 +1,4 @@
 using DG.Tweening;
-using EchoOfTheTimes.Core;
 using UnityEngine;
 
 namespace EchoOfTheTimes.LevelStates
@@ -22,16 +21,20 @@ namespace EchoOfTheTimes.LevelStates
         [System.NonSerialized]
         private TweenCallback _onComplete;
 
-        public void AcceptState(StateParameter stateParameter = null, bool isDebug = false, TweenCallback onComplete = null)
+        [System.NonSerialized]
+        private float _timeToChangeState_sec;
+
+        public void AcceptState(StateParameter specialParameter = null, bool isDebug = false, TweenCallback onComplete = null,
+            float timeToChangeState_sec = 0f)
         {
             _onComplete = onComplete;
 
-            ChangeColorByState(stateParameter);
+            _timeToChangeState_sec = timeToChangeState_sec;
 
-            if (stateParameter != null)
+            if (specialParameter != null)
             {
                 _specialCompleteCounter = 0;
-                SpecialBehaiour(stateParameter, isDebug);
+                SpecialBehaiour(specialParameter, isDebug);
             }
             else
             {
@@ -44,17 +47,19 @@ namespace EchoOfTheTimes.LevelStates
         {
             if (!isDebug)
             {
-                Target.DOMove(Position, GameManager.Instance.TimeToChangeState_sec)
+                Target.DOMove(Position, _timeToChangeState_sec)
                     .OnComplete(() => OnCompleteDefaultTransformation());
-                Target.DORotate(Rotation, GameManager.Instance.TimeToChangeState_sec)
+                Target.DORotate(Rotation, _timeToChangeState_sec)
                     .OnComplete(() => OnCompleteDefaultTransformation());
-                Target.DOScale(LocalScale, GameManager.Instance.TimeToChangeState_sec)
+                Target.DOScale(LocalScale, _timeToChangeState_sec)
                     .OnComplete(() => OnCompleteDefaultTransformation());
             }
             else
             {
                 Target.SetPositionAndRotation(Position, Quaternion.Euler(Rotation));
                 Target.localScale = LocalScale;
+
+                _onComplete?.Invoke();
             }
         }
 
@@ -62,11 +67,11 @@ namespace EchoOfTheTimes.LevelStates
         {
             if (!isDebug)
             {
-                stateParameter.Target.DOMove(stateParameter.Position, GameManager.Instance.TimeToChangeState_sec)
+                stateParameter.Target.DOMove(stateParameter.Position, _timeToChangeState_sec)
                     .OnComplete(() => OnCompleteSpecialTransformation());
-                stateParameter.Target.DORotate(stateParameter.Rotation, GameManager.Instance.TimeToChangeState_sec)
+                stateParameter.Target.DORotate(stateParameter.Rotation, _timeToChangeState_sec)
                     .OnComplete(() => OnCompleteSpecialTransformation());
-                stateParameter.Target.DOScale(stateParameter.LocalScale, GameManager.Instance.TimeToChangeState_sec)
+                stateParameter.Target.DOScale(stateParameter.LocalScale, _timeToChangeState_sec)
                     .OnComplete(() => OnCompleteSpecialTransformation());
             }
             else
@@ -93,52 +98,6 @@ namespace EchoOfTheTimes.LevelStates
             if (_specialCompleteCounter == _completeChecker)
             {
                 _onComplete?.Invoke();
-            }
-        }
-
-        private void ChangeColorByState(StateParameter stateParameter = null)
-        {
-            if (stateParameter == null) 
-            {
-                var color = GameManager.Instance.ColorStateSettings.GetColor(StateId);
-
-                if (Target.gameObject.TryGetComponent(out Renderer renderer))
-                {
-                    renderer.material.color = color;
-                }
-                else
-                {
-                    var renderers = Target.GetComponentsInChildren<Renderer>();
-
-                    if (renderers != null && renderers.Length > 0)
-                    {
-                        foreach (var r in renderers)
-                        {
-                            r.material.color = color;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                var color = GameManager.Instance.ColorStateSettings.GetColor(stateParameter.StateId);
-
-                if (stateParameter.Target.gameObject.TryGetComponent(out Renderer renderer))
-                {
-                    renderer.material.color = color;
-                }
-                else
-                {
-                    var renderers = stateParameter.Target.GetComponentsInChildren<Renderer>();
-
-                    if (renderers != null && renderers.Length > 0)
-                    {
-                        foreach (var r in renderers)
-                        {
-                            r.material.color = color;
-                        }
-                    }
-                }
             }
         }
     }

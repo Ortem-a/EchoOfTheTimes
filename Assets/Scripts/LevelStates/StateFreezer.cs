@@ -1,7 +1,7 @@
-using EchoOfTheTimes.Core;
 using EchoOfTheTimes.UI;
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.LevelStates
 {
@@ -10,27 +10,26 @@ namespace EchoOfTheTimes.LevelStates
         public Action OnFreeze => Freeze;
         public Action OnCancel => Cancel;
 
-        private UserInputHandler _inputHandler;
+        private UiSceneController _uiSceneController;
 
-        public void Initialize()
+        [Inject]
+        private void Construct(UiSceneController uiSceneController)
         {
-            _inputHandler = GameManager.Instance.UserInputHandler;
+            _uiSceneController = uiSceneController;
         }
 
         private void Freeze()
         {
             Debug.Log($"[StateFreezer] Freeze");
-            _inputHandler.CanChangeStates = false;
 
-            UiManager.Instance.UiSceneController.SetActiveBottomPanel(false, 0f);
+            _uiSceneController.SetActiveBottomPanel(false, 0f);
         }
 
         private void Cancel()
         {
             Debug.Log($"[StateFreezer] Cancel");
-            _inputHandler.CanChangeStates = true;
 
-            UiManager.Instance.UiSceneController.SetActiveBottomPanel(true, 0);
+            _uiSceneController.SetActiveBottomPanel(true, 0);
         }
     }
 }

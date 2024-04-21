@@ -4,13 +4,13 @@ using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace EchoOfTheTimes.UI
 {
     public class UiSceneController : MonoBehaviour
     {
         public Button ToMainMenuButton;
-        public Button ToCheckpointButton;
         public Transform BottomPanel;
         public GameObject ButtonPrefab;
 
@@ -24,34 +24,31 @@ namespace EchoOfTheTimes.UI
 
         private UiSceneView _sceneView;
 
-        private void Awake()
+        [Inject]
+        private void Construct(LevelStateMachine stateMachine, UiSceneView uiSceneView, InputMediator inputHandler)
         {
-            _loader = FindObjectOfType<SceneLoader>();
-
-            FinishCanvas.gameObject.SetActive(false);
-
-            ToMainMenuButton.onClick.AddListener(ExitToMainMenu);
-            FinishButton.onClick.AddListener(ExitToMainMenu);
-            ToCheckpointButton.onClick.AddListener(GoToCheckpoint);
-        }
-
-        public void Initialize()
-        {
-            _stateMachine = GameManager.Instance.StateMachine;
-            _sceneView = UiManager.Instance.UiSceneView;
+            _stateMachine = stateMachine;
+            _sceneView = uiSceneView;
 
             for (int i = 0; i < _stateMachine.States.Count; i++)
             {
                 var obj = Instantiate(ButtonPrefab, BottomPanel);
-                obj.GetComponent<UiButtonController>().Initialize(i);
+                obj.GetComponent<UiStateButton>().Init(i, inputHandler);
             }
 
-            FinishPanel.DOScale(0f, 0f);
+            FinishPanel.localScale = Vector3.zero;
+
+            _loader = FindObjectOfType<SceneLoader>();
+
+            ToMainMenuButton.onClick.AddListener(ExitToMainMenu);
+            FinishButton.onClick.AddListener(ExitToMainMenu);
+
+            FinishCanvas.gameObject.SetActive(false);
         }
 
-        private void ExitToMainMenu()
+        private async void ExitToMainMenu()
         {
-            _loader.LoadSceneGroupAsync(0);
+            await _loader.LoadSceneGroupAsync(0);
         }
 
         public void UpdateLabel()
@@ -80,20 +77,6 @@ namespace EchoOfTheTimes.UI
                 BottomPanel.DOScale(0f, duration)
                     .OnComplete(() => BottomPanel.gameObject.SetActive(isActive));
             }
-        }
-
-        public void GoToCheckpoint()
-        {
-            GameManager.Instance.UserInputHandler.GoToCheckpoint();
-        }
-
-        public void EnableCheckpointButton()
-        {
-            ToCheckpointButton.transform.DOScale(0f, 0f);
-
-            ToCheckpointButton.gameObject.SetActive(true);
-
-            ToCheckpointButton.transform.DOScale(1f, 0.2f);
         }
     }
 }

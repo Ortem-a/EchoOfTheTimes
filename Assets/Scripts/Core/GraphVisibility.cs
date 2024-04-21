@@ -1,15 +1,16 @@
-using EchoOfTheTimes.LevelStates;
+using EchoOfTheTimes.ScriptableObjects;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.Core
 {
     public class GraphVisibility : Graph
     {
-        //public override void Awake()
-        //{
-        //    ResetAndLoad();
-        //}
+        public override void Awake()
+        {
+            ResetAndLoad();
+        }
 
         public List<Vertex> GetVertices()
         {

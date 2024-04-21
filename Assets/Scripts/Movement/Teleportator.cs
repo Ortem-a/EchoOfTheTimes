@@ -1,45 +1,57 @@
 using DG.Tweening;
-using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Interfaces;
+using EchoOfTheTimes.ScriptableObjects;
 using EchoOfTheTimes.Units;
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.Movement
 {
     public class Teleportator : MonoBehaviour, ISpecialVertex
     {
-        private Player _player;
-
         public Teleportator Destination;
 
         public Action OnEnter => Teleport;
         public Action OnExit => null;
 
-        public void Initialize()
+        private Player _player;
+
+        private float _teleportDuration_sec;
+        private float _teleportDisappearDuration_sec;
+
+        [Inject]
+        private void Construct(Player player, LevelSettingsScriptableObject levelSettings)
         {
-            _player = GameManager.Instance.Player;
+            _player = player;
+
+            _teleportDuration_sec = levelSettings.TeleportDuration_sec;
+            _teleportDisappearDuration_sec = levelSettings.TeleportDisappearDuration_sec;
         }
 
         private void Teleport()
         {
             Debug.Log($"[Teleportator] Teleport to {Destination.transform.position}");
 
-            _player.Teleportate(
-                Destination.transform.position,
-                GameManager.Instance.TeleportDuration_sec,
-                onStart: OnStartTeleportation,
-                onComplete: OnCompleteTeleportation); ;
+#warning ÂÎ ÂÐÅÌß ÂÕÎÄÀ Â ÒÅËÅÏÎÐÒ ÄÎËÆÅÍ ÂÑÒÀÂÀÒÜ ÍÀ ÌÅÑÒÅ
+            _player.Stop(() =>
+            {
+                _player.Teleportate(
+                    Destination.transform.position,
+                    _teleportDuration_sec,
+                    onStart: OnStartTeleportation,
+                    onComplete: OnCompleteTeleportation);
+            });
         }
 
         private void OnStartTeleportation()
         {
-            _player.transform.DOScale(0f, GameManager.Instance.TeleportDisappearDuration_sec);
+            _player.transform.DOScale(0f, _teleportDisappearDuration_sec);
         }
 
         private void OnCompleteTeleportation()
         {
-            _player.transform.DOScale(1f, GameManager.Instance.TeleportDisappearDuration_sec);
+            _player.transform.DOScale(1f, _teleportDisappearDuration_sec);
         }
     }
 }

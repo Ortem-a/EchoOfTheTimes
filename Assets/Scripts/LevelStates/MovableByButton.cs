@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.LevelStates
 {
@@ -8,9 +9,18 @@ namespace EchoOfTheTimes.LevelStates
         [SerializeField]
         private StateParameter _parameter;
 
+        private StateService _stateService;
+
+        [Inject]
+        private void Construct(StateService stateService)
+        {
+            _stateService = stateService;
+        }
+
         public void Move(Action onComplete)
         {
-            _parameter.AcceptState(onComplete: () => onComplete());
+            _stateService.AcceptState(_parameter, onComplete: () => onComplete());
+            //_parameter.AcceptState(onComplete: () => onComplete());
         }
 
         public void SetOrUpdateParams()

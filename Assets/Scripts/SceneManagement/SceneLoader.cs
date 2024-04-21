@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace EchoOfTheTimes.SceneManagement
 {
@@ -17,30 +18,27 @@ namespace EchoOfTheTimes.SceneManagement
         [SerializeField]
         private Camera _loadingCamera;
 
-        [SerializeField]
-        public SceneGroup[] _sceneGroups;
+        public SceneGroup[] SceneGroups;
 
         private float _targetProgress;
         private bool _isLoading;
 
         public readonly SceneGroupManager Manager = new SceneGroupManager();
 
-        private void Awake()
+        [Inject]
+        public void Construct()
         {
             Manager.OnSceneLoaded += sceneName => Debug.Log($"Loaded: '{sceneName}'");
             Manager.OnSceneUnloaded += sceneName => Debug.Log($"Unloaded: '{sceneName}'");
             Manager.OnSceneGroupLoaded += () => Debug.Log("Scene group loaded");
-        }
 
-        private async void Start()
-        {
-            if (GroupToLoad < 0 || GroupToLoad >= _sceneGroups.Length)
+            if (GroupToLoad < 0 || GroupToLoad >= SceneGroups.Length)
             {
-                Debug.LogError($"Incorrect group to load '{GroupToLoad}'! You have only 0...{_sceneGroups.Length - 1}");
+                Debug.LogError($"Incorrect group to load '{GroupToLoad}'! You have only 0...{SceneGroups.Length - 1}");
                 return;
             }
 
-            await LoadSceneGroupAsync(GroupToLoad);
+            Task task = LoadSceneGroupAsync(GroupToLoad);
         }
 
         private void Update()
@@ -59,7 +57,7 @@ namespace EchoOfTheTimes.SceneManagement
             _loadingBar.fillAmount = 0f;
             _targetProgress = 1f;
 
-            if (index < 0 || index >= _sceneGroups.Length)
+            if (index < 0 || index >= SceneGroups.Length)
             {
                 Debug.LogError($"Invalid scene group index: [{index}]");
                 return;
@@ -70,7 +68,7 @@ namespace EchoOfTheTimes.SceneManagement
 
             EnableLoadingCanvas();
 
-            await Manager.LoadScenesAsync(_sceneGroups[index], progress);
+            await Manager.LoadScenesAsync(SceneGroups[index], progress);
 
             EnableLoadingCanvas(false);
         }
