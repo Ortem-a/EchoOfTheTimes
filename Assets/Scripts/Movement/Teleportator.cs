@@ -37,7 +37,6 @@ namespace EchoOfTheTimes.Movement
         {
             Debug.Log($"[Teleportator] Teleport to {Destination.transform.position}");
 
-#warning ÂÎ ÂÐÅÌß ÂÕÎÄÀ Â ÒÅËÅÏÎÐÒ ÄÎËÆÅÍ ÂÑÒÀÂÀÒÜ ÍÀ ÌÅÑÒÅ
             _player.Stop(() =>
             {
                 _player.Teleportate(

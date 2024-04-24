@@ -3,7 +3,6 @@ using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Movement;
 using EchoOfTheTimes.UI;
 using EchoOfTheTimes.Units;
-using System;
 using UnityEngine;
 using Zenject;
 
@@ -14,7 +13,6 @@ namespace EchoOfTheTimes.DI
         [Header("Systems")]
         [SerializeField]
         private LevelStateMachine _stateMachine;
-        private StateService _stateService;
         [SerializeField]
         private GraphVisibility _graph;
         [SerializeField]
