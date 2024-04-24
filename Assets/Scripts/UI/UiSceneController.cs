@@ -78,5 +78,10 @@ namespace EchoOfTheTimes.UI
                     .OnComplete(() => BottomPanel.gameObject.SetActive(isActive));
             }
         }
+
+        public void SetActiveBottomPanelImmediate(bool isActive) 
+        {
+            BottomPanel.gameObject.SetActive(isActive);
+        }
     }
 }
