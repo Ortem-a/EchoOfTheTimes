@@ -167,13 +167,16 @@ namespace EchoOfTheTimes.Movement
 
         public void RotateCamera(float deltaX)
         {
-            Rotate(deltaX);
+            // Вычисляем угол поворота, так чтобы deltaX равный ширине экрана эквивалентен 180 градусам
+            float rotationAngle = (deltaX / Screen.width) * 180;
+            Rotate(rotationAngle);
 
             _isAutoRotateTimerStart = true;
             _isNeedAutoRotate = false;
             ResetAfkTimer();
         }
-        
+
+
         public void AutoRotateCameraAfterDoubleEmptyClick()
         {
             _isAutoRotateTimerStart = false;
@@ -182,9 +185,10 @@ namespace EchoOfTheTimes.Movement
             AutoRotateCamera();
         }
 
-        private void Rotate(float deltaX)
+        private void Rotate(float angle)
         {
-            transform.RotateAround(Focus.position, Vector3.up, deltaX * _sensitivity * Time.deltaTime);
+            transform.RotateAround(Focus.position, Vector3.up, angle * Time.deltaTime);
         }
+
     }
 }
