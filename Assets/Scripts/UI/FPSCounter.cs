@@ -47,7 +47,7 @@ public class FPSCounter : MonoBehaviour
             oneSecondTimer = 1.0f;
 
             fpsText.text = $"FPS: {Mathf.Ceil(averageCurrentFps)}";
-            fpsText.text += $"/nMin: {Mathf.Ceil(minFps)}, Max: {Mathf.Ceil(maxFps)}, Avg: {Mathf.Ceil(avgFps)}";
+            fpsText.text += $"\nMin: {Mathf.Ceil(minFps)}, Max: {Mathf.Ceil(maxFps)}, Avg: {Mathf.Ceil(avgFps)}";
         }
 
         // ќбновление статистических данных каждые 5 секунд
