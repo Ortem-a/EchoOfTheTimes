@@ -1,6 +1,7 @@
 ﻿using EchoOfTheTimes.ScriptableObjects;
 using EchoOfTheTimes.Units;
 using EchoOfTheTimes.Utils;
+using System.Collections;
 using UnityEngine;
 using Zenject;
 
@@ -130,7 +131,7 @@ namespace EchoOfTheTimes.Movement
             if (Mathf.Abs(a) > 0.1f)
             {
                 //Rotate(Mathf.Abs(a) * dir);
-                Rotate(Mathf.Abs(a) * dir * _autoRotationSpeed * 3f);
+                Rotate(Mathf.Abs(a) * dir * _autoRotationSpeed * 3f, "AutoRotate"); // РегулировОчка спидов
             }
         }
 
@@ -165,17 +166,16 @@ namespace EchoOfTheTimes.Movement
             }
         }
 
-        public void RotateCamera(float deltaX)
+        // Тут мы получаем чисто угол поворота и не выёбываемся
+        public void RotateCamera(float rotationAngle)
         {
-            // Вычисляем угол поворота, так чтобы deltaX равный ширине экрана эквивалентен 180 градусам
-            float rotationAngle = (deltaX / Screen.width) * 180;
-            Rotate(rotationAngle);
+            Rotate(rotationAngle, "HandleRotate");
 
             _isAutoRotateTimerStart = true;
             _isNeedAutoRotate = false;
+
             ResetAfkTimer();
         }
-
 
         public void AutoRotateCameraAfterDoubleEmptyClick()
         {
@@ -185,10 +185,17 @@ namespace EchoOfTheTimes.Movement
             AutoRotateCamera();
         }
 
-        private void Rotate(float angle)
+        // Опять же, чисто угол поворота без выебонов
+        private void Rotate(float angle, string whatToDo)
         {
-            transform.RotateAround(Focus.position, Vector3.up, angle * Time.deltaTime);
+            if (whatToDo == "AutoRotate")
+            {
+                transform.RotateAround(Focus.position, Vector3.up, angle * Time.deltaTime);
+            }
+            else if (whatToDo == "HandleRotate")
+            {
+                transform.RotateAround(Focus.position, Vector3.up, angle);
+            }
         }
-
     }
 }

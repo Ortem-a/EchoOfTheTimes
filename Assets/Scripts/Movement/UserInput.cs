@@ -1,6 +1,5 @@
 using EchoOfTheTimes.Core;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Zenject;
 
 namespace EchoOfTheTimes.Movement
@@ -38,41 +37,6 @@ namespace EchoOfTheTimes.Movement
             _camera = Camera.main;
         }
 
-        //private void Update()
-        //{
-        //    if (Input.touchCount > 0)
-        //    {
-        //        _touch = Input.GetTouch(0);
-
-        //        if (_touch.phase == TouchPhase.Began)
-        //        {
-        //            _startTouchPosition = _touch.position;
-        //        }
-        //        else if (_touch.phase == TouchPhase.Moved || _touch.phase == TouchPhase.Ended)
-        //        {
-        //            _endTouchPosition = _touch.position;
-
-        //            float deltaX = _endTouchPosition.x - _startTouchPosition.x;
-        //            float deltaY = _endTouchPosition.y - _startTouchPosition.y;
-
-        //            if (Mathf.Abs(deltaX) <= _inputAccuracy && Mathf.Abs(deltaY) <= _inputAccuracy)
-        //            {
-        //                var clickPosition = ScreenToVertex(_touch.position);
-        //                if (clickPosition != null)
-        //                {
-        //                    _userInputHandler.OnTouched?.Invoke(clickPosition);
-        //                }
-        //            }
-        //            else
-        //            {
-        //                _userInputHandler.OnSwipe?.Invoke(deltaX);
-        //            }
-        //        }
-        //    }
-        //}
-
-
-
         private void Update() // ляляля тут и свайп детектится и тач, и нет тача по вертексу если свайп начинать с точки вертекса, и дабл тач по пустому месту
         {
             if (Input.GetMouseButtonDown(0))
@@ -105,7 +69,7 @@ namespace EchoOfTheTimes.Movement
 
                     if (!_isSuccessfulTap && Time.time - _lastTapTime < DoubleTapDelta)
                     {
-                        _userInputHandler.OnDoubleTouched?.Invoke();
+                        _userInputHandler.OnDoubleTouched?.Invoke(); // Вырезать даблтач, заменив на тач по кнопке для возврата
                         _lastTapTime = 0f;
                     }
                     else
@@ -122,34 +86,30 @@ namespace EchoOfTheTimes.Movement
             {
                 Vector2 currentSwipePosition = Input.mousePosition;
 
+                // Считали активированный каким-то чудом свайп
                 if (!_swipeActivated && (Vector2.Distance(_startSwipePosition, currentSwipePosition) > MinSwipeDistance || Time.time - _touchStartTime > MaxTapTime))
                 {
                     _swipeActivated = true;
-                    _startSwipePosition = currentSwipePosition;
+                    // _startSwipePosition = currentSwipePosition;
                 }
 
                 if (_swipeActivated)
                 {
-                    float deltaX = (currentSwipePosition.x - _startSwipePosition.x) / Screen.width * 50000;
-                    _userInputHandler.OnSwiped?.Invoke(deltaX);
-                    _startSwipePosition = currentSwipePosition;
+
+                    // Свайп в какой величине?
+                    float deltaX = currentSwipePosition.x - _startSwipePosition.x;
+                    // Получаем ширину экрана в дюймах
+                    float screenWidthInches = Screen.width / Screen.dpi;
+                    // Преобразуем deltaX в дюймы
+                    float deltaXInches = deltaX / Screen.dpi;
+                    // Вычисляем угол поворота, так чтобы deltaXInches, равный ширине экрана в дюймах, эквивалентен 180 градусам
+                    float rotationAngle = (deltaXInches / screenWidthInches) * 180;
+
+                    _userInputHandler.OnSwiped?.Invoke(rotationAngle);
+
+                    _startSwipePosition = currentSwipePosition; // Я/МЫ еблан? Я считываю микро-отрезочки каждый кадр вместо считывания фул свайпа, и как мне это овкуснивать
                 }
             }
         }
-
-
-        //private EchoOfTheTimes.Core.Vertex ScreenToVertex(Vector3 screenPosition)
-        //{
-        //    Ray ray = _camera.ScreenPointToRay(screenPosition);
-        //    if (Physics.Raycast(ray, out RaycastHit hitData, 1000f))
-        //    {
-        //        if (hitData.transform.TryGetComponent(out EchoOfTheTimes.Core.Vertex vertex))
-        //        {
-        //            return vertex;
-        //        }
-        //    }
-
-        //    return null;
-        //}
     }
 }
