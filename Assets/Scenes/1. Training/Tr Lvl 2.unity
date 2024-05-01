@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
-  m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
-  m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
+  m_AmbientSkyColor: {r: 0.92158204, g: 0.8549928, b: 0.78353804, a: 1}
+  m_AmbientEquatorColor: {r: 0.46207705, g: 0.34191445, b: 0.23839766, a: 1}
+  m_AmbientGroundColor: {r: 0.103773594, g: 0.091793776, b: 0.08174618, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18154614, g: 0.22718894, b: 0.30740753, a: 1}
+  m_IndirectSpecularColor: {r: 0.17276813, g: 0.21589187, b: 0.29782563, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -180,7 +180,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2274784}
   - component: {fileID: 2274785}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2019,7 +2019,7 @@ GameObject:
   m_Component:
   - component: {fileID: 112164399}
   - component: {fileID: 112164400}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2109,7 +2109,7 @@ GameObject:
   m_Component:
   - component: {fileID: 127857600}
   - component: {fileID: 127857601}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2416,7 +2416,7 @@ GameObject:
   m_Component:
   - component: {fileID: 145041983}
   - component: {fileID: 145041984}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2461,7 +2461,7 @@ GameObject:
   m_Component:
   - component: {fileID: 147091721}
   - component: {fileID: 147091722}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_18
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3222,6 +3222,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 410087041}
+  - {fileID: 1538667004}
   - {fileID: 1420254413}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3342,6 +3343,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Right Part Door
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: afc1c6449203a3441bb6a9832ff6c689,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3951,7 +3957,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 685403080659745032, guid: 8a899fa27232ee144a43e2e3c0e768b8, type: 3}
@@ -4332,7 +4338,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 685403080659745032, guid: 8a899fa27232ee144a43e2e3c0e768b8, type: 3}
@@ -4542,7 +4548,7 @@ GameObject:
   m_Component:
   - component: {fileID: 265435306}
   - component: {fileID: 265435307}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5302,7 +5308,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     - target: {fileID: 919132149155446097, guid: c1d679345ade6cd4da03949e5185ba43,
         type: 3}
       propertyPath: m_Name
@@ -5329,7 +5335,7 @@ GameObject:
   m_Component:
   - component: {fileID: 299062414}
   - component: {fileID: 299062415}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5581,7 +5587,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     - target: {fileID: 919132149155446097, guid: c1d679345ade6cd4da03949e5185ba43,
         type: 3}
       propertyPath: m_Name
@@ -5653,7 +5659,7 @@ GameObject:
   m_Component:
   - component: {fileID: 312081424}
   - component: {fileID: 312081425}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5917,7 +5923,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 685403080659745032, guid: 8a899fa27232ee144a43e2e3c0e768b8, type: 3}
@@ -6813,6 +6819,7 @@ Transform:
   - {fileID: 566076023}
   - {fileID: 529682656}
   - {fileID: 1286135079}
+  - {fileID: 1827870941}
   m_Father: {fileID: 1681321834}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &383394830
@@ -7152,7 +7159,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     - target: {fileID: 919132149155446097, guid: a3ceb3a8e4def7d4cb526ca66fbece96,
         type: 3}
       propertyPath: m_Name
@@ -7706,7 +7713,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.26415092, g: 0.21400905, b: 0.16073334, a: 1}
   m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
@@ -7765,13 +7772,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410087039}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.35355338, y: -0.35355338, z: 0.1464466, w: 0.8535535}
-  m_LocalPosition: {x: -4.19, y: 7.19, z: -22.54}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.19, y: 2.38, z: -22.54}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 175843316}
-  m_LocalEulerAnglesHint: {x: 45, y: -45, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &410087042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8057,7 +8064,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 685403080659745032, guid: 8a899fa27232ee144a43e2e3c0e768b8, type: 3}
@@ -8204,7 +8211,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 685403080659745032, guid: 8a899fa27232ee144a43e2e3c0e768b8, type: 3}
@@ -9773,7 +9780,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     - target: {fileID: 919132149155446097, guid: c1d679345ade6cd4da03949e5185ba43,
         type: 3}
       propertyPath: m_Name
@@ -10355,7 +10362,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 685403080659745032, guid: 8a899fa27232ee144a43e2e3c0e768b8, type: 3}
@@ -11198,7 +11205,7 @@ GameObject:
   m_Component:
   - component: {fileID: 580597896}
   - component: {fileID: 580597897}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11315,7 +11322,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 685403080659745032, guid: 8a899fa27232ee144a43e2e3c0e768b8, type: 3}
@@ -11951,7 +11958,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 685403080659745032, guid: 8a899fa27232ee144a43e2e3c0e768b8, type: 3}
@@ -12188,7 +12195,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 685403080659745032, guid: 8a899fa27232ee144a43e2e3c0e768b8, type: 3}
@@ -12617,7 +12624,7 @@ GameObject:
   m_Component:
   - component: {fileID: 650820616}
   - component: {fileID: 650820617}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_17
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13157,7 +13164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 682852700}
   - component: {fileID: 682852701}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13931,7 +13938,7 @@ GameObject:
   m_Component:
   - component: {fileID: 717943774}
   - component: {fileID: 717943775}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14679,7 +14686,7 @@ GameObject:
   m_Component:
   - component: {fileID: 758575633}
   - component: {fileID: 758575634}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_18
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15192,6 +15199,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Left Part Door
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a0bf8c43a47560a47a8f9b5b212a90ef,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -15457,7 +15469,7 @@ GameObject:
   m_Component:
   - component: {fileID: 797818877}
   - component: {fileID: 797818878}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18035,7 +18047,7 @@ GameObject:
   m_Component:
   - component: {fileID: 974416800}
   - component: {fileID: 974416801}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18343,7 +18355,7 @@ GameObject:
   m_Component:
   - component: {fileID: 992843600}
   - component: {fileID: 992843601}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20059,7 +20071,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1088630154}
   - component: {fileID: 1088630155}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20149,7 +20161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1105412623}
   - component: {fileID: 1105412624}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21020,7 +21032,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1167851146}
   - component: {fileID: 1167851147}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21674,7 +21686,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1205624725}
   - component: {fileID: 1205624726}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22134,7 +22146,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1227961366}
   - component: {fileID: 1227961367}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23292,7 +23304,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1302248133}
   - component: {fileID: 1302248134}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23969,7 +23981,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 685403080659745032, guid: 8a899fa27232ee144a43e2e3c0e768b8, type: 3}
@@ -24788,7 +24800,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     - target: {fileID: 919132149155446097, guid: d3421d71aabbf7749bfd74d11a19689d,
         type: 3}
       propertyPath: m_Name
@@ -25334,7 +25346,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 685403080659745032, guid: 8a899fa27232ee144a43e2e3c0e768b8, type: 3}
@@ -25454,7 +25466,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1402459311}
   - component: {fileID: 1402459312}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25747,7 +25759,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 685403080659745032, guid: 8a899fa27232ee144a43e2e3c0e768b8, type: 3}
@@ -25969,8 +25981,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.5
+  m_Color: {r: 0.96470594, g: 0.9333334, b: 0.8980393, a: 1}
+  m_Intensity: 0.6
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -26028,13 +26040,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1420254410}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.19458711, y: 0.8045248, z: -0.37515604, w: 0.41729343}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 175843316}
-  m_LocalEulerAnglesHint: {x: 50, y: 125.17, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &1421647256
 GameObject:
   m_ObjectHideFlags: 0
@@ -26516,7 +26528,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 685403080659745032, guid: 8a899fa27232ee144a43e2e3c0e768b8, type: 3}
@@ -27131,7 +27143,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1485982492}
   - component: {fileID: 1485982493}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27221,7 +27233,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1489014010}
   - component: {fileID: 1489014011}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28077,7 +28089,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1536593988}
   - component: {fileID: 1536593989}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28112,6 +28124,124 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Radius: 0.1
+--- !u!1 &1538667003
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1538667004}
+  - component: {fileID: 1538667006}
+  - component: {fileID: 1538667005}
+  m_Layer: 0
+  m_Name: Directional Light (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1538667004
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538667003}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: -6.97}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 175843316}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!114 &1538667005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538667003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 1
+--- !u!108 &1538667006
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538667003}
+  m_Enabled: 1
+  serializedVersion: 10
+  m_Type: 1
+  m_Shape: 0
+  m_Color: {r: 0.8113208, g: 0.715809, b: 0.61614454, a: 1}
+  m_Intensity: 0.5
+  m_Range: 10
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 2
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 5000
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
 --- !u!1 &1539251109
 GameObject:
   m_ObjectHideFlags: 0
@@ -29428,7 +29558,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1613780416}
   - component: {fileID: 1613780417}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30289,6 +30419,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.92
       objectReference: {fileID: 0}
+    - target: {fileID: 6170483594830001231, guid: b62f31ede0a9d964d864b8a1b750e0b3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7246807464272131674, guid: b62f31ede0a9d964d864b8a1b750e0b3,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -30797,7 +30932,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1673696818}
   - component: {fileID: 1673696819}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31511,7 +31646,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 685403080659745032, guid: 8a899fa27232ee144a43e2e3c0e768b8, type: 3}
@@ -32258,7 +32393,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     - target: {fileID: 919132149155446097, guid: c1d679345ade6cd4da03949e5185ba43,
         type: 3}
       propertyPath: m_Name
@@ -32285,7 +32420,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1720286626}
   - component: {fileID: 1720286627}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32717,7 +32852,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 685403080659745032, guid: 8a899fa27232ee144a43e2e3c0e768b8, type: 3}
@@ -32792,7 +32927,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1752877864}
   - component: {fileID: 1752877865}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33909,7 +34044,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1803835565}
   - component: {fileID: 1803835566}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34016,7 +34151,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     - target: {fileID: 919132149155446097, guid: d3421d71aabbf7749bfd74d11a19689d,
         type: 3}
       propertyPath: m_Name
@@ -34406,7 +34541,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1815420680}
   - component: {fileID: 1815420681}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_17
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34496,7 +34631,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1819285796}
   - component: {fileID: 1819285797}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34621,6 +34756,90 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Radius: 0.1
+--- !u!1 &1827870939
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1827870941}
+  - component: {fileID: 1827870940}
+  m_Layer: 0
+  m_Name: Reference
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!212 &1827870940
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827870939}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 29e7d403ef5e4f2429b254b9db5001ad, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 30.007326, y: 20}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &1827870941
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827870939}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.10642373, y: -0.15491459, z: 0.035293654, w: 0.9815447}
+  m_LocalPosition: {x: 0.69, y: 0.21, z: 3.03}
+  m_LocalScale: {x: 0.32179996, y: 0.32179996, z: 0.3218}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 379845765}
+  m_LocalEulerAnglesHint: {x: 12.7, y: -17.7, z: 2.133}
 --- !u!1001 &1830174536
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35649,7 +35868,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 685403080659745032, guid: 8a899fa27232ee144a43e2e3c0e768b8, type: 3}
@@ -36252,7 +36471,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1898650917}
   - component: {fileID: 1898650918}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36504,7 +36723,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 685403080659745032, guid: 8a899fa27232ee144a43e2e3c0e768b8, type: 3}
@@ -36840,7 +37059,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 685403080659745032, guid: 8a899fa27232ee144a43e2e3c0e768b8, type: 3}
@@ -39020,7 +39239,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2063999294}
   - component: {fileID: 2063999295}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39137,7 +39356,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 685403080659745032, guid: 8a899fa27232ee144a43e2e3c0e768b8, type: 3}
@@ -39392,7 +39611,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2071762346}
   - component: {fileID: 2071762347}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SnapPoint_13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39544,7 +39763,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     - target: {fileID: 919132149155446097, guid: d3421d71aabbf7749bfd74d11a19689d,
         type: 3}
       propertyPath: m_Name
@@ -40960,7 +41179,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98fb75d3a1fc6a84ca2458a61caec5d9, type: 2}
+      objectReference: {fileID: 2100000, guid: e8e966fff70a59046b039d7abd3cc03f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 685403080659745032, guid: 8a899fa27232ee144a43e2e3c0e768b8, type: 3}
