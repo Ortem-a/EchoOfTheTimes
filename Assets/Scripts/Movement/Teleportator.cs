@@ -44,7 +44,6 @@ namespace EchoOfTheTimes.Movement
                     _player.Teleportate(
                         Destination.transform.position,
                         _teleportDuration_sec,
-                        //onStart: OnStartTeleportation,
                         onComplete: OnCompleteTeleportation);
                 });
             });

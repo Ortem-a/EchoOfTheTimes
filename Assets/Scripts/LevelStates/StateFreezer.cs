@@ -29,7 +29,7 @@ namespace EchoOfTheTimes.LevelStates
         {
             Debug.Log($"[StateFreezer] Cancel");
 
-            _uiSceneController.SetActiveBottomPanel(true, 0);
+            _uiSceneController.SetActiveBottomPanel(true, 0f);
         }
     }
 }

@@ -59,8 +59,8 @@ namespace EchoOfTheTimes.Units
                 })
                 .OnComplete(() =>
                 {
-                    OnCompleteTeleportate();
                     onComplete?.Invoke();
+                    OnCompleteTeleportate();
                 });
         }
 
@@ -117,7 +117,8 @@ namespace EchoOfTheTimes.Units
 
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
-                freezer.OnCancel?.Invoke();
+                //freezer.OnCancel?.Invoke();
+                freezer.OnFreeze?.Invoke();
             }
         }
 
