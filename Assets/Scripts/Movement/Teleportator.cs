@@ -39,19 +39,23 @@ namespace EchoOfTheTimes.Movement
 
             _player.Stop(() =>
             {
-                _player.Teleportate(
-                    Destination.transform.position,
-                    _teleportDuration_sec,
-                    onStart: OnStartTeleportation,
-                    onComplete: OnCompleteTeleportation);
+                OnStartTeleportation(() =>
+                {
+                    _player.Teleportate(
+                        Destination.transform.position,
+                        _teleportDuration_sec,
+                        //onStart: OnStartTeleportation,
+                        onComplete: OnCompleteTeleportation);
+                });
             });
         }
 
-        private void OnStartTeleportation()
+        private void OnStartTeleportation(TweenCallback onComplete)
         {
-            _player.transform.DOScale(0f, _teleportDisappearDuration_sec);
-
             _sceneController.SetActiveBottomPanel(false);
+
+            _player.transform.DOScale(0f, _teleportDisappearDuration_sec)
+                .OnComplete(onComplete);
         }
 
         private void OnCompleteTeleportation()
