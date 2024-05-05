@@ -36,17 +36,17 @@ namespace EchoOfTheTimes.LevelStates
         {
             if (IsPressed) return;
 
-            _graph.ResetVertices();
-
             IsPressed = true;
 
             Debug.Log($"[LevelButton] {name} pressed! IsPressed: {IsPressed}");
 
+            _graph.ResetVertices();
+
             _player.StopAndLink(onComplete: () =>
             {
-                foreach (var movable in Movables)
+                for (int i = 0; i < _maxMovables; i++)
                 {
-                    movable.Move(onComplete: ExecutePostActions);
+                    Movables[i].Move(onComplete: ExecutePostActions);
                 }
             });   
         }
@@ -55,7 +55,7 @@ namespace EchoOfTheTimes.LevelStates
         {
             _counter++;
 
-            if (_counter == _maxMovables)
+            if (_counter == _maxMovables - 1)
             {
                 _graph.Load();
 
