@@ -10,23 +10,21 @@ namespace EchoOfTheTimes.Movement
 
         private InputMediator _userInputHandler;
 
-        private float _inputAccuracy = 5f;
+        //private float _inputAccuracy = 5f;
 
-        private Vector3 _startTouchPosition;
-        private Vector3 _endTouchPosition;
-        private Touch _touch;
-
-
+        //private Vector3 _startTouchPosition;
+        //private Vector3 _endTouchPosition;
+        //private Touch _touch;
 
         private Vector2 _startSwipePosition;
-        private bool _isSwiping = false;
-        private bool _swipeActivated = false;
+        //private bool _isSwiping = false;
+        //private bool _swipeActivated = false;
 
-        private const float MinSwipeDistance = 70f; // Минимальное расстояние для активации свайпа
+        //private const float MinSwipeDistance = 70f; // Минимальное расстояние для активации свайпа
         private float _touchStartTime;
-        private const float MaxTapTime = 0.2f; // Максимальное время для регистрации тапа
-        private float _lastTapTime = 0f;
-        private const float DoubleTapDelta = 0.5f;
+        private const float _maxTapTime = 0.2f; // Максимальное время для регистрации тапа
+        //private float _lastTapTime = 0f;
+        //private const float DoubleTapDelta = 0.5f;
         private bool _isSuccessfulTap = false;
 
         [Inject]
@@ -37,8 +35,6 @@ namespace EchoOfTheTimes.Movement
             _camera = Camera.main;
         }
 
-
-
         // никаких свайпов и дабл тачей, я тут главный и лучше знаю как камера должна быть, игрок ничто, игра всё
         private void Update()
         {
@@ -46,8 +42,8 @@ namespace EchoOfTheTimes.Movement
             {
                 _startSwipePosition = Input.mousePosition;
                 _touchStartTime = Time.time;
-                _isSwiping = true;
-                _swipeActivated = false;
+                //_isSwiping = true;
+                //_swipeActivated = false;
                 _isSuccessfulTap = false;
             }
 
@@ -56,19 +52,19 @@ namespace EchoOfTheTimes.Movement
                 float touchDuration = Time.time - _touchStartTime;
                 float touchDistance = Vector2.Distance(_startSwipePosition, Input.mousePosition);
 
-                if (touchDuration <= MaxTapTime)
+                if (touchDuration <= _maxTapTime)
                 {
-                    Vector3 touchPosition3D = Camera.main.ScreenToWorldPoint(new Vector3(_startSwipePosition.x, _startSwipePosition.y, Camera.main.nearClipPlane));
-                    RaycastHit hit;
-                    if (Physics.Raycast(touchPosition3D, Camera.main.transform.forward, out hit, Mathf.Infinity))
+                    Vector3 touchPosition3D = _camera.ScreenToWorldPoint(
+                        new Vector3(_startSwipePosition.x, _startSwipePosition.y, _camera.nearClipPlane));
+
+                    if (Physics.Raycast(touchPosition3D, _camera.transform.forward, out RaycastHit hit, Mathf.Infinity))
                     {
-                        EchoOfTheTimes.Core.Vertex vertex = hit.transform.GetComponent<EchoOfTheTimes.Core.Vertex>();
-                        if (vertex != null)
+                        if (hit.transform.TryGetComponent(out Vertex vertex))
                         {
                             _userInputHandler.OnTouched?.Invoke(vertex);
                             _isSuccessfulTap = true;
                         }
-                    }   
+                    }
                 }
             }
         }
