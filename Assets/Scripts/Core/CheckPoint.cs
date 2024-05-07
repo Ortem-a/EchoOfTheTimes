@@ -9,7 +9,7 @@ namespace EchoOfTheTimes.Core
     {
         public Vertex Point { get; private set; }
 
-        public Action OnEnter => () => _checkpointManager.OnCheckpointChanged?.Invoke(this);
+        public Action OnEnter => null;// () => _checkpointManager.OnCheckpointChanged?.Invoke(this);
         public Action OnExit => null;
 
         private CheckpointManager _checkpointManager;
