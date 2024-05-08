@@ -15,8 +15,6 @@ namespace EchoOfTheTimes.LevelStates
         [System.NonSerialized]
         private int _defaultCompleteCounter = 0;
         [System.NonSerialized]
-        private int _specialCompleteCounter = 0;
-        [System.NonSerialized]
         private int _completeChecker = 3;
         [System.NonSerialized]
         private TweenCallback _onComplete;
@@ -24,26 +22,18 @@ namespace EchoOfTheTimes.LevelStates
         [System.NonSerialized]
         private float _timeToChangeState_sec;
 
-        public void AcceptState(StateParameter specialParameter = null, bool isDebug = false, TweenCallback onComplete = null,
+        public void AcceptState(bool isDebug = false, TweenCallback onComplete = null,
             float timeToChangeState_sec = 0f)
         {
             _onComplete = onComplete;
 
             _timeToChangeState_sec = timeToChangeState_sec;
 
-            if (specialParameter != null)
-            {
-                _specialCompleteCounter = 0;
-                SpecialBehaiour(specialParameter, isDebug);
-            }
-            else
-            {
-                _defaultCompleteCounter = 0;
-                DefaultBehaviour(isDebug);
-            }
+            _defaultCompleteCounter = 0;
+            ExecuteTransformations(isDebug);
         }
 
-        private void DefaultBehaviour(bool isDebug)
+        private void ExecuteTransformations(bool isDebug)
         {
             if (!isDebug)
             {
@@ -63,39 +53,11 @@ namespace EchoOfTheTimes.LevelStates
             }
         }
 
-        private void SpecialBehaiour(StateParameter stateParameter, bool isDebug)
-        {
-            if (!isDebug)
-            {
-                stateParameter.Target.DOMove(stateParameter.Position, _timeToChangeState_sec)
-                    .OnComplete(() => OnCompleteSpecialTransformation());
-                stateParameter.Target.DORotate(stateParameter.Rotation, _timeToChangeState_sec)
-                    .OnComplete(() => OnCompleteSpecialTransformation());
-                stateParameter.Target.DOScale(stateParameter.LocalScale, _timeToChangeState_sec)
-                    .OnComplete(() => OnCompleteSpecialTransformation());
-            }
-            else
-            {
-                stateParameter.Target.SetPositionAndRotation(stateParameter.Position, Quaternion.Euler(stateParameter.Rotation));
-                stateParameter.Target.localScale = stateParameter.LocalScale;
-            }
-        }
-
         private void OnCompleteDefaultTransformation()
         {
             _defaultCompleteCounter++;
 
             if (_defaultCompleteCounter == _completeChecker)
-            {
-                _onComplete?.Invoke();
-            }
-        }
-
-        private void OnCompleteSpecialTransformation()
-        {
-            _specialCompleteCounter++;
-
-            if (_specialCompleteCounter == _completeChecker)
             {
                 _onComplete?.Invoke();
             }
