@@ -3,22 +3,24 @@ using UnityEngine;
 
 namespace EchoOfTheTimes.Training
 {
-    [RequireComponent(typeof(BoxCollider))]
-    public class StopperInVertex : MonoBehaviour
+    [RequireComponent(typeof(SphereCollider))]
+    public class TrainerDisabler : MonoBehaviour
     {
-        private BoxCollider boxCollider;
+        public MechanicTrainer Trainer;
+
+        private Collider _collider;
 
         private void Awake()
         {
-            boxCollider = GetComponent<BoxCollider>();
-            boxCollider.isTrigger = true;
+            _collider = GetComponent<Collider>();
+            _collider.isTrigger = true;
         }
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent(out Player player))
             {
-                player.Stop(null);
+                Trainer.Disable();
             }
         }
     }
