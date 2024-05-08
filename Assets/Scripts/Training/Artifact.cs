@@ -2,7 +2,7 @@ using DG.Tweening;
 using EchoOfTheTimes.Units;
 using UnityEngine;
 
-namespace EchoOfTheTimes.Core
+namespace EchoOfTheTimes.Training
 {
     [RequireComponent(typeof(SphereCollider))]
     public class Artifact : MonoBehaviour
