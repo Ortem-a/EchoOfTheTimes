@@ -7,6 +7,8 @@ namespace EchoOfTheTimes.Training
     [RequireComponent(typeof(SphereCollider))]
     public class Artifact : MonoBehaviour
     {
+        public MechanicTrainer Trainer;
+
         public Vector3 RotationAngle;
         public float RotationDuration;
         public RotateMode RotateMode;
@@ -35,7 +37,11 @@ namespace EchoOfTheTimes.Training
             if (other.TryGetComponent(out Player player))
             {
                 transform.DOMove(player.transform.position, MoveToPlayerDuration)
-                    .OnComplete(Disable);
+                    .OnComplete(() =>
+                     {
+                         Trainer.Activate();
+                         Disable();
+                     });
             }
         }
 

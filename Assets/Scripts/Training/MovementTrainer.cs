@@ -6,7 +6,8 @@ namespace EchoOfTheTimes.Training
 {
     public class MovementTrainer : MechanicTrainer
     {
-        public Player Player;
+        [SerializeField]
+        private Player _player;
 
         private bool _isHidden;
         private bool _isShown;
@@ -32,7 +33,7 @@ namespace EchoOfTheTimes.Training
 
         private void Update()
         {
-            if (Player.IsBusy)
+            if (_player.IsBusy)
             {
                 if (!_isHidden)
                 {
@@ -77,6 +78,11 @@ namespace EchoOfTheTimes.Training
         {
             _timer.Stop();
             Hide();
+        }
+
+        public override void Activate()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

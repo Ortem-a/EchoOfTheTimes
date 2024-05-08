@@ -35,7 +35,7 @@ namespace EchoOfTheTimes.Training
             Continue();
         }
 
-        public void Stop() 
+        public void Stop()
         {
             _isStop = true;
         }
