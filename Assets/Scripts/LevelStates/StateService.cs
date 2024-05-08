@@ -1,7 +1,6 @@
 using DG.Tweening;
 using EchoOfTheTimes.ScriptableObjects;
 using System.Collections.Generic;
-using UnityEngine;
 using Zenject;
 
 namespace EchoOfTheTimes.LevelStates
@@ -25,29 +24,11 @@ namespace EchoOfTheTimes.LevelStates
             _timeToChangeState_sec = 0f;
         }
 
-        public void SwitchState(List<StateParameter> stateParameters, List<StateParameter> transitionParameters, bool isDebug = false, TweenCallback onComplete = null)
+        public void SwitchState(List<StateParameter> stateParameters, bool isDebug = false, TweenCallback onComplete = null)
         {
-            List<Transform> acceptedTargets = null;
-
             _onCompleteCallback = onComplete;
             _completedCallbackCounter = 0;
             _callbackCounter = 0;
-
-            if (transitionParameters != null && transitionParameters.Count != 0)
-            {
-                acceptedTargets = new List<Transform>();
-
-                _callbackCounter += transitionParameters.Count;
-
-                foreach (var param in transitionParameters)
-                {
-                    acceptedTargets.Add(param.Target);
-
-                    AcceptState(param, isDebug: isDebug, onComplete: IncrementCallbackCounter);
-                    //param.AcceptState(param, isDebug, IncrementCallbackCounter);
-                }
-
-            }
 
             if (stateParameters != null)
             {
@@ -55,19 +36,8 @@ namespace EchoOfTheTimes.LevelStates
 
                 for (int i = 0; i < stateParameters.Count; i++)
                 {
-                    if (transitionParameters != null && transitionParameters.Count != 0)
-                    {
-                        if (!acceptedTargets.Contains(stateParameters[i].Target))
-                            AcceptState(stateParameters[i], isDebug: isDebug,
-                                onComplete: IncrementCallbackCounter);
-                        //levelState.StatesParameters[i].AcceptState(isDebug: isDebug, onComplete: IncrementCallbackCounter);
-                    }
-                    else
-                    {
-                        AcceptState(stateParameters[i], isDebug: isDebug,
-                            onComplete: IncrementCallbackCounter);
-                        //levelState.StatesParameters[i].AcceptState(isDebug: isDebug, onComplete: IncrementCallbackCounter);
-                    }
+                    AcceptState(stateParameters[i], isDebug: isDebug,
+                        onComplete: IncrementCallbackCounter);
                 }
             }
         }
@@ -82,26 +52,12 @@ namespace EchoOfTheTimes.LevelStates
             }
         }
 
-        public void AcceptState(StateParameter parameter,
-            StateParameter specialParameter = null, bool isDebug = false,
-            TweenCallback onComplete = null)
+        public void AcceptState(StateParameter parameter, bool isDebug = false, TweenCallback onComplete = null)
         {
-            if (parameter != null)
-            {
-                parameter.AcceptState(
-                    timeToChangeState_sec: _timeToChangeState_sec,
-                    specialParameter: specialParameter,
-                    isDebug: isDebug,
-                    onComplete: onComplete);
-            }
-            else
-            {
-                specialParameter.AcceptState(
-                    timeToChangeState_sec: _timeToChangeState_sec,
-                    specialParameter: specialParameter,
-                    isDebug: isDebug,
-                    onComplete: onComplete);
-            }
+            parameter.AcceptState(
+                timeToChangeState_sec: _timeToChangeState_sec,
+                isDebug: isDebug,
+                onComplete: onComplete);
         }
     }
 }

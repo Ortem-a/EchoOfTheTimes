@@ -25,7 +25,7 @@ namespace EchoOfTheTimes.Movement
         private const float _maxTapTime = 0.2f; // ћаксимальное врем€ дл€ регистрации тапа
         //private float _lastTapTime = 0f;
         //private const float DoubleTapDelta = 0.5f;
-        private bool _isSuccessfulTap = false;
+        //private bool _isSuccessfulTap = false;
 
         [Inject]
         private void Construct(InputMediator inputHandler)
@@ -44,7 +44,7 @@ namespace EchoOfTheTimes.Movement
                 _touchStartTime = Time.time;
                 //_isSwiping = true;
                 //_swipeActivated = false;
-                _isSuccessfulTap = false;
+                //_isSuccessfulTap = false;
             }
 
             if (Input.GetMouseButtonUp(0))
@@ -62,7 +62,7 @@ namespace EchoOfTheTimes.Movement
                         if (hit.transform.TryGetComponent(out Vertex vertex))
                         {
                             _userInputHandler.OnTouched?.Invoke(vertex);
-                            _isSuccessfulTap = true;
+                            //_isSuccessfulTap = true;
                         }
                     }
                 }
