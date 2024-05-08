@@ -38,11 +38,11 @@ namespace EchoOfTheTimes.LevelStates
             if (!isDebug)
             {
                 Target.DOMove(Position, _timeToChangeState_sec)
-                    .OnComplete(() => OnCompleteDefaultTransformation());
+                    .OnComplete(() => OnCompleteTransformation());
                 Target.DORotate(Rotation, _timeToChangeState_sec)
-                    .OnComplete(() => OnCompleteDefaultTransformation());
+                    .OnComplete(() => OnCompleteTransformation());
                 Target.DOScale(LocalScale, _timeToChangeState_sec)
-                    .OnComplete(() => OnCompleteDefaultTransformation());
+                    .OnComplete(() => OnCompleteTransformation());
             }
             else
             {
@@ -53,7 +53,7 @@ namespace EchoOfTheTimes.LevelStates
             }
         }
 
-        private void OnCompleteDefaultTransformation()
+        private void OnCompleteTransformation()
         {
             _defaultCompleteCounter++;
 

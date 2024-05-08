@@ -1,7 +1,6 @@
 using EchoOfTheTimes.Utils;
 using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
 
 namespace EchoOfTheTimes.LevelStates
 {
@@ -11,16 +10,6 @@ namespace EchoOfTheTimes.LevelStates
         public int CurrentStateId;
 
         public List<StateParameter> States = new List<StateParameter>();
-
-        //private StateService _stateService;
-        //private LevelStateMachine _levelStateMachine;
-
-        //[Inject]
-        //private void Construct(StateService stateService, LevelStateMachine levelStateMachine)
-        //{
-        //    _stateService = stateService;
-        //    _levelStateMachine = levelStateMachine;
-        //}
 
         public void SetOrUpdateParamsToState()
         {
