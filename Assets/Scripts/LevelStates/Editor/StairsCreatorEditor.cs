@@ -15,6 +15,15 @@ namespace EchoOfTheTimes.LevelStates.Editor
 
             EditorGUILayout.Space();
 
+            if (GUILayout.Button("Transform To State"))
+            {
+                creator.TransformToState();
+            }
+
+            EditorGUILayout.Space();
+
+            EditorGUILayout.Space();
+
             if (GUILayout.Button("Create Stairs"))
             {
                 creator.Create();

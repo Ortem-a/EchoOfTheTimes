@@ -27,11 +27,6 @@ namespace EchoOfTheTimes.LevelStates
             _stairsCreator = GetComponent<StairsCreator>();
         }
 
-        private void Awake()
-        {
-            //_stairsCreator = GetComponent<StairsCreator>();
-        }
-
         public override void Move(Action onComplete)
         {
             if (_flatBottom) MoveFlatBottom(onComplete);
@@ -43,42 +38,32 @@ namespace EchoOfTheTimes.LevelStates
 
         private void MoveStartTop(Action onComplete)
         {
-            if (_stairsCreator.StartTopIds != null && _stairsCreator.StartTopIds.Count > 0)
+            foreach (var stateParameter in _stairsCreator.GetStartTopPositions())
             {
-                MoveById(_stairsCreator.StartTopIds[0], onComplete);
+                _stateService.AcceptState(stateParameter, onComplete: () => onComplete?.Invoke());
             }
         }
 
         private void MoveStartBottom(Action onComplete)
         {
-            if (_stairsCreator.StartBottomIds != null && _stairsCreator.StartBottomIds.Count > 0)
+            foreach (var stateParameter in _stairsCreator.GetStartBottomPositions())
             {
-                MoveById(_stairsCreator.StartBottomIds[0], onComplete);
+                _stateService.AcceptState(stateParameter, onComplete: () => onComplete?.Invoke());
             }
         }
 
         private void MoveFlatTop(Action onComplete)
         {
-            if (_stairsCreator.FlatTopIds != null && _stairsCreator.FlatTopIds.Count > 0)
+            foreach (var stateParameter in _stairsCreator.GetFlatTopPositions())
             {
-                MoveById(_stairsCreator.FlatTopIds[0], onComplete);
+                _stateService.AcceptState(stateParameter, onComplete: () => onComplete?.Invoke());
             }
         }
 
         private void MoveFlatBottom(Action onComplete)
         {
-            if (_stairsCreator.FlatBottomIds != null && _stairsCreator.FlatBottomIds.Count > 0)
+            foreach (var stateParameter in _stairsCreator.GetFlatBottomPositions())
             {
-                MoveById(_stairsCreator.FlatBottomIds[0], onComplete);
-            }
-        }
-
-        private void MoveById(int id, Action onComplete)
-        {
-            foreach (var stair in _stairsCreator.Stairs)
-            {
-                var stateParameter = stair.Stateable.States.Find(x => x.StateId == id);
-
                 _stateService.AcceptState(stateParameter, onComplete: () => onComplete?.Invoke());
             }
         }

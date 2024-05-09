@@ -23,13 +23,6 @@ namespace EchoOfTheTimes.LevelStates
 
         public void Initialize()
         {
-            //Stateable = GetComponent<Stateable>();
-
-            //if (Stateable == null)
-            //{
-            //    Stateable = gameObject.AddComponent<Stateable>();
-            //}
-
             Stateable.States = new System.Collections.Generic.List<StateParameter>();
         }
 
@@ -38,6 +31,13 @@ namespace EchoOfTheTimes.LevelStates
             Stateable.CurrentStateId = stateId;
 
             Stateable.SetOrUpdateParamsToState();
+        }
+
+        public void TransformStairsToState(int stateId)
+        {
+            Stateable.CurrentStateId = stateId;
+
+            Stateable.TransformObjectByState();
         }
     }
 }

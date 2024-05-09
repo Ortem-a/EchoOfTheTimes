@@ -10,7 +10,6 @@ namespace EchoOfTheTimes.LevelStates
         [Header("Stair Parameters")]
         [SerializeField]
         private int _stairsNumber;
-        [SerializeField]
         private float _stairHeight;
         [SerializeField]
         private float _vertexElevationUponStair;
@@ -37,6 +36,10 @@ namespace EchoOfTheTimes.LevelStates
         [field: SerializeField]
         public List<int> StartTopIds { get; private set; }
 
+        [Header("DEBUG")]
+        [SerializeField]
+        private int _debugStateId;
+
         public List<Stair> Stairs { get; private set; }
 
         private List<Vector3> _flatBottomPositions;
@@ -46,6 +49,20 @@ namespace EchoOfTheTimes.LevelStates
         private void Awake()
         {
             Stairs = GetOrFindStairs();
+
+            SetRealSize();
+
+            _flatBottomPositions = new List<Vector3>();
+
+            Vector3 position = Stairs[0].transform.localPosition;
+
+            _flatBottomPositions.Add(position);
+
+            for (int i = 1; i < Stairs.Count; i++)
+            {
+                position += Vector3.forward * _realScale.z;
+                _flatBottomPositions.Add(position);
+            }
         }
 
         public void Create()
@@ -75,23 +92,9 @@ namespace EchoOfTheTimes.LevelStates
 
         private void SetRealSize()
         {
-            Vector3[] vertices = Stairs[0].GetComponent<MeshFilter>().sharedMesh.vertices;
-            Vector3 refVert = vertices[0];
+            _realScale = Stairs[0].GetComponent<MeshFilter>().sharedMesh.bounds.size;
 
-            var v = vertices.Where((vert) => vert.y == refVert.y).Distinct().ToList();
-
-            var xs = v.Where((vert) => vert.x == v[0].x).ToList();
-            var zs = v.Where((vert) => vert.z == v[0].z).ToList();
-
-            Vector3 xDir = xs[1] - xs[0];
-            Vector3 zDir = zs[1] - zs[0];
-
-            var ys = vertices.Where((vert) => vert.x == refVert.x && vert.z == refVert.z).Distinct().ToList();
-            Vector3 yDir = ys[1] - ys[0];
-
-            _realScale.x = Mathf.Abs(zDir.x);
-            _realScale.y = Mathf.Abs(yDir.y);
-            _realScale.z = Mathf.Abs(xDir.z);
+            _stairHeight = _realScale.y / 6f;
         }
 
         private void MoveStairsToPlaces()
@@ -127,6 +130,75 @@ namespace EchoOfTheTimes.LevelStates
             if (_startTop) AddStatesForStartTop();
         }
 
+        public List<StateParameter> GetFlatBottomPositions()
+        {
+            return PositionsToStateParameters(_flatBottomPositions);
+        }
+
+        public List<StateParameter> GetFlatTopPositions()
+        {
+            List<Vector3> positions = _flatBottomPositions;
+            Vector3 startPosition = _flatBottomPositions.Count * _stairHeight * Vector3.up;
+
+            for (int i = 0; i < _flatBottomPositions.Count; i++)
+            {
+                positions[i] += startPosition;
+            }
+
+            return PositionsToStateParameters(positions);
+        }
+
+        public List<StateParameter> GetStartBottomPositions()
+        {
+            List<Vector3> positions = _flatBottomPositions;
+            Vector3 startPosition;
+
+            for (int i = 0; i < _flatBottomPositions.Count; i++)
+            {
+                startPosition = (i + 1) * _stairHeight * Vector3.up;
+
+                positions[i] += startPosition;
+            }
+
+            return PositionsToStateParameters(positions);
+        }
+
+        public List<StateParameter> GetStartTopPositions()
+        {
+            List<Vector3> positions = _flatBottomPositions;
+            Vector3 startPosition;
+
+            for (int i = 0; i < _flatBottomPositions.Count; i++)
+            {
+                startPosition = (_flatBottomPositions.Count - i) * _stairHeight * Vector3.up;
+
+                positions[i] += startPosition;
+            }
+
+            return PositionsToStateParameters(positions);
+        }
+
+        private List<StateParameter> PositionsToStateParameters(List<Vector3> positions)
+        {
+            List<StateParameter> parameters = new List<StateParameter>();
+            StateParameter p;
+
+            for (int i = 0; i < Stairs.Count; i++)
+            {
+                p = new StateParameter()
+                {
+                    Target = Stairs[i].transform,
+                    Position = transform.TransformPoint(positions[i]),
+                    Rotation = Stairs[i].transform.rotation.eulerAngles,
+                    LocalScale = Stairs[i].transform.localScale
+                };
+
+                parameters.Add(p);
+            }
+
+            return parameters;
+        }
+
         private void AddStatesForFlatBottom()
         {
             SetOrUpdateState(FlatBottomIds);
@@ -137,7 +209,7 @@ namespace EchoOfTheTimes.LevelStates
         {
             for (int i = 0; i < Stairs.Count; i++)
             {
-                Stairs[i].transform.position += Vector3.up * _stairHeight * (_stairsNumber - 1);
+                Stairs[i].transform.localPosition += (_stairsNumber - 1) * _stairHeight * Vector3.up;
             }
 
             SetOrUpdateState(FlatTopIds);
@@ -148,7 +220,7 @@ namespace EchoOfTheTimes.LevelStates
         {
             for (int i = 0; i < Stairs.Count; i++)
             {
-                Stairs[i].transform.position += Vector3.up * _stairHeight * i;
+                Stairs[i].transform.localPosition += (i + 1) * _stairHeight * Vector3.up;
             }
 
             SetOrUpdateState(StartBottomIds);
@@ -159,7 +231,7 @@ namespace EchoOfTheTimes.LevelStates
         {
             for (int i = 0; i < Stairs.Count; i++)
             {
-                Stairs[i].transform.position += Vector3.up * _stairHeight * (Stairs.Count - i - 1);
+                Stairs[i].transform.localPosition += (Stairs.Count - i) * _stairHeight * Vector3.up;
             }
 
             SetOrUpdateState(StartTopIds);
@@ -188,10 +260,10 @@ namespace EchoOfTheTimes.LevelStates
         private void AddVerteticesToStairs()
         {
             var vertex = Instantiate(_vertexPrefab, Stairs[0].transform);
-            vertex.transform.localPosition = Vector3.up * (_realScale.y / 2f + _vertexElevationUponStair);
+            vertex.transform.localPosition = Vector3.up * _vertexElevationUponStair;
 
             vertex = Instantiate(_vertexPrefab, Stairs[^1].transform);
-            vertex.transform.localPosition = Vector3.up * (_realScale.y / 2f + _vertexElevationUponStair);
+            vertex.transform.localPosition = Vector3.up * _vertexElevationUponStair;
         }
 
         private List<Stair> GetOrFindStairs()
@@ -214,6 +286,14 @@ namespace EchoOfTheTimes.LevelStates
 
                 Stairs.Clear();
                 Stairs = null;
+            }
+        }
+
+        public void TransformToState()
+        {
+            foreach (var stair in Stairs)
+            {
+                stair.TransformStairsToState(_debugStateId);
             }
         }
     }
