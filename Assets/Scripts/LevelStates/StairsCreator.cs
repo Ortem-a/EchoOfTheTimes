@@ -1,3 +1,4 @@
+using EchoOfTheTimes.Core;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,31 +13,40 @@ namespace EchoOfTheTimes.LevelStates
         [SerializeField]
         private float _stairHeight;
         [SerializeField]
+        private float _vertexElevationUponStair;
+        [SerializeField]
         private Stair _stairPrefab;
+        [SerializeField]
+        private Vertex _vertexPrefab;
 
         [Header("Add States For")]
         [SerializeField]
         private bool _flatBottom;
-        [SerializeField]
-        private int _flatBottomId;
+        [field: SerializeField]
+        public List<int> FlatBottomIds { get; private set; }
         [SerializeField]
         private bool _flatTop;
-        [SerializeField]
-        private int _flatTopId;
+        [field: SerializeField]
+        public List<int> FlatTopIds { get; private set; }
         [SerializeField]
         private bool _startBottom;
-        [SerializeField]
-        private int _startBottomId;
+        [field: SerializeField]
+        public List<int> StartBottomIds { get; private set; }
         [SerializeField]
         private bool _startTop;
-        [SerializeField]
-        private int _startTopId;
+        [field: SerializeField]
+        public List<int> StartTopIds { get; private set; }
 
-        private List<Stair> _stairs;
+        public List<Stair> Stairs { get; private set; }
 
         private List<Vector3> _flatBottomPositions;
 
         private Vector3 _realScale;
+
+        private void Awake()
+        {
+            Stairs = GetOrFindStairs();
+        }
 
         public void Create()
         {
@@ -45,17 +55,19 @@ namespace EchoOfTheTimes.LevelStates
             SpawnStairs();
 
             MoveStairsToPlaces();
+
+            AddVerteticesToStairs();
         }
 
         private void SpawnStairs()
         {
-            _stairs = new List<Stair>();
+            Stairs = new List<Stair>();
 
             for (int i = 0; i < _stairsNumber; i++)
             {
                 var stair = Instantiate(_stairPrefab, transform);
 
-                _stairs.Add(stair);
+                Stairs.Add(stair);
             }
 
             SetRealSize();
@@ -63,7 +75,7 @@ namespace EchoOfTheTimes.LevelStates
 
         private void SetRealSize()
         {
-            Vector3[] vertices = _stairs[0].GetComponent<MeshFilter>().sharedMesh.vertices;
+            Vector3[] vertices = Stairs[0].GetComponent<MeshFilter>().sharedMesh.vertices;
             Vector3 refVert = vertices[0];
 
             var v = vertices.Where((vert) => vert.y == refVert.y).Distinct().ToList();
@@ -86,17 +98,17 @@ namespace EchoOfTheTimes.LevelStates
         {
             _flatBottomPositions = new List<Vector3>();
 
-            Vector3 position = _stairs[0].transform.position;
+            Vector3 position = Stairs[0].transform.localPosition;
             position.z += _realScale.z / 2f;
-            _stairs[0].transform.position = position;
+            Stairs[0].transform.localPosition = position;
 
             _flatBottomPositions.Add(position);
 
-            for (int i = 1; i < _stairs.Count; i++)
+            for (int i = 1; i < Stairs.Count; i++)
             {
                 position += Vector3.forward * _realScale.z;
 
-                _stairs[i].transform.position = position;
+                Stairs[i].transform.localPosition = position;
 
                 _flatBottomPositions.Add(position);
             }
@@ -104,9 +116,9 @@ namespace EchoOfTheTimes.LevelStates
 
         public void AddStatesToStairs()
         {
-            for (int i = 0; i < _stairs.Count; i++)
+            for (int i = 0; i < Stairs.Count; i++)
             {
-                _stairs[i].Initialize();
+                Stairs[i].Initialize();
             }
 
             if (_flatBottom) AddStatesForFlatBottom();
@@ -117,79 +129,91 @@ namespace EchoOfTheTimes.LevelStates
 
         private void AddStatesForFlatBottom()
         {
-            SetOrUpdateState(_flatBottomId);
+            SetOrUpdateState(FlatBottomIds);
             ResetPositions();
         }
 
         private void AddStatesForFlatTop()
         {
-            for (int i = 0; i < _stairs.Count; i++)
+            for (int i = 0; i < Stairs.Count; i++)
             {
-                _stairs[i].transform.position += Vector3.up * _stairHeight * (_stairsNumber - 1);
+                Stairs[i].transform.position += Vector3.up * _stairHeight * (_stairsNumber - 1);
             }
 
-            SetOrUpdateState(_flatTopId);
+            SetOrUpdateState(FlatTopIds);
             ResetPositions();
         }
 
         private void AddStatesForStartBottom()
         {
-            for (int i = 0; i < _stairs.Count; i++)
+            for (int i = 0; i < Stairs.Count; i++)
             {
-                _stairs[i].transform.position += Vector3.up * _stairHeight * i;
+                Stairs[i].transform.position += Vector3.up * _stairHeight * i;
             }
 
-            SetOrUpdateState(_startBottomId);
+            SetOrUpdateState(StartBottomIds);
             ResetPositions();
         }
 
         private void AddStatesForStartTop()
         {
-            for (int i = 0; i < _stairs.Count; i++)
+            for (int i = 0; i < Stairs.Count; i++)
             {
-                _stairs[i].transform.position += Vector3.up * _stairHeight * (_stairs.Count - i - 1);
+                Stairs[i].transform.position += Vector3.up * _stairHeight * (Stairs.Count - i - 1);
             }
 
-            SetOrUpdateState(_startTopId);
+            SetOrUpdateState(StartTopIds);
             ResetPositions();
         }
 
-        private void SetOrUpdateState(int id)
+        private void SetOrUpdateState(List<int> ids)
         {
-            for (int i = 0; i < _stairs.Count; i++)
+            foreach (int id in ids)
             {
-                _stairs[i].SetOrUpdateState(id);
+                for (int i = 0; i < Stairs.Count; i++)
+                {
+                    Stairs[i].SetOrUpdateState(id);
+                }
             }
         }
 
         private void ResetPositions()
         {
-            for (int i = 0; i < _stairs.Count; i++)
+            for (int i = 0; i < Stairs.Count; i++)
             {
-                _stairs[i].transform.position = _flatBottomPositions[i];
+                Stairs[i].transform.localPosition = _flatBottomPositions[i];
             }
+        }
+
+        private void AddVerteticesToStairs()
+        {
+            var vertex = Instantiate(_vertexPrefab, Stairs[0].transform);
+            vertex.transform.localPosition = Vector3.up * (_realScale.y / 2f + _vertexElevationUponStair);
+
+            vertex = Instantiate(_vertexPrefab, Stairs[^1].transform);
+            vertex.transform.localPosition = Vector3.up * (_realScale.y / 2f + _vertexElevationUponStair);
         }
 
         private List<Stair> GetOrFindStairs()
         {
-            _stairs ??= GetComponentsInChildren<Stair>().ToList();
+            Stairs ??= GetComponentsInChildren<Stair>().ToList();
 
-            return _stairs;
+            return Stairs;
         }
 
         public void Despawn()
         {
-            _stairs = GetOrFindStairs();
+            Stairs = GetOrFindStairs();
 
-            if (_stairs != null)
+            if (Stairs != null)
             {
-                for (int i = 0; i < _stairs.Count; i++)
+                for (int i = 0; i < Stairs.Count; i++)
                 {
-                    DestroyImmediate(_stairs[i].gameObject);
+                    DestroyImmediate(Stairs[i].gameObject);
                 }
 
-                _stairs.Clear();
-                _stairs = null;
+                Stairs.Clear();
+                Stairs = null;
             }
         }
     }
