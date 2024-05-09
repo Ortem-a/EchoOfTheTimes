@@ -16,32 +16,28 @@ namespace EchoOfTheTimes.Core
 
         private Player _player;
         private GraphVisibility _graph;
-        private CheckpointManager _checkpointManager;
         private LevelStateMachine _levelStateMachine;
         private RefinedOrbitCamera _camera;
-
-        
 
         private void Awake()
         {
             OnTouched += HandleTouch;
-            OnSwiped += HandleSwipe;
-            OnDoubleTouched += HandleDoubleTouch;
+            //OnSwiped += HandleSwipe;
+            //OnDoubleTouched += HandleDoubleTouch;
         }
 
         private void OnDestroy()
         {
             OnTouched -= HandleTouch;
-            OnSwiped -= HandleSwipe;
-            OnDoubleTouched -= HandleDoubleTouch;
+            //OnSwiped -= HandleSwipe;
+            //OnDoubleTouched -= HandleDoubleTouch;
         }
 
         [Inject]
-        private void Construct(GraphVisibility graph, Player player, CheckpointManager checkpointManager, LevelStateMachine stateMachine, RefinedOrbitCamera camera)
+        private void Construct(GraphVisibility graph, Player player, LevelStateMachine stateMachine, RefinedOrbitCamera camera)
         {
             _graph = graph;
             _player = player;
-            _checkpointManager = checkpointManager;
             _levelStateMachine = stateMachine;
             _camera = camera;
         }
@@ -51,15 +47,15 @@ namespace EchoOfTheTimes.Core
             _player.Stop(() => CreatePathAndMove(touchPosition));
         }
 
-        private void HandleDoubleTouch()
-        {
-            _camera.AutoRotateCameraAfterDoubleEmptyClick();
-        }
+        //private void HandleDoubleTouch()
+        //{
+        //    _camera.AutoRotateCameraAfterDoubleEmptyClick();
+        //}
 
-        private void HandleSwipe(float swipeX)
-        {
-            _camera.RotateCamera(swipeX);
-        }
+        //private void HandleSwipe(float swipeX)
+        //{
+        //    _camera.RotateCamera(swipeX);
+        //}
 
         private void CreatePathAndMove(Vertex destination)
         {

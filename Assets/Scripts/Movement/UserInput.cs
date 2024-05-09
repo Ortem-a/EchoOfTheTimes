@@ -6,6 +6,8 @@ namespace EchoOfTheTimes.Movement
 {
     public class UserInput : MonoBehaviour
     {
+        private InputAnimator _animator;
+
         private Camera _camera;
 
         private InputMediator _userInputHandler;
@@ -33,6 +35,8 @@ namespace EchoOfTheTimes.Movement
             _userInputHandler = inputHandler;
 
             _camera = Camera.main;
+
+            _animator = GetComponent<InputAnimator>();
         }
 
         // никаких свайпов и дабл тачей, я тут главный и лучше знаю как камера должна быть, игрок ничто, игра всё
@@ -49,8 +53,12 @@ namespace EchoOfTheTimes.Movement
 
             if (Input.GetMouseButtonUp(0))
             {
+                Vector3 mousePosition = Input.mousePosition;
+
+                _animator.SpawnScreenIndicator(mousePosition);
+
                 float touchDuration = Time.time - _touchStartTime;
-                float touchDistance = Vector2.Distance(_startSwipePosition, Input.mousePosition);
+                float touchDistance = Vector2.Distance(_startSwipePosition, mousePosition);
 
                 if (touchDuration <= _maxTapTime)
                 {
@@ -61,6 +69,8 @@ namespace EchoOfTheTimes.Movement
                     {
                         if (hit.transform.TryGetComponent(out Vertex vertex))
                         {
+                            _animator.SpawnSphere(vertex);
+
                             _userInputHandler.OnTouched?.Invoke(vertex);
                             //_isSuccessfulTap = true;
                         }
