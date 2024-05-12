@@ -81567,12 +81567,7 @@ MonoBehaviour:
     LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   - StateId: 1
     Target: {fileID: 1338211716}
-    Position: {x: -1, y: 2, z: -3}
-    Rotation: {x: -0, y: 0, z: 0}
-    LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  - StateId: 2
-    Target: {fileID: 1338211716}
-    Position: {x: -1, y: 1, z: -1}
+    Position: {x: -1, y: 2, z: -1}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 0.5, y: 0.5, z: 0.5}
 --- !u!114 &1338211722
@@ -90911,6 +90906,11 @@ MonoBehaviour:
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 0.5, y: 0.5, z: 0.5}
     - StateId: 0
+      Target: {fileID: 1909986538}
+      Position: {x: 4, y: 1, z: 1}
+      Rotation: {x: -0, y: 0, z: 0}
+      LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+    - StateId: 0
       Target: {fileID: 1977811046}
       Position: {x: -2, y: 2, z: -4}
       Rotation: {x: -0, y: 0, z: 0}
@@ -90939,7 +90939,7 @@ MonoBehaviour:
       LocalScale: {x: 0.5, y: 0.5, z: 0.5}
     - StateId: 1
       Target: {fileID: 1338211716}
-      Position: {x: -1, y: 2, z: -3}
+      Position: {x: -1, y: 2, z: -1}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 0.5, y: 0.5, z: 0.5}
     - StateId: 1
@@ -90969,11 +90969,6 @@ MonoBehaviour:
       LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   - Id: 2
     StatesParameters:
-    - StateId: 2
-      Target: {fileID: 1338211716}
-      Position: {x: -1, y: 1, z: -1}
-      Rotation: {x: -0, y: 0, z: 0}
-      LocalScale: {x: 0.5, y: 0.5, z: 0.5}
     - StateId: 2
       Target: {fileID: 1909986538}
       Position: {x: 1, y: 2, z: 1}
@@ -116407,7 +116402,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 8e029cb519dec93419610ed4a69facc5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8e029cb519dec93419610ed4a69facc5,
         type: 3}
@@ -116596,7 +116591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 522e92388dd056749a344ac1c69bf5db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentStateId: 2
+  CurrentStateId: 0
   States:
   - StateId: 1
     Target: {fileID: 1909986538}
@@ -116606,6 +116601,11 @@ MonoBehaviour:
   - StateId: 2
     Target: {fileID: 1909986538}
     Position: {x: 1, y: 2, z: 1}
+    Rotation: {x: -0, y: 0, z: 0}
+    LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  - StateId: 0
+    Target: {fileID: 1909986538}
+    Position: {x: 4, y: 1, z: 1}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 0.5, y: 0.5, z: 0.5}
 --- !u!114 &1909986544
