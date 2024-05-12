@@ -22,7 +22,6 @@ namespace EchoOfTheTimes.Utils
             if (_stateable != null && _colorStateSettings != null)
             {
                 DrawStates();
-                DrawSpecialStates();
             }
             else
             {
@@ -72,33 +71,6 @@ namespace EchoOfTheTimes.Utils
                     else
                     {
                         InitComponents();
-                    }
-                }
-            }
-        }
-
-        private void DrawSpecialStates()
-        {
-            if (_stateable.SpecialTransitions != null)
-            {
-                foreach (var specTransition in _stateable.SpecialTransitions)
-                {
-                    foreach (var stateParameter in specTransition.Parameters)
-                    {
-                        Gizmos.color = _colorStateSettings.GetColor(stateParameter.StateId);
-
-                        if (_mesh != null)
-                        {
-                            Gizmos.DrawWireMesh(_mesh, stateParameter.Position, Quaternion.Euler(stateParameter.Rotation), stateParameter.LocalScale);
-                        }
-                        else if (_meshes != null)
-                        {
-                            GizmosHelper.DrawWireMeshesByTRS(_meshes, stateParameter);
-                        }
-                        else
-                        {
-                            InitComponents();
-                        }
                     }
                 }
             }

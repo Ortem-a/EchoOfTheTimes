@@ -30,7 +30,6 @@ namespace EchoOfTheTimes.LevelStates
         public List<Transition> Transitions;
 
         private LevelState _current;
-        public Transition LastTransition { get; private set; } = null;
 
         public delegate void TransitionHandler();
         public TransitionHandler OnTransitionStart;
@@ -81,7 +80,7 @@ namespace EchoOfTheTimes.LevelStates
             if (state != null)
             {
                 _stateService = new StateService();
-                _stateService.SwitchState(state.StatesParameters, null, true);
+                _stateService.SwitchState(state.StatesParameters, true);
             }
             else
             {
@@ -116,24 +115,10 @@ namespace EchoOfTheTimes.LevelStates
         {
             _current = state;
 
-            if (transition == null)
-            {
-                _stateService.SwitchState(
-                    stateParameters: _current.StatesParameters, 
-                    transitionParameters: null, 
-                    isDebug: isDebug,
-                    onComplete: () => OnTransitionComplete?.Invoke());
-            }
-            else
-            {
-                _stateService.SwitchState(
-                    stateParameters: _current.StatesParameters, 
-                    transitionParameters: transition.Parameters, 
-                    isDebug: isDebug,
-                    onComplete: () => OnTransitionComplete?.Invoke());
-
-                LastTransition = transition;
-            }
+            _stateService.SwitchState(
+                stateParameters: _current.StatesParameters,
+                isDebug: isDebug,
+                onComplete: () => OnTransitionComplete?.Invoke());
         }
 
         public void InitializeStates()
@@ -232,87 +217,6 @@ namespace EchoOfTheTimes.LevelStates
                         StateToId = j,
                     });
                 }
-            }
-        }
-
-        public void SetParamsToTransitions(List<SpecialTransition> transitions)
-        {
-            foreach (var transiton in transitions)
-            {
-                SetParamsToTransition(transiton);
-            }
-        }
-
-        public void SetParamsToTransition(SpecialTransition specialTransition)
-        {
-            var transition = Transitions.Find((x) => x.StateFromId == specialTransition.StateFromId && x.StateToId == specialTransition.StateToId);
-
-            if (transition != null)
-            {
-                if (specialTransition.Influenced != null)
-                {
-                    foreach (var stateable in specialTransition.Influenced)
-                    {
-                        var specTrans = stateable.SpecialTransitions.Find((x) =>
-                            x.StateFromId == specialTransition.StateFromId && x.StateToId == specialTransition.StateToId);
-
-                        if (specTrans != null)
-                        {
-                            transition.Parameters.AddRange(specTrans.Parameters);
-                        }
-                        else
-                        {
-                            Debug.LogWarning($"There is no special transition: {specialTransition.StateFromId}  ->  {specialTransition.StateToId}");
-                        }
-                    }
-                }
-            }
-            else
-            {
-                Debug.LogWarning($"There is no transition: {specialTransition.StateFromId}  ->  {specialTransition.StateToId}");
-            }
-        }
-
-        public void RemoveParamsFromTransitions(List<SpecialTransition> transitions)
-        {
-            foreach (var transiton in transitions)
-            {
-                RemoveParamsFromTransition(transiton);
-            }
-        }
-
-        public void RemoveParamsFromTransition(SpecialTransition specialTransition)
-        {
-            var transition = Transitions.Find((x) => x.StateFromId == specialTransition.StateFromId && x.StateToId == specialTransition.StateToId);
-
-            if (transition != null)
-            {
-                int index = Transitions.FindIndex((x) => x.StateFromId == specialTransition.StateFromId && x.StateToId == specialTransition.StateToId);
-
-                if (specialTransition.Influenced != null)
-                {
-                    foreach (var stateable in specialTransition.Influenced)
-                    {
-                        var specTrans = stateable.SpecialTransitions.Find((x) =>
-                            x.StateFromId == specialTransition.StateFromId && x.StateToId == specialTransition.StateToId);
-
-                        if (specTrans != null)
-                        {
-                            foreach (var p in specTrans.Parameters)
-                            {
-                                Transitions[index].Parameters.Remove(p);
-                            }
-                        }
-                        else
-                        {
-                            Debug.LogWarning($"There is no special transition: {specialTransition.StateFromId} -> {specialTransition.StateToId}");
-                        }
-                    }
-                }
-            }
-            else
-            {
-                Debug.LogWarning($"There is no transition: {specialTransition.StateFromId} -> {specialTransition.StateToId}");
             }
         }
 

@@ -26,22 +26,6 @@ namespace EchoOfTheTimes.LevelStates.Editor
             {
                 stateable.TransformObjectByState();
             }
-
-
-
-            EditorGUILayout.Space();
-
-            if (GUILayout.Button("Set Or Update Params To Special State"))
-            {
-                stateable.SetOrUpdateParamsToSpecialState();
-            }
-
-            EditorGUILayout.Space();
-
-            if (GUILayout.Button("Transform Object By Special State"))
-            {
-                stateable.TransformObjectBySpecialState();
-            }
         }
     }
 }
