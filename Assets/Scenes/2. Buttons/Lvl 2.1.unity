@@ -41271,84 +41271,6 @@ MonoBehaviour:
     type: 3}
   IsAccept: 0
   IsResetPoints: 0
---- !u!1001 &1112657416
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 284386581112838373, guid: 8a899fa27232ee144a43e2e3c0e768b8,
-        type: 3}
-      propertyPath: m_Name
-      value: Base Cube Pref (32)
-      objectReference: {fileID: 0}
-    - target: {fileID: 284386581112838373, guid: 8a899fa27232ee144a43e2e3c0e768b8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 628683955988464223, guid: 8a899fa27232ee144a43e2e3c0e768b8,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 628683955988464223, guid: 8a899fa27232ee144a43e2e3c0e768b8,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 628683955988464223, guid: 8a899fa27232ee144a43e2e3c0e768b8,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 628683955988464223, guid: 8a899fa27232ee144a43e2e3c0e768b8,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 628683955988464223, guid: 8a899fa27232ee144a43e2e3c0e768b8,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 628683955988464223, guid: 8a899fa27232ee144a43e2e3c0e768b8,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 628683955988464223, guid: 8a899fa27232ee144a43e2e3c0e768b8,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 628683955988464223, guid: 8a899fa27232ee144a43e2e3c0e768b8,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 628683955988464223, guid: 8a899fa27232ee144a43e2e3c0e768b8,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 628683955988464223, guid: 8a899fa27232ee144a43e2e3c0e768b8,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1797679961628342576, guid: 8a899fa27232ee144a43e2e3c0e768b8,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 5a706c23ba8b1bf4282a264429b51c53, type: 2}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 8a899fa27232ee144a43e2e3c0e768b8, type: 3}
 --- !u!1 &1114255088
 GameObject:
   m_ObjectHideFlags: 0
@@ -57651,7 +57573,7 @@ Transform:
   m_GameObject: {fileID: 1587196739}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2.26, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -68132,18 +68054,13 @@ MonoBehaviour:
   - Id: 0
     StatesParameters:
     - StateId: 0
-      Target: {fileID: 1479930372}
-      Position: {x: -2, y: 2, z: 2}
-      Rotation: {x: -0, y: 0, z: 0}
-      LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-    - StateId: 0
       Target: {fileID: 152868974}
       Position: {x: -2, y: 2, z: 1}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 0.5, y: 0.5, z: 0.5}
     - StateId: 0
-      Target: {fileID: 0}
-      Position: {x: -1, y: 2, z: 2}
+      Target: {fileID: 1479930372}
+      Position: {x: -2, y: 2, z: 2}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 0.5, y: 0.5, z: 0.5}
     - StateId: 0
@@ -68154,18 +68071,13 @@ MonoBehaviour:
   - Id: 1
     StatesParameters:
     - StateId: 1
-      Target: {fileID: 1479930372}
-      Position: {x: -2, y: 3, z: 2}
-      Rotation: {x: -0, y: 0, z: 0}
-      LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-    - StateId: 1
       Target: {fileID: 152868974}
       Position: {x: -2, y: 3, z: 1}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 0.5, y: 0.5, z: 0.5}
     - StateId: 1
-      Target: {fileID: 0}
-      Position: {x: -1, y: 3, z: 2}
+      Target: {fileID: 1479930372}
+      Position: {x: -2, y: 3, z: 2}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 0.5, y: 0.5, z: 0.5}
     - StateId: 1
@@ -76150,7 +76062,6 @@ SceneRoots:
   - {fileID: 1411242124}
   - {fileID: 1681321834}
   - {fileID: 1587196740}
-  - {fileID: 1112657416}
   - {fileID: 306388696}
   - {fileID: 461003095}
   - {fileID: 1789875903}
