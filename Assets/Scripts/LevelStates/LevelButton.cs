@@ -55,7 +55,7 @@ namespace EchoOfTheTimes.LevelStates
         {
             _counter++;
 
-            if (_counter == _maxMovables - 1)
+            if (_counter == _maxMovables)
             {
                 _graph.Load();
 
