@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17276844, g: 0.21589246, b: 0.2978263, a: 1}
+  m_IndirectSpecularColor: {r: 0.1727681, g: 0.21589208, b: 0.29782575, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -18877,10 +18877,6 @@ MonoBehaviour:
     Position: {x: -1.6202503, y: 3.301943, z: 1.6552606}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &316758818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40297,10 +40293,6 @@ MonoBehaviour:
     Position: {x: -8.562101, y: -1.7277366, z: -3.6781247}
     Rotation: {x: 0, y: 270, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &704935445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41406,10 +41398,6 @@ MonoBehaviour:
     Position: {x: -1.6202503, y: 1.8191159, z: -0.20719868}
     Rotation: {x: -0, y: 270, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &723740685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41719,10 +41707,6 @@ MonoBehaviour:
     Position: {x: -1.6202512, y: 2.6868467, z: 0.6605327}
     Rotation: {x: -0, y: 270, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &727471053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61727,6 +61711,7 @@ GameObject:
   - component: {fileID: 1088950748}
   - component: {fileID: 1088950750}
   - component: {fileID: 1088950749}
+  - component: {fileID: 1088950751}
   m_Layer: 0
   m_Name: UserInputs
   m_TagString: Untagged
@@ -61773,6 +61758,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c47fdeae61fffc74ab92915d9edbd35f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1088950751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1088950747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6de68bdfc49a31845913e10d88f662c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpherePrefab: {fileID: 8027102485057238231, guid: e12665c31d6607f43a7eb542e82bc8d6,
+    type: 3}
+  _defaultSphere: {r: 0, g: 0, b: 0, a: 1}
+  _splashSphere: {r: 1, g: 1, b: 1, a: 1}
+  _defaultRadius: 0.3
+  _maxRadius: 0.6
+  _3dIndicatorDuration_sec: 0.1
+  _3dIndicatorColorDuration_sec: 0.05
 --- !u!1 &1089301912
 GameObject:
   m_ObjectHideFlags: 0
@@ -63276,10 +63281,6 @@ MonoBehaviour:
     Position: {x: -8.562101, y: 0.007726252, z: -3.6781247}
     Rotation: {x: 0, y: 270, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &1115651080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63479,10 +63480,6 @@ MonoBehaviour:
     Position: {x: -8.562101, y: -0.8600052, z: -3.6781247}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &1117430869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102385,22 +102382,16 @@ MonoBehaviour:
   Transitions:
   - StateFromId: 0
     StateToId: 1
-    Parameters: []
   - StateFromId: 0
     StateToId: 2
-    Parameters: []
   - StateFromId: 1
     StateToId: 0
-    Parameters: []
   - StateFromId: 1
     StateToId: 2
-    Parameters: []
   - StateFromId: 2
     StateToId: 0
-    Parameters: []
   - StateFromId: 2
     StateToId: 1
-    Parameters: []
 --- !u!1 &1786147847
 GameObject:
   m_ObjectHideFlags: 0
@@ -110575,10 +110566,6 @@ MonoBehaviour:
     Position: {x: -1.6202502, y: 0.9513844, z: -1.0749302}
     Rotation: {x: -0, y: 270, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &1904568498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117117,10 +117104,6 @@ MonoBehaviour:
     Position: {x: -1.6202514, y: -0.16898334, z: -2.0696583}
     Rotation: {x: -0, y: 180, z: -0}
     LocalScale: {x: 1, y: 1, z: 1}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &2009552150
 MonoBehaviour:
   m_ObjectHideFlags: 0

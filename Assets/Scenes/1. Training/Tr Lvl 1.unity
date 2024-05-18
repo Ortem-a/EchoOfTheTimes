@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.26798403, g: 0.13584504, b: 0.2637991, a: 1}
+  m_IndirectSpecularColor: {r: 0.26798323, g: 0.13584486, b: 0.2637991, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4085,6 +4085,7 @@ GameObject:
   - component: {fileID: 766003278}
   - component: {fileID: 766003279}
   - component: {fileID: 766003277}
+  - component: {fileID: 766003280}
   m_Layer: 0
   m_Name: UserInputs
   m_TagString: Untagged
@@ -4131,6 +4132,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c47fdeae61fffc74ab92915d9edbd35f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &766003280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766003276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6de68bdfc49a31845913e10d88f662c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpherePrefab: {fileID: 8027102485057238231, guid: e12665c31d6607f43a7eb542e82bc8d6,
+    type: 3}
+  _defaultSphere: {r: 0, g: 0, b: 0, a: 1}
+  _splashSphere: {r: 1, g: 1, b: 1, a: 1}
+  _defaultRadius: 0.3
+  _maxRadius: 0.6
+  _3dIndicatorDuration_sec: 0.1
+  _3dIndicatorColorDuration_sec: 0.05
 --- !u!4 &801917759 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7845044044683604461, guid: 320e0190a7e2df04dbec8ca1ab3aec61,

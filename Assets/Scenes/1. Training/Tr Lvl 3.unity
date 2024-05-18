@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17276844, g: 0.21589246, b: 0.2978263, a: 1}
+  m_IndirectSpecularColor: {r: 0.1727681, g: 0.21589208, b: 0.29782575, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -555,10 +555,6 @@ MonoBehaviour:
     Position: {x: -5.0754623, y: -0.178, z: -1.5568054}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &55916669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1769,10 +1765,6 @@ MonoBehaviour:
     Position: {x: -5.0754623, y: -0.178, z: -0.689074}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &212191460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3415,10 +3407,6 @@ MonoBehaviour:
     Position: {x: -5.0754623, y: -0.178, z: 1.0463887}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &356628077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3672,10 +3660,6 @@ MonoBehaviour:
     Position: {x: 0.9986575, y: -0.178, z: 0.17865735}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &373299611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4742,10 +4726,6 @@ MonoBehaviour:
     Position: {x: 0.13092607, y: -0.178, z: -5.027731}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &469003069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5021,10 +5001,6 @@ MonoBehaviour:
     Position: {x: 0.9986575, y: -0.178, z: 1.0463887}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &481901289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6086,10 +6062,6 @@ MonoBehaviour:
     Position: {x: -5.0754623, y: -0.178, z: -3.2922683}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &617115408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7152,6 +7124,7 @@ GameObject:
   - component: {fileID: 673540763}
   - component: {fileID: 673540765}
   - component: {fileID: 673540764}
+  - component: {fileID: 673540766}
   m_Layer: 0
   m_Name: UserInputs
   m_TagString: Untagged
@@ -7198,6 +7171,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c47fdeae61fffc74ab92915d9edbd35f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &673540766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673540762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6de68bdfc49a31845913e10d88f662c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpherePrefab: {fileID: 8027102485057238231, guid: e12665c31d6607f43a7eb542e82bc8d6,
+    type: 3}
+  _defaultSphere: {r: 0, g: 0, b: 0, a: 1}
+  _splashSphere: {r: 1, g: 1, b: 1, a: 1}
+  _defaultRadius: 0.3
+  _maxRadius: 0.6
+  _3dIndicatorDuration_sec: 0.1
+  _3dIndicatorColorDuration_sec: 0.05
 --- !u!1 &680554237
 GameObject:
   m_ObjectHideFlags: 0
@@ -8415,10 +8408,6 @@ MonoBehaviour:
     Position: {x: -0.7368053, y: -0.178, z: 1.0463887}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &751833557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8830,10 +8819,6 @@ MonoBehaviour:
     Position: {x: -5.0754623, y: -0.178, z: -2.4245367}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &784994548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9078,10 +9063,6 @@ MonoBehaviour:
     Position: {x: 0.9986575, y: -0.178, z: -2.4245367}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &800592899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9503,10 +9484,6 @@ MonoBehaviour:
     Position: {x: -0.73680544, y: -0.178, z: -5.027731}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &858216614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10493,10 +10470,6 @@ MonoBehaviour:
     Position: {x: 0.9986575, y: -0.178, z: -0.68907404}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &984796187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11938,10 +11911,6 @@ MonoBehaviour:
     Position: {x: -5.0754623, y: -0.178, z: -4.16}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &1109037601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12180,10 +12149,6 @@ MonoBehaviour:
     Position: {x: -1.6045368, y: -0.178, z: -5.027731}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &1121518449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14541,10 +14506,6 @@ MonoBehaviour:
     Position: {x: -2.4722683, y: -0.178, z: -5.027731}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &1404634089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15194,10 +15155,6 @@ MonoBehaviour:
     Position: {x: -4.2077312, y: -0.178, z: -5.027731}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &1428137732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17016,10 +16973,6 @@ MonoBehaviour:
     Position: {x: 0.13092607, y: -0.178, z: 1.0463887}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &1591984727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18288,10 +18241,6 @@ MonoBehaviour:
     Position: {x: -2.472268, y: -0.178, z: 1.0463887}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &1694819205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18821,10 +18770,6 @@ MonoBehaviour:
     Position: {x: -5.0754623, y: -0.178, z: -5.027731}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &1754203597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19587,10 +19532,8 @@ MonoBehaviour:
   Transitions:
   - StateFromId: 0
     StateToId: 1
-    Parameters: []
   - StateFromId: 1
     StateToId: 0
-    Parameters: []
 --- !u!1 &1796437160
 GameObject:
   m_ObjectHideFlags: 0
@@ -19807,10 +19750,6 @@ MonoBehaviour:
     Position: {x: -5.0754623, y: -0.178, z: 0.17865741}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &1811048059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21093,10 +21032,6 @@ MonoBehaviour:
     Position: {x: 0.9986575, y: -0.178, z: -5.027731}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &1958525374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22052,10 +21987,6 @@ MonoBehaviour:
     Position: {x: 0.9986575, y: -0.178, z: -1.5568054}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &2047041612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22286,10 +22217,6 @@ MonoBehaviour:
     Position: {x: -3.34, y: -0.178, z: -5.027731}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &2081585460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22696,10 +22623,6 @@ MonoBehaviour:
     Position: {x: -1.6045367, y: -0.178, z: 1.0463887}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-  CurrentSpecialStateFromId: 0
-  CurrentSpecialStateToId: 0
-  CurrentSpecialStateId: 0
-  SpecialTransitions: []
 --- !u!114 &2104419258
 MonoBehaviour:
   m_ObjectHideFlags: 0
