@@ -48,7 +48,7 @@ namespace EchoOfTheTimes.LevelStates
                 {
                     Movables[i].Move(onComplete: ExecutePostActions);
                 }
-            });   
+            });
         }
 
         private void ExecutePostActions()
