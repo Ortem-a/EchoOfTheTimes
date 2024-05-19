@@ -10,6 +10,12 @@ namespace EchoOfTheTimes.UI
 {
     public class UiSceneController : MonoBehaviour
     {
+        public bool flgIsStartAnimationEnded = false;
+
+        [Header("HUD")]
+        public Canvas HUDCanvas;
+        private CanvasGroup hudCanvasGroup;
+
         public Button ToMainMenuButton;
         public Transform BottomPanel;
         public GameObject ButtonPrefab;
@@ -18,6 +24,9 @@ namespace EchoOfTheTimes.UI
         public Canvas FinishCanvas;
         public Transform FinishPanel;
         public Button FinishButton;
+
+        [Header("Start Level UI")]
+        public Canvas StartLevelCanvas;
 
         private SceneLoader _loader;
         private LevelStateMachine _stateMachine;
@@ -44,6 +53,13 @@ namespace EchoOfTheTimes.UI
             FinishButton.onClick.AddListener(ExitToMainMenu);
 
             FinishCanvas.gameObject.SetActive(false);
+            StartLevelCanvas.gameObject.SetActive(false);
+
+            hudCanvasGroup = HUDCanvas.GetComponent<CanvasGroup>();
+            if (hudCanvasGroup == null)
+            {
+                hudCanvasGroup = HUDCanvas.gameObject.AddComponent<CanvasGroup>();
+            }
         }
 
         private async void ExitToMainMenu()
@@ -79,9 +95,39 @@ namespace EchoOfTheTimes.UI
             }
         }
 
-        public void SetActiveBottomPanelImmediate(bool isActive) 
+        public void SetActiveBottomPanelImmediate(bool isActive)
         {
             BottomPanel.gameObject.SetActive(isActive);
+        }
+
+        // Метод для показа StartLevelCanvas и запуска анимации
+        public void ShowStartLevelCanvas()
+        {
+            StartLevelCanvas.gameObject.SetActive(true);
+            Animator startLevelAnimator = StartLevelCanvas.GetComponent<Animator>();
+            startLevelAnimator.Play("StartLevelAnimation"); // Предполагается, что "StartLevelAnimation" - это имя вашей анимации
+
+            // Задержка для скрытия StartLevelCanvas и показа HUD после завершения анимации
+            float animationDuration = startLevelAnimator.GetCurrentAnimatorStateInfo(0).length;
+            DOVirtual.DelayedCall(animationDuration, () =>
+            {
+                StartLevelCanvas.gameObject.SetActive(false);
+                HUDCanvas.gameObject.SetActive(true);
+                flgIsStartAnimationEnded = true;
+                FadeInHUD(); // Добавлено
+            });
+        }
+
+        private void FadeInHUD()
+        {
+            hudCanvasGroup.alpha = 0f;
+            DOTween.To(() => hudCanvasGroup.alpha, x => hudCanvasGroup.alpha = x, 1f, 1f); // Кастомная анимация
+        }
+
+        private void Start()
+        {
+            HUDCanvas.gameObject.SetActive(false);
+            ShowStartLevelCanvas();
         }
     }
 }

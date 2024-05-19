@@ -1,4 +1,5 @@
 using DG.Tweening;
+using EchoOfTheTimes.UI;
 using EchoOfTheTimes.Units;
 using UnityEngine;
 
@@ -6,6 +7,10 @@ namespace EchoOfTheTimes.Training
 {
     public class MovementTrainer : MechanicTrainer
     {
+        private bool isInit = false;
+
+        public UiSceneController uiSceneController;
+
         [SerializeField]
         private Player _player;
 
@@ -26,13 +31,26 @@ namespace EchoOfTheTimes.Training
         {
             _hintPrefab.SetActive(false);
 
-            Show();
+            // Show();
 
-            _timer = new DumbTimer(_afkDuration_sec, Show);
+            // _timer = new DumbTimer(_afkDuration_sec, Show);
         }
 
         private void Update()
         {
+            if (uiSceneController.flgIsStartAnimationEnded)
+            { 
+                if (!isInit)
+                {
+                    Show();
+                    
+                    _timer = new DumbTimer(_afkDuration_sec, Show);
+
+                    isInit = true;
+                }
+            }
+
+
             if (_player.IsBusy)
             {
                 if (!_isHidden)
