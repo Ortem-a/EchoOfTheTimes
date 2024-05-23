@@ -65,10 +65,12 @@ namespace EchoOfTheTimes.Core
             {
                 path.Reverse();
 
-                var waypoints = new Vector3[path.Count];
+                //var waypoints = new Vector3[path.Count];
+                var waypoints = new Transform[path.Count];
                 for (int i = 0; i < path.Count; i++)
                 {
-                    waypoints[i] = path[i].transform.position;
+                    //waypoints[i] = path[i].transform.position;
+                    waypoints[i] = path[i].transform;
                 }
 
                 _player.MoveTo(waypoints);

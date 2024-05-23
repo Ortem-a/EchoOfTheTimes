@@ -64,7 +64,8 @@ namespace EchoOfTheTimes.Units
                 });
         }
 
-        public void MoveTo(Vector3[] waypoints)
+        //public void MoveTo(Vector3[] waypoints)
+        public void MoveTo(Transform[] waypoints)
         {
             _movable.Move(waypoints, OnStartMove, OnCompleteMove);
         }

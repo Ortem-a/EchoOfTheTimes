@@ -1,7 +1,6 @@
 using DG.Tweening;
 using System;
 using UnityEngine;
-using UnityEngine.Animations;
 
 namespace EchoOfTheTimes.Movement
 {
@@ -13,8 +12,10 @@ namespace EchoOfTheTimes.Movement
         private AxisConstraint _rotateConstraint;
 
         private int _waypointIndex;
-        private Vector3 _destination;
-        private Vector3[] _path;
+        //private Vector3 _destination;
+        //private Vector3[] _path;
+        private Transform _destination;
+        private Transform[] _path;
 
         private bool _isMoving = false;
         private bool _isNeedToStop = false;
@@ -25,9 +26,9 @@ namespace EchoOfTheTimes.Movement
 
         private void Update()
         {
-            if (_isMoving) 
+            if (_isMoving)
             {
-                if (Vector3.Distance(transform.position, _destination) < _distanceTreshold)
+                if (Vector3.Distance(transform.position, _destination.position) < _distanceTreshold)
                 {
                     _onCompleteMoving?.Invoke();
 
@@ -45,7 +46,7 @@ namespace EchoOfTheTimes.Movement
                         }
                         else
                         {
-                            transform.DOLookAt(_destination, _rotateDuration, _rotateConstraint);
+                            //transform.DOLookAt(_destination.position, _rotateDuration, _rotateConstraint);
 
                             _onStartMoving?.Invoke();
                         }
@@ -53,7 +54,7 @@ namespace EchoOfTheTimes.Movement
                 }
                 else
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, _destination, _speed * Time.deltaTime);
+                    transform.position = Vector3.MoveTowards(transform.position, _destination.position, _speed * Time.deltaTime);
                 }
             }
         }
@@ -66,7 +67,8 @@ namespace EchoOfTheTimes.Movement
             _rotateConstraint = rotateConstraint;
         }
 
-        public void Move(Vector3[] path, Action onStart, Action onComplete)
+        //public void Move(Vector3[] path, Action onStart, Action onComplete)
+        public void Move(Transform[] path, Action onStart, Action onComplete)
         {
             _waypointIndex = 0;
             _path = path;
@@ -76,7 +78,7 @@ namespace EchoOfTheTimes.Movement
             _onStartMoving = onStart;
             _onCompleteMoving = onComplete;
 
-            transform.DOLookAt(_destination, _rotateDuration, _rotateConstraint);
+            transform.DOLookAt(_destination.position, _rotateDuration, _rotateConstraint);
 
             _onStartMoving?.Invoke();
         }
@@ -98,9 +100,10 @@ namespace EchoOfTheTimes.Movement
             _isMoving = false;
         }
 
-        private bool TryGetNextWaypoint(out Vector3 destination)
+        //private bool TryGetNextWaypoint(out Vector3 destination)
+        private bool TryGetNextWaypoint(out Transform destination)
         {
-            destination = Vector3.zero;
+            destination = null;
             _waypointIndex++;
 
             if (_waypointIndex < _path.Length)
