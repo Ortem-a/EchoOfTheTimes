@@ -1,6 +1,5 @@
 using EchoOfTheTimes.Utils;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 
 namespace EchoOfTheTimes.LevelStates
@@ -104,7 +103,7 @@ namespace EchoOfTheTimes.LevelStates
             }
             else
             {
-                Debug.LogError($"Incorrect Rule Index! May be [0, {_parameters.Count-1}]");
+                Debug.LogError($"Incorrect Rule Index! May be [0, {_parameters.Count - 1}]");
             }
         }
 
