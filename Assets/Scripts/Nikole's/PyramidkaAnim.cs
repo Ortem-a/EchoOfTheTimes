@@ -6,17 +6,10 @@ using UnityEngine.VFX;
 public class PyramidkaAnim : MonoBehaviour
 {
     public Animator anim;
-    public VisualEffect pyramidka;
+    public GameObject pyramidka;
+    public GameObject shadow;
 
     private bool done = false;
-
-    void Update()
-    {
-        if(anim != null)
-        {
-
-        }
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -24,8 +17,24 @@ public class PyramidkaAnim : MonoBehaviour
         {
             Debug.Log("VFX should work!");
             anim.SetTrigger("PickUp");
-            pyramidka.Play();
+            pyramidka.SetActive(true);
+			shadow.SetActive(false);
             done = true;
         }
     }
+
+    public void ShakeCamera1()
+    {
+		CameraShaking.Shake(0.3f, 0.1f);
+	}
+
+	public void ShakeCamera2()
+	{
+		CameraShaking.Shake(0.5f, 0.25f);
+	}
+
+	public void ShakeCamera3()
+	{
+		CameraShaking.Shake(0.7f, 0.1f);
+	}
 }
