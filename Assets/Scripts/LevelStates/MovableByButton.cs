@@ -28,8 +28,8 @@ namespace EchoOfTheTimes.LevelStates
             {
                 StateId = 0,
                 Target = transform,
-                Position = transform.position,
-                Rotation = transform.rotation.eulerAngles,
+                Position = transform.localPosition,
+                Rotation = transform.localRotation.eulerAngles,
                 LocalScale = transform.localScale,
             };
 
@@ -38,7 +38,7 @@ namespace EchoOfTheTimes.LevelStates
 
         public void TransformObjectByParams()
         {
-            transform.SetPositionAndRotation(_parameter.Position, Quaternion.Euler(_parameter.Rotation));
+            transform.SetLocalPositionAndRotation(_parameter.Position, Quaternion.Euler(_parameter.Rotation));
             transform.localScale = _parameter.LocalScale;
         }
     }

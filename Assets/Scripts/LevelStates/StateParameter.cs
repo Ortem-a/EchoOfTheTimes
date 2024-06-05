@@ -37,16 +37,16 @@ namespace EchoOfTheTimes.LevelStates
         {
             if (!isDebug)
             {
-                Target.DOMove(Position, _timeToChangeState_sec)
+                Target.DOLocalMove(Position, _timeToChangeState_sec)
                     .OnComplete(() => OnCompleteTransformation());
-                Target.DORotate(Rotation, _timeToChangeState_sec)
+                Target.DOLocalRotate(Rotation, _timeToChangeState_sec)
                     .OnComplete(() => OnCompleteTransformation());
                 Target.DOScale(LocalScale, _timeToChangeState_sec)
                     .OnComplete(() => OnCompleteTransformation());
             }
             else
             {
-                Target.SetPositionAndRotation(Position, Quaternion.Euler(Rotation));
+                Target.SetLocalPositionAndRotation(Position, Quaternion.Euler(Rotation));
                 Target.localScale = LocalScale;
 
                 _onComplete?.Invoke();

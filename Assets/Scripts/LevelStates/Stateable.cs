@@ -19,8 +19,8 @@ namespace EchoOfTheTimes.LevelStates
             {
                 StateId = CurrentStateId,
                 Target = transform,
-                Position = transform.position,
-                Rotation = transform.rotation.eulerAngles,
+                Position = transform.localPosition,
+                Rotation = transform.localRotation.eulerAngles,
                 LocalScale = transform.localScale,
             };
 
@@ -41,7 +41,7 @@ namespace EchoOfTheTimes.LevelStates
 
             if (stateParam != null)
             {
-                transform.SetPositionAndRotation(stateParam.Position, Quaternion.Euler(stateParam.Rotation));
+                transform.SetLocalPositionAndRotation(stateParam.Position, Quaternion.Euler(stateParam.Rotation));
                 transform.localScale = stateParam.LocalScale;
             }
             else

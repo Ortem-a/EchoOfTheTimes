@@ -85,8 +85,8 @@ namespace EchoOfTheTimes.LevelStates
                 {
                     StateId = -1,
                     Target = transform,
-                    Position = transform.position,
-                    Rotation = transform.rotation.eulerAngles,
+                    Position = transform.localPosition,
+                    Rotation = transform.localRotation.eulerAngles,
                     LocalScale = transform.localScale
                 });
             }
@@ -96,8 +96,8 @@ namespace EchoOfTheTimes.LevelStates
                 {
                     StateId = -1,
                     Target = transform,
-                    Position = transform.position,
-                    Rotation = transform.rotation.eulerAngles,
+                    Position = transform.localPosition,
+                    Rotation = transform.localRotation.eulerAngles,
                     LocalScale = transform.localScale
                 };
             }
@@ -111,7 +111,7 @@ namespace EchoOfTheTimes.LevelStates
         {
             if (_ruleIndex >= 0 && _ruleIndex < _parameters.Count)
             {
-                transform.SetPositionAndRotation(
+                transform.SetLocalPositionAndRotation(
                     _parameters[_ruleIndex].Position,
                     Quaternion.Euler(_parameters[_ruleIndex].Rotation));
                 transform.localScale = _parameters[_ruleIndex].LocalScale;
