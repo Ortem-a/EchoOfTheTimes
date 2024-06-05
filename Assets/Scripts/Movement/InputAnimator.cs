@@ -37,13 +37,14 @@ namespace EchoOfTheTimes.Movement
 
         public void SpawnSphere(Vertex vertex)
         {
-            _spawnedSphere.transform.SetParent(vertex.transform);
+            //_spawnedSphere.transform.SetParent(vertex.transform);
             _spawnedSphere.SetActive(false);
             _spawnedSphere.transform.localScale = Vector3.one * _defaultRadius;
 
             Vector3 pos = vertex.GetComponent<BoxCollider>().center / 2f;
 
-            _spawnedSphere.transform.localPosition = pos;
+            _spawnedSphere.transform.localPosition = vertex.transform.position + pos;
+            //_spawnedSphere.transform.localPosition = pos;
             _spawnedSphere.SetActive(true);
 
             _spawnedSphere.transform.DOScale(_maxRadius, _3dIndicatorDuration_sec)
