@@ -1,10 +1,11 @@
+using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Utils;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace EchoOfTheTimes.LevelStates
 {
-    [RequireComponent(typeof(MonoBehaviourTimer))]
+    [RequireComponent(typeof(MonoBehaviourTimer), typeof(SubGraphVisibility))]
     public class MovableByRule : MonoBehaviour
     {
 #if UNITY_EDITOR
@@ -26,10 +27,12 @@ namespace EchoOfTheTimes.LevelStates
         private bool _isStopped = false;
 
         private MonoBehaviourTimer _timer;
+        private SubGraphVisibility _subGraph;
 
         private void Awake()
         {
             _timer = GetComponent<MonoBehaviourTimer>();
+            _subGraph = GetComponent<SubGraphVisibility>();
 
             Run();
         }
@@ -46,6 +49,8 @@ namespace EchoOfTheTimes.LevelStates
                     _parameterIndex = 0;
                 }
 
+                _subGraph.BreakAllBridges();
+
                 Move(_parameterIndex);
             }
         }
@@ -55,6 +60,8 @@ namespace EchoOfTheTimes.LevelStates
             _parameters[parameterIndex].AcceptState(
                 onComplete: () =>
                 {
+                    _subGraph.MakeAllBridges();
+
                     _timer.Run(_holdDelay_sec, () => _isComplete = true);
                 },
                 timeToChangeState_sec: _timeToChangeState_sec);
