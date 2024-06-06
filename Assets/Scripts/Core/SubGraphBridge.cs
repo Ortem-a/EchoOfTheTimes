@@ -14,7 +14,7 @@ namespace EchoOfTheTimes.Core
             AddToNeighbours(Side2, Side1, maxDistanceToNeighbour);
         }
 
-        public void Disconnect(float maxDistanceToNeighbour)
+        public void Disconnect()
         {
             RemoveFromNeighbours(Side1, Side2);
             RemoveFromNeighbours(Side2, Side1);

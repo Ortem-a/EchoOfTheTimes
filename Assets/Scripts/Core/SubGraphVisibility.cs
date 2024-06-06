@@ -10,7 +10,7 @@ namespace EchoOfTheTimes.Core
 
         public void MakeAllBridges()
         {
-            for (int i = 0; i < _bridges.Count; i++) 
+            for (int i = 0; i < _bridges.Count; i++)
             {
                 MakeBridge(_bridges[i]);
             }
@@ -26,6 +26,6 @@ namespace EchoOfTheTimes.Core
 
         private void MakeBridge(SubGraphBridge bridge) => bridge.Connect(MaxDistanceToNeighbourVertex);
 
-        private void BreakBridge(SubGraphBridge bridge) => bridge.Disconnect(MaxDistanceToNeighbourVertex);
+        private void BreakBridge(SubGraphBridge bridge) => bridge.Disconnect();
     }
 }
