@@ -6,6 +6,8 @@ namespace EchoOfTheTimes.LevelStates
 {
     public class MovableByButton : MonoBehaviour
     {
+        public bool IsLocalSpace;
+
         [SerializeField]
         private StateParameter _parameter;
 
@@ -22,15 +24,25 @@ namespace EchoOfTheTimes.LevelStates
             _stateService.AcceptState(_parameter, onComplete: () => onComplete?.Invoke());
         }
 
+#if UNITY_EDITOR
         public void SetOrUpdateParams()
         {
+            Vector3 newPosition = transform.position;
+            Vector3 newRotation = transform.rotation.eulerAngles;
+            if (IsLocalSpace)
+            {
+                newPosition = transform.localPosition;
+                newRotation = transform.localRotation.eulerAngles;
+            }
+
             var newStateParam = new StateParameter
             {
                 StateId = 0,
                 Target = transform,
-                Position = transform.localPosition,
-                Rotation = transform.localRotation.eulerAngles,
+                Position = newPosition,
+                Rotation = newRotation,
                 LocalScale = transform.localScale,
+                IsLocalSpace = IsLocalSpace
             };
 
             _parameter = newStateParam;
@@ -38,8 +50,16 @@ namespace EchoOfTheTimes.LevelStates
 
         public void TransformObjectByParams()
         {
-            transform.SetLocalPositionAndRotation(_parameter.Position, Quaternion.Euler(_parameter.Rotation));
+            if (IsLocalSpace)
+            {
+                transform.SetLocalPositionAndRotation(_parameter.Position, Quaternion.Euler(_parameter.Rotation));
+            }
+            else
+            {
+                transform.SetPositionAndRotation(_parameter.Position, Quaternion.Euler(_parameter.Rotation));
+            }
             transform.localScale = _parameter.LocalScale;
         }
+#endif
     }
 }

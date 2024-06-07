@@ -179,21 +179,31 @@ MonoBehaviour:
       Position: {x: -9.33, y: 6.28, z: 0}
       Rotation: {x: -0, y: 90, z: -0}
       LocalScale: {x: 1, y: 1, z: 1}
+      IsLocalSpace: 0
     - StateId: 0
       Target: {fileID: 551775931}
       Position: {x: 0, y: 0, z: 0.6}
-      Rotation: {x: -0, y: 0, z: -0}
+      Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 1, y: 1, z: 1}
+      IsLocalSpace: 0
     - StateId: 0
       Target: {fileID: 807530016}
       Position: {x: 0, y: 0, z: 3.6}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 1, y: 1, z: 1}
+      IsLocalSpace: 0
     - StateId: 0
       Target: {fileID: 1621985374}
       Position: {x: 0, y: 5, z: 7.2}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 1, y: 1, z: 1}
+      IsLocalSpace: 0
+    - StateId: 0
+      Target: {fileID: 2059834474}
+      Position: {x: 0, y: 0, z: -0.6}
+      Rotation: {x: -0, y: 0, z: 0}
+      LocalScale: {x: 1, y: 1, z: 1}
+      IsLocalSpace: 1
   - Id: 1
     StatesParameters:
     - StateId: 1
@@ -201,21 +211,31 @@ MonoBehaviour:
       Position: {x: -9.33, y: 6.28, z: -6.92}
       Rotation: {x: -0, y: 90, z: 90}
       LocalScale: {x: 1, y: 1, z: 1}
+      IsLocalSpace: 0
     - StateId: 1
       Target: {fileID: 551775931}
       Position: {x: 0, y: 2, z: 0.6}
       Rotation: {x: -0, y: 0, z: -0}
       LocalScale: {x: 1, y: 1, z: 1}
+      IsLocalSpace: 0
     - StateId: 1
       Target: {fileID: 807530016}
       Position: {x: 0, y: 5, z: 3.6}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 1, y: 1, z: 1}
+      IsLocalSpace: 0
     - StateId: 1
       Target: {fileID: 1621985374}
       Position: {x: 0, y: 0, z: 7.2}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 1, y: 1, z: 1}
+      IsLocalSpace: 0
+    - StateId: 1
+      Target: {fileID: 2059834474}
+      Position: {x: 0, y: -1, z: -0.6}
+      Rotation: {x: -0, y: 45, z: 0}
+      LocalScale: {x: 1, y: 1, z: 1}
+      IsLocalSpace: 1
   - Id: 2
     StatesParameters:
     - StateId: 2
@@ -223,6 +243,13 @@ MonoBehaviour:
       Position: {x: -9.33, y: 6.28, z: -13.57}
       Rotation: {x: -0, y: 90, z: 270}
       LocalScale: {x: 1, y: 1, z: 1}
+      IsLocalSpace: 0
+    - StateId: 2
+      Target: {fileID: 2059834474}
+      Position: {x: -3.47, y: 2.04, z: -0.6}
+      Rotation: {x: -0, y: 0, z: 0}
+      LocalScale: {x: 1, y: 1, z: 1}
+      IsLocalSpace: 1
   Transitions:
   - StateFromId: 0
     StateToId: 1
@@ -2282,22 +2309,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States:
   - StateId: 0
     Target: {fileID: 344550631}
     Position: {x: -9.33, y: 6.28, z: 0}
     Rotation: {x: -0, y: 90, z: -0}
     LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 0
   - StateId: 1
     Target: {fileID: 344550631}
     Position: {x: -9.33, y: 6.28, z: -6.92}
     Rotation: {x: -0, y: 90, z: 90}
     LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 0
   - StateId: 2
     Target: {fileID: 344550631}
     Position: {x: -9.33, y: 6.28, z: -13.57}
     Rotation: {x: -0, y: 90, z: 270}
     LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 0
 --- !u!114 &344550633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2571,12 +2602,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f0c7d95f88dfd4a8000488cb802eda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsLocalSpace: 0
   _parameter:
     StateId: 0
     Target: {fileID: 392419073}
     Position: {x: -4.52, y: 0, z: -7.26}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 0
 --- !u!1 &395888714
 GameObject:
   m_ObjectHideFlags: 0
@@ -2922,6 +2955,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!23 &423376047
 MeshRenderer:
@@ -3681,17 +3715,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States:
   - StateId: 0
     Target: {fileID: 551775931}
     Position: {x: 0, y: 0, z: 0.6}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 1
   - StateId: 1
     Target: {fileID: 551775931}
     Position: {x: 0, y: 2, z: 0.6}
     Rotation: {x: -0, y: 0, z: -0}
     LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 1
 --- !u!23 &551775934
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4284,6 +4321,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 1
+  IsLocalSpace: 0
   States: []
 --- !u!114 &678805178
 MonoBehaviour:
@@ -4908,17 +4946,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States:
   - StateId: 1
     Target: {fileID: 807530016}
     Position: {x: 0, y: 5, z: 3.6}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 0
   - StateId: 0
     Target: {fileID: 807530016}
     Position: {x: 0, y: 0, z: 3.6}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 0
 --- !u!23 &807530019
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5196,6 +5237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!23 &866221454
 MeshRenderer:
@@ -7270,22 +7312,26 @@ MonoBehaviour:
   _ruleIndex: 0
   _timeToChangeState_sec: 1
   _holdDelay_sec: 2
+  IsLocalSpace: 0
   _parameters:
   - StateId: -1
     Target: {fileID: 1265990802}
     Position: {x: -2.89, y: 0, z: -3.64}
     Rotation: {x: -0, y: 90, z: -0}
     LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 0
   - StateId: -1
     Target: {fileID: 1265990802}
     Position: {x: -2.89, y: 0, z: -3.64}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 0
   - StateId: -1
     Target: {fileID: 1265990802}
     Position: {x: -2.89, y: 3.32, z: -3.64}
     Rotation: {x: 0, y: 270, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 0
 --- !u!114 &1265990804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9263,12 +9309,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f0c7d95f88dfd4a8000488cb802eda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsLocalSpace: 0
   _parameter:
     StateId: 0
     Target: {fileID: 1591057727}
     Position: {x: 3.9, y: 0, z: -3.63}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 0
 --- !u!1 &1616128518
 GameObject:
   m_ObjectHideFlags: 0
@@ -9401,17 +9449,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States:
   - StateId: 1
     Target: {fileID: 1621985374}
     Position: {x: 0, y: 0, z: 7.2}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 0
   - StateId: 0
     Target: {fileID: 1621985374}
     Position: {x: 0, y: 5, z: 7.2}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 0
 --- !u!23 &1621985376
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11255,7 +11306,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2059834473}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -11288,7 +11339,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
-  States: []
+  IsLocalSpace: 1
+  States:
+  - StateId: 0
+    Target: {fileID: 2059834474}
+    Position: {x: 0, y: 0, z: -0.6}
+    Rotation: {x: -0, y: 0, z: 0}
+    LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 1
+  - StateId: 1
+    Target: {fileID: 2059834474}
+    Position: {x: 0, y: -1, z: -0.6}
+    Rotation: {x: -0, y: 45, z: 0}
+    LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 1
+  - StateId: 2
+    Target: {fileID: 2059834474}
+    Position: {x: -3.47, y: 2.04, z: -0.6}
+    Rotation: {x: -0, y: 0, z: 0}
+    LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 1
 --- !u!23 &2059834477
 MeshRenderer:
   m_ObjectHideFlags: 0

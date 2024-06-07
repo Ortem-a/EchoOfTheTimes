@@ -19,6 +19,8 @@ namespace EchoOfTheTimes.LevelStates
         [SerializeField]
         private float _holdDelay_sec;
 
+        public bool IsLocalSpace;
+
         [SerializeField]
         private List<StateParameter> _parameters;
 
@@ -86,15 +88,24 @@ namespace EchoOfTheTimes.LevelStates
         {
             _parameters ??= new List<StateParameter>();
 
+            Vector3 newPosition = transform.position;
+            Vector3 newRotation = transform.rotation.eulerAngles;
+            if (IsLocalSpace)
+            {
+                newPosition = transform.localPosition;
+                newRotation = transform.localRotation.eulerAngles;
+            }
+
             if (_ruleIndex == _parameters.Count)
             {
                 _parameters.Add(new StateParameter()
                 {
                     StateId = -1,
                     Target = transform,
-                    Position = transform.localPosition,
-                    Rotation = transform.localRotation.eulerAngles,
-                    LocalScale = transform.localScale
+                    Position = newPosition,
+                    Rotation = newRotation,
+                    LocalScale = transform.localScale,
+                    IsLocalSpace = IsLocalSpace
                 });
             }
             else if (_ruleIndex >= 0 && _ruleIndex < _parameters.Count)
@@ -103,9 +114,10 @@ namespace EchoOfTheTimes.LevelStates
                 {
                     StateId = -1,
                     Target = transform,
-                    Position = transform.localPosition,
-                    Rotation = transform.localRotation.eulerAngles,
-                    LocalScale = transform.localScale
+                    Position = newPosition,
+                    Rotation = newRotation,
+                    LocalScale = transform.localScale,
+                    IsLocalSpace = IsLocalSpace
                 };
             }
             else
@@ -118,9 +130,18 @@ namespace EchoOfTheTimes.LevelStates
         {
             if (_ruleIndex >= 0 && _ruleIndex < _parameters.Count)
             {
-                transform.SetLocalPositionAndRotation(
-                    _parameters[_ruleIndex].Position,
-                    Quaternion.Euler(_parameters[_ruleIndex].Rotation));
+                if (IsLocalSpace)
+                {
+                    transform.SetLocalPositionAndRotation(
+                        _parameters[_ruleIndex].Position,
+                        Quaternion.Euler(_parameters[_ruleIndex].Rotation));
+                }
+                else
+                {
+                    transform.SetPositionAndRotation(
+                        _parameters[_ruleIndex].Position,
+                        Quaternion.Euler(_parameters[_ruleIndex].Rotation));
+                }
                 transform.localScale = _parameters[_ruleIndex].LocalScale;
             }
             else
