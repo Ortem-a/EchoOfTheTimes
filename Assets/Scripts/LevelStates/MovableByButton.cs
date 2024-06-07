@@ -22,26 +22,24 @@ namespace EchoOfTheTimes.LevelStates
             _stateService.AcceptState(_parameter, onComplete: () => onComplete?.Invoke());
         }
 
-#if UNITY_EDITOR
-        public virtual void SetOrUpdateParams()
+        public void SetOrUpdateParams()
         {
             var newStateParam = new StateParameter
             {
                 StateId = 0,
                 Target = transform,
-                Position = transform.position,
-                Rotation = transform.rotation.eulerAngles,
+                Position = transform.localPosition,
+                Rotation = transform.localRotation.eulerAngles,
                 LocalScale = transform.localScale,
             };
 
             _parameter = newStateParam;
         }
 
-        public virtual void TransformObjectByParams()
+        public void TransformObjectByParams()
         {
-            transform.SetPositionAndRotation(_parameter.Position, Quaternion.Euler(_parameter.Rotation));
+            transform.SetLocalPositionAndRotation(_parameter.Position, Quaternion.Euler(_parameter.Rotation));
             transform.localScale = _parameter.LocalScale;
         }
-#endif
     }
 }

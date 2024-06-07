@@ -5,15 +5,12 @@ using UnityEngine;
 namespace EchoOfTheTimes.LevelStates
 {
     [RequireComponent(typeof(StateableGizmosDrawer))]
-    public class Stateable : MonoBehaviour, IStateable
+    public class Stateable : MonoBehaviour
     {
-        [field: SerializeField]
-        public int CurrentStateId { get; set; }
+        public int CurrentStateId;
 
-        [field: SerializeField]
-        public List<IStateParameter> States { get; set; } = new List<IStateParameter>();
+        public List<StateParameter> States = new List<StateParameter>();
 
-#if UNITY_EDITOR
         public void SetOrUpdateParamsToState()
         {
             var stateParam = States.Find((x) => x.StateId == CurrentStateId);
@@ -22,8 +19,8 @@ namespace EchoOfTheTimes.LevelStates
             {
                 StateId = CurrentStateId,
                 Target = transform,
-                Position = transform.position,
-                Rotation = transform.rotation.eulerAngles,
+                Position = transform.localPosition,
+                Rotation = transform.localRotation.eulerAngles,
                 LocalScale = transform.localScale,
             };
 
@@ -44,7 +41,7 @@ namespace EchoOfTheTimes.LevelStates
 
             if (stateParam != null)
             {
-                transform.SetPositionAndRotation(stateParam.Position, Quaternion.Euler(stateParam.Rotation));
+                transform.SetLocalPositionAndRotation(stateParam.Position, Quaternion.Euler(stateParam.Rotation));
                 transform.localScale = stateParam.LocalScale;
             }
             else
@@ -52,16 +49,5 @@ namespace EchoOfTheTimes.LevelStates
                 Debug.LogWarning($"There is no state with Id [{CurrentStateId}]!");
             }
         }
-#endif
-    }
-
-    public interface IStateable
-    {
-        public int CurrentStateId { get; set; }
-
-        public List<IStateParameter> States { get; set; }
-        
-        public void SetOrUpdateParamsToState();
-        public void TransformObjectByState();
     }
 }

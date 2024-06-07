@@ -11,7 +11,7 @@ namespace EchoOfTheTimes.LevelStates
 #if UNITY_EDITOR
         [Header("DEBUG")]
         [SerializeField]
-        protected int ruleIndex;
+        private int _ruleIndex;
 #endif
 
         [SerializeField]
@@ -82,29 +82,29 @@ namespace EchoOfTheTimes.LevelStates
         }
 
 #if UNITY_EDITOR
-        public virtual void SetOrUpdateParamsToRule()
+        public void SetOrUpdateParamsToRule()
         {
             _parameters ??= new List<StateParameter>();
 
-            if (ruleIndex == _parameters.Count)
+            if (_ruleIndex == _parameters.Count)
             {
                 _parameters.Add(new StateParameter()
                 {
                     StateId = -1,
                     Target = transform,
-                    Position = transform.position,
-                    Rotation = transform.rotation.eulerAngles,
+                    Position = transform.localPosition,
+                    Rotation = transform.localRotation.eulerAngles,
                     LocalScale = transform.localScale
                 });
             }
-            else if (ruleIndex >= 0 && ruleIndex < _parameters.Count)
+            else if (_ruleIndex >= 0 && _ruleIndex < _parameters.Count)
             {
-                _parameters[ruleIndex] = new StateParameter()
+                _parameters[_ruleIndex] = new StateParameter()
                 {
                     StateId = -1,
                     Target = transform,
-                    Position = transform.position,
-                    Rotation = transform.rotation.eulerAngles,
+                    Position = transform.localPosition,
+                    Rotation = transform.localRotation.eulerAngles,
                     LocalScale = transform.localScale
                 };
             }
@@ -114,14 +114,14 @@ namespace EchoOfTheTimes.LevelStates
             }
         }
 
-        public virtual void TransformObjectByRule()
+        public void TransformObjectByRule()
         {
-            if (ruleIndex >= 0 && ruleIndex < _parameters.Count)
+            if (_ruleIndex >= 0 && _ruleIndex < _parameters.Count)
             {
-                transform.SetPositionAndRotation(
-                    _parameters[ruleIndex].Position,
-                    Quaternion.Euler(_parameters[ruleIndex].Rotation));
-                transform.localScale = _parameters[ruleIndex].LocalScale;
+                transform.SetLocalPositionAndRotation(
+                    _parameters[_ruleIndex].Position,
+                    Quaternion.Euler(_parameters[_ruleIndex].Rotation));
+                transform.localScale = _parameters[_ruleIndex].LocalScale;
             }
             else
             {

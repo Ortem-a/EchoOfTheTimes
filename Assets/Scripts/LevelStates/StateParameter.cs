@@ -4,18 +4,13 @@ using UnityEngine;
 namespace EchoOfTheTimes.LevelStates
 {
     [System.Serializable]
-    public class StateParameter : IStateParameter
+    public class StateParameter
     {
-        [field: SerializeField]
-        public int StateId { get; set; }
-        [field: SerializeField]
-        public Transform Target { get; set; }
-        [field: SerializeField]
-        public Vector3 Position { get; set; }
-        [field: SerializeField]
-        public Vector3 Rotation { get; set; }
-        [field: SerializeField]
-        public Vector3 LocalScale { get; set; }
+        public int StateId;
+        public Transform Target;
+        public Vector3 Position;
+        public Vector3 Rotation;
+        public Vector3 LocalScale;
 
         [System.NonSerialized]
         private int _defaultCompleteCounter = 0;
@@ -42,16 +37,16 @@ namespace EchoOfTheTimes.LevelStates
         {
             if (!isDebug)
             {
-                Target.DOMove(Position, _timeToChangeState_sec)
+                Target.DOLocalMove(Position, _timeToChangeState_sec)
                     .OnComplete(() => OnCompleteTransformation());
-                Target.DORotate(Rotation, _timeToChangeState_sec)
+                Target.DOLocalRotate(Rotation, _timeToChangeState_sec)
                     .OnComplete(() => OnCompleteTransformation());
                 Target.DOScale(LocalScale, _timeToChangeState_sec)
                     .OnComplete(() => OnCompleteTransformation());
             }
             else
             {
-                Target.SetPositionAndRotation(Position, Quaternion.Euler(Rotation));
+                Target.SetLocalPositionAndRotation(Position, Quaternion.Euler(Rotation));
                 Target.localScale = LocalScale;
 
                 _onComplete?.Invoke();
@@ -67,16 +62,5 @@ namespace EchoOfTheTimes.LevelStates
                 _onComplete?.Invoke();
             }
         }
-    }
-
-    public interface IStateParameter
-    {
-        public int StateId { get; set; }
-        public Transform Target {get;set;}
-        public Vector3 Position {get;set;}
-        public Vector3 Rotation {get;set;}
-        public Vector3 LocalScale {get;set;}
-
-        public void AcceptState(bool isDebug = false, TweenCallback onComplete = null, float timeToChangeState_sec = 0f);
     }
 }

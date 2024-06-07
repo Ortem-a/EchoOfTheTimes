@@ -24,7 +24,7 @@ namespace EchoOfTheTimes.LevelStates
             _timeToChangeState_sec = 0f;
         }
 
-        public void SwitchState(List<IStateParameter> stateParameters, bool isDebug = false, TweenCallback onComplete = null)
+        public void SwitchState(List<StateParameter> stateParameters, bool isDebug = false, TweenCallback onComplete = null)
         {
             _onCompleteCallback = onComplete;
             _completedCallbackCounter = 0;
@@ -52,8 +52,7 @@ namespace EchoOfTheTimes.LevelStates
             }
         }
 
-        //public void AcceptState(StateParameter parameter, bool isDebug = false, TweenCallback onComplete = null)
-        public void AcceptState(IStateParameter parameter, bool isDebug = false, TweenCallback onComplete = null)
+        public void AcceptState(StateParameter parameter, bool isDebug = false, TweenCallback onComplete = null)
         {
             parameter.AcceptState(
                 timeToChangeState_sec: _timeToChangeState_sec,

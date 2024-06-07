@@ -7,6 +7,6 @@ namespace EchoOfTheTimes.LevelStates
     {
         public int Id;
 
-        public List<IStateParameter> StatesParameters;
+        public List<StateParameter> StatesParameters;
     }
 }
