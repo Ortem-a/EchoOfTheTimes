@@ -1,11 +1,11 @@
-using EchoOfTheTimes.Utils;
+﻿using EchoOfTheTimes.Utils;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace EchoOfTheTimes.LevelStates
+namespace EchoOfTheTimes.LevelStates.Local
 {
     [RequireComponent(typeof(StateableGizmosDrawer))]
-    public class Stateable : MonoBehaviour, IStateable
+    public class LocalStateable : MonoBehaviour, IStateable
     {
         [field: SerializeField]
         public int CurrentStateId { get; set; }
@@ -18,12 +18,12 @@ namespace EchoOfTheTimes.LevelStates
         {
             var stateParam = States.Find((x) => x.StateId == CurrentStateId);
 
-            var newStateParam = new StateParameter
+            var newStateParam = new LocalStateParameter
             {
                 StateId = CurrentStateId,
                 Target = transform,
-                Position = transform.position,
-                Rotation = transform.rotation.eulerAngles,
+                Position = transform.localPosition,
+                Rotation = transform.localRotation.eulerAngles,
                 LocalScale = transform.localScale,
             };
 
@@ -44,7 +44,7 @@ namespace EchoOfTheTimes.LevelStates
 
             if (stateParam != null)
             {
-                transform.SetPositionAndRotation(stateParam.Position, Quaternion.Euler(stateParam.Rotation));
+                transform.SetLocalPositionAndRotation(stateParam.Position, Quaternion.Euler(stateParam.Rotation));
                 transform.localScale = stateParam.LocalScale;
             }
             else
@@ -53,15 +53,5 @@ namespace EchoOfTheTimes.LevelStates
             }
         }
 #endif
-    }
-
-    public interface IStateable
-    {
-        public int CurrentStateId { get; set; }
-
-        public List<IStateParameter> States { get; set; }
-        
-        public void SetOrUpdateParamsToState();
-        public void TransformObjectByState();
     }
 }

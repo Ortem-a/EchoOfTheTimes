@@ -1,10 +1,10 @@
-using DG.Tweening;
+﻿using DG.Tweening;
 using UnityEngine;
 
-namespace EchoOfTheTimes.LevelStates
+namespace EchoOfTheTimes.LevelStates.Local
 {
     [System.Serializable]
-    public class StateParameter : IStateParameter
+    public class LocalStateParameter : IStateParameter
     {
         [field: SerializeField]
         public int StateId { get; set; }
@@ -27,38 +27,37 @@ namespace EchoOfTheTimes.LevelStates
         [System.NonSerialized]
         private float _timeToChangeState_sec;
 
-        public void AcceptState(bool isDebug = false, TweenCallback onComplete = null,
-            float timeToChangeState_sec = 0f)
+        public void AcceptState(bool isDebug = false, TweenCallback onComplete = null, float timeToChangeState_sec = 0)
         {
             _onComplete = onComplete;
 
             _timeToChangeState_sec = timeToChangeState_sec;
 
             _defaultCompleteCounter = 0;
-            ExecuteTransformations(isDebug);
+            ExecuteLocalTransformations(isDebug);
         }
 
-        private void ExecuteTransformations(bool isDebug)
+        private void ExecuteLocalTransformations(bool isDebug)
         {
             if (!isDebug)
             {
-                Target.DOMove(Position, _timeToChangeState_sec)
+                Target.DOLocalMove(Position, _timeToChangeState_sec)
                     .OnComplete(() => OnCompleteTransformation());
-                Target.DORotate(Rotation, _timeToChangeState_sec)
+                Target.DOLocalRotate(Rotation, _timeToChangeState_sec)
                     .OnComplete(() => OnCompleteTransformation());
                 Target.DOScale(LocalScale, _timeToChangeState_sec)
                     .OnComplete(() => OnCompleteTransformation());
             }
             else
             {
-                Target.SetPositionAndRotation(Position, Quaternion.Euler(Rotation));
+                Target.SetLocalPositionAndRotation(Position, Quaternion.Euler(Rotation));
                 Target.localScale = LocalScale;
 
                 _onComplete?.Invoke();
             }
         }
 
-        private void OnCompleteTransformation()
+        protected void OnCompleteTransformation()
         {
             _defaultCompleteCounter++;
 
@@ -67,16 +66,5 @@ namespace EchoOfTheTimes.LevelStates
                 _onComplete?.Invoke();
             }
         }
-    }
-
-    public interface IStateParameter
-    {
-        public int StateId { get; set; }
-        public Transform Target {get;set;}
-        public Vector3 Position {get;set;}
-        public Vector3 Rotation {get;set;}
-        public Vector3 LocalScale {get;set;}
-
-        public void AcceptState(bool isDebug = false, TweenCallback onComplete = null, float timeToChangeState_sec = 0f);
     }
 }

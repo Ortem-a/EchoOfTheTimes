@@ -25,7 +25,8 @@ namespace EchoOfTheTimes.Utils
             DrawArrow((from + to) / 2f, (to - from).normalized, color, arrowHeadLength, arrowHeadAngle);
         }
 
-        public static void DrawWireMeshesByTRS(List<(Mesh mesh, Transform t)> meshes, StateParameter stateParameter)
+        //public static void DrawWireMeshesByTRS(List<(Mesh mesh, Transform t)> meshes, StateParameter stateParameter)
+        public static void DrawWireMeshesByTRS(List<(Mesh mesh, Transform t)> meshes, IStateParameter stateParameter)
         {
             foreach (var mesh in meshes)
             {
@@ -33,7 +34,8 @@ namespace EchoOfTheTimes.Utils
             }
         }
 
-        public static void DrawWireMeshByTRS(Mesh mesh, Transform parent, StateParameter stateParameter)
+        //public static void DrawWireMeshByTRS(Mesh mesh, Transform parent, StateParameter stateParameter)
+        public static void DrawWireMeshByTRS(Mesh mesh, Transform parent, IStateParameter stateParameter)
         {
             Matrix4x4 rotationMatrix = Matrix4x4.TRS(
                 stateParameter.Position, 

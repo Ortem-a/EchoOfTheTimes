@@ -1,17 +1,17 @@
-using EchoOfTheTimes.Core;
+﻿using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Utils;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace EchoOfTheTimes.LevelStates
+namespace EchoOfTheTimes.LevelStates.Local
 {
     [RequireComponent(typeof(MonoBehaviourTimer), typeof(SubGraphVisibility))]
-    public class MovableByRule : MonoBehaviour
+    public class LocalMovableByRule : MonoBehaviour
     {
 #if UNITY_EDITOR
         [Header("DEBUG")]
         [SerializeField]
-        protected int ruleIndex;
+        private int _ruleIndex;
 #endif
 
         [SerializeField]
@@ -20,7 +20,7 @@ namespace EchoOfTheTimes.LevelStates
         private float _holdDelay_sec;
 
         [SerializeField]
-        private List<StateParameter> _parameters;
+        private List<LocalStateParameter> _parameters;
 
         private int _parameterIndex = -1;
         private bool _isComplete = false;
@@ -82,29 +82,29 @@ namespace EchoOfTheTimes.LevelStates
         }
 
 #if UNITY_EDITOR
-        public virtual void SetOrUpdateParamsToRule()
+        public void SetOrUpdateParamsToRule()
         {
-            _parameters ??= new List<StateParameter>();
+            _parameters ??= new List<LocalStateParameter>();
 
-            if (ruleIndex == _parameters.Count)
+            if (_ruleIndex == _parameters.Count)
             {
-                _parameters.Add(new StateParameter()
+                _parameters.Add(new LocalStateParameter()
                 {
                     StateId = -1,
                     Target = transform,
-                    Position = transform.position,
-                    Rotation = transform.rotation.eulerAngles,
+                    Position = transform.localPosition,
+                    Rotation = transform.localRotation.eulerAngles,
                     LocalScale = transform.localScale
                 });
             }
-            else if (ruleIndex >= 0 && ruleIndex < _parameters.Count)
+            else if (_ruleIndex >= 0 && _ruleIndex < _parameters.Count)
             {
-                _parameters[ruleIndex] = new StateParameter()
+                _parameters[_ruleIndex] = new LocalStateParameter()
                 {
                     StateId = -1,
                     Target = transform,
-                    Position = transform.position,
-                    Rotation = transform.rotation.eulerAngles,
+                    Position = transform.localPosition,
+                    Rotation = transform.localRotation.eulerAngles,
                     LocalScale = transform.localScale
                 };
             }
@@ -114,14 +114,14 @@ namespace EchoOfTheTimes.LevelStates
             }
         }
 
-        public virtual void TransformObjectByRule()
+        public void TransformObjectByRule()
         {
-            if (ruleIndex >= 0 && ruleIndex < _parameters.Count)
+            if (_ruleIndex >= 0 && _ruleIndex < _parameters.Count)
             {
-                transform.SetPositionAndRotation(
-                    _parameters[ruleIndex].Position,
-                    Quaternion.Euler(_parameters[ruleIndex].Rotation));
-                transform.localScale = _parameters[ruleIndex].LocalScale;
+                transform.SetLocalPositionAndRotation(
+                    _parameters[_ruleIndex].Position,
+                    Quaternion.Euler(_parameters[_ruleIndex].Rotation));
+                transform.localScale = _parameters[_ruleIndex].LocalScale;
             }
             else
             {

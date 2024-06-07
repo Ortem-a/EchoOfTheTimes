@@ -23,9 +23,10 @@ namespace EchoOfTheTimes.LevelStates
 
         public void Initialize()
         {
-            Stateable.States = new System.Collections.Generic.List<StateParameter>();
+            Stateable.States = new System.Collections.Generic.List<IStateParameter>();
         }
 
+#if UNITY_EDITOR
         public void SetOrUpdateState(int stateId)
         {
             Stateable.CurrentStateId = stateId;
@@ -39,5 +40,6 @@ namespace EchoOfTheTimes.LevelStates
 
             Stateable.TransformObjectByState();
         }
+#endif
     }
 }

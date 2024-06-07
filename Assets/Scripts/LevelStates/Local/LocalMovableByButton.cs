@@ -2,12 +2,12 @@
 using UnityEngine;
 using Zenject;
 
-namespace EchoOfTheTimes.LevelStates
+namespace EchoOfTheTimes.LevelStates.Local
 {
-    public class MovableByButton : MonoBehaviour
+    public class LocalMovableByButton : MonoBehaviour
     {
         [SerializeField]
-        private StateParameter _parameter;
+        private LocalStateParameter _parameter;
 
         private StateService _stateService;
 
@@ -23,23 +23,23 @@ namespace EchoOfTheTimes.LevelStates
         }
 
 #if UNITY_EDITOR
-        public virtual void SetOrUpdateParams()
+        public void SetOrUpdateParams()
         {
-            var newStateParam = new StateParameter
+            var newStateParam = new LocalStateParameter
             {
                 StateId = 0,
                 Target = transform,
-                Position = transform.position,
-                Rotation = transform.rotation.eulerAngles,
+                Position = transform.localPosition,
+                Rotation = transform.localRotation.eulerAngles,
                 LocalScale = transform.localScale,
             };
 
             _parameter = newStateParam;
         }
 
-        public virtual void TransformObjectByParams()
+        public void TransformObjectByParams()
         {
-            transform.SetPositionAndRotation(_parameter.Position, Quaternion.Euler(_parameter.Rotation));
+            transform.SetLocalPositionAndRotation(_parameter.Position, Quaternion.Euler(_parameter.Rotation));
             transform.localScale = _parameter.LocalScale;
         }
 #endif

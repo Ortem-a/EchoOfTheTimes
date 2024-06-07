@@ -141,10 +141,10 @@ namespace EchoOfTheTimes.LevelStates
                 }
             }
 
-            List<StateParameter> statesOfSimilarId;
+            List<IStateParameter> statesOfSimilarId;
             foreach (var state in States)
             {
-                statesOfSimilarId = new List<StateParameter>();
+                statesOfSimilarId = new List<IStateParameter>();
 
                 foreach (var stateable in stateables)
                 {
@@ -172,7 +172,7 @@ namespace EchoOfTheTimes.LevelStates
             return false;
         }
 
-        private void AddToStateMachine(int stateId, List<StateParameter> stateParameters)
+        private void AddToStateMachine(int stateId, List<IStateParameter> stateParameters)
         {
             if (States != null)
             {
