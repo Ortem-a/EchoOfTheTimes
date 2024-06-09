@@ -25,16 +25,16 @@ public class PyramidkaAnim : MonoBehaviour
 
     public void ShakeCamera1()
     {
-		CameraShaking.Shake(0.3f, 0.1f);
+		CameraShaking.Shake(0.3f, 0.01f);
 	}
 
 	public void ShakeCamera2()
 	{
-		CameraShaking.Shake(0.5f, 0.25f);
+		CameraShaking.Shake(0.5f, 0.02f);
 	}
 
 	public void ShakeCamera3()
 	{
-		CameraShaking.Shake(0.7f, 0.1f);
+		CameraShaking.Shake(0.7f, 0.01f);
 	}
 }
