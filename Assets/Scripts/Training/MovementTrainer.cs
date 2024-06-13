@@ -33,7 +33,7 @@ namespace EchoOfTheTimes.Training
 
             // Show();
 
-            // _timer = new DumbTimer(_afkDuration_sec, Show);
+            _timer = new DumbTimer(_afkDuration_sec, Show);
         }
 
         private void Update()
