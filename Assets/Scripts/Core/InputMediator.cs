@@ -45,7 +45,7 @@ namespace EchoOfTheTimes.Core
 
         private void HandleTouch(Vertex touchPosition)
         {
-            if (TryCreatePathAndMove(touchPosition, out _)) 
+            if (TryCreatePath(touchPosition, out _)) 
             {
                 _player.Stop(() => CreatePathAndMove(touchPosition));
             }
@@ -63,17 +63,13 @@ namespace EchoOfTheTimes.Core
         //    _camera.RotateCamera(swipeX);
         //}
 
-        private bool TryCreatePathAndMove(Vertex destination, out Vertex[] p)
+        private bool TryCreatePath(Vertex destination, out List<Vertex> path)
         {
-            p = Array.Empty<Vertex>();
-
-            List<Vertex> path = _graph.GetPathBFS(_player.Position, destination);
+            path = _graph.GetPathBFS(_player.Position, destination);
 
             if (path.Count != 0)
             {
                 path.Reverse();
-
-                p = path.ToArray();
 
                 return true;
             }
