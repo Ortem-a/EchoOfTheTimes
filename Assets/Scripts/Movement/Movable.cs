@@ -17,6 +17,8 @@ namespace EchoOfTheTimes.Movement
         private Transform _destination;
         private Transform[] _path;
 
+        public Transform Destination => _destination;
+
         private bool _isMoving = false;
         private bool _isNeedToStop = false;
 

@@ -3,6 +3,7 @@ using EchoOfTheTimes.Movement;
 using EchoOfTheTimes.Units;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
@@ -44,7 +45,12 @@ namespace EchoOfTheTimes.Core
 
         private void HandleTouch(Vertex touchPosition)
         {
-            _player.Stop(() => CreatePathAndMove(touchPosition));
+            if (TryCreatePathAndMove(touchPosition, out _)) 
+            {
+                _player.Stop(() => CreatePathAndMove(touchPosition));
+            }
+
+            //_player.Stop(() => CreatePathAndMove(touchPosition));
         }
 
         //private void HandleDoubleTouch()
@@ -57,9 +63,27 @@ namespace EchoOfTheTimes.Core
         //    _camera.RotateCamera(swipeX);
         //}
 
+        private bool TryCreatePathAndMove(Vertex destination, out Vertex[] p)
+        {
+            p = Array.Empty<Vertex>();
+
+            List<Vertex> path = _graph.GetPathBFS(_player.Position, destination);
+
+            if (path.Count != 0)
+            {
+                path.Reverse();
+
+                p = path.ToArray();
+
+                return true;
+            }
+
+            return false;
+        }
+
         private void CreatePathAndMove(Vertex destination)
         {
-            List<Vertex> path = _graph.GetPathBFS(_player.Position, destination);
+            List<Vertex> path = _graph.GetPathBFS((_player.NextPosition == null ? _player.Position : _player.NextPosition), destination);
 
             if (path.Count != 0)
             {
