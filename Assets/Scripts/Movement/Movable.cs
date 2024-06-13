@@ -48,6 +48,8 @@ namespace EchoOfTheTimes.Movement
                         {
                             //transform.DOLookAt(_destination.position, _rotateDuration, _rotateConstraint);
 
+                            transform.position = Vector3.MoveTowards(transform.position, _destination.position, _speed * Time.deltaTime);
+
                             _onStartMoving?.Invoke();
                         }
                     }
