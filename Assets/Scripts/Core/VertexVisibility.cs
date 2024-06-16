@@ -13,8 +13,10 @@ namespace EchoOfTheTimes.Core
 
         private void OnDrawGizmos()
         {
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position, 0.25f);
+            if (IsDynamic) Gizmos.color = Color.blue;
+            else Gizmos.color = Color.green;
+
+            Gizmos.DrawWireSphere(transform.position, 0.15f);
 
             foreach (var n in Neighbours)
             {
@@ -74,7 +76,7 @@ namespace EchoOfTheTimes.Core
         {
             for (int i = 0; i < vertices.Count; i++)
             {
-                if (vertices[i] == this || this.ContainsNeighbour(vertices[i]))
+                if (vertices[i] == this || ContainsNeighbour(vertices[i]))
                     continue;
 
                 var dist = Vector3.Distance(transform.position, vertices[i].transform.position);

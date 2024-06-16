@@ -17,6 +17,7 @@ namespace EchoOfTheTimes.UI
         private CanvasGroup hudCanvasGroup;
 
         public Button ToMainMenuButton;
+        public Button ToNextLevelButton;
         public Transform BottomPanel;
         public GameObject ButtonPrefab;
 
@@ -50,6 +51,7 @@ namespace EchoOfTheTimes.UI
             _loader = FindObjectOfType<SceneLoader>();
 
             ToMainMenuButton.onClick.AddListener(ExitToMainMenu);
+            ToNextLevelButton.onClick.AddListener(GoToNextLevel);
             FinishButton.onClick.AddListener(ExitToMainMenu);
 
             FinishCanvas.gameObject.SetActive(false);
@@ -67,6 +69,11 @@ namespace EchoOfTheTimes.UI
             await _loader.LoadSceneGroupAsync(0);
         }
 
+        private async void GoToNextLevel()
+        {
+            await _loader.LoadNextSceneGroupAsync();
+        }
+
         public void UpdateLabel()
         {
             int stateId = _stateMachine.GetCurrentStateId();
@@ -76,6 +83,11 @@ namespace EchoOfTheTimes.UI
         public void EnableFinishCanvas()
         {
             SetActiveBottomPanel(false);
+
+            if (_loader.HasNextLevel)
+            {
+                ToNextLevelButton.gameObject.SetActive(true);
+            }
 
             FinishCanvas.gameObject.SetActive(true);
             FinishPanel.DOScale(1f, 0.5f);
