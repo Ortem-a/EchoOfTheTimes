@@ -57,9 +57,9 @@ namespace EchoOfTheTimes.Movement
             _renderer.material.color = defaultColor;
             _spawnedSphere.transform.localScale = Vector3.one * _defaultRadius;
 
-            Vector3 pos = at.GetComponent<BoxCollider>().center / 2f;
+            Vector3 pos = at.GetComponentInChildren<IndicationPlaceholder>().transform.position;
 
-            _spawnedSphere.transform.localPosition = at.position + pos;
+            _spawnedSphere.transform.localPosition = pos;
             _spawnedSphere.SetActive(true);
 
             _spawnedSphere.transform.DOScale(_maxRadius, _3dIndicatorDuration_sec)

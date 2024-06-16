@@ -14,8 +14,6 @@ namespace EchoOfTheTimes.Units
     [RequireComponent(typeof(AnimationManager), typeof(Movable), typeof(PlayerPath))]
     public class Player : MonoBehaviour
     {
-        private PlayerPath _playerPath;
-
         public AnimationManager Animations =>
             _animationManager = _animationManager != null ? _animationManager : GetComponent<AnimationManager>();
 
@@ -30,28 +28,17 @@ namespace EchoOfTheTimes.Units
 
         private GraphVisibility _graph;
         private VertexFollower _vertexFollower;
+        private PlayerPath _playerPath;
+        private Movable _movable;
 
         private AnimationManager _animationManager;
 
-        private Movable _movable;
-
         [Inject]
-        //private void Construct(GraphVisibility graphVisibility, VertexFollower vertexFollower, PlayerSettingsScriptableObject playerSettings)
         private void Construct(GraphVisibility graphVisibility, VertexFollower vertexFollower, Movable movable, PlayerPath playerPath)
         {
             _graph = graphVisibility;
             _vertexFollower = vertexFollower;
-
             _movable = movable;
-
-            //_movable = GetComponent<Movable>();
-            //_movable.Initialize(
-            //    speed: playerSettings.MoveSpeed,
-            //    distanceTreshold: playerSettings.DistanceTreshold,
-            //    rotateDuration: playerSettings.RotateDuration,
-            //    rotateConstraint: playerSettings.AxisConstraint
-            //    );
-
             _playerPath = playerPath;
         }
 
