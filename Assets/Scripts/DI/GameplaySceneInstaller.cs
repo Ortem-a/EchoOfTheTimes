@@ -31,6 +31,8 @@ namespace EchoOfTheTimes.DI
         private UserInput _userInput;
         [SerializeField]
         private InputMediator _userInputHandler;
+        [SerializeField]
+        private InputAnimator _inputAnimator;
 
         [Header("UI")]
         [SerializeField]
@@ -60,6 +62,7 @@ namespace EchoOfTheTimes.DI
             Container.Bind<GraphVisibility>().FromInstance(_graph).AsSingle();
             Container.Bind<CheckpointManager>().FromInstance(_checkpointManager).AsSingle();
             Container.Bind<VerticesBlocker>().FromInstance(_verticesBlocker).AsSingle();
+            Container.Bind<InputAnimator>().FromInstance(_inputAnimator).AsSingle();
         }
 
         private void BindPlayer()

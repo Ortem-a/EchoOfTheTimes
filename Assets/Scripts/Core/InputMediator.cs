@@ -3,7 +3,6 @@ using EchoOfTheTimes.Movement;
 using EchoOfTheTimes.Units;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Zenject;
 
@@ -19,6 +18,7 @@ namespace EchoOfTheTimes.Core
         private GraphVisibility _graph;
         private LevelStateMachine _levelStateMachine;
         private RefinedOrbitCamera _camera;
+        private InputAnimator _animator;
 
         public PlayerPath PlayerPath;
 
@@ -37,19 +37,27 @@ namespace EchoOfTheTimes.Core
         }
 
         [Inject]
-        private void Construct(GraphVisibility graph, Player player, LevelStateMachine stateMachine, RefinedOrbitCamera camera)
+        private void Construct(GraphVisibility graph, Player player, LevelStateMachine stateMachine, 
+            RefinedOrbitCamera camera, InputAnimator inputAnimator)
         {
             _graph = graph;
             _player = player;
             _levelStateMachine = stateMachine;
             _camera = camera;
+            _animator = inputAnimator;
         }
 
         private void HandleTouch(Vertex touchPosition)
         {
-            if (HasPath(touchPosition)) 
+            if (HasPath(touchPosition))
             {
+                _animator.ShowSuccessIndicator(touchPosition);
+
                 _player.Stop(() => CreatePathAndMove(touchPosition));
+            }
+            else
+            {
+                _animator.ShowErrorIndicator(touchPosition);
             }
         }
 
