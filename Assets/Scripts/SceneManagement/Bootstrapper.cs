@@ -9,7 +9,6 @@ namespace EchoOfTheTimes.SceneManagement
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void Init()
         {
-#warning ÇÄÅÑÜ ÐÀÇËÎ×ÈË FPS
             Application.targetFrameRate = 120;
 
             Debug.Log("Bootstrapper...");

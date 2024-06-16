@@ -9,6 +9,12 @@ namespace EchoOfTheTimes.Movement
 {
     public class RefinedOrbitCamera : MonoBehaviour
     {
+        private enum RotationType
+        {
+            Auto,
+            Handle,
+        }
+
         public Transform Focus;
 
         private Player _player;
@@ -131,7 +137,8 @@ namespace EchoOfTheTimes.Movement
             if (Mathf.Abs(a) > 0.1f)
             {
                 //Rotate(Mathf.Abs(a) * dir);
-                Rotate(Mathf.Abs(a) * dir * _autoRotationSpeed * 3f, "AutoRotate"); // РегулировОчка спидов
+                //Rotate(Mathf.Abs(a) * dir * _autoRotationSpeed * 3f, "AutoRotate"); // РегулировОчка спидов
+                Rotate(Mathf.Abs(a) * dir * _autoRotationSpeed * 3f, RotationType.Auto); // РегулировОчка спидов
             }
         }
 
@@ -169,7 +176,8 @@ namespace EchoOfTheTimes.Movement
         // Тут мы получаем чисто угол поворота и не выёбываемся
         public void RotateCamera(float rotationAngle)
         {
-            Rotate(rotationAngle, "HandleRotate");
+            //Rotate(rotationAngle, "HandleRotate");
+            Rotate(rotationAngle, RotationType.Handle);
 
             _isAutoRotateTimerStart = true;
             _isNeedAutoRotate = false;
@@ -186,16 +194,27 @@ namespace EchoOfTheTimes.Movement
         }
 
         // Опять же, чисто угол поворота без выебонов
-        private void Rotate(float angle, string whatToDo)
+        //private void Rotate(float angle, string whatToDo)
+        private void Rotate(float angle, RotationType whatToDo)
         {
-            if (whatToDo == "AutoRotate")
+            switch (whatToDo) 
             {
-                transform.RotateAround(Focus.position, Vector3.up, angle * Time.deltaTime);
+                case RotationType.Auto:
+                    transform.RotateAround(Focus.position, Vector3.up, angle * Time.deltaTime);
+                    break;
+                case RotationType.Handle:
+                    transform.RotateAround(Focus.position, Vector3.up, angle);
+                    break;
             }
-            else if (whatToDo == "HandleRotate")
-            {
-                transform.RotateAround(Focus.position, Vector3.up, angle);
-            }
+
+            //if (whatToDo == "AutoRotate")
+            //{
+            //    transform.RotateAround(Focus.position, Vector3.up, angle * Time.deltaTime);
+            //}
+            //else if (whatToDo == "HandleRotate")
+            //{
+            //    transform.RotateAround(Focus.position, Vector3.up, angle);
+            //}
         }
     }
 }

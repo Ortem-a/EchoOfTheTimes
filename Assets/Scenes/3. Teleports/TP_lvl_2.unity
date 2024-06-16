@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17276807, g: 0.21589197, b: 0.29782572, a: 1}
+  m_IndirectSpecularColor: {r: 0.17276844, g: 0.21589246, b: 0.2978263, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2477,12 +2477,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f0c7d95f88dfd4a8000488cb802eda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsLocalSpace: 0
   _parameter:
     StateId: 0
     Target: {fileID: 40781201}
     Position: {x: 5.2063885, y: -14.5670395, z: 0.8677311}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    IsLocalSpace: 0
 --- !u!1 &41767336
 GameObject:
   m_ObjectHideFlags: 0
@@ -2575,6 +2577,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Neighbours: []
+  IsDynamic: 0
 --- !u!65 &41962928
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5699,6 +5702,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Neighbours: []
+  IsDynamic: 0
 --- !u!1 &110200683
 GameObject:
   m_ObjectHideFlags: 0
@@ -10317,12 +10321,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f0c7d95f88dfd4a8000488cb802eda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsLocalSpace: 0
   _parameter:
     StateId: 0
     Target: {fileID: 201514075}
     Position: {x: 5.2063885, y: -14.5670395, z: 0.8677311}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    IsLocalSpace: 0
 --- !u!1 &202547820
 GameObject:
   m_ObjectHideFlags: 0
@@ -17453,6 +17459,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Neighbours: []
+  IsDynamic: 0
 --- !u!65 &322285819
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19915,6 +19922,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Neighbours: []
+  IsDynamic: 0
 --- !u!65 &348206234
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23540,12 +23548,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f0c7d95f88dfd4a8000488cb802eda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsLocalSpace: 0
   _parameter:
     StateId: 0
     Target: {fileID: 404011717}
     Position: {x: 5.2063885, y: -14.5670395, z: 0.8677311}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    IsLocalSpace: 0
 --- !u!1 &405408946
 GameObject:
   m_ObjectHideFlags: 0
@@ -24448,6 +24458,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Neighbours: []
+  IsDynamic: 0
 --- !u!65 &419994342
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26360,6 +26371,30 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e307bf8c72ae7248806573c77ce1c6a, type: 3}
+--- !u!114 &457768244 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5649466115906319604, guid: 8e307bf8c72ae7248806573c77ce1c6a,
+    type: 3}
+  m_PrefabInstance: {fileID: 457768243}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a15839023a3035842a3fafea14d6bb6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &457768245 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7240109040669573132, guid: 8e307bf8c72ae7248806573c77ce1c6a,
+    type: 3}
+  m_PrefabInstance: {fileID: 457768243}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 871737ec85df1a548b9f8b9a8bce1a18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &457828264
 GameObject:
   m_ObjectHideFlags: 0
@@ -27717,12 +27752,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f0c7d95f88dfd4a8000488cb802eda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsLocalSpace: 0
   _parameter:
     StateId: 0
     Target: {fileID: 480504644}
     Position: {x: 5.2063885, y: -14.5670395, z: 0.8677311}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    IsLocalSpace: 0
 --- !u!1 &481386811
 GameObject:
   m_ObjectHideFlags: 0
@@ -37851,12 +37888,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f0c7d95f88dfd4a8000488cb802eda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsLocalSpace: 0
   _parameter:
     StateId: 0
     Target: {fileID: 663040627}
     Position: {x: 5.2063885, y: -14.5670395, z: 0.8677311}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    IsLocalSpace: 0
 --- !u!1 &665450410
 GameObject:
   m_ObjectHideFlags: 0
@@ -41671,12 +41710,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2ea0c0772fbaf1458344f549d9a56db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsLocalSpace: 0
   _parameter:
     StateId: 0
     Target: {fileID: 0}
     Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0}
     LocalScale: {x: 0, y: 0, z: 0}
+    IsLocalSpace: 0
   _flatBottom: 0
   _flatTop: 0
   _startBottom: 1
@@ -41908,12 +41949,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2ea0c0772fbaf1458344f549d9a56db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsLocalSpace: 0
   _parameter:
     StateId: 0
     Target: {fileID: 0}
     Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0}
     LocalScale: {x: 0, y: 0, z: 0}
+    IsLocalSpace: 0
   _flatBottom: 0
   _flatTop: 0
   _startBottom: 1
@@ -43391,9 +43434,19 @@ PrefabInstance:
       objectReference: {fileID: 1338603149}
     - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
         type: 3}
+      propertyPath: _movable
+      value: 
+      objectReference: {fileID: 457768245}
+    - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
+        type: 3}
       propertyPath: _userInput
       value: 
       objectReference: {fileID: 1650754271}
+    - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
+        type: 3}
+      propertyPath: _playerPath
+      value: 
+      objectReference: {fileID: 457768244}
     - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
         type: 3}
       propertyPath: _uiSceneView
@@ -43404,6 +43457,11 @@ PrefabInstance:
       propertyPath: _stateMachine
       value: 
       objectReference: {fileID: 1189547723}
+    - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
+        type: 3}
+      propertyPath: _inputAnimator
+      value: 
+      objectReference: {fileID: 1650754272}
     - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
         type: 3}
       propertyPath: _vertexFollower
@@ -47040,6 +47098,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Neighbours: []
+  IsDynamic: 0
 --- !u!1 &827910339
 GameObject:
   m_ObjectHideFlags: 0
@@ -49478,12 +49537,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f0c7d95f88dfd4a8000488cb802eda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsLocalSpace: 0
   _parameter:
     StateId: 0
     Target: {fileID: 868945795}
     Position: {x: 5.2063885, y: -14.5670395, z: 0.8677311}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    IsLocalSpace: 0
 --- !u!1 &870475411
 GameObject:
   m_ObjectHideFlags: 0
@@ -53766,17 +53827,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 1
+  IsLocalSpace: 0
   States:
   - StateId: 0
     Target: {fileID: 927515411}
     Position: {x: 1.7354627, y: -16.302502, z: 0.867731}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    IsLocalSpace: 0
   - StateId: 1
     Target: {fileID: 927515411}
     Position: {x: 1.7354627, y: -16.302502, z: 0.867731}
     Rotation: {x: -0, y: 270, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    IsLocalSpace: 0
 --- !u!114 &927515414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53971,6 +54035,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Neighbours: []
+  IsDynamic: 0
 --- !u!65 &935857451
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -59676,6 +59741,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Neighbours: []
+  IsDynamic: 0
 --- !u!1 &1074061830
 GameObject:
   m_ObjectHideFlags: 0
@@ -65351,6 +65417,7 @@ MonoBehaviour:
       Position: {x: 1.7354627, y: -16.302502, z: 0.867731}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
+      IsLocalSpace: 0
   - Id: 1
     StatesParameters:
     - StateId: 1
@@ -65358,6 +65425,7 @@ MonoBehaviour:
       Position: {x: 1.7354627, y: -16.302502, z: 0.867731}
       Rotation: {x: -0, y: 270, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
+      IsLocalSpace: 0
   Transitions:
   - StateFromId: 0
     StateToId: 1
@@ -72330,6 +72398,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Neighbours: []
+  IsDynamic: 0
 --- !u!1 &1324640758
 GameObject:
   m_ObjectHideFlags: 0
@@ -72640,6 +72709,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Neighbours: []
+  IsDynamic: 0
 --- !u!1 &1332811947
 GameObject:
   m_ObjectHideFlags: 0
@@ -76220,6 +76290,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Neighbours: []
+  IsDynamic: 0
 --- !u!65 &1401302866
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -78156,6 +78227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Neighbours: []
+  IsDynamic: 0
 --- !u!1 &1434780212
 GameObject:
   m_ObjectHideFlags: 0
@@ -78821,6 +78893,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Neighbours: []
+  IsDynamic: 0
 --- !u!1 &1448305086
 GameObject:
   m_ObjectHideFlags: 0
@@ -80635,12 +80708,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f0c7d95f88dfd4a8000488cb802eda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsLocalSpace: 0
   _parameter:
     StateId: 0
     Target: {fileID: 1471659986}
     Position: {x: 5.2063885, y: -14.5670395, z: 0.8677311}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    IsLocalSpace: 0
 --- !u!1 &1473003238
 GameObject:
   m_ObjectHideFlags: 0
@@ -81380,12 +81455,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f0c7d95f88dfd4a8000488cb802eda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsLocalSpace: 0
   _parameter:
     StateId: 0
     Target: {fileID: 1483604432}
     Position: {x: 5.2063885, y: -14.5670395, z: 0.8677311}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    IsLocalSpace: 0
 --- !u!1 &1486541336
 GameObject:
   m_ObjectHideFlags: 0
@@ -83082,12 +83159,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f0c7d95f88dfd4a8000488cb802eda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsLocalSpace: 0
   _parameter:
     StateId: 0
     Target: {fileID: 1502195043}
     Position: {x: 1.7354628, y: -16.042183, z: -3.4709253}
     Rotation: {x: -0, y: -0, z: 180}
     LocalScale: {x: 4, y: 4, z: 4}
+    IsLocalSpace: 0
 --- !u!1 &1502206903
 GameObject:
   m_ObjectHideFlags: 0
@@ -83422,12 +83501,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f0c7d95f88dfd4a8000488cb802eda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsLocalSpace: 0
   _parameter:
     StateId: 0
     Target: {fileID: 1503855408}
     Position: {x: 5.2063885, y: -14.5670395, z: 0.8677311}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    IsLocalSpace: 0
 --- !u!1 &1503992243
 GameObject:
   m_ObjectHideFlags: 0
@@ -91596,6 +91677,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Neighbours: []
+  IsDynamic: 0
 --- !u!1 &1642479407
 GameObject:
   m_ObjectHideFlags: 0
@@ -91885,14 +91967,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6de68bdfc49a31845913e10d88f662c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpherePrefab: {fileID: 8027102485057238231, guid: e12665c31d6607f43a7eb542e82bc8d6,
-    type: 3}
-  _defaultSphere: {r: 0, g: 0, b: 0, a: 1}
-  _splashSphere: {r: 1, g: 1, b: 1, a: 1}
-  _defaultRadius: 0.3
-  _maxRadius: 0.6
-  _3dIndicatorDuration_sec: 0.1
-  _3dIndicatorColorDuration_sec: 0.05
 --- !u!1 &1651300783
 GameObject:
   m_ObjectHideFlags: 0
@@ -93295,7 +93369,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c0f81184197e8247a7ea441c00a2268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxDistanceToNeighbourVertex: 1
 --- !u!4 &1681321834
 Transform:
   m_ObjectHideFlags: 0
@@ -93586,12 +93659,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2ea0c0772fbaf1458344f549d9a56db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsLocalSpace: 0
   _parameter:
     StateId: 0
     Target: {fileID: 0}
     Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0}
     LocalScale: {x: 0, y: 0, z: 0}
+    IsLocalSpace: 0
   _flatBottom: 0
   _flatTop: 0
   _startBottom: 1
@@ -98316,12 +98391,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f0c7d95f88dfd4a8000488cb802eda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsLocalSpace: 0
   _parameter:
     StateId: 0
     Target: {fileID: 1773333825}
     Position: {x: 5.2063885, y: -14.5670395, z: 0.8677311}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    IsLocalSpace: 0
 --- !u!1 &1774380181
 GameObject:
   m_ObjectHideFlags: 0
@@ -98980,12 +99057,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f0c7d95f88dfd4a8000488cb802eda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsLocalSpace: 0
   _parameter:
     StateId: 0
     Target: {fileID: 1783163591}
     Position: {x: 5.2063885, y: -14.5670395, z: 0.8677311}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    IsLocalSpace: 0
 --- !u!1 &1783980980
 GameObject:
   m_ObjectHideFlags: 0
@@ -101330,12 +101409,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2ea0c0772fbaf1458344f549d9a56db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsLocalSpace: 0
   _parameter:
     StateId: 0
     Target: {fileID: 0}
     Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0}
     LocalScale: {x: 0, y: 0, z: 0}
+    IsLocalSpace: 0
   _flatBottom: 0
   _flatTop: 0
   _startBottom: 1
@@ -102390,6 +102471,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Neighbours: []
+  IsDynamic: 0
 --- !u!65 &1841527436
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -104487,6 +104569,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Neighbours: []
+  IsDynamic: 0
 --- !u!1 &1877954387
 GameObject:
   m_ObjectHideFlags: 0
@@ -106196,6 +106279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Neighbours: []
+  IsDynamic: 0
 --- !u!65 &1915207501
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -108942,12 +109026,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f0c7d95f88dfd4a8000488cb802eda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsLocalSpace: 0
   _parameter:
     StateId: 0
     Target: {fileID: 1955650568}
     Position: {x: 5.2063885, y: -14.5670395, z: 0.8677311}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    IsLocalSpace: 0
 --- !u!1 &1955775485
 GameObject:
   m_ObjectHideFlags: 0
@@ -112669,6 +112755,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Neighbours: []
+  IsDynamic: 0
 --- !u!1 &2039270428
 GameObject:
   m_ObjectHideFlags: 0
@@ -115519,6 +115606,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Neighbours: []
+  IsDynamic: 0
 --- !u!1 &2094620169
 GameObject:
   m_ObjectHideFlags: 0
@@ -117802,6 +117890,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Neighbours: []
+  IsDynamic: 0
 --- !u!1 &2126075950
 GameObject:
   m_ObjectHideFlags: 0

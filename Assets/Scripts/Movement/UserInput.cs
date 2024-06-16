@@ -6,8 +6,6 @@ namespace EchoOfTheTimes.Movement
 {
     public class UserInput : MonoBehaviour
     {
-        private InputAnimator _animator;
-
         private Camera _camera;
 
         private InputMediator _userInputHandler;
@@ -29,14 +27,15 @@ namespace EchoOfTheTimes.Movement
         //private const float DoubleTapDelta = 0.5f;
         //private bool _isSuccessfulTap = false;
 
+        private Vector3 _touchPosition;
+
         [Inject]
         private void Construct(InputMediator inputHandler)
         {
             _userInputHandler = inputHandler;
 
             _camera = Camera.main;
-
-            _animator = GetComponent<InputAnimator>();
+            _touchPosition = Vector3.forward * _camera.nearClipPlane;
         }
 
         // никаких свайпов и дабл тачей, я тут главный и лучше знаю как камера должна быть, игрок ничто, игра всё
@@ -53,24 +52,23 @@ namespace EchoOfTheTimes.Movement
 
             if (Input.GetMouseButtonUp(0))
             {
-                Vector3 mousePosition = Input.mousePosition;
+                if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) return;
 
-                _animator.SpawnScreenIndicator(mousePosition);
+                Vector3 mousePosition = Input.mousePosition;
 
                 float touchDuration = Time.time - _touchStartTime;
                 float touchDistance = Vector2.Distance(_startSwipePosition, mousePosition);
 
                 if (touchDuration <= _maxTapTime)
                 {
-                    Vector3 touchPosition3D = _camera.ScreenToWorldPoint(
-                        new Vector3(_startSwipePosition.x, _startSwipePosition.y, _camera.nearClipPlane));
+                    _touchPosition.x = _startSwipePosition.x;
+                    _touchPosition.y = _startSwipePosition.y;
+                    Vector3 touchPosition3D = _camera.ScreenToWorldPoint(_touchPosition);
 
                     if (Physics.Raycast(touchPosition3D, _camera.transform.forward, out RaycastHit hit, Mathf.Infinity))
                     {
                         if (hit.transform.TryGetComponent(out Vertex vertex))
                         {
-                            _animator.SpawnSphere(vertex);
-
                             _userInputHandler.OnTouched?.Invoke(vertex);
                             //_isSuccessfulTap = true;
                         }

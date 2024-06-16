@@ -22,6 +22,7 @@ namespace EchoOfTheTimes.SceneManagement
 
         private float _targetProgress;
         private bool _isLoading;
+        private int _lastLoadedGroupIndex;
 
         public readonly SceneGroupManager Manager = new SceneGroupManager();
 
@@ -66,12 +67,21 @@ namespace EchoOfTheTimes.SceneManagement
             LoadingProgress progress = new LoadingProgress();
             progress.Progressed += target => _targetProgress = Mathf.Max(target, _targetProgress);
 
+            _lastLoadedGroupIndex = index;
+
             EnableLoadingCanvas();
 
             await Manager.LoadScenesAsync(SceneGroups[index], progress);
 
             EnableLoadingCanvas(false);
         }
+
+        public async Task LoadNextSceneGroupAsync()
+        {
+            await LoadSceneGroupAsync(_lastLoadedGroupIndex + 1);
+        }
+
+        public bool HasNextLevel => _lastLoadedGroupIndex + 1 < SceneGroups.Length;
 
         private void EnableLoadingCanvas(bool enable = true)
         {

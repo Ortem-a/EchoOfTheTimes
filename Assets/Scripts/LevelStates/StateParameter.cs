@@ -12,6 +12,8 @@ namespace EchoOfTheTimes.LevelStates
         public Vector3 Rotation;
         public Vector3 LocalScale;
 
+        public bool IsLocalSpace = false;
+
         [System.NonSerialized]
         private int _defaultCompleteCounter = 0;
         [System.NonSerialized]
@@ -37,16 +39,33 @@ namespace EchoOfTheTimes.LevelStates
         {
             if (!isDebug)
             {
-                Target.DOMove(Position, _timeToChangeState_sec)
-                    .OnComplete(() => OnCompleteTransformation());
-                Target.DORotate(Rotation, _timeToChangeState_sec)
-                    .OnComplete(() => OnCompleteTransformation());
+                if (IsLocalSpace)
+                {
+                    Target.DOLocalMove(Position, _timeToChangeState_sec)
+                        .OnComplete(() => OnCompleteTransformation());
+                    Target.DOLocalRotate(Rotation, _timeToChangeState_sec)
+                        .OnComplete(() => OnCompleteTransformation());
+                }
+                else
+                {
+                    Target.DOMove(Position, _timeToChangeState_sec)
+                        .OnComplete(() => OnCompleteTransformation());
+                    Target.DORotate(Rotation, _timeToChangeState_sec)
+                        .OnComplete(() => OnCompleteTransformation());
+                }
                 Target.DOScale(LocalScale, _timeToChangeState_sec)
                     .OnComplete(() => OnCompleteTransformation());
             }
             else
             {
-                Target.SetPositionAndRotation(Position, Quaternion.Euler(Rotation));
+                if (IsLocalSpace)
+                {
+                    Target.SetLocalPositionAndRotation(Position, Quaternion.Euler(Rotation));
+                }
+                else
+                {
+                    Target.SetPositionAndRotation(Position, Quaternion.Euler(Rotation));
+                }
                 Target.localScale = LocalScale;
 
                 _onComplete?.Invoke();

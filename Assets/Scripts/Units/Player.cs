@@ -11,7 +11,7 @@ using Zenject;
 
 namespace EchoOfTheTimes.Units
 {
-    [RequireComponent(typeof(AnimationManager), typeof(Movable))]
+    [RequireComponent(typeof(AnimationManager), typeof(Movable), typeof(PlayerPath))]
     public class Player : MonoBehaviour
     {
         public AnimationManager Animations =>
@@ -22,28 +22,24 @@ namespace EchoOfTheTimes.Units
         private Vertex _position;
         public Vertex Position => _position == null ? _graph.GetNearestVertex(transform.position) : _position;
 
+        public Vertex NextPosition => _movable.Destination;
+
+        public bool StayOnDynamic => _playerPath.StayOnDynamic;
+
         private GraphVisibility _graph;
         private VertexFollower _vertexFollower;
-        private PlayerSettingsScriptableObject _playerSettings;
+        private PlayerPath _playerPath;
+        private Movable _movable;
 
         private AnimationManager _animationManager;
 
-        private Movable _movable;
-
         [Inject]
-        private void Construct(GraphVisibility graphVisibility, VertexFollower vertexFollower, PlayerSettingsScriptableObject playerSettings)
+        private void Construct(GraphVisibility graphVisibility, VertexFollower vertexFollower, Movable movable, PlayerPath playerPath)
         {
             _graph = graphVisibility;
             _vertexFollower = vertexFollower;
-            _playerSettings = playerSettings;
-
-            _movable = GetComponent<Movable>();
-            _movable.Initialize(
-                speed: _playerSettings.MoveSpeed,
-                distanceTreshold: _playerSettings.DistanceTreshold,
-                rotateDuration: _playerSettings.RotateDuration,
-                rotateConstraint: _playerSettings.AxisConstraint
-                );
+            _movable = movable;
+            _playerPath = playerPath;
         }
 
         public void Teleportate(Vector3 to, float duration, TweenCallback onStart = null, TweenCallback onComplete = null)
@@ -64,7 +60,7 @@ namespace EchoOfTheTimes.Units
                 });
         }
 
-        public void MoveTo(Vector3[] waypoints)
+        public void MoveTo(Vertex[] waypoints)
         {
             _movable.Move(waypoints, OnStartMove, OnCompleteMove);
         }
@@ -153,6 +149,11 @@ namespace EchoOfTheTimes.Units
         public void ForceUnlink()
         {
             _vertexFollower.Unlink();
+        }
+
+        public void CutPath()
+        {
+            _playerPath.CutPath();
         }
     }
 }
