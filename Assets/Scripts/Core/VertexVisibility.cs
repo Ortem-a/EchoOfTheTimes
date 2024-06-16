@@ -18,6 +18,8 @@ namespace EchoOfTheTimes.Core
 
             foreach (var n in Neighbours)
             {
+                if (n.Vertex == null) continue;
+
                 GizmosHelper.DrawArrowBetween(transform.position, n.Vertex.transform.position, Color.yellow);
                 Gizmos.color = Color.red;
                 Gizmos.DrawLine(transform.position, n.Vertex.transform.position);
