@@ -14,6 +14,8 @@ namespace EchoOfTheTimes.Units
     [RequireComponent(typeof(AnimationManager), typeof(Movable))]
     public class Player : MonoBehaviour
     {
+        public PlayerPath PlayerPath;
+
         public AnimationManager Animations =>
             _animationManager = _animationManager != null ? _animationManager : GetComponent<AnimationManager>();
 
@@ -156,5 +158,12 @@ namespace EchoOfTheTimes.Units
         {
             _vertexFollower.Unlink();
         }
+
+        public void CutPath()
+        {
+            PlayerPath.CutPath();
+        }
+
+        public bool StayOnDynamic => PlayerPath.StayOnDynamic;
     }
 }

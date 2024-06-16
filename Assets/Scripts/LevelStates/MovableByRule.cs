@@ -1,4 +1,5 @@
 using EchoOfTheTimes.Core;
+using EchoOfTheTimes.Units;
 using EchoOfTheTimes.Utils;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,11 +34,15 @@ namespace EchoOfTheTimes.LevelStates
         [SerializeField]
         private MovablePartConnector _connector;
 
+        public Player Player;
+        private bool _isLinked = false;
+
         private void Awake()
         {
             _timer = GetComponent<MonoBehaviourTimer>();
 
-            Run();
+            //Run();
+            Invoke(nameof(Run), 2f);
         }
 
         private void Update()
@@ -54,7 +59,20 @@ namespace EchoOfTheTimes.LevelStates
 
                 _connector.BreakAllBridges();
 
-                Move(_parameterIndex);
+                // ++++++++++++++++++++++++++++++++++++++++++++++++++++
+                if (Player.StayOnDynamic)
+                {
+                    _isLinked = true;
+                    Player.StopAndLink(() => Move(_parameterIndex));
+                }
+                else
+                { 
+                    Player.CutPath();
+                    Move(_parameterIndex);
+                }
+                // ++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+                //Move(_parameterIndex);
             }
         }
 
@@ -64,6 +82,14 @@ namespace EchoOfTheTimes.LevelStates
                 onComplete: () =>
                 {
                     _connector.MakeAllBridges();
+
+                    // ++++++++++++++++++++++++++++++++++++++++++++++++++
+                    if (_isLinked)
+                    {
+                        Player.ForceUnlink();
+                        _isLinked = false;
+                    }
+                    // ++++++++++++++++++++++++++++++++++++++++++++++++++
 
                     _timer.Run(_holdDelay_sec, () => _isComplete = true);
                 },

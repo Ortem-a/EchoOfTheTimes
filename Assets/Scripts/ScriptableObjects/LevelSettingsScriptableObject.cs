@@ -11,5 +11,7 @@ namespace EchoOfTheTimes.ScriptableObjects
         public float TeleportDisappearDuration_sec { get; private set; }
         [field: SerializeField]
         public float TimeToChangeState_sec { get; private set; }
+        [field: SerializeField]
+        public float MaxDistanceToNeighbourVertex { get; private set; }
     }
 }

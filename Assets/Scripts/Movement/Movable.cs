@@ -2,6 +2,7 @@ using DG.Tweening;
 using EchoOfTheTimes.Core;
 using EchoOfTheTimes.LevelStates;
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace EchoOfTheTimes.Movement
@@ -119,6 +120,11 @@ namespace EchoOfTheTimes.Movement
             }
 
             return false;
+        }
+
+        public void ChangePath(int leftVertices)
+        {
+            _path = _path.Skip(_waypointIndex).Take(leftVertices).ToArray();
         }
     }
 }

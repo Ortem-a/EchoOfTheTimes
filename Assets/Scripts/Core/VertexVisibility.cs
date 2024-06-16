@@ -13,8 +13,10 @@ namespace EchoOfTheTimes.Core
 
         private void OnDrawGizmos()
         {
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position, 0.25f);
+            if (IsDynamic) Gizmos.color = Color.blue;
+            else Gizmos.color = Color.green;
+
+            Gizmos.DrawWireSphere(transform.position, 0.15f);
 
             foreach (var n in Neighbours)
             {
