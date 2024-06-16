@@ -1,5 +1,6 @@
 using DG.Tweening;
 using EchoOfTheTimes.Core;
+using EchoOfTheTimes.LevelStates;
 using System;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ namespace EchoOfTheTimes.Movement
 {
     public class Movable : MonoBehaviour
     {
+        public PlayerPath PlayerPath;
+
         private float _speed;
         private float _distanceTreshold;
         private float _rotateDuration;
@@ -109,6 +112,8 @@ namespace EchoOfTheTimes.Movement
 
             if (_waypointIndex < _path.Length)
             {
+                PlayerPath.CurrentVertexIndex = _waypointIndex;
+
                 destination = _path[_waypointIndex];
                 return true;
             }
