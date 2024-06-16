@@ -20,7 +20,7 @@ namespace EchoOfTheTimes.Core
         private RefinedOrbitCamera _camera;
         private InputAnimator _animator;
 
-        public PlayerPath PlayerPath;
+        private PlayerPath _playerPath;
 
         private void Awake()
         {
@@ -38,13 +38,14 @@ namespace EchoOfTheTimes.Core
 
         [Inject]
         private void Construct(GraphVisibility graph, Player player, LevelStateMachine stateMachine, 
-            RefinedOrbitCamera camera, InputAnimator inputAnimator)
+            RefinedOrbitCamera camera, InputAnimator inputAnimator, PlayerPath playerPath)
         {
             _graph = graph;
             _player = player;
             _levelStateMachine = stateMachine;
             _camera = camera;
             _animator = inputAnimator;
+            _playerPath = playerPath;
         }
 
         private void HandleTouch(Vertex touchPosition)
@@ -88,7 +89,7 @@ namespace EchoOfTheTimes.Core
             {
                 path.Reverse();
 
-                PlayerPath.SetPath(path);
+                _playerPath.SetPath(path);
 
                 _player.MoveTo(path.ToArray());
             }

@@ -41,8 +41,7 @@ namespace EchoOfTheTimes.LevelStates
         {
             _timer = GetComponent<MonoBehaviourTimer>();
 
-            //Run();
-            Invoke(nameof(Run), 2f);
+            Run();
         }
 
         private void Update()
@@ -59,7 +58,6 @@ namespace EchoOfTheTimes.LevelStates
 
                 _connector.BreakAllBridges();
 
-                // ++++++++++++++++++++++++++++++++++++++++++++++++++++
                 if (Player.StayOnDynamic)
                 {
                     _isLinked = true;
@@ -70,7 +68,6 @@ namespace EchoOfTheTimes.LevelStates
                     Player.CutPath();
                     Move(_parameterIndex);
                 }
-                // ++++++++++++++++++++++++++++++++++++++++++++++++++++
 
                 //Move(_parameterIndex);
             }
@@ -83,13 +80,11 @@ namespace EchoOfTheTimes.LevelStates
                 {
                     _connector.MakeAllBridges();
 
-                    // ++++++++++++++++++++++++++++++++++++++++++++++++++
                     if (_isLinked)
                     {
                         Player.ForceUnlink();
                         _isLinked = false;
                     }
-                    // ++++++++++++++++++++++++++++++++++++++++++++++++++
 
                     _timer.Run(_holdDelay_sec, () => _isComplete = true);
                 },

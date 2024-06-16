@@ -2,6 +2,7 @@ using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Movement;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.LevelStates
 {
@@ -13,28 +14,33 @@ namespace EchoOfTheTimes.LevelStates
             Dynamic
         }
 
-        public List<Vertex> Path;
+        private List<Vertex> _path;
 
         private bool _isMarkNeeded = false;
 
-        [SerializeField]
         private PathType _pathType;
-
         private List<PathType> _pathTypes;
 
+        [HideInInspector]
         public int CurrentVertexIndex = 0;
-        public int FirstDynamicIndex;
-        public int LastDynamicIndex;
+        private int _firstDynamicIndex;
+        private int _lastDynamicIndex;
 
-        public Movable Movable;
+        private Movable _movable;
 
-        public bool StayOnDynamic => Path != null && Path.Count > 0 ? Path[CurrentVertexIndex].IsDynamic : false;
+        public bool StayOnDynamic => _path != null && _path.Count > 0 ? _path[CurrentVertexIndex].IsDynamic : false;
+
+        [Inject]
+        private void Construct(Movable movable)
+        {
+            _movable = movable;
+        }
 
         public void SetPath(List<Vertex> path)
         {
-            Path = path;
+            _path = path;
 
-            GetPathType(path, out FirstDynamicIndex, out LastDynamicIndex);
+            GetPathType(path, out _firstDynamicIndex, out _lastDynamicIndex);
 
             CurrentVertexIndex = 0;
             _isMarkNeeded = true;
@@ -44,24 +50,24 @@ namespace EchoOfTheTimes.LevelStates
         {
             if (_isMarkNeeded)
             {
-                for (int i = 0; i < Path.Count; i++)
+                for (int i = 0; i < _path.Count; i++)
                 {
-                    if (Path[i].IsDynamic)
+                    if (_path[i].IsDynamic)
                         Gizmos.color = Color.blue;
                     else
                         Gizmos.color = Color.green;
 
-                    Gizmos.DrawCube(Path[i].transform.position, Vector3.one * 0.35f);
+                    Gizmos.DrawCube(_path[i].transform.position, Vector3.one * 0.35f);
                 }
 
                 Gizmos.color = Color.magenta;
 
-                Gizmos.DrawCube(Path[CurrentVertexIndex].transform.position, Vector3.one * 0.35f);
+                Gizmos.DrawCube(_path[CurrentVertexIndex].transform.position, Vector3.one * 0.35f);
 
                 Gizmos.color = Color.red;
-                for (int i = CurrentVertexIndex; i < FirstDynamicIndex - CurrentVertexIndex; i++)
+                for (int i = CurrentVertexIndex; i < _firstDynamicIndex - CurrentVertexIndex; i++)
                 {
-                    Gizmos.DrawCube(Path[i].transform.position + Vector3.up / 2f, Vector3.one * 0.35f);
+                    Gizmos.DrawCube(_path[i].transform.position + Vector3.up / 2f, Vector3.one * 0.35f);
                 }
 
                 Gizmos.color = Color.white;
@@ -115,21 +121,17 @@ namespace EchoOfTheTimes.LevelStates
                 if (_pathTypes[CurrentVertexIndex] == PathType.Static)
                 {
                     // before dynamic part
-                    if (CurrentVertexIndex < FirstDynamicIndex)
+                    if (CurrentVertexIndex < _firstDynamicIndex)
                     {
-                        Movable.ChangePath(FirstDynamicIndex - CurrentVertexIndex);
+                        _movable.ChangePath(_firstDynamicIndex - CurrentVertexIndex);
                     }
-                    else if (CurrentVertexIndex > LastDynamicIndex)
+                    // after dynamic part
+                    else if (CurrentVertexIndex > _lastDynamicIndex)
                     {
                         _pathType = PathType.Static;
                     }
                 }
             }
-
-            //if (_pathType == PathType.Dynamic)
-            //{
-            //    Movable.ChangePath(FirstDynamicIndex - CurrentVertexIndex);
-            //}
         }
     }
 }

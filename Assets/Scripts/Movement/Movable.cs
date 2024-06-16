@@ -1,15 +1,17 @@
 using DG.Tweening;
 using EchoOfTheTimes.Core;
 using EchoOfTheTimes.LevelStates;
+using EchoOfTheTimes.ScriptableObjects;
 using System;
 using System.Linq;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.Movement
 {
     public class Movable : MonoBehaviour
     {
-        public PlayerPath PlayerPath;
+        private PlayerPath _playerPath;
 
         private float _speed;
         private float _distanceTreshold;
@@ -28,6 +30,17 @@ namespace EchoOfTheTimes.Movement
         private Action _onStartMoving;
         private Action _onCompleteMoving;
         private Action _onStoppedMoving;
+
+        [Inject]
+        private void Construct(PlayerPath playerPath, PlayerSettingsScriptableObject playerSettings)
+        {
+            _playerPath = playerPath;
+
+            _speed = playerSettings.MoveSpeed;
+            _distanceTreshold = playerSettings.DistanceTreshold;
+            _rotateDuration = playerSettings.RotateDuration;
+            _rotateConstraint = playerSettings.AxisConstraint;
+        }
 
         private void Update()
         {
@@ -113,7 +126,7 @@ namespace EchoOfTheTimes.Movement
 
             if (_waypointIndex < _path.Length)
             {
-                PlayerPath.CurrentVertexIndex = _waypointIndex;
+                _playerPath.CurrentVertexIndex = _waypointIndex;
 
                 destination = _path[_waypointIndex];
                 return true;

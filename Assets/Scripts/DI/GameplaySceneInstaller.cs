@@ -33,6 +33,10 @@ namespace EchoOfTheTimes.DI
         private InputMediator _userInputHandler;
         [SerializeField]
         private InputAnimator _inputAnimator;
+        [SerializeField]
+        private Movable _movable;
+        [SerializeField]
+        private PlayerPath _playerPath;
 
         [Header("UI")]
         [SerializeField]
@@ -72,6 +76,9 @@ namespace EchoOfTheTimes.DI
             Container.Bind<UserInput>().FromInstance(_userInput).AsSingle();
             Container.Bind<InputMediator>().FromInstance(_userInputHandler).AsSingle();
             Container.Bind<Player>().FromInstance(_player).AsSingle();
+
+            Container.Bind<Movable>().FromInstance(_movable).AsSingle();
+            Container.Bind<PlayerPath>().FromInstance(_playerPath).AsSingle();
         }
 
         private void BindUi()
