@@ -22,7 +22,7 @@ namespace EchoOfTheTimes.Units
         private Vertex _position;
         public Vertex Position => _position == null ? _graph.GetNearestVertex(transform.position) : _position;
 
-        public Vertex NextPosition => _movable.Destination == null ? null : _movable.Destination.GetComponent<Vertex>();
+        public Vertex NextPosition => _movable.Destination;
 
         private GraphVisibility _graph;
         private VertexFollower _vertexFollower;
@@ -66,8 +66,7 @@ namespace EchoOfTheTimes.Units
                 });
         }
 
-        //public void MoveTo(Vector3[] waypoints)
-        public void MoveTo(Transform[] waypoints)
+        public void MoveTo(Vertex[] waypoints)
         {
             _movable.Move(waypoints, OnStartMove, OnCompleteMove);
         }

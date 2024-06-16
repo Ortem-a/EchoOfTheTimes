@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace EchoOfTheTimes.LevelStates
 {
-    [RequireComponent(typeof(MonoBehaviourTimer), typeof(SubGraphVisibility))]
+    [RequireComponent(typeof(MonoBehaviourTimer))]
     public class MovableByRule : MonoBehaviour
     {
 #if UNITY_EDITOR
@@ -29,12 +29,13 @@ namespace EchoOfTheTimes.LevelStates
         private bool _isStopped = false;
 
         private MonoBehaviourTimer _timer;
-        private SubGraphVisibility _subGraph;
+
+        [SerializeField]
+        private MovablePartConnector _connector;
 
         private void Awake()
         {
             _timer = GetComponent<MonoBehaviourTimer>();
-            _subGraph = GetComponent<SubGraphVisibility>();
 
             Run();
         }
@@ -51,7 +52,7 @@ namespace EchoOfTheTimes.LevelStates
                     _parameterIndex = 0;
                 }
 
-                _subGraph.BreakAllBridges();
+                _connector.BreakAllBridges();
 
                 Move(_parameterIndex);
             }
@@ -62,7 +63,7 @@ namespace EchoOfTheTimes.LevelStates
             _parameters[parameterIndex].AcceptState(
                 onComplete: () =>
                 {
-                    _subGraph.MakeAllBridges();
+                    _connector.MakeAllBridges();
 
                     _timer.Run(_holdDelay_sec, () => _isComplete = true);
                 },

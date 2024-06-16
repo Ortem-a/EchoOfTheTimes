@@ -3,7 +3,7 @@
 namespace EchoOfTheTimes.Core
 {
     [System.Serializable]
-    public class SubGraphBridge
+    public class MovablePartBridge
     {
         public Vertex Side1;
         public Vertex Side2;

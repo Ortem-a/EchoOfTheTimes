@@ -20,6 +20,8 @@ namespace EchoOfTheTimes.Core
         private LevelStateMachine _levelStateMachine;
         private RefinedOrbitCamera _camera;
 
+        public PlayerPath PlayerPath;
+
         private void Awake()
         {
             OnTouched += HandleTouch;
@@ -45,12 +47,10 @@ namespace EchoOfTheTimes.Core
 
         private void HandleTouch(Vertex touchPosition)
         {
-            if (TryCreatePath(touchPosition, out _)) 
+            if (HasPath(touchPosition)) 
             {
                 _player.Stop(() => CreatePathAndMove(touchPosition));
             }
-
-            //_player.Stop(() => CreatePathAndMove(touchPosition));
         }
 
         //private void HandleDoubleTouch()
@@ -63,16 +63,11 @@ namespace EchoOfTheTimes.Core
         //    _camera.RotateCamera(swipeX);
         //}
 
-        private bool TryCreatePath(Vertex destination, out List<Vertex> path)
+        private bool HasPath(Vertex destination)
         {
-            path = _graph.GetPathBFS(_player.Position, destination);
+            var path = _graph.GetPathBFS(_player.Position, destination);
 
-            if (path.Count != 0)
-            {
-                path.Reverse();
-
-                return true;
-            }
+            if (path.Count != 0) return true;
 
             return false;
         }
@@ -85,15 +80,9 @@ namespace EchoOfTheTimes.Core
             {
                 path.Reverse();
 
-                //var waypoints = new Vector3[path.Count];
-                var waypoints = new Transform[path.Count];
-                for (int i = 0; i < path.Count; i++)
-                {
-                    //waypoints[i] = path[i].transform.position;
-                    waypoints[i] = path[i].transform;
-                }
+                PlayerPath.SetPath(path);
 
-                _player.MoveTo(waypoints);
+                _player.MoveTo(path.ToArray());
             }
         }
 
