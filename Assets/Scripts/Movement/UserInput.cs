@@ -27,12 +27,15 @@ namespace EchoOfTheTimes.Movement
         //private const float DoubleTapDelta = 0.5f;
         //private bool _isSuccessfulTap = false;
 
+        private Vector3 _touchPosition;
+
         [Inject]
         private void Construct(InputMediator inputHandler)
         {
             _userInputHandler = inputHandler;
 
             _camera = Camera.main;
+            _touchPosition = Vector3.forward * _camera.nearClipPlane;
         }
 
         // никаких свайпов и дабл тачей, я тут главный и лучше знаю как камера должна быть, игрок ничто, игра всё
@@ -49,6 +52,8 @@ namespace EchoOfTheTimes.Movement
 
             if (Input.GetMouseButtonUp(0))
             {
+                if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) return;
+
                 Vector3 mousePosition = Input.mousePosition;
 
                 float touchDuration = Time.time - _touchStartTime;
@@ -56,8 +61,9 @@ namespace EchoOfTheTimes.Movement
 
                 if (touchDuration <= _maxTapTime)
                 {
-                    Vector3 touchPosition3D = _camera.ScreenToWorldPoint(
-                        new Vector3(_startSwipePosition.x, _startSwipePosition.y, _camera.nearClipPlane));
+                    _touchPosition.x = _startSwipePosition.x;
+                    _touchPosition.y = _startSwipePosition.y;
+                    Vector3 touchPosition3D = _camera.ScreenToWorldPoint(_touchPosition);
 
                     if (Physics.Raycast(touchPosition3D, _camera.transform.forward, out RaycastHit hit, Mathf.Infinity))
                     {
