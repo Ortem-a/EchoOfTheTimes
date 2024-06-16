@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17276807, g: 0.21589197, b: 0.29782572, a: 1}
+  m_IndirectSpecularColor: {r: 0.17276844, g: 0.21589246, b: 0.2978263, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8254,17 +8254,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 1
+  IsLocalSpace: 0
   States:
   - StateId: 0
     Target: {fileID: 448006563}
     Position: {x: -5.0911765, y: 0.08365488, z: 3.2637174}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 0
   - StateId: 1
     Target: {fileID: 448006563}
     Position: {x: -5.0907907, y: 4.4239783, z: 3.2637222}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 0
 --- !u!114 &448006566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13193,17 +13196,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 1
+  IsLocalSpace: 0
   States:
   - StateId: 0
     Target: {fileID: 716564737}
     Position: {x: -5.0911746, y: 4.415763, z: -3.67812}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 0
   - StateId: 1
     Target: {fileID: 716564737}
     Position: {x: -5.091175, y: 0.08364606, z: -3.678123}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 0
 --- !u!114 &716564740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14542,17 +14548,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States:
   - StateId: 0
     Target: {fileID: 806464425}
     Position: {x: -5.0911765, y: 0.08364728, z: -3.6781232}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 0
   - StateId: 1
     Target: {fileID: 806464425}
     Position: {x: -5.0911756, y: 0.08365081, z: 3.2637327}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 0
 --- !u!114 &806464431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17779,17 +17788,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 1
+  IsLocalSpace: 0
   States:
   - StateId: 0
     Target: {fileID: 964427358}
     Position: {x: -5.0911746, y: 4.4223094, z: 3.263727}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 0
   - StateId: 1
     Target: {fileID: 964427358}
     Position: {x: -5.0911756, y: 4.4223104, z: -3.6781244}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 0
 --- !u!114 &964427361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19186,9 +19198,19 @@ PrefabInstance:
       objectReference: {fileID: 1411242127}
     - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
         type: 3}
+      propertyPath: _movable
+      value: 
+      objectReference: {fileID: 1411242128}
+    - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
+        type: 3}
       propertyPath: _userInput
       value: 
       objectReference: {fileID: 3321542288643557696}
+    - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
+        type: 3}
+      propertyPath: _playerPath
+      value: 
+      objectReference: {fileID: 1411242125}
     - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
         type: 3}
       propertyPath: _uiSceneView
@@ -19199,6 +19221,11 @@ PrefabInstance:
       propertyPath: _stateMachine
       value: 
       objectReference: {fileID: 2624397985308747777}
+    - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
+        type: 3}
+      propertyPath: _inputAnimator
+      value: 
+      objectReference: {fileID: 9179385252127099469}
     - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
         type: 3}
       propertyPath: _vertexFollower
@@ -25974,6 +26001,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e307bf8c72ae7248806573c77ce1c6a, type: 3}
+--- !u!114 &1411242125 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5649466115906319604, guid: 8e307bf8c72ae7248806573c77ce1c6a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1411242124}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a15839023a3035842a3fafea14d6bb6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1411242126 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 919551418017101843, guid: 8e307bf8c72ae7248806573c77ce1c6a,
@@ -25996,6 +26035,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2c97511f4d90f1b4d951e5e7432f73bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1411242128 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7240109040669573132, guid: 8e307bf8c72ae7248806573c77ce1c6a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1411242124}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 871737ec85df1a548b9f8b9a8bce1a18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1415721982
@@ -31505,7 +31556,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c0f81184197e8247a7ea441c00a2268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxDistanceToNeighbourVertex: 1
 --- !u!4 &1681321834
 Transform:
   m_ObjectHideFlags: 0
@@ -39295,21 +39345,25 @@ MonoBehaviour:
       Position: {x: -5.0911746, y: 4.4223094, z: 3.263727}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 1, y: 1, z: 1}
+      IsLocalSpace: 0
     - StateId: 0
       Target: {fileID: 716564737}
       Position: {x: -5.0911746, y: 4.415763, z: -3.67812}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 1, y: 1, z: 1}
+      IsLocalSpace: 0
     - StateId: 0
       Target: {fileID: 448006563}
       Position: {x: -5.0911765, y: 0.08365488, z: 3.2637174}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 1, y: 1, z: 1}
+      IsLocalSpace: 0
     - StateId: 0
       Target: {fileID: 806464425}
       Position: {x: -5.0911765, y: 0.08364728, z: -3.6781232}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 1, y: 1, z: 1}
+      IsLocalSpace: 0
   - Id: 1
     StatesParameters:
     - StateId: 1
@@ -39317,21 +39371,25 @@ MonoBehaviour:
       Position: {x: -5.0911756, y: 4.4223104, z: -3.6781244}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 1, y: 1, z: 1}
+      IsLocalSpace: 0
     - StateId: 1
       Target: {fileID: 716564737}
       Position: {x: -5.091175, y: 0.08364606, z: -3.678123}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 1, y: 1, z: 1}
+      IsLocalSpace: 0
     - StateId: 1
       Target: {fileID: 448006563}
       Position: {x: -5.0907907, y: 4.4239783, z: 3.2637222}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 1, y: 1, z: 1}
+      IsLocalSpace: 0
     - StateId: 1
       Target: {fileID: 806464425}
       Position: {x: -5.0911756, y: 0.08365081, z: 3.2637327}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 1, y: 1, z: 1}
+      IsLocalSpace: 0
   Transitions:
   - StateFromId: 0
     StateToId: 1
@@ -39505,14 +39563,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6de68bdfc49a31845913e10d88f662c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpherePrefab: {fileID: 8027102485057238231, guid: e12665c31d6607f43a7eb542e82bc8d6,
-    type: 3}
-  _defaultSphere: {r: 0, g: 0, b: 0, a: 1}
-  _splashSphere: {r: 1, g: 1, b: 1, a: 1}
-  _defaultRadius: 0.3
-  _maxRadius: 0.6
-  _3dIndicatorDuration_sec: 0.1
-  _3dIndicatorColorDuration_sec: 0.05
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

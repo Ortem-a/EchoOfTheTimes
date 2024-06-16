@@ -228,6 +228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &28697664
 MonoBehaviour:
@@ -579,6 +580,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &50693635
 MonoBehaviour:
@@ -702,6 +704,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &59836720
 MonoBehaviour:
@@ -825,6 +828,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &60681411
 MonoBehaviour:
@@ -1290,6 +1294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &102772873
 MonoBehaviour:
@@ -1408,6 +1413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &102941777
 MonoBehaviour:
@@ -1691,6 +1697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &182054259
 MonoBehaviour:
@@ -1929,6 +1936,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &235180482
 MonoBehaviour:
@@ -2166,6 +2174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &241220284
 MonoBehaviour:
@@ -2284,6 +2293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &316590932
 MonoBehaviour:
@@ -2630,6 +2640,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &342835545
 MonoBehaviour:
@@ -2753,6 +2764,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &360184762
 MonoBehaviour:
@@ -3024,9 +3036,19 @@ PrefabInstance:
       objectReference: {fileID: 1411242127}
     - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
         type: 3}
+      propertyPath: _movable
+      value: 
+      objectReference: {fileID: 1411242128}
+    - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
+        type: 3}
       propertyPath: _userInput
       value: 
       objectReference: {fileID: 1803894266}
+    - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
+        type: 3}
+      propertyPath: _playerPath
+      value: 
+      objectReference: {fileID: 1411242125}
     - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
         type: 3}
       propertyPath: _uiSceneView
@@ -3037,6 +3059,11 @@ PrefabInstance:
       propertyPath: _stateMachine
       value: 
       objectReference: {fileID: 1475340738}
+    - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
+        type: 3}
+      propertyPath: _inputAnimator
+      value: 
+      objectReference: {fileID: 1803894267}
     - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
         type: 3}
       propertyPath: _vertexFollower
@@ -3797,6 +3824,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &603171256
 MonoBehaviour:
@@ -4029,6 +4057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &649080273
 MonoBehaviour:
@@ -4147,6 +4176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &662313986
 MonoBehaviour:
@@ -4265,6 +4295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &669432542
 MonoBehaviour:
@@ -4388,6 +4419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &677492377
 MonoBehaviour:
@@ -4625,6 +4657,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &729169611
 MonoBehaviour:
@@ -4748,6 +4781,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &737694315
 MonoBehaviour:
@@ -5208,6 +5242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &770376183
 MonoBehaviour:
@@ -5331,6 +5366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &775818012
 MonoBehaviour:
@@ -5454,6 +5490,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &788919952
 MonoBehaviour:
@@ -5800,6 +5837,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &837790142
 MonoBehaviour:
@@ -5918,6 +5956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &839535715
 MonoBehaviour:
@@ -6159,6 +6198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &901480939
 MonoBehaviour:
@@ -6391,6 +6431,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &958870459
 MonoBehaviour:
@@ -6509,6 +6550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &971046914
 MonoBehaviour:
@@ -6741,6 +6783,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &984790464
 MonoBehaviour:
@@ -6864,6 +6907,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &1007302920
 MonoBehaviour:
@@ -7394,6 +7438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &1168784694
 MonoBehaviour:
@@ -7763,6 +7808,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &1278718123
 MonoBehaviour:
@@ -8159,6 +8205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &1364322316
 MonoBehaviour:
@@ -8240,6 +8287,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e307bf8c72ae7248806573c77ce1c6a, type: 3}
+--- !u!114 &1411242125 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5649466115906319604, guid: 8e307bf8c72ae7248806573c77ce1c6a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1411242124}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a15839023a3035842a3fafea14d6bb6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1411242126 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 919551418017101843, guid: 8e307bf8c72ae7248806573c77ce1c6a,
@@ -8262,6 +8321,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2c97511f4d90f1b4d951e5e7432f73bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1411242128 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7240109040669573132, guid: 8e307bf8c72ae7248806573c77ce1c6a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1411242124}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 871737ec85df1a548b9f8b9a8bce1a18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1447195776
@@ -8471,6 +8542,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &1469060169
 MonoBehaviour:
@@ -8867,6 +8939,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &1526156758
 MonoBehaviour:
@@ -8985,6 +9058,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &1546350088
 MonoBehaviour:
@@ -9367,6 +9441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &1598791611
 MonoBehaviour:
@@ -9485,6 +9560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &1635110220
 MonoBehaviour:
@@ -9603,6 +9679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &1640618254
 MonoBehaviour:
@@ -9908,6 +9985,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &1680606698
 MonoBehaviour:
@@ -9951,7 +10029,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c0f81184197e8247a7ea441c00a2268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxDistanceToNeighbourVertex: 1
 --- !u!4 &1681321834
 Transform:
   m_ObjectHideFlags: 0
@@ -10245,6 +10322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &1720915854
 MonoBehaviour:
@@ -10368,6 +10446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &1723696395
 MonoBehaviour:
@@ -10486,6 +10565,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &1724592557
 MonoBehaviour:
@@ -10911,14 +10991,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6de68bdfc49a31845913e10d88f662c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpherePrefab: {fileID: 8027102485057238231, guid: e12665c31d6607f43a7eb542e82bc8d6,
-    type: 3}
-  _defaultSphere: {r: 0, g: 0, b: 0, a: 1}
-  _splashSphere: {r: 1, g: 1, b: 1, a: 1}
-  _defaultRadius: 0.3
-  _maxRadius: 0.6
-  _3dIndicatorDuration_sec: 0.1
-  _3dIndicatorColorDuration_sec: 0.05
 --- !u!1001 &1851859646
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11029,6 +11101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &1851859650
 MonoBehaviour:
@@ -11266,6 +11339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &1921917706
 MonoBehaviour:
@@ -12085,6 +12159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &2134490762
 MonoBehaviour:
@@ -12317,6 +12392,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States: []
 --- !u!114 &7510739365189791823
 MonoBehaviour:

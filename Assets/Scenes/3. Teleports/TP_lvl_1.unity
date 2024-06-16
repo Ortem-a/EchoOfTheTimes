@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17276844, g: 0.21589245, b: 0.2978263, a: 1}
+  m_IndirectSpecularColor: {r: 0.17276844, g: 0.21589246, b: 0.2978263, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1508,9 +1508,19 @@ PrefabInstance:
       objectReference: {fileID: 457768245}
     - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
         type: 3}
+      propertyPath: _movable
+      value: 
+      objectReference: {fileID: 457768247}
+    - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
+        type: 3}
       propertyPath: _userInput
       value: 
       objectReference: {fileID: 1729870976}
+    - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
+        type: 3}
+      propertyPath: _playerPath
+      value: 
+      objectReference: {fileID: 457768246}
     - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
         type: 3}
       propertyPath: _uiSceneView
@@ -1521,6 +1531,11 @@ PrefabInstance:
       propertyPath: _stateMachine
       value: 
       objectReference: {fileID: 299801280}
+    - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
+        type: 3}
+      propertyPath: _inputAnimator
+      value: 
+      objectReference: {fileID: 1729870977}
     - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
         type: 3}
       propertyPath: _vertexFollower
@@ -3105,11 +3120,13 @@ MonoBehaviour:
       Position: {x: 1.7354627, y: -15.434771, z: 0.8677311}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
+      IsLocalSpace: 0
     - StateId: 0
       Target: {fileID: 1299229936}
       Position: {x: -1.7354627, y: -15.434771, z: 0.86773133}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
+      IsLocalSpace: 0
   - Id: 1
     StatesParameters:
     - StateId: 1
@@ -3117,11 +3134,13 @@ MonoBehaviour:
       Position: {x: 5.2063885, y: -15.434771, z: 0.8677312}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
+      IsLocalSpace: 0
     - StateId: 1
       Target: {fileID: 1299229936}
       Position: {x: 1.7354627, y: -15.434771, z: 0.8677311}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
+      IsLocalSpace: 0
   Transitions:
   - StateFromId: 0
     StateToId: 1
@@ -6342,6 +6361,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2c97511f4d90f1b4d951e5e7432f73bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &457768246 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5649466115906319604, guid: 8e307bf8c72ae7248806573c77ce1c6a,
+    type: 3}
+  m_PrefabInstance: {fileID: 457768243}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a15839023a3035842a3fafea14d6bb6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &457768247 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7240109040669573132, guid: 8e307bf8c72ae7248806573c77ce1c6a,
+    type: 3}
+  m_PrefabInstance: {fileID: 457768243}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 871737ec85df1a548b9f8b9a8bce1a18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &462741821
@@ -18820,17 +18863,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 1
+  IsLocalSpace: 0
   States:
   - StateId: 0
     Target: {fileID: 1572228572}
     Position: {x: 1.7354627, y: -15.434771, z: 0.8677311}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    IsLocalSpace: 0
   - StateId: 1
     Target: {fileID: 1572228572}
     Position: {x: 5.2063885, y: -15.434771, z: 0.8677312}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    IsLocalSpace: 0
 --- !u!114 &1572228574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19951,7 +19997,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c0f81184197e8247a7ea441c00a2268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxDistanceToNeighbourVertex: 1
 --- !u!4 &1681321834
 Transform:
   m_ObjectHideFlags: 0
@@ -20728,17 +20773,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentStateId: 0
+  IsLocalSpace: 0
   States:
   - StateId: 0
     Target: {fileID: 1299229936}
     Position: {x: -1.7354627, y: -15.434771, z: 0.86773133}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    IsLocalSpace: 0
   - StateId: 1
     Target: {fileID: 1299229936}
     Position: {x: 1.7354627, y: -15.434771, z: 0.8677311}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    IsLocalSpace: 0
 --- !u!114 &1701890744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20996,14 +21044,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6de68bdfc49a31845913e10d88f662c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpherePrefab: {fileID: 8027102485057238231, guid: e12665c31d6607f43a7eb542e82bc8d6,
-    type: 3}
-  _defaultSphere: {r: 0, g: 0, b: 0, a: 1}
-  _splashSphere: {r: 1, g: 1, b: 1, a: 1}
-  _defaultRadius: 0.3
-  _maxRadius: 0.6
-  _3dIndicatorDuration_sec: 0.1
-  _3dIndicatorColorDuration_sec: 0.05
 --- !u!1 &1739422482
 GameObject:
   m_ObjectHideFlags: 0
