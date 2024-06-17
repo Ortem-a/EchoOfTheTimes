@@ -33,6 +33,7 @@ namespace EchoOfTheTimes.UI
         public Transform FinishPanel;
         public Button FinishButton;
         public CanvasGroup FinishFadeOutPanel;
+        public float UselessFinishDuration_sec;
         public float FinishFadeOutDuration_sec;
 
         [Header("Start Level UI")]
@@ -109,7 +110,9 @@ namespace EchoOfTheTimes.UI
 
             FinishFadeOutPanel.gameObject.SetActive(true);
             FinishFadeOutPanel.alpha = 0f;
+
             DOTween.To(() => FinishFadeOutPanel.alpha, x => FinishFadeOutPanel.alpha = x, 1f, FinishFadeOutDuration_sec)
+                .SetDelay(UselessFinishDuration_sec)
                 .OnComplete(() =>
                 {
                     if (_loader.HasNextLevel)
