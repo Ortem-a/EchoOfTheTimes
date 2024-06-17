@@ -1,16 +1,23 @@
+using EchoOfTheTimes.ScriptableObjects;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.Core
 {
     public abstract class Graph : MonoBehaviour
     {
-        [SerializeField]
         protected float MaxDistanceToNeighbourVertex;
 
         protected List<Vertex> vertices;
         protected List<List<Vertex>> neighbours;
         protected List<List<float>> costs;
+
+        [Inject]
+        private void Construct(LevelSettingsScriptableObject levelSettings)
+        {
+            MaxDistanceToNeighbourVertex = levelSettings.MaxDistanceToNeighbourVertex;
+        }
 
         public virtual void Awake()
         {
@@ -18,25 +25,6 @@ namespace EchoOfTheTimes.Core
         }
 
         public virtual void Load() { }
-
-        public virtual void ResetGraph()
-        {
-            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-            sw.Start();
-            Debug.Log("Starting reset graph");
-
-            vertices ??= new List<Vertex>();
-
-            for (int i = 0; i < vertices.Count; i++)
-            {
-                vertices[i].Neighbours = new List<Edge>();
-            }
-
-            Load();
-
-            sw.Stop();
-            Debug.Log($"Complete for {sw.ElapsedMilliseconds} ms");
-        }
 
         public virtual int GetSize()
         {

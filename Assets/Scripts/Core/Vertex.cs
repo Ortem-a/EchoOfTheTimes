@@ -9,6 +9,8 @@ namespace EchoOfTheTimes.Core
         public int Id;
         public List<Edge> Neighbours;
 
+        public bool IsDynamic = false;
+
         public bool ContainsNeighbour(Vertex v)
         {
             if (Neighbours != null)
