@@ -25,12 +25,15 @@ namespace EchoOfTheTimes.UI
         public Button ToMainMenuButton;
         public Button ToNextLevelButton;
         public Transform BottomPanel;
+        public Transform TopPanel;
         public GameObject ButtonPrefab;
 
         [Header("Finish UI")]
         public Canvas FinishCanvas;
         public Transform FinishPanel;
         public Button FinishButton;
+        public CanvasGroup FinishFadeOutPanel;
+        public float FinishFadeOutDuration_sec;
 
         [Header("Start Level UI")]
         public Canvas StartLevelCanvas;
@@ -101,10 +104,23 @@ namespace EchoOfTheTimes.UI
         public void EnableFinishCanvas()
         {
             // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            SetActiveHudCanvasImmediate(false);
+            SetActiveHudImmediate(false);
             _inputMediator.gameObject.SetActive(false);
 
-
+            FinishFadeOutPanel.gameObject.SetActive(true);
+            FinishFadeOutPanel.alpha = 0f;
+            DOTween.To(() => FinishFadeOutPanel.alpha, x => FinishFadeOutPanel.alpha = x, 1f, FinishFadeOutDuration_sec)
+                .OnComplete(() =>
+                {
+                    if (_loader.HasNextLevel)
+                    {
+                        ToNextLevelButton.onClick?.Invoke();
+                    }
+                    else
+                    {
+                        ToMainMenuButton.onClick?.Invoke();
+                    }
+                });
             // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
             // ====================================================================================
@@ -143,6 +159,11 @@ namespace EchoOfTheTimes.UI
             BottomPanel.gameObject.SetActive(isActive);
         }
 
+        public void SetActiveTopPanelImmediate(bool isActive)
+        {
+            TopPanel.gameObject.SetActive(isActive);
+        }
+
         // Метод для показа StartLevelCanvas и запуска анимации
         public void ShowStartLevelCanvas()
         {
@@ -167,9 +188,10 @@ namespace EchoOfTheTimes.UI
             DOTween.To(() => hudCanvasGroup.alpha, x => hudCanvasGroup.alpha = x, 1f, 1f); // Кастомная анимация
         }
 
-        public void SetActiveHudCanvasImmediate(bool isActive)
+        public void SetActiveHudImmediate(bool isActive)
         {
-            HUDCanvas.gameObject.SetActive(isActive);
+            SetActiveBottomPanelImmediate(isActive);
+            SetActiveTopPanelImmediate(isActive);
         }
 
         public void DeselectAllButtons(int exceptIndex)
