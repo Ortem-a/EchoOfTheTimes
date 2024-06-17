@@ -81,6 +81,11 @@ namespace EchoOfTheTimes.Units
                 freezer.OnCancel?.Invoke();
             }
 
+            if (NextPosition.gameObject.TryGetComponent(out StateFreezer nextFreezer))
+            {
+                nextFreezer.OnFreeze?.Invoke();
+            }
+
             if (Position.gameObject.TryGetComponent(out ISpecialVertex specialVertex))
             {
                 specialVertex.OnExit?.Invoke();
