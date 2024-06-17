@@ -67,6 +67,7 @@ namespace EchoOfTheTimes.UI
                 stateButton.Init(i, inputMediator, this, _deselectedColor, _selectedColor);
                 _stateButtons[i] = stateButton;
             }
+            _stateButtons[0].Select();
 
             FinishPanel.localScale = Vector3.zero;
 

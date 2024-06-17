@@ -55,7 +55,7 @@ namespace EchoOfTheTimes.Movement
             if (Input.GetMouseButtonUp(0))
             {
                 if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) return;
-
+                
                 Vector3 mousePosition = Input.mousePosition;
 
                 float touchDuration = Time.time - _touchStartTime;
