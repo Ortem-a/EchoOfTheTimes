@@ -12,6 +12,12 @@ namespace EchoOfTheTimes.UI
     {
         public bool flgIsStartAnimationEnded = false;
 
+        [Header("States Buttons")]
+        [SerializeField]
+        private Color _deselectedColor;
+        [SerializeField]
+        private Color _selectedColor;
+
         [Header("HUD")]
         public Canvas HUDCanvas;
         private CanvasGroup hudCanvasGroup;
@@ -19,31 +25,47 @@ namespace EchoOfTheTimes.UI
         public Button ToMainMenuButton;
         public Button ToNextLevelButton;
         public Transform BottomPanel;
+        public Transform TopPanel;
         public GameObject ButtonPrefab;
 
         [Header("Finish UI")]
         public Canvas FinishCanvas;
         public Transform FinishPanel;
         public Button FinishButton;
+        public CanvasGroup FinishFadeOutPanel;
+        public float UselessFinishDuration_sec;
+        public float FinishFadeOutDuration_sec;
 
         [Header("Start Level UI")]
         public Canvas StartLevelCanvas;
 
         private SceneLoader _loader;
         private LevelStateMachine _stateMachine;
-
         private UiSceneView _sceneView;
+        private InputMediator _inputMediator;
+
+        private UiStateButton[] _stateButtons;
+
+        private void Start()
+        {
+            HUDCanvas.gameObject.SetActive(false);
+            ShowStartLevelCanvas();
+        }
 
         [Inject]
-        private void Construct(LevelStateMachine stateMachine, UiSceneView uiSceneView, InputMediator inputHandler)
+        private void Construct(LevelStateMachine stateMachine, UiSceneView uiSceneView, InputMediator inputMediator)
         {
             _stateMachine = stateMachine;
             _sceneView = uiSceneView;
 
+            _inputMediator = inputMediator;
+
+            _stateButtons = new UiStateButton[_stateMachine.States.Count];
             for (int i = 0; i < _stateMachine.States.Count; i++)
             {
-                var obj = Instantiate(ButtonPrefab, BottomPanel);
-                obj.GetComponent<UiStateButton>().Init(i, inputHandler);
+                var stateButton = Instantiate(ButtonPrefab, BottomPanel).GetComponent<UiStateButton>();
+                stateButton.Init(i, inputMediator, this, _deselectedColor, _selectedColor);
+                _stateButtons[i] = stateButton;
             }
 
             FinishPanel.localScale = Vector3.zero;
@@ -82,15 +104,43 @@ namespace EchoOfTheTimes.UI
 
         public void EnableFinishCanvas()
         {
-            SetActiveBottomPanel(false);
+            // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            SetActiveHudImmediate(false);
+            _inputMediator.gameObject.SetActive(false);
 
-            if (_loader.HasNextLevel)
-            {
-                ToNextLevelButton.gameObject.SetActive(true);
-            }
+            FinishFadeOutPanel.gameObject.SetActive(true);
+            FinishFadeOutPanel.alpha = 0f;
 
-            FinishCanvas.gameObject.SetActive(true);
-            FinishPanel.DOScale(1f, 0.5f);
+            DOTween.To(() => FinishFadeOutPanel.alpha, x => FinishFadeOutPanel.alpha = x, 1f, FinishFadeOutDuration_sec)
+                .SetDelay(UselessFinishDuration_sec)
+                .OnComplete(() =>
+                {
+                    if (_loader.HasNextLevel)
+                    {
+                        ToNextLevelButton.onClick?.Invoke();
+                    }
+                    else
+                    {
+                        ToMainMenuButton.onClick?.Invoke();
+                    }
+                });
+            // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+            // ====================================================================================
+            // ÇÄÅÑÜ ÑÏÐßÒÀË ÂÎÇÌÎÆÍÎÑÒÜ:
+            // - ÂÛÕÎÄÀ Â ÃËÀÂÍÎÅ ÌÅÍÞ ÏÎ ÇÀÂÅÐØÅÍÈÞ ÓÐÎÂÍß
+            // - ÏÅÐÅÕÎÄÀ ÍÀ ÑËÅÄÓÞÙÈÉ ÓÐÎÂÅÍÜ ÏÎ ÊÍÎÏÊÅ
+            // ====================================================================================
+
+            //SetActiveBottomPanel(false);
+
+            //if (_loader.HasNextLevel)
+            //{
+            //    ToNextLevelButton.gameObject.SetActive(true);
+            //}
+
+            //FinishCanvas.gameObject.SetActive(true);
+            //FinishPanel.DOScale(1f, 0.5f);
         }
 
         public void SetActiveBottomPanel(bool isActive, float duration = 0.2f)
@@ -110,6 +160,11 @@ namespace EchoOfTheTimes.UI
         public void SetActiveBottomPanelImmediate(bool isActive)
         {
             BottomPanel.gameObject.SetActive(isActive);
+        }
+
+        public void SetActiveTopPanelImmediate(bool isActive)
+        {
+            TopPanel.gameObject.SetActive(isActive);
         }
 
         // Ìåòîä äëÿ ïîêàçà StartLevelCanvas è çàïóñêà àíèìàöèè
@@ -136,10 +191,20 @@ namespace EchoOfTheTimes.UI
             DOTween.To(() => hudCanvasGroup.alpha, x => hudCanvasGroup.alpha = x, 1f, 1f); // Êàñòîìíàÿ àíèìàöèÿ
         }
 
-        private void Start()
+        public void SetActiveHudImmediate(bool isActive)
         {
-            HUDCanvas.gameObject.SetActive(false);
-            ShowStartLevelCanvas();
+            SetActiveBottomPanelImmediate(isActive);
+            SetActiveTopPanelImmediate(isActive);
+        }
+
+        public void DeselectAllButtons(int exceptIndex)
+        {
+            for (int i = 0; i < _stateButtons.Length; i++)
+            {
+                if (i == exceptIndex) continue;
+
+                _stateButtons[i].Deselect();
+            }
         }
     }
 }
