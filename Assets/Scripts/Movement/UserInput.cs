@@ -1,5 +1,7 @@
 using EchoOfTheTimes.Core;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Zenject;
 
 namespace EchoOfTheTimes.Movement
@@ -71,6 +73,8 @@ namespace EchoOfTheTimes.Movement
                         {
                             _userInputHandler.OnTouched?.Invoke(vertex);
                             //_isSuccessfulTap = true;
+
+                            Debug.Log("Меня нажали");
                         }
                     }
                 }
