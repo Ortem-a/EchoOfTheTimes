@@ -12,6 +12,12 @@ namespace EchoOfTheTimes.UI
     {
         public bool flgIsStartAnimationEnded = false;
 
+        [Header("States Buttons")]
+        [SerializeField]
+        private Color _deselectedColor;
+        [SerializeField]
+        private Color _selectedColor;
+
         [Header("HUD")]
         public Canvas HUDCanvas;
         private CanvasGroup hudCanvasGroup;
@@ -31,8 +37,15 @@ namespace EchoOfTheTimes.UI
 
         private SceneLoader _loader;
         private LevelStateMachine _stateMachine;
-
         private UiSceneView _sceneView;
+
+        private UiStateButton[] _stateButtons;
+
+        private void Start()
+        {
+            HUDCanvas.gameObject.SetActive(false);
+            ShowStartLevelCanvas();
+        }
 
         [Inject]
         private void Construct(LevelStateMachine stateMachine, UiSceneView uiSceneView, InputMediator inputHandler)
@@ -40,10 +53,12 @@ namespace EchoOfTheTimes.UI
             _stateMachine = stateMachine;
             _sceneView = uiSceneView;
 
+            _stateButtons = new UiStateButton[_stateMachine.States.Count];
             for (int i = 0; i < _stateMachine.States.Count; i++)
             {
-                var obj = Instantiate(ButtonPrefab, BottomPanel);
-                obj.GetComponent<UiStateButton>().Init(i, inputHandler);
+                var stateButton = Instantiate(ButtonPrefab, BottomPanel).GetComponent<UiStateButton>();
+                stateButton.Init(i, inputHandler, this, _deselectedColor, _selectedColor);
+                _stateButtons[i] = stateButton;
             }
 
             FinishPanel.localScale = Vector3.zero;
@@ -136,10 +151,14 @@ namespace EchoOfTheTimes.UI
             DOTween.To(() => hudCanvasGroup.alpha, x => hudCanvasGroup.alpha = x, 1f, 1f); // Кастомная анимация
         }
 
-        private void Start()
+        public void DeselectAllButtons(int exceptIndex)
         {
-            HUDCanvas.gameObject.SetActive(false);
-            ShowStartLevelCanvas();
+            for (int i = 0; i < _stateButtons.Length; i++)
+            {
+                if (i == exceptIndex) continue;
+
+                _stateButtons[i].Deselect();
+            }
         }
     }
 }
