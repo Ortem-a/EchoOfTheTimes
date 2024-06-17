@@ -79,14 +79,6 @@ namespace EchoOfTheTimes.Movement
             }
         }
 
-        public void Initialize(float speed, float distanceTreshold, float rotateDuration, AxisConstraint rotateConstraint)
-        {
-            _speed = speed;
-            _distanceTreshold = distanceTreshold;
-            _rotateDuration = rotateDuration;
-            _rotateConstraint = rotateConstraint;
-        }
-
         public void Move(Vertex[] path, Action onStart, Action onComplete)
         {
             _waypointIndex = 0;
@@ -138,6 +130,12 @@ namespace EchoOfTheTimes.Movement
         public void ChangePath(int leftVertices)
         {
             _path = _path.Skip(_waypointIndex).Take(leftVertices).ToArray();
+        }
+
+        public void ResetDestination()
+        {
+            ForceStop();
+            _destination = null;
         }
     }
 }

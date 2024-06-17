@@ -18,6 +18,7 @@ namespace EchoOfTheTimes.Units
             _animationManager = _animationManager != null ? _animationManager : GetComponent<AnimationManager>();
 
         public bool IsBusy { get; set; } = false;
+        public bool IsTeleportate { get; private set; } = false;
 
         private Vertex _position;
         public Vertex Position => _position == null ? _graph.GetNearestVertex(transform.position) : _position;
@@ -45,6 +46,8 @@ namespace EchoOfTheTimes.Units
         public void Teleportate(Vector3 to, float duration, TweenCallback onStart = null, TweenCallback onComplete = null)
         {
             Debug.Log($"[TeleportTo] {to}");
+
+            ResetNextPosition();
 
             transform.DOMove(to, duration)
                 .SetEase(Ease.Linear)
@@ -105,11 +108,10 @@ namespace EchoOfTheTimes.Units
 
         private void OnStartTeleportate()
         {
+            IsTeleportate = true;
             IsBusy = true;
 
             _position = _graph.GetNearestVertex(transform.position);
-
-            //Debug.Log($"[ON START TELEPORTATE] {_position}");
 
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
@@ -120,11 +122,10 @@ namespace EchoOfTheTimes.Units
 
         private void OnCompleteTeleportate()
         {
+            IsTeleportate = false;
             IsBusy = false;
 
             _position = _graph.GetNearestVertex(transform.position);
-
-            //Debug.Log($"[ON COMPLETE TELEPORTATE] {_position}");
 
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
@@ -154,6 +155,11 @@ namespace EchoOfTheTimes.Units
         public void CutPath()
         {
             _playerPath.CutPath();
+        }
+
+        private void ResetNextPosition()
+        {
+            _movable.ResetDestination();
         }
     }
 }
