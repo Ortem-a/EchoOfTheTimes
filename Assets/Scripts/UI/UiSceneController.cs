@@ -38,6 +38,7 @@ namespace EchoOfTheTimes.UI
         private SceneLoader _loader;
         private LevelStateMachine _stateMachine;
         private UiSceneView _sceneView;
+        private InputMediator _inputMediator;
 
         private UiStateButton[] _stateButtons;
 
@@ -48,16 +49,18 @@ namespace EchoOfTheTimes.UI
         }
 
         [Inject]
-        private void Construct(LevelStateMachine stateMachine, UiSceneView uiSceneView, InputMediator inputHandler)
+        private void Construct(LevelStateMachine stateMachine, UiSceneView uiSceneView, InputMediator inputMediator)
         {
             _stateMachine = stateMachine;
             _sceneView = uiSceneView;
+
+            _inputMediator = inputMediator;
 
             _stateButtons = new UiStateButton[_stateMachine.States.Count];
             for (int i = 0; i < _stateMachine.States.Count; i++)
             {
                 var stateButton = Instantiate(ButtonPrefab, BottomPanel).GetComponent<UiStateButton>();
-                stateButton.Init(i, inputHandler, this, _deselectedColor, _selectedColor);
+                stateButton.Init(i, inputMediator, this, _deselectedColor, _selectedColor);
                 _stateButtons[i] = stateButton;
             }
 
@@ -97,15 +100,28 @@ namespace EchoOfTheTimes.UI
 
         public void EnableFinishCanvas()
         {
-            SetActiveBottomPanel(false);
+            // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            SetActiveHudCanvasImmediate(false);
+            _inputMediator.gameObject.SetActive(false);
 
-            if (_loader.HasNextLevel)
-            {
-                ToNextLevelButton.gameObject.SetActive(true);
-            }
 
-            FinishCanvas.gameObject.SetActive(true);
-            FinishPanel.DOScale(1f, 0.5f);
+            // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+            // ====================================================================================
+            // ÇÄÅÑÜ ÑÏĞßÒÀË ÂÎÇÌÎÆÍÎÑÒÜ:
+            // - ÂÛÕÎÄÀ Â ÃËÀÂÍÎÅ ÌÅÍŞ ÏÎ ÇÀÂÅĞØÅÍÈŞ ÓĞÎÂÍß
+            // - ÏÅĞÅÕÎÄÀ ÍÀ ÑËÅÄÓŞÙÈÉ ÓĞÎÂÅÍÜ ÏÎ ÊÍÎÏÊÅ
+            // ====================================================================================
+
+            //SetActiveBottomPanel(false);
+
+            //if (_loader.HasNextLevel)
+            //{
+            //    ToNextLevelButton.gameObject.SetActive(true);
+            //}
+
+            //FinishCanvas.gameObject.SetActive(true);
+            //FinishPanel.DOScale(1f, 0.5f);
         }
 
         public void SetActiveBottomPanel(bool isActive, float duration = 0.2f)
@@ -149,6 +165,11 @@ namespace EchoOfTheTimes.UI
         {
             hudCanvasGroup.alpha = 0f;
             DOTween.To(() => hudCanvasGroup.alpha, x => hudCanvasGroup.alpha = x, 1f, 1f); // Êàñòîìíàÿ àíèìàöèÿ
+        }
+
+        public void SetActiveHudCanvasImmediate(bool isActive)
+        {
+            HUDCanvas.gameObject.SetActive(isActive);
         }
 
         public void DeselectAllButtons(int exceptIndex)
