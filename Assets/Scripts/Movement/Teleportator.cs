@@ -1,4 +1,5 @@
 using DG.Tweening;
+using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Interfaces;
 using EchoOfTheTimes.ScriptableObjects;
 using EchoOfTheTimes.UI;
@@ -26,11 +27,10 @@ namespace EchoOfTheTimes.Movement
         private void Construct(Player player, LevelSettingsScriptableObject levelSettings, UiSceneController sceneController)
         {
             _player = player;
+            _sceneController = sceneController;
 
             _teleportDuration_sec = levelSettings.TeleportDuration_sec;
             _teleportDisappearDuration_sec = levelSettings.TeleportDisappearDuration_sec;
-
-            _sceneController = sceneController;
         }
 
         private void Teleport()

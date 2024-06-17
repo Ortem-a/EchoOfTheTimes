@@ -55,7 +55,7 @@ namespace EchoOfTheTimes.Core
 
             for (int i = 0; i < vertices.Count; i++)
             {
-                vertices[i].Id = 0;
+                vertices[i].Id = i;
                 vertices[i].Neighbours = new List<Edge>();
             }
         }
