@@ -4,7 +4,6 @@ using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Interfaces;
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Movement;
-using EchoOfTheTimes.ScriptableObjects;
 using System;
 using UnityEngine;
 using Zenject;
@@ -26,6 +25,7 @@ namespace EchoOfTheTimes.Units
         public Vertex NextPosition => _movable.Destination;
 
         public bool StayOnDynamic => _playerPath.StayOnDynamic;
+        public bool PrevIsDynamic => _playerPath.PrevIsDynamic;
 
         private GraphVisibility _graph;
         private VertexFollower _vertexFollower;
@@ -33,6 +33,8 @@ namespace EchoOfTheTimes.Units
         private Movable _movable;
 
         private AnimationManager _animationManager;
+
+        private Action _onMoveCompleted = null;
 
         [Inject]
         private void Construct(GraphVisibility graphVisibility, VertexFollower vertexFollower, Movable movable, PlayerPath playerPath)
@@ -96,6 +98,9 @@ namespace EchoOfTheTimes.Units
         {
             IsBusy = false;
 
+            _onMoveCompleted?.Invoke();
+            _onMoveCompleted = null;
+
             _position = _graph.GetNearestVertex(transform.position);
 
             //Debug.Log($"[ON COMPLETE MOVE] {_position}");
@@ -109,6 +114,11 @@ namespace EchoOfTheTimes.Units
             {
                 specialVertex.OnEnter?.Invoke();
             }
+        }
+
+        public void WaitUntilCompleteMove(Action onComplete)
+        {
+            _onMoveCompleted = onComplete;
         }
 
         private void OnStartTeleportate()

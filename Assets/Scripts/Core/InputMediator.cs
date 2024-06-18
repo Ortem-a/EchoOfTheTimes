@@ -37,7 +37,7 @@ namespace EchoOfTheTimes.Core
         }
 
         [Inject]
-        private void Construct(GraphVisibility graph, Player player, LevelStateMachine stateMachine, 
+        private void Construct(GraphVisibility graph, Player player, LevelStateMachine stateMachine,
             RefinedOrbitCamera camera, InputAnimator inputAnimator, PlayerPath playerPath)
         {
             _graph = graph;
@@ -102,7 +102,14 @@ namespace EchoOfTheTimes.Core
 
             _player.CutPath();
 
-            if (_player.StayOnDynamic)
+            if (_player.PrevIsDynamic)
+            {
+                _player.WaitUntilCompleteMove(onComplete: () =>
+                {
+                    _levelStateMachine.ChangeState(levelStateId);
+                });
+            }
+            else if (_player.StayOnDynamic)
             {
                 _player.StopAndLink(onComplete: () =>
                 {

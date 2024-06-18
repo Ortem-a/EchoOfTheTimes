@@ -29,6 +29,7 @@ namespace EchoOfTheTimes.LevelStates
         private Movable _movable;
 
         public bool StayOnDynamic => _path != null && _path.Count > 0 ? _path[CurrentVertexIndex].IsDynamic : false;
+        public bool PrevIsDynamic => _path != null && _path.Count > 1 && CurrentVertexIndex > 0 ? _path[CurrentVertexIndex - 1].IsDynamic : false;
 
         [Inject]
         private void Construct(Movable movable)
