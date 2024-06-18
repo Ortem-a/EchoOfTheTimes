@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1369,7 +1369,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1062767486}
   - component: {fileID: 1062767485}
-  - component: {fileID: 1062767487}
   m_Layer: 0
   m_Name: UiControllers
   m_TagString: Untagged
@@ -1389,14 +1388,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e5e0543900e30c479d76bba3541764d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flgIsStartAnimationEnded: 0
+  _deselectedColor: {r: 0, g: 0, b: 0, a: 0}
+  _selectedColor: {r: 0, g: 0, b: 0, a: 0}
+  HUDCanvas: {fileID: 0}
   ToMainMenuButton: {fileID: 727326714}
-  ToCheckpointButton: {fileID: 755324194}
+  ToNextLevelButton: {fileID: 0}
   BottomPanel: {fileID: 44402676}
+  TopPanel: {fileID: 0}
   ButtonPrefab: {fileID: 3564362910765533992, guid: cf0e89975fe3b404ead327ce80f3628d,
     type: 3}
   FinishCanvas: {fileID: 1183013992}
   FinishPanel: {fileID: 95727362}
   FinishButton: {fileID: 373995479}
+  FinishFadeOutPanel: {fileID: 0}
+  UselessFinishDuration_sec: 0
+  FinishFadeOutDuration_sec: 0
+  StartLevelCanvas: {fileID: 0}
 --- !u!4 &1062767486
 Transform:
   m_ObjectHideFlags: 0
@@ -1412,18 +1420,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1062767487
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1062767484}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f976b1b3ae72981498b3bb59152e623a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1183013990
 GameObject:
   m_ObjectHideFlags: 0
@@ -1662,52 +1658,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1323923543}
   m_CullTransparentMesh: 1
---- !u!1 &1838469187
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1838469189}
-  - component: {fileID: 1838469188}
-  m_Layer: 0
-  m_Name: UiManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1838469188
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1838469187}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee2d7a079e350b443a732d5f0b3df2a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UiSceneController: {fileID: 1062767485}
-  UiSceneView: {fileID: 454096680}
---- !u!4 &1838469189
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1838469187}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2022312224
 GameObject:
   m_ObjectHideFlags: 0
@@ -1849,6 +1799,5 @@ SceneRoots:
   - {fileID: 484354740}
   - {fileID: 348449888}
   - {fileID: 1062767486}
-  - {fileID: 1838469189}
   - {fileID: 454096681}
   - {fileID: 1183013991}
