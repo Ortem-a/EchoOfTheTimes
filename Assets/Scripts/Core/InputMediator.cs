@@ -100,10 +100,12 @@ namespace EchoOfTheTimes.Core
             if (_levelStateMachine.IsChanging || levelStateId == _levelStateMachine.GetCurrentStateId())
                 return;
 
-            _player.StopAndLink(onComplete: () =>
-            {
-                _levelStateMachine.ChangeState(levelStateId);
-            });
+            _levelStateMachine.ChangeState(levelStateId);
+
+            //_player.StopAndLink(onComplete: () =>
+            //{
+            //    _levelStateMachine.ChangeState(levelStateId);
+            //});
         }
     }
 }
