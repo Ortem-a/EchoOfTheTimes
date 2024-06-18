@@ -123,10 +123,10 @@ namespace EchoOfTheTimes.LevelStates
                 p = new StateParameter()
                 {
                     Target = Stairs[i].transform,
-                    Position = positions[i],
-                    Rotation = Stairs[i].transform.localRotation.eulerAngles,
-                    //Position = transform.TransformPoint(positions[i]),
-                    //Rotation = Stairs[i].transform.rotation.eulerAngles,
+                    //Position = positions[i],
+                    //Rotation = Stairs[i].transform.localRotation.eulerAngles,
+                    Position = transform.TransformPoint(positions[i]),
+                    Rotation = Stairs[i].transform.rotation.eulerAngles,
                     LocalScale = Stairs[i].transform.localScale
                 };
 
