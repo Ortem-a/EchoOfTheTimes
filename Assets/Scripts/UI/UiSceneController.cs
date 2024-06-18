@@ -38,6 +38,9 @@ namespace EchoOfTheTimes.UI
 
         [Header("Start Level UI")]
         public Canvas StartLevelCanvas;
+        public CanvasGroup StartFadeInPanel; // CanvasGroup для плавного появления
+        public float StartFadeInDuration_sec = 2.0f; // Длительность появления
+        public float StartDelay_sec = 1.0f; // Задержка перед началом
 
         private SceneLoader _loader;
         private LevelStateMachine _stateMachine;
@@ -49,6 +52,7 @@ namespace EchoOfTheTimes.UI
         private void Start()
         {
             HUDCanvas.gameObject.SetActive(false);
+            StartFadeInPanel.alpha = 1f; // Начальная непрозрачность
             ShowStartLevelCanvas();
         }
 
@@ -105,7 +109,6 @@ namespace EchoOfTheTimes.UI
 
         public void EnableFinishCanvas()
         {
-            // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             SetActiveHudImmediate(false);
             _inputMediator.gameObject.SetActive(false);
 
@@ -125,23 +128,6 @@ namespace EchoOfTheTimes.UI
                         ToMainMenuButton.onClick?.Invoke();
                     }
                 });
-            // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-            // ====================================================================================
-            // ЗДЕСЬ СПРЯТАЛ ВОЗМОЖНОСТЬ:
-            // - ВЫХОДА В ГЛАВНОЕ МЕНЮ ПО ЗАВЕРШЕНИЮ УРОВНЯ
-            // - ПЕРЕХОДА НА СЛЕДУЮЩИЙ УРОВЕНЬ ПО КНОПКЕ
-            // ====================================================================================
-
-            //SetActiveBottomPanel(false);
-
-            //if (_loader.HasNextLevel)
-            //{
-            //    ToNextLevelButton.gameObject.SetActive(true);
-            //}
-
-            //FinishCanvas.gameObject.SetActive(true);
-            //FinishPanel.DOScale(1f, 0.5f);
         }
 
         public void SetActiveBottomPanel(bool isActive, float duration = 0.2f)
@@ -172,18 +158,18 @@ namespace EchoOfTheTimes.UI
         public void ShowStartLevelCanvas()
         {
             StartLevelCanvas.gameObject.SetActive(true);
-            Animator startLevelAnimator = StartLevelCanvas.GetComponent<Animator>();
-            startLevelAnimator.Play("StartLevelAnimation"); // Предполагается, что "StartLevelAnimation" - это имя вашей анимации
+            StartFadeInPanel.alpha = 1f; // Убедитесь, что панель полностью непрозрачна
+            StartFadeInPanel.gameObject.SetActive(true);
 
-            // Задержка для скрытия StartLevelCanvas и показа HUD после завершения анимации
-            float animationDuration = startLevelAnimator.GetCurrentAnimatorStateInfo(0).length;
-            DOVirtual.DelayedCall(animationDuration, () =>
-            {
-                StartLevelCanvas.gameObject.SetActive(false);
-                HUDCanvas.gameObject.SetActive(true);
-                flgIsStartAnimationEnded = true;
-                FadeInHUD(); // Добавлено
-            });
+            DOTween.To(() => StartFadeInPanel.alpha, x => StartFadeInPanel.alpha = x, 0f, StartFadeInDuration_sec)
+                .SetDelay(StartDelay_sec)
+                .OnComplete(() =>
+                {
+                    StartLevelCanvas.gameObject.SetActive(false);
+                    HUDCanvas.gameObject.SetActive(true);
+                    flgIsStartAnimationEnded = true;
+                    FadeInHUD(); // Запускаем анимацию HUD
+                });
         }
 
         private void FadeInHUD()
