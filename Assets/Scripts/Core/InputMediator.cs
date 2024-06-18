@@ -100,12 +100,19 @@ namespace EchoOfTheTimes.Core
             if (_levelStateMachine.IsChanging || levelStateId == _levelStateMachine.GetCurrentStateId())
                 return;
 
-            _levelStateMachine.ChangeState(levelStateId);
+            _player.CutPath();
 
-            //_player.StopAndLink(onComplete: () =>
-            //{
-            //    _levelStateMachine.ChangeState(levelStateId);
-            //});
+            if (_player.StayOnDynamic)
+            {
+                _player.StopAndLink(onComplete: () =>
+                {
+                    _levelStateMachine.ChangeState(levelStateId);
+                });
+            }
+            else
+            {
+                _levelStateMachine.ChangeState(levelStateId);
+            }
         }
     }
 }
