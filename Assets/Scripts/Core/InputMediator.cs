@@ -100,9 +100,10 @@ namespace EchoOfTheTimes.Core
             if (_levelStateMachine.IsChanging || levelStateId == _levelStateMachine.GetCurrentStateId())
                 return;
 
+            // +++++++++++++++++++++++++++++++++++++++++++++++++++
             _player.CutPath();
 
-            if (_player.PrevIsDynamic)
+            if (_player.PreviousWaypointIsDynamic)
             {
                 _player.WaitUntilCompleteMove(onComplete: () =>
                 {
@@ -120,6 +121,12 @@ namespace EchoOfTheTimes.Core
             {
                 _levelStateMachine.ChangeState(levelStateId);
             }
+            // +++++++++++++++++++++++++++++++++++++++++++++++++++
+
+            //_player.StopAndLink(onComplete: () =>
+            //{
+            //    _levelStateMachine.ChangeState(levelStateId);
+            //});
         }
     }
 }

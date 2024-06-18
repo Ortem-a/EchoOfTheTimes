@@ -25,7 +25,7 @@ namespace EchoOfTheTimes.Units
         public Vertex NextPosition => _movable.Destination;
 
         public bool StayOnDynamic => _playerPath.StayOnDynamic;
-        public bool PrevIsDynamic => _playerPath.PrevIsDynamic;
+        public bool PreviousWaypointIsDynamic => _playerPath.PrevIsDynamic;
 
         private GraphVisibility _graph;
         private VertexFollower _vertexFollower;
@@ -118,7 +118,7 @@ namespace EchoOfTheTimes.Units
 
         public void WaitUntilCompleteMove(Action onComplete)
         {
-            _onMoveCompleted = onComplete;
+            _onMoveCompleted += onComplete;
         }
 
         private void OnStartTeleportate()
