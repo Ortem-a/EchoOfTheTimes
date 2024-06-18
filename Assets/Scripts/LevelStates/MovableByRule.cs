@@ -64,7 +64,7 @@ namespace EchoOfTheTimes.LevelStates
                     Player.StopAndLink(() => Move(_parameterIndex));
                 }
                 else
-                { 
+                {
                     Player.CutPath();
                     Move(_parameterIndex);
                 }
