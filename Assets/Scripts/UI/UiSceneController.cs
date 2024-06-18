@@ -13,10 +13,8 @@ namespace EchoOfTheTimes.UI
         public bool flgIsStartAnimationEnded = false;
 
         [Header("States Buttons")]
-        [SerializeField]
-        private Color _deselectedColor;
-        [SerializeField]
-        private Color _selectedColor;
+        [SerializeField] private Color _deselectedColor;
+        [SerializeField] private Color _selectedColor;
 
         [Header("HUD")]
         public Canvas HUDCanvas;
@@ -41,6 +39,7 @@ namespace EchoOfTheTimes.UI
         public CanvasGroup StartFadeInPanel; // CanvasGroup для плавного появления
         public float StartFadeInDuration_sec = 2.0f; // Длительность появления
         public float StartDelay_sec = 1.0f; // Задержка перед началом
+        public float HUDStartBeforeEnd_sec = 0.5f; // Начало появления HUD за K секунд до конца
 
         private SceneLoader _loader;
         private LevelStateMachine _stateMachine;
@@ -51,8 +50,7 @@ namespace EchoOfTheTimes.UI
 
         private void Start()
         {
-            HUDCanvas.gameObject.SetActive(false);
-            StartFadeInPanel.alpha = 1f; // Начальная непрозрачность
+            InitializeHUD();
             ShowStartLevelCanvas();
         }
 
@@ -61,34 +59,52 @@ namespace EchoOfTheTimes.UI
         {
             _stateMachine = stateMachine;
             _sceneView = uiSceneView;
-
             _inputMediator = inputMediator;
 
-            _stateButtons = new UiStateButton[_stateMachine.States.Count];
-            for (int i = 0; i < _stateMachine.States.Count; i++)
-            {
-                var stateButton = Instantiate(ButtonPrefab, BottomPanel).GetComponent<UiStateButton>();
-                stateButton.Init(i, inputMediator, this, _deselectedColor, _selectedColor);
-                _stateButtons[i] = stateButton;
-            }
-            _stateButtons[0].Select();
-
-            FinishPanel.localScale = Vector3.zero;
+            CreateStateButtons();
+            InitializeFinishCanvas();
+            InitializeHUDCanvasGroup();
 
             _loader = FindObjectOfType<SceneLoader>();
 
             ToMainMenuButton.onClick.AddListener(ExitToMainMenu);
             ToNextLevelButton.onClick.AddListener(GoToNextLevel);
             FinishButton.onClick.AddListener(ExitToMainMenu);
+        }
 
-            FinishCanvas.gameObject.SetActive(false);
-            StartLevelCanvas.gameObject.SetActive(false);
+        private void InitializeHUD()
+        {
+            HUDCanvas.gameObject.SetActive(false);
+            StartFadeInPanel.alpha = 1f; // Начальная непрозрачность
+        }
 
+        private void InitializeHUDCanvasGroup()
+        {
             hudCanvasGroup = HUDCanvas.GetComponent<CanvasGroup>();
             if (hudCanvasGroup == null)
             {
                 hudCanvasGroup = HUDCanvas.gameObject.AddComponent<CanvasGroup>();
             }
+        }
+
+        private void InitializeFinishCanvas()
+        {
+            FinishPanel.localScale = Vector3.zero;
+            FinishCanvas.gameObject.SetActive(false);
+            FinishFadeOutPanel.alpha = 0f;
+            FinishFadeOutPanel.gameObject.SetActive(false);
+        }
+
+        private void CreateStateButtons()
+        {
+            _stateButtons = new UiStateButton[_stateMachine.States.Count];
+            for (int i = 0; i < _stateMachine.States.Count; i++)
+            {
+                var stateButton = Instantiate(ButtonPrefab, BottomPanel).GetComponent<UiStateButton>();
+                stateButton.Init(i, _inputMediator, this, _deselectedColor, _selectedColor);
+                _stateButtons[i] = stateButton;
+            }
+            _stateButtons[0].Select();
         }
 
         private async void ExitToMainMenu()
@@ -113,7 +129,6 @@ namespace EchoOfTheTimes.UI
             _inputMediator.gameObject.SetActive(false);
 
             FinishFadeOutPanel.gameObject.SetActive(true);
-            FinishFadeOutPanel.alpha = 0f;
 
             DOTween.To(() => FinishFadeOutPanel.alpha, x => FinishFadeOutPanel.alpha = x, 1f, FinishFadeOutDuration_sec)
                 .SetDelay(UselessFinishDuration_sec)
@@ -154,28 +169,34 @@ namespace EchoOfTheTimes.UI
             TopPanel.gameObject.SetActive(isActive);
         }
 
-        // Метод для показа StartLevelCanvas и запуска анимации
         public void ShowStartLevelCanvas()
         {
             StartLevelCanvas.gameObject.SetActive(true);
-            StartFadeInPanel.alpha = 1f; // Убедитесь, что панель полностью непрозрачна
-            StartFadeInPanel.gameObject.SetActive(true);
+            StartFadeInPanel.alpha = 1f;
 
+            // Запуск анимации появления стартового экрана
             DOTween.To(() => StartFadeInPanel.alpha, x => StartFadeInPanel.alpha = x, 0f, StartFadeInDuration_sec)
                 .SetDelay(StartDelay_sec)
+                .OnStart(() =>
+                {
+                    HUDCanvas.gameObject.SetActive(false);
+                })
+                .OnUpdate(() =>
+                {
+                    // Начало появления HUD за K секунд до окончания анимации стартового экрана
+                    if (StartFadeInPanel.alpha <= HUDStartBeforeEnd_sec / StartFadeInDuration_sec)
+                    {
+                        HUDCanvas.gameObject.SetActive(true);
+                        hudCanvasGroup.alpha = Mathf.Lerp(0f, 1f, (HUDStartBeforeEnd_sec - StartFadeInPanel.alpha * StartFadeInDuration_sec) / HUDStartBeforeEnd_sec);
+                    }
+                })
                 .OnComplete(() =>
                 {
                     StartLevelCanvas.gameObject.SetActive(false);
                     HUDCanvas.gameObject.SetActive(true);
                     flgIsStartAnimationEnded = true;
-                    FadeInHUD(); // Запускаем анимацию HUD
+                    hudCanvasGroup.alpha = 1f; // Убедитесь, что HUD полностью виден
                 });
-        }
-
-        private void FadeInHUD()
-        {
-            hudCanvasGroup.alpha = 0f;
-            DOTween.To(() => hudCanvasGroup.alpha, x => hudCanvasGroup.alpha = x, 1f, 1f); // Кастомная анимация
         }
 
         public void SetActiveHudImmediate(bool isActive)
@@ -189,7 +210,6 @@ namespace EchoOfTheTimes.UI
             for (int i = 0; i < _stateButtons.Length; i++)
             {
                 if (i == exceptIndex) continue;
-
                 _stateButtons[i].Deselect();
             }
         }

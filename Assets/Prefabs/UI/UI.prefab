@@ -368,7 +368,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5046526164867664703}
-  - component: {fileID: 4214959895888319650}
   - component: {fileID: 585063157617742552}
   - component: {fileID: 6815178195249130177}
   m_Layer: 5
@@ -398,27 +397,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!95 &4214959895888319650
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2361734844550591656}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8ec56069e8f0e4e4eb89bcda10c76040, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!223 &585063157617742552
 Canvas:
   m_ObjectHideFlags: 0
@@ -1655,12 +1633,13 @@ MonoBehaviour:
   FinishPanel: {fileID: 3475853598356355641}
   FinishButton: {fileID: 3622288746458728605}
   FinishFadeOutPanel: {fileID: 1341124065920412629}
-  UselessFinishDuration_sec: 0.2
+  UselessFinishDuration_sec: 0
   FinishFadeOutDuration_sec: 0.5
   StartLevelCanvas: {fileID: 585063157617742552}
   StartFadeInPanel: {fileID: 789194509887230574}
-  StartFadeInDuration_sec: 2
-  StartDelay_sec: 1
+  StartFadeInDuration_sec: 1
+  StartDelay_sec: 0
+  HUDStartBeforeEnd_sec: 0.5
 --- !u!114 &6995391740450600390
 MonoBehaviour:
   m_ObjectHideFlags: 0
