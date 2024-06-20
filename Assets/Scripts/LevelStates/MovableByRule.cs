@@ -118,8 +118,6 @@ namespace EchoOfTheTimes.LevelStates
 
             foreach (var vertex in vertices)
             {
-                vertex.IsDynamic = true;
-
                 if (!vertex.TryGetComponent(out MovableByRuleVertex movableVertex))
                 {
                     movableVertex = vertex.gameObject.AddComponent<MovableByRuleVertex>();
