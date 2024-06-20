@@ -26,6 +26,13 @@ namespace EchoOfTheTimes.LevelStates.Editor
             {
                 movable.TransformObjectByRule();
             }
+
+            EditorGUILayout.Space();
+
+            if (GUILayout.Button("Set Movable To Vertices"))
+            {
+                movable.SetMovableToVertices();
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ using EchoOfTheTimes.Units;
 using EchoOfTheTimes.Utils;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace EchoOfTheTimes.LevelStates
 {
@@ -33,13 +34,14 @@ namespace EchoOfTheTimes.LevelStates
 
         [SerializeField]
         private MovablePartConnector _connector;
-
-        public Player Player;
+        
+        private Player _player;
         private bool _isLinked = false;
 
         private void Awake()
         {
             _timer = GetComponent<MonoBehaviourTimer>();
+            SetMovableToVertices();
 
             Run();
         }
@@ -58,18 +60,23 @@ namespace EchoOfTheTimes.LevelStates
 
                 _connector.BreakAllBridges();
 
-                if (Player.StayOnDynamic)
+                if (_player != null)
                 {
-                    _isLinked = true;
-                    Player.StopAndLink(() => Move(_parameterIndex));
+                    if (_player.StayOnDynamic)
+                    {
+                        _isLinked = true;
+                        _player.StopAndLink(() => Move(_parameterIndex));
+                    }
+                    else
+                    {
+                        _player.CutPath();
+                        Move(_parameterIndex);
+                    }
                 }
                 else
                 {
-                    Player.CutPath();
                     Move(_parameterIndex);
                 }
-
-                //Move(_parameterIndex);
             }
         }
 
@@ -82,7 +89,7 @@ namespace EchoOfTheTimes.LevelStates
 
                     if (_isLinked)
                     {
-                        Player.ForceUnlink();
+                        _player.ForceUnlink();
                         _isLinked = false;
                     }
 
@@ -104,6 +111,26 @@ namespace EchoOfTheTimes.LevelStates
 
             _isStopped = true;
         }
+
+        public void SetMovableToVertices()
+        {
+            var vertices = transform.GetComponentsInChildren<VertexVisibility>();
+
+            foreach (var vertex in vertices)
+            {
+                vertex.IsDynamic = true;
+
+                if (!vertex.TryGetComponent(out MovableByRuleVertex movableVertex))
+                {
+                    movableVertex = vertex.gameObject.AddComponent<MovableByRuleVertex>();
+                }
+
+                movableVertex.SetMovable(this);
+            }
+        }
+
+        public void SetPlayer(Player player) => _player = player;
+        public void ClearPlayer() => _player = null;
 
 #if UNITY_EDITOR
         public void SetOrUpdateParamsToRule()
