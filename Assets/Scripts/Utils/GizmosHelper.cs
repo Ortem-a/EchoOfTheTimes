@@ -36,8 +36,8 @@ namespace EchoOfTheTimes.Utils
         public static void DrawWireMeshByTRS(Mesh mesh, Transform parent, StateParameter stateParameter)
         {
             Matrix4x4 rotationMatrix = Matrix4x4.TRS(
-                stateParameter.Position, 
-                Quaternion.Euler(stateParameter.Rotation), 
+                stateParameter.Position,
+                Quaternion.Euler(stateParameter.Rotation),
                 stateParameter.LocalScale);
             Gizmos.matrix = rotationMatrix;
 

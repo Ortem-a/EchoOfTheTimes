@@ -1,27 +1,40 @@
 using EchoOfTheTimes.LevelStates;
-using EchoOfTheTimes.ScriptableObjects;
-using System.Collections.Generic;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine;
 
 namespace EchoOfTheTimes.Utils
 {
-    public class StateableGizmosDrawer : MonoBehaviour
+    public class StateableGizmosDrawer : GizmosDrawer<Stateable>
     {
 #if UNITY_EDITOR
-        private ColorStateSettingsScriptableObject _colorStateSettings;
-
-        private Stateable _stateable;
-        private Mesh _mesh;
-        private List<(Mesh m, Transform t)> _meshes;
-
-        private void OnDrawGizmosSelected()
+        protected override void DrawStates()
         {
-            if (_stateable != null && _colorStateSettings != null)
+            if (component.States != null)
             {
-                DrawStates();
+                foreach (var stateParameter in component.States)
+                {
+                    Gizmos.color = colorStateSettings.GetColor(stateParameter.StateId);
+
+                    if (stateParameter.IsLocalSpace)
+                    {
+                        DrawInLocalSpace(component.transform.parent, stateParameter);
+                    }
+                    else
+                    {
+                        DrawInGlobalSpace(stateParameter);
+                    }
+                }
+            }
+        }
+
+        private void DrawInGlobalSpace(StateParameter stateParameter)
+        {
+            if (mesh != null)
+            {
+                Gizmos.DrawWireMesh(mesh, stateParameter.Position, Quaternion.Euler(stateParameter.Rotation), stateParameter.LocalScale);
+            }
+            else if (meshes != null)
+            {
+                GizmosHelper.DrawWireMeshesByTRS(meshes, stateParameter);
             }
             else
             {
@@ -29,50 +42,22 @@ namespace EchoOfTheTimes.Utils
             }
         }
 
-        private void InitComponents()
+        private void DrawInLocalSpace(Transform parent, StateParameter stateParameter)
         {
-            _stateable = GetComponent<Stateable>();
-
-            if (TryGetComponent(out MeshFilter mf))
+            if (mesh != null)
             {
-                _mesh = mf.sharedMesh;
+                Gizmos.DrawWireMesh(mesh,
+                    parent.TransformPoint(stateParameter.Position),
+                    Quaternion.Euler(stateParameter.Rotation),
+                    stateParameter.LocalScale);
+            }
+            else if (meshes != null)
+            {
+                GizmosHelper.DrawWireMeshesByTRS(meshes, stateParameter);
             }
             else
             {
-                _meshes = new List<(Mesh m, Transform t)>();
-                var filters = GetComponentsInChildren<MeshFilter>();
-
-                foreach (var filter in filters)
-                {
-                    _meshes.Add((filter.sharedMesh, filter.transform));
-                }
-            }
-
-            _colorStateSettings = AssetDatabase.LoadAssetAtPath<ColorStateSettingsScriptableObject>(
-                @"Assets/ScriptableObjects/ColorStateSettings.asset");
-        }
-
-        private void DrawStates()
-        {
-            if (_stateable.States != null)
-            {
-                foreach (var stateParameter in _stateable.States)
-                {
-                    Gizmos.color = _colorStateSettings.GetColor(stateParameter.StateId);
-
-                    if (_mesh != null)
-                    {
-                        Gizmos.DrawWireMesh(_mesh, stateParameter.Position, Quaternion.Euler(stateParameter.Rotation), stateParameter.LocalScale);
-                    }
-                    else if (_meshes != null)
-                    {
-                        GizmosHelper.DrawWireMeshesByTRS(_meshes, stateParameter);
-                    }
-                    else
-                    {
-                        InitComponents();
-                    }
-                }
+                InitComponents();
             }
         }
 #endif

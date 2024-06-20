@@ -1,9 +1,11 @@
-﻿using System;
+﻿using EchoOfTheTimes.Utils;
+using System;
 using UnityEngine;
 using Zenject;
 
 namespace EchoOfTheTimes.LevelStates
 {
+    [RequireComponent(typeof(MovableByButtonGizmosDrawer))]
     public class MovableByButton : MonoBehaviour
     {
         public bool IsLocalSpace;
@@ -25,8 +27,27 @@ namespace EchoOfTheTimes.LevelStates
         }
 
 #if UNITY_EDITOR
+        [SerializeField]
+        private StateParameter _defaultPosition;
+
+        public StateParameter Parameter => _parameter;
+        public StateParameter GetDefaultPosition()
+        {
+            return _defaultPosition ?? new StateParameter
+            {
+                StateId = 0,
+                Target = transform,
+                Position = transform.position,
+                Rotation = transform.rotation.eulerAngles,
+                LocalScale = transform.localScale,
+                IsLocalSpace = IsLocalSpace
+            };
+        }
+
         public void SetOrUpdateParams()
         {
+            SetDefaultPosition();
+
             Vector3 newPosition = transform.position;
             Vector3 newRotation = transform.rotation.eulerAngles;
             if (IsLocalSpace)
@@ -50,6 +71,8 @@ namespace EchoOfTheTimes.LevelStates
 
         public void TransformObjectByParams()
         {
+            SetDefaultPosition();
+
             if (IsLocalSpace)
             {
                 transform.SetLocalPositionAndRotation(_parameter.Position, Quaternion.Euler(_parameter.Rotation));
@@ -59,6 +82,25 @@ namespace EchoOfTheTimes.LevelStates
                 transform.SetPositionAndRotation(_parameter.Position, Quaternion.Euler(_parameter.Rotation));
             }
             transform.localScale = _parameter.LocalScale;
+        }
+
+        private void SetDefaultPosition()
+        {
+            _defaultPosition = new StateParameter
+            {
+                StateId = 0,
+                Target = transform,
+                Position = transform.position,
+                Rotation = transform.rotation.eulerAngles,
+                LocalScale = transform.localScale,
+                IsLocalSpace = IsLocalSpace
+            };
+        }
+
+        public void TransformToDefaultPosition()
+        {
+            transform.SetPositionAndRotation(_defaultPosition.Position, Quaternion.Euler(_defaultPosition.Rotation));
+            transform.localScale = _defaultPosition.LocalScale;
         }
 #endif
     }
