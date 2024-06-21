@@ -2,6 +2,9 @@ using UnityEngine;
 using UnityEngine.Analytics;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Services.Core;
+using Unity.Services.Analytics;
+using System;
 
 public class PerformanceTracker : MonoBehaviour
 {
@@ -20,6 +23,20 @@ public class PerformanceTracker : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    private async void Start()
+    {
+        try
+        {
+            await UnityServices.InitializeAsync();
+            AnalyticsService.Instance.StartDataCollection();
+            Debug.Log("Unity Services initialized and analytics data collection started.");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Failed to initialize Unity Services: {e.Message}");
         }
     }
 
@@ -65,7 +82,7 @@ public class PerformanceTracker : MonoBehaviour
 
             Debug.Log($"Sending performance data: Level={sceneName}, Duration={elapsedTime}, MinFPS={minFps}, MaxFPS={maxFps}, AvgFPS={avgFps}, IsEditor={isEditor}");
 
-            AnalyticsResult result = Analytics.CustomEvent("levelPerformanceData", new Dictionary<string, object>
+            var customData = new Dictionary<string, object>
             {
                 { "level", sceneName },
                 { "duration", elapsedTime },
@@ -76,10 +93,13 @@ public class PerformanceTracker : MonoBehaviour
                 { "deviceModel", SystemInfo.deviceModel },
                 { "deviceType", SystemInfo.deviceType.ToString() },
                 { "operatingSystem", SystemInfo.operatingSystem },
+                { "screenWidth", Screen.width },
+                { "screenHeight", Screen.height },
                 { "isEditor", isEditor }
-            });
+            };
 
-            Debug.Log($"AnalyticsResult: {result}");
+            AnalyticsService.Instance.CustomData("levelPerformanceData", customData);
+            Debug.Log("Performance data sent.");
         }
         else
         {
