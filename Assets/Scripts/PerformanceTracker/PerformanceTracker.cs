@@ -1,22 +1,20 @@
 using UnityEngine;
 using UnityEngine.Analytics;
-using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.Linq;
 
 public class PerformanceTracker : MonoBehaviour
 {
-    private static PerformanceTracker instance;
+    public static PerformanceTracker Instance { get; private set; }
 
-    // Метрики для FPS
     private List<float> fpsList = new List<float>();
     private float startTime;
 
     void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -25,63 +23,51 @@ public class PerformanceTracker : MonoBehaviour
         }
     }
 
-    void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-        SceneManager.sceneUnloaded += OnSceneUnloaded;
-    }
-
-    void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-        SceneManager.sceneUnloaded -= OnSceneUnloaded;
-    }
-
-    void Start()
-    {
-        startTime = Time.time;
-    }
-
     void Update()
     {
-        // Сбор текущего FPS
         float deltaTime = Time.unscaledDeltaTime;
         float fps = 1.0f / deltaTime;
         fpsList.Add(fps);
-    }
 
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        // Начало отслеживания времени и FPS для нового уровня
-        startTime = Time.time;
-        fpsList.Clear(); // Очистка списка FPS для нового уровня
-    }
-
-    void OnSceneUnloaded(Scene scene)
-    {
-        // Отправка данных при завершении уровня
-        if (!Application.isEditor)
+        // Для отладки: вызываем SendPerformanceData на клавишу T
+        if (Input.GetKeyDown(KeyCode.T))
         {
-            SendPerformanceData(); // Отправляем данные только на реальных устройствах
+            Debug.Log("Manual test call to SendPerformanceData");
+            SendPerformanceData("ManualTestScene");
         }
     }
 
-    void SendPerformanceData()
+    public void OnSceneLoaded(string sceneName)
     {
-        string currentLevel = SceneManager.GetActiveScene().name;
-        float elapsedTime = Time.time - startTime; // Длительность прохождения уровня
+        Debug.Log($"PerformanceTracker - Scene loaded: {sceneName}");
+        startTime = Time.time;
+        fpsList.Clear();
+    }
+
+    public void OnSceneUnloaded(string sceneName)
+    {
+        Debug.Log($"PerformanceTracker - Scene unloaded: {sceneName}");
+        SendPerformanceData(sceneName);
+    }
+
+    void SendPerformanceData(string sceneName)
+    {
+        Debug.Log("SendPerformanceData called");
+        float elapsedTime = Time.time - startTime;
 
         if (fpsList.Count > 0)
         {
-            // Исключаем худшие 5% и лучшие 5% для расчета мин. и макс. FPS
             float minFps = GetPercentile(fpsList, 5);
             float maxFps = GetPercentile(fpsList, 95);
             float avgFps = fpsList.Average();
 
-            // Собираем и отправляем данные
-            Analytics.CustomEvent("levelPerformanceData", new Dictionary<string, object>
+            bool isEditor = Application.isEditor;
+
+            Debug.Log($"Sending performance data: Level={sceneName}, Duration={elapsedTime}, MinFPS={minFps}, MaxFPS={maxFps}, AvgFPS={avgFps}, IsEditor={isEditor}");
+
+            AnalyticsResult result = Analytics.CustomEvent("levelPerformanceData", new Dictionary<string, object>
             {
-                { "level", currentLevel },
+                { "level", sceneName },
                 { "duration", elapsedTime },
                 { "minFps", minFps },
                 { "maxFps", maxFps },
@@ -89,8 +75,15 @@ public class PerformanceTracker : MonoBehaviour
                 { "targetFps", Application.targetFrameRate },
                 { "deviceModel", SystemInfo.deviceModel },
                 { "deviceType", SystemInfo.deviceType.ToString() },
-                { "operatingSystem", SystemInfo.operatingSystem }
+                { "operatingSystem", SystemInfo.operatingSystem },
+                { "isEditor", isEditor }
             });
+
+            Debug.Log($"AnalyticsResult: {result}");
+        }
+        else
+        {
+            Debug.LogWarning("FPS list is empty, no data to send.");
         }
     }
 
