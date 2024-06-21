@@ -1,7 +1,5 @@
-using EchoOfTheTimes.ScriptableObjects;
 using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
 
 namespace EchoOfTheTimes.Core
 {
@@ -33,7 +31,7 @@ namespace EchoOfTheTimes.Core
             }
         }
 
-        public void ResetAndLoad()
+        public virtual void ResetAndLoad()
         {
             Vertex[] verts = GetComponentsInChildren<Vertex>();
             vertices = new List<Vertex>(verts);
@@ -57,7 +55,7 @@ namespace EchoOfTheTimes.Core
 
             for (int i = 0; i < vertices.Count; i++)
             {
-                vertices[i].Id = 0;
+                vertices[i].Id = i;
                 vertices[i].Neighbours = new List<Edge>();
             }
         }

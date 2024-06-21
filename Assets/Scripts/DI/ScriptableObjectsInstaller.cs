@@ -21,6 +21,8 @@ namespace EchoOfTheTimes.DI
         private LevelSettingsScriptableObject _levelSettings;
         [SerializeField]
         private CameraSettingsScriptableObject _cameraSettings;
+        [SerializeField]
+        private InputIndicatorSettingsScriptableObject _inputIndicatorSettings;
 
         public override void InstallBindings()
         {
@@ -28,6 +30,7 @@ namespace EchoOfTheTimes.DI
             Container.Bind<ColorStateSettingsScriptableObject>().FromScriptableObject(_colorStateSettings).AsSingle();
             Container.Bind<LevelSettingsScriptableObject>().FromScriptableObject(_levelSettings).AsSingle();
             Container.Bind<CameraSettingsScriptableObject>().FromScriptableObject(_cameraSettings).AsSingle();
+            Container.Bind<InputIndicatorSettingsScriptableObject>().FromScriptableObject(_inputIndicatorSettings).AsSingle();
         }
     }
 }

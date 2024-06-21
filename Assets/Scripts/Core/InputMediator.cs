@@ -18,6 +18,9 @@ namespace EchoOfTheTimes.Core
         private GraphVisibility _graph;
         private LevelStateMachine _levelStateMachine;
         private RefinedOrbitCamera _camera;
+        private InputAnimator _animator;
+
+        private PlayerPath _playerPath;
 
         private void Awake()
         {
@@ -34,17 +37,29 @@ namespace EchoOfTheTimes.Core
         }
 
         [Inject]
-        private void Construct(GraphVisibility graph, Player player, LevelStateMachine stateMachine, RefinedOrbitCamera camera)
+        private void Construct(GraphVisibility graph, Player player, LevelStateMachine stateMachine, 
+            RefinedOrbitCamera camera, InputAnimator inputAnimator, PlayerPath playerPath)
         {
             _graph = graph;
             _player = player;
             _levelStateMachine = stateMachine;
             _camera = camera;
+            _animator = inputAnimator;
+            _playerPath = playerPath;
         }
 
         private void HandleTouch(Vertex touchPosition)
         {
-            _player.Stop(() => CreatePathAndMove(touchPosition));
+            if (HasPath(touchPosition) && !_player.IsTeleportate)
+            {
+                _animator.ShowSuccessIndicator(touchPosition);
+
+                _player.Stop(() => CreatePathAndMove(touchPosition));
+            }
+            else
+            {
+                _animator.ShowErrorIndicator(touchPosition);
+            }
         }
 
         //private void HandleDoubleTouch()
@@ -57,21 +72,26 @@ namespace EchoOfTheTimes.Core
         //    _camera.RotateCamera(swipeX);
         //}
 
+        private bool HasPath(Vertex destination)
+        {
+            var path = _graph.GetPathBFS(_player.Position, destination);
+
+            if (path.Count != 0) return true;
+
+            return false;
+        }
+
         private void CreatePathAndMove(Vertex destination)
         {
-            List<Vertex> path = _graph.GetPathBFS(_player.Position, destination);
+            List<Vertex> path = _graph.GetPathBFS((_player.NextPosition == null ? _player.Position : _player.NextPosition), destination);
 
             if (path.Count != 0)
             {
                 path.Reverse();
 
-                var waypoints = new Vector3[path.Count];
-                for (int i = 0; i < path.Count; i++)
-                {
-                    waypoints[i] = path[i].transform.position;
-                }
+                _playerPath.SetPath(path);
 
-                _player.MoveTo(waypoints);
+                _player.MoveTo(path.ToArray());
             }
         }
 

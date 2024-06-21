@@ -11,44 +11,43 @@ using Zenject;
 
 namespace EchoOfTheTimes.Units
 {
-    [RequireComponent(typeof(AnimationManager), typeof(Movable))]
+    [RequireComponent(typeof(AnimationManager), typeof(Movable), typeof(PlayerPath))]
     public class Player : MonoBehaviour
     {
         public AnimationManager Animations =>
             _animationManager = _animationManager != null ? _animationManager : GetComponent<AnimationManager>();
 
         public bool IsBusy { get; set; } = false;
+        public bool IsTeleportate { get; private set; } = false;
 
         private Vertex _position;
         public Vertex Position => _position == null ? _graph.GetNearestVertex(transform.position) : _position;
 
+        public Vertex NextPosition => _movable.Destination;
+
+        public bool StayOnDynamic => _playerPath.StayOnDynamic;
+
         private GraphVisibility _graph;
         private VertexFollower _vertexFollower;
-        private PlayerSettingsScriptableObject _playerSettings;
+        private PlayerPath _playerPath;
+        private Movable _movable;
 
         private AnimationManager _animationManager;
 
-        private Movable _movable;
-
         [Inject]
-        private void Construct(GraphVisibility graphVisibility, VertexFollower vertexFollower, PlayerSettingsScriptableObject playerSettings)
+        private void Construct(GraphVisibility graphVisibility, VertexFollower vertexFollower, Movable movable, PlayerPath playerPath)
         {
             _graph = graphVisibility;
             _vertexFollower = vertexFollower;
-            _playerSettings = playerSettings;
-
-            _movable = GetComponent<Movable>();
-            _movable.Initialize(
-                speed: _playerSettings.MoveSpeed,
-                distanceTreshold: _playerSettings.DistanceTreshold,
-                rotateDuration: _playerSettings.RotateDuration,
-                rotateConstraint: _playerSettings.AxisConstraint
-                );
+            _movable = movable;
+            _playerPath = playerPath;
         }
 
         public void Teleportate(Vector3 to, float duration, TweenCallback onStart = null, TweenCallback onComplete = null)
         {
             Debug.Log($"[TeleportTo] {to}");
+
+            ResetNextPosition();
 
             transform.DOMove(to, duration)
                 .SetEase(Ease.Linear)
@@ -64,7 +63,7 @@ namespace EchoOfTheTimes.Units
                 });
         }
 
-        public void MoveTo(Vector3[] waypoints)
+        public void MoveTo(Vertex[] waypoints)
         {
             _movable.Move(waypoints, OnStartMove, OnCompleteMove);
         }
@@ -80,6 +79,11 @@ namespace EchoOfTheTimes.Units
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
                 freezer.OnCancel?.Invoke();
+            }
+
+            if (NextPosition.gameObject.TryGetComponent(out StateFreezer nextFreezer))
+            {
+                nextFreezer.OnFreeze?.Invoke();
             }
 
             if (Position.gameObject.TryGetComponent(out ISpecialVertex specialVertex))
@@ -109,11 +113,10 @@ namespace EchoOfTheTimes.Units
 
         private void OnStartTeleportate()
         {
+            IsTeleportate = true;
             IsBusy = true;
 
             _position = _graph.GetNearestVertex(transform.position);
-
-            //Debug.Log($"[ON START TELEPORTATE] {_position}");
 
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
@@ -124,11 +127,10 @@ namespace EchoOfTheTimes.Units
 
         private void OnCompleteTeleportate()
         {
+            IsTeleportate = false;
             IsBusy = false;
 
             _position = _graph.GetNearestVertex(transform.position);
-
-            //Debug.Log($"[ON COMPLETE TELEPORTATE] {_position}");
 
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
@@ -153,6 +155,16 @@ namespace EchoOfTheTimes.Units
         public void ForceUnlink()
         {
             _vertexFollower.Unlink();
+        }
+
+        public void CutPath()
+        {
+            _playerPath.CutPath();
+        }
+
+        private void ResetNextPosition()
+        {
+            _movable.ResetDestination();
         }
     }
 }

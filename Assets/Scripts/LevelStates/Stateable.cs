@@ -9,19 +9,31 @@ namespace EchoOfTheTimes.LevelStates
     {
         public int CurrentStateId;
 
+        public bool IsLocalSpace;
+
         public List<StateParameter> States = new List<StateParameter>();
 
+#if UNITY_EDITOR
         public void SetOrUpdateParamsToState()
         {
             var stateParam = States.Find((x) => x.StateId == CurrentStateId);
+
+            Vector3 newPosition = transform.position;
+            Vector3 newRotation = transform.rotation.eulerAngles;
+            if (IsLocalSpace)
+            {
+                newPosition = transform.localPosition;
+                newRotation = transform.localRotation.eulerAngles;
+            }
 
             var newStateParam = new StateParameter
             {
                 StateId = CurrentStateId,
                 Target = transform,
-                Position = transform.position,
-                Rotation = transform.rotation.eulerAngles,
+                Position = newPosition,
+                Rotation = newRotation,
                 LocalScale = transform.localScale,
+                IsLocalSpace = IsLocalSpace
             };
 
             if (stateParam != null)
@@ -41,7 +53,14 @@ namespace EchoOfTheTimes.LevelStates
 
             if (stateParam != null)
             {
-                transform.SetPositionAndRotation(stateParam.Position, Quaternion.Euler(stateParam.Rotation));
+                if (IsLocalSpace)
+                {
+                    transform.SetLocalPositionAndRotation(stateParam.Position, Quaternion.Euler(stateParam.Rotation));
+                }
+                else
+                {
+                    transform.SetPositionAndRotation(stateParam.Position, Quaternion.Euler(stateParam.Rotation));
+                }
                 transform.localScale = stateParam.LocalScale;
             }
             else
@@ -49,5 +68,6 @@ namespace EchoOfTheTimes.LevelStates
                 Debug.LogWarning($"There is no state with Id [{CurrentStateId}]!");
             }
         }
+#endif
     }
 }
