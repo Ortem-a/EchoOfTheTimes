@@ -1,6 +1,8 @@
 using EchoOfTheTimes.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Services;
+using Unity.Services.Core;
 
 namespace EchoOfTheTimes.SceneManagement
 {
