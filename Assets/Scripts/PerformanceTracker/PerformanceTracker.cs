@@ -39,21 +39,6 @@ public class PerformanceTracker : MonoBehaviour
             Debug.LogError($"Failed to initialize Unity Services: {e.Message}");
         }
     }
-
-    void Update()
-    {
-        float deltaTime = Time.unscaledDeltaTime;
-        float fps = 1.0f / deltaTime;
-        fpsList.Add(fps);
-
-        // Для отладки: вызываем SendPerformanceData на клавишу T
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            Debug.Log("Manual test call to SendPerformanceData");
-            SendPerformanceData("ManualTestScene");
-        }
-    }
-
     public void OnSceneLoaded(string sceneName)
     {
         Debug.Log($"PerformanceTracker - Scene loaded: {sceneName}");
