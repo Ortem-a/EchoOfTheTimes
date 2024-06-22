@@ -85,7 +85,7 @@ public class PerformanceTracker : MonoBehaviour
             var customData = new Dictionary<string, object>
             {
                 { "level", sceneName },
-                { "duration", elapsedTime },
+                { "durationLevel", elapsedTime },
                 { "minFps", minFps },
                 { "maxFps", maxFps },
                 { "avgFps", avgFps },
