@@ -6,6 +6,20 @@ public class FaceCamera_Pasha : MonoBehaviour
 {
     private Vector3 initialPosition;
 
+    public float addRotation = 180;
+    public bool lockX = false;
+    public bool lockY = true;
+    public bool lockZ = false;
+
+    // Enum для выбора режима взгляда
+    public enum LookMode
+    {
+        Camera,
+        Screen
+    }
+
+    public LookMode lookMode = LookMode.Camera;
+
     void Start()
     {
         // Сохраняем начальную позицию объекта
@@ -17,16 +31,38 @@ public class FaceCamera_Pasha : MonoBehaviour
         // Возвращаем объект в его изначальную позицию
         transform.position = initialPosition;
 
-        // Получаем направление от объекта к камере
-        Vector3 directionToCamera = Camera.main.transform.position - transform.position;
-        directionToCamera.y = 0; // Игнорируем вертикальную компоненту для поворота только по горизонтали
+        Vector3 directionToTarget;
 
-        // Поворачиваем объект к камере
-        if (directionToCamera != Vector3.zero)
+        // Определяем направление взгляда в зависимости от выбранного режима
+        if (lookMode == LookMode.Camera)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(directionToCamera);
-            // Добавляем вращение на 180 градусов
-            targetRotation *= Quaternion.Euler(0, 180, 0);
+            directionToTarget = Camera.main.transform.position - transform.position;
+        }
+        else
+        {
+            directionToTarget = Camera.main.transform.forward;
+        }
+
+        // Блокировка изменений по осям X, Y, Z если требуется
+        if (lockX)
+        {
+            directionToTarget.x = 0;
+        }
+        if (lockY)
+        {
+            directionToTarget.y = 0;
+        }
+        if (lockZ)
+        {
+            directionToTarget.z = 0;
+        }
+
+        // Поворачиваем объект к цели
+        if (directionToTarget != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+            // Применяем дополнительное вращение
+            targetRotation *= Quaternion.Euler(0, addRotation, 0);
             transform.rotation = targetRotation;
         }
     }
