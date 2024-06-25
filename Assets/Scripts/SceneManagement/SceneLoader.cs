@@ -22,15 +22,25 @@ namespace EchoOfTheTimes.SceneManagement
 
         private float _targetProgress;
         private bool _isLoading;
-        private int _lastLoadedGroupIndex;
+        private int _lastLoadedGroupIndex = -1;
 
         public readonly SceneGroupManager Manager = new SceneGroupManager();
 
         [Inject]
         public void Construct()
         {
-            Manager.OnSceneLoaded += sceneName => Debug.Log($"Loaded: '{sceneName}'");
-            Manager.OnSceneUnloaded += sceneName => Debug.Log($"Unloaded: '{sceneName}'");
+            Manager.OnSceneLoaded += sceneName =>
+            {
+                Debug.Log($"Loaded: '{sceneName}'");
+                PerformanceTracker.Instance.OnSceneLoaded(sceneName);
+            };
+
+            Manager.OnSceneUnloaded += sceneName =>
+            {
+                Debug.Log($"Unloaded: '{sceneName}'");
+                PerformanceTracker.Instance.OnSceneUnloaded(sceneName);
+            };
+
             Manager.OnSceneGroupLoaded += () => Debug.Log("Scene group loaded");
 
             if (GroupToLoad < 0 || GroupToLoad >= SceneGroups.Length)
@@ -67,11 +77,22 @@ namespace EchoOfTheTimes.SceneManagement
             LoadingProgress progress = new LoadingProgress();
             progress.Progressed += target => _targetProgress = Mathf.Max(target, _targetProgress);
 
-            _lastLoadedGroupIndex = index;
-
             EnableLoadingCanvas();
 
+            if (_lastLoadedGroupIndex >= 0)
+            {
+                string previousSceneName = SceneGroups[_lastLoadedGroupIndex].GroupName;
+                Debug.Log($"Calling OnSceneUnloaded for scene: {previousSceneName}");
+                PerformanceTracker.Instance.OnSceneUnloaded(previousSceneName);
+            }
+
+            _lastLoadedGroupIndex = index;
+
             await Manager.LoadScenesAsync(SceneGroups[index], progress);
+
+            string currentSceneName = SceneGroups[index].GroupName;
+            Debug.Log($"Calling OnSceneLoaded for scene: {currentSceneName}");
+            PerformanceTracker.Instance.OnSceneLoaded(currentSceneName);
 
             EnableLoadingCanvas(false);
         }

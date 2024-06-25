@@ -123,6 +123,50 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &208479774
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 208479775}
+  - component: {fileID: 208479776}
+  m_Layer: 0
+  m_Name: ScreenEnabler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &208479775
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208479774}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 30.495655, y: 58.7192, z: 11.243492}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &208479776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208479774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdbc1289edd4c244587e50bcb77d4a09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &280027405
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,7 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b26bd9dad9789148b59cdcddc984b2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GroupToLoad: 1
+  GroupToLoad: 7
   _loadingBar: {fileID: 280027407}
   _fillSpeed: 0.5
   _loadingCanvas: {fileID: 1741936056}
@@ -242,12 +286,6 @@ MonoBehaviour:
     - Reference:
         asset: {fileID: 102900000, guid: bee79e3659b93ba41b934aa27b6e34da, type: 3}
         guid: bee79e3659b93ba41b934aa27b6e34da
-      Type: 0
-  - GroupName: CODE TESTS
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 99c9720ab356a0642a771bea13969a05, type: 3}
-        guid: 99c9720ab356a0642a771bea13969a05
       Type: 0
   - GroupName: Ch 1 Lvl 1
     Scenes:
@@ -368,18 +406,6 @@ MonoBehaviour:
     - Reference:
         asset: {fileID: 102900000, guid: 93a472720ca9dc444b3a7416dc607ade, type: 3}
         guid: 93a472720ca9dc444b3a7416dc607ade
-      Type: 0
-  - GroupName: Ch 4 Lvl 5
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 4ecc131cd10bfe846a4e70dbd8a7a820, type: 3}
-        guid: 4ecc131cd10bfe846a4e70dbd8a7a820
-      Type: 0
-  - GroupName: Ch 4 Lvl 6
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 078b4c3de8506d5448c988fa8b62b73e, type: 3}
-        guid: 078b4c3de8506d5448c988fa8b62b73e
       Type: 0
 --- !u!4 &570535979
 Transform:
@@ -874,6 +900,50 @@ Transform:
   - {fileID: 1006948035}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1816622963
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1816622964}
+  - component: {fileID: 1816622965}
+  m_Layer: 0
+  m_Name: PerformanceTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1816622964
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816622963}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 216.383, y: 1013.86, z: -485.98822}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1816622965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816622963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d83e62f12f76ebd4ca0f2a129fc3d257, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1892294556
 GameObject:
   m_ObjectHideFlags: 0
@@ -955,3 +1025,5 @@ SceneRoots:
   m_Roots:
   - {fileID: 570535979}
   - {fileID: 1756243861}
+  - {fileID: 208479775}
+  - {fileID: 1816622964}
