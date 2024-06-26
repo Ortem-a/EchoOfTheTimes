@@ -73,8 +73,6 @@ namespace EchoOfTheTimes.Movement
                         {
                             _userInputHandler.OnTouched?.Invoke(vertex);
                             //_isSuccessfulTap = true;
-
-                            Debug.Log("Меня нажали");
                         }
                     }
                 }

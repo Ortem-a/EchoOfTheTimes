@@ -26,6 +26,13 @@ namespace EchoOfTheTimes.LevelStates.Editor
             {
                 movable.TransformObjectByParams();
             }
+
+            EditorGUILayout.Space();
+
+            if (GUILayout.Button("Transform To Default Position"))
+            {
+                movable.TransformToDefaultPosition();
+            }
         }
     }
 }
