@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FaceCamera_Pasha : MonoBehaviour
 {
-    private Vector3 initialPosition;
+    private Vector3 initialLocalPosition;
 
     public float addRotation = 180;
     public bool lockX = false;
@@ -22,14 +22,14 @@ public class FaceCamera_Pasha : MonoBehaviour
 
     void Start()
     {
-        // Сохраняем начальную позицию объекта
-        initialPosition = transform.position;
+        // Сохраняем начальную позицию объекта в локальных координатах
+        initialLocalPosition = transform.localPosition;
     }
 
     void Update()
     {
-        // Возвращаем объект в его изначальную позицию
-        transform.position = initialPosition;
+        // Возвращаем объект в его изначальную позицию в локальных координатах
+        transform.localPosition = initialLocalPosition;
 
         Vector3 directionToTarget;
 
