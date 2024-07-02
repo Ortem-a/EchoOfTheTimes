@@ -103,16 +103,16 @@ namespace EchoOfTheTimes.Core
             // +++++++++++++++++++++++++++++++++++++++++++++++++++
             _player.CutPath();
 
-            if (_player.PreviousWaypointIsDynamic)
+            if (_player.StayOnDynamic)
             {
-                _player.WaitUntilCompleteMove(onComplete: () =>
+                _player.StopAndLink(onComplete: () =>
                 {
                     _levelStateMachine.ChangeState(levelStateId);
                 });
             }
-            else if (_player.StayOnDynamic)
+            else if (_player.PreviousWaypointIsDynamic)
             {
-                _player.StopAndLink(onComplete: () =>
+                _player.WaitUntilCompleteMove(onComplete: () =>
                 {
                     _levelStateMachine.ChangeState(levelStateId);
                 });
