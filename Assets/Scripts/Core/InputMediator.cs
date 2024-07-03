@@ -50,6 +50,8 @@ namespace EchoOfTheTimes.Core
 
         private void HandleTouch(Vertex touchPosition)
         {
+            _animator.Show2DIndicator(touchPosition);
+
             if (HasPath(touchPosition) && !_player.IsTeleportate)
             {
                 _animator.ShowSuccessIndicator(touchPosition);

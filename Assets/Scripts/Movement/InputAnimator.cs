@@ -8,6 +8,9 @@ namespace EchoOfTheTimes.Movement
 {
     public class InputAnimator : MonoBehaviour
     {
+        [SerializeField]
+        private GameObject _2dIndicator;
+
         private GameObject _spherePrefab;
         private GameObject _spawnedSphere;
 
@@ -45,6 +48,9 @@ namespace EchoOfTheTimes.Movement
 
             _renderer = _spawnedSphere.GetComponent<Renderer>();
             _defaultSphere = _renderer.material.color;
+
+            _2dIndicator.SetActive(false);
+            _2dIndicator.transform.DOScale(0, 0f);
         }
 
         public void ShowSuccessIndicator(Vertex at) => SpawnSphere(at.transform, _defaultSphere, _splashSphere);
@@ -74,6 +80,37 @@ namespace EchoOfTheTimes.Movement
                             _renderer.material.color = defaultColor;
                         });
                 });
+        }
+
+        public void Show2DIndicator(Vertex at) => Spawn2DIndicator(at.transform);
+
+        private bool _isFollow = false;
+        private Transform _target;
+        private void Spawn2DIndicator(Transform at)
+        {
+            _2dIndicator.SetActive(true);
+            _isFollow = true;
+            _target = at;
+
+            _2dIndicator.transform.DOScale(1, 0.5f)
+                .OnComplete(() =>
+                {
+                    at.DOScale(0, 0.5f)
+                    .OnComplete(() => 
+                    { 
+                        _2dIndicator.SetActive(false);
+                        _isFollow = false;
+                        _target = null;
+                    });
+                });
+        }
+
+        private void Update()
+        {
+            if (_isFollow)
+            {
+                _2dIndicator.transform.position = Camera.main.WorldToScreenPoint(_target.transform.position);
+            }
         }
     }
 }
