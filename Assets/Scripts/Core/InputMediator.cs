@@ -8,6 +8,7 @@ using Zenject;
 
 namespace EchoOfTheTimes.Core
 {
+    [RequireComponent(typeof(Input3DIndicator), typeof(Input2DIndicator))]
     public class InputMediator : MonoBehaviour
     {
         public Action<Vertex> OnTouched;

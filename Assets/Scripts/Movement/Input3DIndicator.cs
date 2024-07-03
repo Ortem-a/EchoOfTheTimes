@@ -9,11 +9,13 @@ namespace EchoOfTheTimes.Movement
         private Renderer _renderer;
 
         [SerializeField]
-        private Color _defaultSphere;
+        private Color _defaultSphere = Color.black;
         [SerializeField]
-        private Color _splashSphere;
+        private Color _splashSphere = Color.white;
         [SerializeField]
-        private Color _errorSplashSphere;
+        private Color _defaultErrorSplashSphere = Color.white;
+        [SerializeField]
+        private Color _errorSplashSphere = Color.red;
 
         protected override void Awake()
         {
@@ -26,7 +28,7 @@ namespace EchoOfTheTimes.Movement
 
         public void ShowSuccessIndicator(Vertex at) => SpawnSphere(at.transform, _defaultSphere, _splashSphere);
 
-        public void ShowErrorIndicator(Vertex at) => SpawnSphere(at.transform, _defaultSphere, _errorSplashSphere);
+        public void ShowErrorIndicator(Vertex at) => SpawnSphere(at.transform, _defaultErrorSplashSphere, _errorSplashSphere);
 
         private void SpawnSphere(Transform at, Color defaultColor, Color splash)
         {
