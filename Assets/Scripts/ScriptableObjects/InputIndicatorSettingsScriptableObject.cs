@@ -5,16 +5,9 @@ namespace EchoOfTheTimes.ScriptableObjects
     [CreateAssetMenu(menuName = "ScriptableObjects/InputIndicatorSettings", order = 6)]
     public class InputIndicatorSettingsScriptableObject : ScriptableObject
     {
+        [field: Header("3D Indicator")]
         [field: SerializeField]
-        public GameObject SpherePrefab { get; private set; }
-        [field: SerializeField]
-        public Color DefaultSphere { get; private set; }
-        [field: SerializeField]
-        public Color SplashSphere { get; private set; }
-        [field: SerializeField]
-        public Color ErrorSphere { get; private set; }
-        [field: SerializeField]
-        public Color ErrorSplashSphere { get; private set; }
+        public GameObject Indicator3DPrefab { get; private set; }
         [field: SerializeField]
         public float DefaultRadius { get; private set; }
         [field: SerializeField]
@@ -23,5 +16,11 @@ namespace EchoOfTheTimes.ScriptableObjects
         public float IndicatorDuration3D_sec { get; private set; }
         [field: SerializeField]
         public float IndicatorColorDuration3D_sec { get; private set; }
+
+        [field: Header("2D Indicator")]
+        [field: SerializeField]
+        public GameObject Indicator2DPrefab { get; private set; }
+        [field: SerializeField]
+        public float IndicatorDuration2D_sec { get; private set; }
     }
 }

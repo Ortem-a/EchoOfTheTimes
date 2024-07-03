@@ -30,9 +30,11 @@ namespace EchoOfTheTimes.DI
         [SerializeField]
         private UserInput _userInput;
         [SerializeField]
-        private InputMediator _userInputHandler;
+        private InputMediator _inputMediator;
         [SerializeField]
-        private InputAnimator _inputAnimator;
+        private Input3DIndicator _input3DIndicator;
+        [SerializeField]
+        private Input2DIndicator _input2DIndicator;
         [SerializeField]
         private Movable _movable;
         [SerializeField]
@@ -66,7 +68,8 @@ namespace EchoOfTheTimes.DI
             Container.Bind<GraphVisibility>().FromInstance(_graph).AsSingle();
             Container.Bind<CheckpointManager>().FromInstance(_checkpointManager).AsSingle();
             Container.Bind<VerticesBlocker>().FromInstance(_verticesBlocker).AsSingle();
-            Container.Bind<InputAnimator>().FromInstance(_inputAnimator).AsSingle();
+            Container.Bind<Input3DIndicator>().FromInstance(_input3DIndicator).AsSingle();
+            Container.Bind<Input2DIndicator>().FromInstance(_input2DIndicator).AsSingle();
         }
 
         private void BindPlayer()
@@ -74,7 +77,7 @@ namespace EchoOfTheTimes.DI
             Container.Bind<VertexFollower>().FromInstance(_vertexFollower).AsSingle();
             Container.Bind<RefinedOrbitCamera>().FromInstance(_camera).AsSingle();
             Container.Bind<UserInput>().FromInstance(_userInput).AsSingle();
-            Container.Bind<InputMediator>().FromInstance(_userInputHandler).AsSingle();
+            Container.Bind<InputMediator>().FromInstance(_inputMediator).AsSingle();
             Container.Bind<Player>().FromInstance(_player).AsSingle();
 
             Container.Bind<Movable>().FromInstance(_movable).AsSingle();
