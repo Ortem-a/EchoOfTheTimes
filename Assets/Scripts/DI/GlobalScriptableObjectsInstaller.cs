@@ -1,6 +1,8 @@
 using EchoOfTheTimes.Core;
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Movement;
+using EchoOfTheTimes.ScriptableObjects.Player;
+using EchoOfTheTimes.ScriptableObjects.Level;
 using EchoOfTheTimes.ScriptableObjects;
 using EchoOfTheTimes.UI;
 using EchoOfTheTimes.Units;
@@ -9,10 +11,10 @@ using Zenject;
 
 namespace EchoOfTheTimes.DI
 {
-    [CreateAssetMenu(fileName = "Installer settings", menuName = "ScriptableObjects/DI")]
-    public class ScriptableObjectsInstaller : ScriptableObjectInstaller<ScriptableObjectsInstaller>
+    [CreateAssetMenu(fileName = "Global Scriptable Object Installer", menuName = "ScriptableObjects/DI/GlobalScriptableObjectInstaller", order = 1)]
+    public class GlobalScriptableObjectsInstaller : ScriptableObjectInstaller<GlobalScriptableObjectsInstaller>
     {
-        [Header("Scriptable Objects")]
+        [Header("Global Scriptable Objects")]
         [SerializeField]
         private ColorStateSettingsScriptableObject _colorStateSettings;
         [SerializeField]

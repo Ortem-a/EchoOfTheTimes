@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace EchoOfTheTimes.ScriptableObjects
+namespace EchoOfTheTimes.ScriptableObjects.Level
 {
-    [CreateAssetMenu(menuName = "ScriptableObjects/LevelSettings", order = 4)]
+    [CreateAssetMenu(menuName = "ScriptableObjects/Level/LevelSettings", order = 1)]
     public class LevelSettingsScriptableObject : ScriptableObject
     {
         [field: SerializeField]

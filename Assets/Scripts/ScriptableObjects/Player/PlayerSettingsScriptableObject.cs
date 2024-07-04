@@ -1,9 +1,9 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace EchoOfTheTimes.ScriptableObjects
+namespace EchoOfTheTimes.ScriptableObjects.Player
 {
-    [CreateAssetMenu(menuName = "ScriptableObjects/PlayerSettings", order = 3)]
+    [CreateAssetMenu(menuName = "ScriptableObjects/Player/PlayerSettings", order = 1)]
     public class PlayerSettingsScriptableObject : ScriptableObject
     {
         [field: Header("Movement")]

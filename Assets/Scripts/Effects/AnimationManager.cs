@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace EchoOfTheTimes.Animations
+namespace EchoOfTheTimes.Effects
 {
     [RequireComponent(typeof(Animator))]
     public class AnimationManager : MonoBehaviour
