@@ -25,6 +25,8 @@ namespace EchoOfTheTimes.DI
         private CameraSettingsScriptableObject _cameraSettings;
         [SerializeField]
         private InputIndicatorSettingsScriptableObject _inputIndicatorSettings;
+        [SerializeField]
+        private LevelSoundsGlobalContainerScriptableObject _levelSoundsGlobalContainer;
 
         public override void InstallBindings()
         {
@@ -33,6 +35,7 @@ namespace EchoOfTheTimes.DI
             Container.Bind<LevelSettingsScriptableObject>().FromScriptableObject(_levelSettings).AsSingle();
             Container.Bind<CameraSettingsScriptableObject>().FromScriptableObject(_cameraSettings).AsSingle();
             Container.Bind<InputIndicatorSettingsScriptableObject>().FromScriptableObject(_inputIndicatorSettings).AsSingle();
+            Container.Bind<LevelSoundsGlobalContainerScriptableObject>().FromScriptableObject(_levelSoundsGlobalContainer).AsSingle();
         }
     }
 }

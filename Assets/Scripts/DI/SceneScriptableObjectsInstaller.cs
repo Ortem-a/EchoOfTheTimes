@@ -1,4 +1,5 @@
 using EchoOfTheTimes.ScriptableObjects.Level;
+using EchoOfTheTimes.ScriptableObjects.Player;
 using EchoOfTheTimes.ScriptableObjects.UI;
 using UnityEngine;
 using Zenject;
@@ -13,11 +14,14 @@ namespace EchoOfTheTimes.DI
         private LevelSoundsSceneContainerScriptableObject _levelSoundsSceneContainer;
         [SerializeField]
         private SceneHudSoundsContainerScriptableObject _hudSoundsContainer;
+        [SerializeField]
+        private PlayerSoundsContainerScriptableObject _playerSoundsContainer;
 
         public override void InstallBindings()
         {
             Container.Bind<LevelSoundsSceneContainerScriptableObject>().FromScriptableObject(_levelSoundsSceneContainer).AsSingle();
             Container.Bind<SceneHudSoundsContainerScriptableObject>().FromScriptableObject(_hudSoundsContainer).AsSingle();
+            Container.Bind<PlayerSoundsContainerScriptableObject>().FromScriptableObject(_playerSoundsContainer).AsSingle();
         }
     }
 }

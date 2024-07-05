@@ -14,7 +14,7 @@ public class EyeHelper : MonoBehaviour
         _animator = gameObject.GetComponent<Animator>();
         _button = gameObject.GetComponent<Button>();
 
-        _button.onClick.AddListener(OnTap);
+        //_button.onClick.AddListener(OnTap);
     }
 
     private void OnTap()

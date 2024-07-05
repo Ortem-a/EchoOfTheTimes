@@ -12,10 +12,6 @@ namespace EchoOfTheTimes.UI
     {
         public bool flgIsStartAnimationEnded = false;
 
-        [Header("States Buttons")]
-        [SerializeField] private Color _deselectedColor;
-        [SerializeField] private Color _selectedColor;
-
         [Header("HUD")]
         public Canvas HUDCanvas;
         private CanvasGroup hudCanvasGroup;
@@ -97,14 +93,26 @@ namespace EchoOfTheTimes.UI
 
         private void CreateStateButtons()
         {
-            _stateButtons = new UiStateButton[_stateMachine.States.Count];
-            for (int i = 0; i < _stateMachine.States.Count; i++)
-            {
-                var stateButton = Instantiate(ButtonPrefab, BottomPanel).GetComponent<UiStateButton>();
-                stateButton.Init(i, _inputMediator, this, _deselectedColor, _selectedColor);
-                _stateButtons[i] = stateButton;
-            }
+            _stateButtons = new UiStateButton[3];
+
+            _stateButtons[0] = BottomPanel.GetChild(0).GetComponent<UiStateButton>();
+            _stateButtons[1] = BottomPanel.GetChild(1).GetComponent<UiStateButton>();
+            _stateButtons[2] = BottomPanel.GetChild(2).GetComponent<UiStateButton>();
+
+            _stateButtons[0].Init(0, _inputMediator, this);
+            _stateButtons[1].Init(1, _inputMediator, this);
+            _stateButtons[2].Init(2, _inputMediator, this);
+
             _stateButtons[0].Select();
+
+            //_stateButtons = new UiStateButton[_stateMachine.States.Count];
+            //for (int i = 0; i < _stateMachine.States.Count; i++)
+            //{
+            //    var stateButton = Instantiate(ButtonPrefab, BottomPanel).GetComponent<UiStateButton>();
+            //    stateButton.Init(i, _inputMediator, this);
+            //    _stateButtons[i] = stateButton;
+            //}
+            //_stateButtons[0].Select();
         }
 
         private async void ExitToMainMenu()

@@ -102,7 +102,7 @@ namespace EchoOfTheTimes.DI
         {
             _stateMachine.OnTransitionStart += _graph.ResetVertices;
             _stateMachine.OnTransitionStart += _stateMachine.StartTransition;
-            _stateMachine.OnTransitionStart += () => _uiSceneController.SetActiveBottomPanelImmediate(false);
+            //_stateMachine.OnTransitionStart += () => _uiSceneController.SetActiveBottomPanelImmediate(false);
 
             _stateMachine.OnTransitionComplete += () => _verticesBlocker.Block();
             _stateMachine.OnTransitionComplete += _graph.Load;
@@ -110,14 +110,14 @@ namespace EchoOfTheTimes.DI
             _stateMachine.OnTransitionComplete += _stateMachine.CompleteTransition;
 
             _stateMachine.OnTransitionComplete += _uiSceneController.UpdateLabel;
-            _stateMachine.OnTransitionComplete += () => _uiSceneController.SetActiveBottomPanelImmediate(true);
+            //_stateMachine.OnTransitionComplete += () => _uiSceneController.SetActiveBottomPanelImmediate(true);
         }
 
         private void UnsubscribeEvents()
         {
             _stateMachine.OnTransitionStart -= _graph.ResetVertices;
             _stateMachine.OnTransitionStart -= _stateMachine.StartTransition;
-            _stateMachine.OnTransitionStart -= () => _uiSceneController.SetActiveBottomPanelImmediate(false);
+            //_stateMachine.OnTransitionStart -= () => _uiSceneController.SetActiveBottomPanelImmediate(false);
 
             _stateMachine.OnTransitionComplete -= () => _verticesBlocker.Block();
             _stateMachine.OnTransitionComplete -= _graph.Load;
@@ -125,7 +125,7 @@ namespace EchoOfTheTimes.DI
             _stateMachine.OnTransitionComplete -= _stateMachine.CompleteTransition;
 
             _stateMachine.OnTransitionComplete -= _uiSceneController.UpdateLabel;
-            _stateMachine.OnTransitionComplete -= () => _uiSceneController.SetActiveBottomPanelImmediate(true);
+            //_stateMachine.OnTransitionComplete -= () => _uiSceneController.SetActiveBottomPanelImmediate(true);
         }
     }
 }

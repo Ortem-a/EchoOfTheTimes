@@ -19,17 +19,6 @@ namespace EchoOfTheTimes.Effects
             _sceneSounds = sceneSounds;
 
             _audioSource = GetComponent<AudioSource>();
-
-            PlayRandomAmbient();
-        }
-
-        public void PlayRandomAmbient()
-        {
-            int randomIndex = Random.Range(0, _sceneSounds.AmbinentSounds.Length - 1);
-
-            _audioSource.clip = _sceneSounds.AmbinentSounds[randomIndex];
-
-            _audioSource.Play();
         }
     }
 }
