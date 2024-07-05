@@ -1,20 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
+[RequireComponent(typeof(Button), typeof(Animator))]
 public class EyeHelper : MonoBehaviour
 {
-    Animator m_Animator;
-    public bool tapped = false;
+    private Animator _animator;
+    private Button _button;
 
-    void Start()
+    private bool _tapped = false;
+
+    private void Awake()
     {
-        m_Animator = gameObject.GetComponent<Animator>();
+        _animator = gameObject.GetComponent<Animator>();
+        _button = gameObject.GetComponent<Button>();
+
+        _button.onClick.AddListener(OnTap);
     }
 
-    public void OnTap()
+    private void OnTap()
     {
-        tapped = !tapped;
-        m_Animator.SetBool("Tap", tapped);
+        _tapped = !_tapped;
+        _animator.SetBool("Tap", _tapped);
     }
 }

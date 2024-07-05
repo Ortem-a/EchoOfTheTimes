@@ -14371,6 +14371,7 @@ GameObject:
   - component: {fileID: 766003278}
   - component: {fileID: 766003279}
   - component: {fileID: 766003277}
+  - component: {fileID: 766003281}
   - component: {fileID: 766003280}
   m_Layer: 0
   m_Name: UserInputs
@@ -14427,9 +14428,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 766003276}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6de68bdfc49a31845913e10d88f662c8, type: 3}
+  m_Script: {fileID: 11500000, guid: aa8eb9fdd7ea7b848abd9bc4ee713aa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _parent: {fileID: 0}
+--- !u!114 &766003281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766003276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae61606e9b834dc4ea21b36f2ab08227, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultSphere: {r: 0, g: 0, b: 0, a: 1}
+  _splashSphere: {r: 1, g: 1, b: 1, a: 1}
+  _defaultErrorSplashSphere: {r: 1, g: 1, b: 1, a: 1}
+  _errorSplashSphere: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &774524824
 GameObject:
   m_ObjectHideFlags: 0
@@ -36206,14 +36224,17 @@ MonoBehaviour:
   _graph: {fileID: 1681321833}
   _checkpointManager: {fileID: 185652626}
   _verticesBlocker: {fileID: 42191326}
+  _levelAudioManager: {fileID: 0}
   _camera: {fileID: 1940895535}
   _player: {fileID: 1972008290}
   _vertexFollower: {fileID: 1972008289}
   _userInput: {fileID: 766003279}
-  _userInputHandler: {fileID: 766003277}
-  _inputAnimator: {fileID: 766003280}
+  _inputMediator: {fileID: 0}
+  _input3DIndicator: {fileID: 0}
+  _input2DIndicator: {fileID: 0}
   _movable: {fileID: 1411242126}
   _playerPath: {fileID: 1972008299}
+  _soundManager: {fileID: 0}
   _uiSceneController: {fileID: 283988767}
   _uiSceneView: {fileID: 283988766}
 --- !u!114 &2037183621
