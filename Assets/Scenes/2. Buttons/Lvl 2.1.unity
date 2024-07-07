@@ -23374,7 +23374,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1681321834}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2237165733924946070, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}
@@ -35640,7 +35640,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1101946337}
   - {fileID: 1632571801}
   - {fileID: 744984205}
   - {fileID: 1417153317}
@@ -40694,12 +40693,6 @@ MonoBehaviour:
       LocalScale: {x: 4, y: 4, z: 4}
       IsLocalSpace: 0
     - StateId: 1
-      Target: {fileID: 150553278}
-      Position: {x: -0.38600013, y: 3.6050742, z: -0.110000014}
-      Rotation: {x: -0, y: 0, z: 0}
-      LocalScale: {x: 4, y: 4, z: 4}
-      IsLocalSpace: 0
-    - StateId: 1
       Target: {fileID: 1500336356}
       Position: {x: -0.38600025, y: 5.3405375, z: -2.7131941}
       Rotation: {x: -0, y: 0, z: 0}
@@ -40709,6 +40702,12 @@ MonoBehaviour:
       Target: {fileID: 1581597100}
       Position: {x: 2.2171946, y: 7.076, z: -2.7131941}
       Rotation: {x: -0, y: 180, z: -0}
+      LocalScale: {x: 4, y: 4, z: 4}
+      IsLocalSpace: 0
+    - StateId: 1
+      Target: {fileID: 150553278}
+      Position: {x: -0.38600013, y: 3.6050742, z: -0.110000014}
+      Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
       IsLocalSpace: 0
     - StateId: 1
@@ -40726,12 +40725,6 @@ MonoBehaviour:
       LocalScale: {x: 4, y: 4, z: 4}
       IsLocalSpace: 0
     - StateId: 0
-      Target: {fileID: 150553278}
-      Position: {x: -0.38600013, y: 3.6050742, z: -0.97773135}
-      Rotation: {x: -0, y: 0, z: 0}
-      LocalScale: {x: 4, y: 4, z: 4}
-      IsLocalSpace: 0
-    - StateId: 0
       Target: {fileID: 1500336356}
       Position: {x: -0.38600013, y: 5.340537, z: -0.97773135}
       Rotation: {x: -0, y: 0, z: 0}
@@ -40740,6 +40733,12 @@ MonoBehaviour:
     - StateId: 0
       Target: {fileID: 1581597100}
       Position: {x: 2.2171946, y: 7.076, z: -2.7131941}
+      Rotation: {x: -0, y: 0, z: 0}
+      LocalScale: {x: 4, y: 4, z: 4}
+      IsLocalSpace: 0
+    - StateId: 0
+      Target: {fileID: 150553278}
+      Position: {x: -0.38600013, y: 3.6050742, z: -0.97773135}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
       IsLocalSpace: 0
@@ -40758,15 +40757,15 @@ MonoBehaviour:
       LocalScale: {x: 4, y: 4, z: 4}
       IsLocalSpace: 0
     - StateId: 2
-      Target: {fileID: 150553278}
-      Position: {x: -0.38600013, y: 3.6050742, z: 1.6254628}
-      Rotation: {x: -0, y: 0, z: 0}
-      LocalScale: {x: 4, y: 4, z: 4}
-      IsLocalSpace: 0
-    - StateId: 2
       Target: {fileID: 1581597100}
       Position: {x: 2.2171946, y: 7.076, z: -2.7131941}
       Rotation: {x: -0, y: 59.309998, z: -0}
+      LocalScale: {x: 4, y: 4, z: 4}
+      IsLocalSpace: 0
+    - StateId: 2
+      Target: {fileID: 150553278}
+      Position: {x: -0.38600013, y: 3.6050742, z: 1.6254628}
+      Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
       IsLocalSpace: 0
   Transitions:
@@ -45967,6 +45966,7 @@ SceneRoots:
   - {fileID: 107240131}
   - {fileID: 1411242124}
   - {fileID: 1681321834}
+  - {fileID: 1101946336}
   - {fileID: 306388696}
   - {fileID: 461003095}
   - {fileID: 1789875903}
