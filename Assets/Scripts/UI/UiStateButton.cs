@@ -1,5 +1,6 @@
 using EchoOfTheTimes.Core;
 using TMPro;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,16 +14,18 @@ namespace EchoOfTheTimes.UI
         private Button _button;
         private Animator _animator;
 
-        public void Init(int stateId, InputMediator inputHandler, UiSceneController uiSceneController)
+        public void Init(int stateId, InputMediator inputHandler, UiSceneController uiSceneController,
+            AnimatorController animatorController)
         {
             _inputMediator = inputHandler;
             _uiSceneController = uiSceneController;
 
             _button = GetComponent<Button>();
-            _animator = GetComponent<Animator>();
-
             _button.transition = Selectable.Transition.Animation;
             _button.onClick.AddListener(() => ChangeState(stateId));
+
+            _animator = GetComponent<Animator>();
+            _animator.runtimeAnimatorController = animatorController;
         }
 
         private void ChangeState(int stateId)
