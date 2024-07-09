@@ -1,25 +1,37 @@
 using UnityEngine;
-using UnityEngine.UI;
 
-[RequireComponent(typeof(Button), typeof(Animator))]
 public class EyeHelper : MonoBehaviour
 {
-    private Animator _animator;
-    private Button _button;
+    Animator m_Animator;
+    public bool tapped = false;
+    private EyeButtonManager manager;
 
-    private bool _tapped = false;
-
-    private void Awake()
+    void Start()
     {
-        _animator = gameObject.GetComponent<Animator>();
-        _button = gameObject.GetComponent<Button>();
-
-        //_button.onClick.AddListener(OnTap);
+        m_Animator = gameObject.GetComponent<Animator>();
+        manager = FindObjectOfType<EyeButtonManager>();
+        if (manager != null)
+        {
+            manager.RegisterButton(this);
+        }
     }
 
-    private void OnTap()
+    public void OnTap()
     {
-        _tapped = !_tapped;
-        _animator.SetBool("Tap", _tapped);
+        if (tapped) return;  // Если кнопка уже активна, ничего не делаем
+
+        tapped = true;
+        m_Animator.SetBool("Tap", tapped);
+
+        if (manager != null)
+        {
+            manager.OnButtonTapped(this);
+        }
+    }
+
+    public void SetTapped(bool state)
+    {
+        tapped = state;
+        m_Animator.SetBool("Tap", tapped);
     }
 }
