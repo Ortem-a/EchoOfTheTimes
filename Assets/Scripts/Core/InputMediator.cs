@@ -8,6 +8,7 @@ using Zenject;
 
 namespace EchoOfTheTimes.Core
 {
+    [RequireComponent(typeof(Input3DIndicator), typeof(Input2DIndicator))]
     public class InputMediator : MonoBehaviour
     {
         public Action<Vertex> OnTouched;
@@ -18,7 +19,8 @@ namespace EchoOfTheTimes.Core
         private GraphVisibility _graph;
         private LevelStateMachine _levelStateMachine;
         private RefinedOrbitCamera _camera;
-        private InputAnimator _animator;
+        private Input3DIndicator _3dIndicator;
+        private Input2DIndicator _2dIndicator;
 
         private PlayerPath _playerPath;
 
@@ -38,27 +40,32 @@ namespace EchoOfTheTimes.Core
 
         [Inject]
         private void Construct(GraphVisibility graph, Player player, LevelStateMachine stateMachine,
-            RefinedOrbitCamera camera, InputAnimator inputAnimator, PlayerPath playerPath)
+            RefinedOrbitCamera camera, Input3DIndicator input3DIndicator, Input2DIndicator input2DIndicator, PlayerPath playerPath)
         {
             _graph = graph;
             _player = player;
             _levelStateMachine = stateMachine;
             _camera = camera;
-            _animator = inputAnimator;
+
+            _3dIndicator = input3DIndicator;
+            _2dIndicator = input2DIndicator;
+
             _playerPath = playerPath;
         }
 
         private void HandleTouch(Vertex touchPosition)
         {
+            _2dIndicator.ShowIndicator(touchPosition);
+
             if (HasPath(touchPosition) && !_player.IsTeleportate)
             {
-                _animator.ShowSuccessIndicator(touchPosition);
+                _3dIndicator.ShowSuccessIndicator(touchPosition);
 
                 _player.Stop(() => CreatePathAndMove(touchPosition));
             }
             else
             {
-                _animator.ShowErrorIndicator(touchPosition);
+                _3dIndicator.ShowErrorIndicator(touchPosition);
             }
         }
 
@@ -103,16 +110,16 @@ namespace EchoOfTheTimes.Core
             // +++++++++++++++++++++++++++++++++++++++++++++++++++
             _player.CutPath();
 
-            if (_player.PreviousWaypointIsDynamic)
+            if (_player.StayOnDynamic)
             {
-                _player.WaitUntilCompleteMove(onComplete: () =>
+                _player.StopAndLink(onComplete: () =>
                 {
                     _levelStateMachine.ChangeState(levelStateId);
                 });
             }
-            else if (_player.StayOnDynamic)
+            else if (_player.PreviousWaypointIsDynamic)
             {
-                _player.StopAndLink(onComplete: () =>
+                _player.WaitUntilCompleteMove(onComplete: () =>
                 {
                     _levelStateMachine.ChangeState(levelStateId);
                 });

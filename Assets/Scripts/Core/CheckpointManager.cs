@@ -32,8 +32,13 @@ namespace EchoOfTheTimes.Core
         {
             OnCheckpointChanged += UpdateCheckpoint;
 
-            _player.transform.position = StartCheckpoint.transform.position;
             _stateMachine.ChangeStateImmediate(StartPlayerData.StateId);
+        }
+
+        private void Start()
+        {
+            _player.transform.position = StartCheckpoint.transform.position;
+            _player.StopAndLink(null);
         }
 
         private void OnDestroy()

@@ -1,7 +1,7 @@
 using DG.Tweening;
 using EchoOfTheTimes.Core;
 using EchoOfTheTimes.LevelStates;
-using EchoOfTheTimes.ScriptableObjects;
+using EchoOfTheTimes.ScriptableObjects.Player;
 using System;
 using System.Linq;
 using UnityEngine;

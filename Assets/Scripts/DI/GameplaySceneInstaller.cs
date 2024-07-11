@@ -1,4 +1,5 @@
 using EchoOfTheTimes.Core;
+using EchoOfTheTimes.Effects;
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Movement;
 using EchoOfTheTimes.UI;
@@ -19,6 +20,8 @@ namespace EchoOfTheTimes.DI
         private CheckpointManager _checkpointManager;
         [SerializeField]
         private VerticesBlocker _verticesBlocker;
+        [SerializeField]
+        private LevelAudioManager _levelAudioManager;
 
         [Header("Player")]
         [SerializeField]
@@ -30,13 +33,17 @@ namespace EchoOfTheTimes.DI
         [SerializeField]
         private UserInput _userInput;
         [SerializeField]
-        private InputMediator _userInputHandler;
+        private InputMediator _inputMediator;
         [SerializeField]
-        private InputAnimator _inputAnimator;
+        private Input3DIndicator _input3DIndicator;
+        [SerializeField]
+        private Input2DIndicator _input2DIndicator;
         [SerializeField]
         private Movable _movable;
         [SerializeField]
         private PlayerPath _playerPath;
+        [SerializeField]
+        private SoundManager _soundManager;
 
         [Header("UI")]
         [SerializeField]
@@ -66,7 +73,9 @@ namespace EchoOfTheTimes.DI
             Container.Bind<GraphVisibility>().FromInstance(_graph).AsSingle();
             Container.Bind<CheckpointManager>().FromInstance(_checkpointManager).AsSingle();
             Container.Bind<VerticesBlocker>().FromInstance(_verticesBlocker).AsSingle();
-            Container.Bind<InputAnimator>().FromInstance(_inputAnimator).AsSingle();
+            Container.Bind<Input3DIndicator>().FromInstance(_input3DIndicator).AsSingle();
+            Container.Bind<Input2DIndicator>().FromInstance(_input2DIndicator).AsSingle();
+            Container.Bind<LevelAudioManager>().FromInstance(_levelAudioManager).AsSingle();
         }
 
         private void BindPlayer()
@@ -74,11 +83,13 @@ namespace EchoOfTheTimes.DI
             Container.Bind<VertexFollower>().FromInstance(_vertexFollower).AsSingle();
             Container.Bind<RefinedOrbitCamera>().FromInstance(_camera).AsSingle();
             Container.Bind<UserInput>().FromInstance(_userInput).AsSingle();
-            Container.Bind<InputMediator>().FromInstance(_userInputHandler).AsSingle();
+            Container.Bind<InputMediator>().FromInstance(_inputMediator).AsSingle();
             Container.Bind<Player>().FromInstance(_player).AsSingle();
 
             Container.Bind<Movable>().FromInstance(_movable).AsSingle();
             Container.Bind<PlayerPath>().FromInstance(_playerPath).AsSingle();
+
+            Container.Bind<SoundManager>().FromInstance(_soundManager).AsSingle();
         }
 
         private void BindUi()
@@ -91,7 +102,7 @@ namespace EchoOfTheTimes.DI
         {
             _stateMachine.OnTransitionStart += _graph.ResetVertices;
             _stateMachine.OnTransitionStart += _stateMachine.StartTransition;
-            _stateMachine.OnTransitionStart += () => _uiSceneController.SetActiveBottomPanelImmediate(false);
+            //_stateMachine.OnTransitionStart += () => _uiSceneController.SetActiveBottomPanelImmediate(false);
 
             _stateMachine.OnTransitionComplete += () => _verticesBlocker.Block();
             _stateMachine.OnTransitionComplete += _graph.Load;
@@ -99,14 +110,14 @@ namespace EchoOfTheTimes.DI
             _stateMachine.OnTransitionComplete += _stateMachine.CompleteTransition;
 
             _stateMachine.OnTransitionComplete += _uiSceneController.UpdateLabel;
-            _stateMachine.OnTransitionComplete += () => _uiSceneController.SetActiveBottomPanelImmediate(true);
+            //_stateMachine.OnTransitionComplete += () => _uiSceneController.SetActiveBottomPanelImmediate(true);
         }
 
         private void UnsubscribeEvents()
         {
             _stateMachine.OnTransitionStart -= _graph.ResetVertices;
             _stateMachine.OnTransitionStart -= _stateMachine.StartTransition;
-            _stateMachine.OnTransitionStart -= () => _uiSceneController.SetActiveBottomPanelImmediate(false);
+            //_stateMachine.OnTransitionStart -= () => _uiSceneController.SetActiveBottomPanelImmediate(false);
 
             _stateMachine.OnTransitionComplete -= () => _verticesBlocker.Block();
             _stateMachine.OnTransitionComplete -= _graph.Load;
@@ -114,7 +125,7 @@ namespace EchoOfTheTimes.DI
             _stateMachine.OnTransitionComplete -= _stateMachine.CompleteTransition;
 
             _stateMachine.OnTransitionComplete -= _uiSceneController.UpdateLabel;
-            _stateMachine.OnTransitionComplete -= () => _uiSceneController.SetActiveBottomPanelImmediate(true);
+            //_stateMachine.OnTransitionComplete -= () => _uiSceneController.SetActiveBottomPanelImmediate(true);
         }
     }
 }

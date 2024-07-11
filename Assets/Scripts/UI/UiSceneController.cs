@@ -12,10 +12,6 @@ namespace EchoOfTheTimes.UI
     {
         public bool flgIsStartAnimationEnded = false;
 
-        [Header("States Buttons")]
-        [SerializeField] private Color _deselectedColor;
-        [SerializeField] private Color _selectedColor;
-
         [Header("HUD")]
         public Canvas HUDCanvas;
         private CanvasGroup hudCanvasGroup;
@@ -25,6 +21,12 @@ namespace EchoOfTheTimes.UI
         public Transform BottomPanel;
         public Transform TopPanel;
         public GameObject ButtonPrefab;
+
+        public Color DefaultStateButtonColor;
+        public Color DisabledStateButtonColor;
+
+        [Header("Buttons Animator Controllers")]
+        public RuntimeAnimatorController[] ButtonControllers;
 
         [Header("Finish UI")]
         public Canvas FinishCanvas;
@@ -101,7 +103,8 @@ namespace EchoOfTheTimes.UI
             for (int i = 0; i < _stateMachine.States.Count; i++)
             {
                 var stateButton = Instantiate(ButtonPrefab, BottomPanel).GetComponent<UiStateButton>();
-                stateButton.Init(i, _inputMediator, this, _deselectedColor, _selectedColor);
+                stateButton.Init(i, _inputMediator, this, ButtonControllers[i],
+                    DefaultStateButtonColor, DisabledStateButtonColor);
                 _stateButtons[i] = stateButton;
             }
             _stateButtons[0].Select();
@@ -147,16 +150,21 @@ namespace EchoOfTheTimes.UI
 
         public void SetActiveBottomPanel(bool isActive, float duration = 0.2f)
         {
-            if (isActive)
+            for (int i = 0; i < _stateButtons.Length; i++)
             {
-                BottomPanel.DOScale(1f, duration)
-                    .OnStart(() => BottomPanel.gameObject.SetActive(isActive));
+                _stateButtons[i].SetInteractable(isActive);
             }
-            else
-            {
-                BottomPanel.DOScale(0f, duration)
-                    .OnComplete(() => BottomPanel.gameObject.SetActive(isActive));
-            }
+
+            //if (isActive)
+            //{
+            //    BottomPanel.DOScale(1f, duration)
+            //        .OnStart(() => BottomPanel.gameObject.SetActive(isActive));
+            //}
+            //else
+            //{
+            //    BottomPanel.DOScale(0f, duration)
+            //        .OnComplete(() => BottomPanel.gameObject.SetActive(isActive));
+            //}
         }
 
         public void SetActiveBottomPanelImmediate(bool isActive)

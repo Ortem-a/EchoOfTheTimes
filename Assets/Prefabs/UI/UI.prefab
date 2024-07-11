@@ -955,7 +955,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 318}
-  m_SizeDelta: {x: 700, y: 300}
+  m_SizeDelta: {x: 1080, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8362675100828887890
 CanvasRenderer:
@@ -1014,10 +1014,10 @@ MonoBehaviour:
     m_Bottom: 0
   m_ChildAlignment: 4
   m_Spacing: 0
-  m_ChildForceExpandWidth: 0
-  m_ChildForceExpandHeight: 0
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 1
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
@@ -1485,15 +1485,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flgIsStartAnimationEnded: 0
-  _deselectedColor: {r: 1, g: 1, b: 1, a: 1}
-  _selectedColor: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
   HUDCanvas: {fileID: 6140801791448358055}
   ToMainMenuButton: {fileID: 408791523064429197}
   ToNextLevelButton: {fileID: 7958210649052437228}
   BottomPanel: {fileID: 6551085676322319691}
   TopPanel: {fileID: 1882935365299175067}
-  ButtonPrefab: {fileID: 3564362910765533992, guid: 141016f87b08daa4a910d951a4f1c6ba,
+  ButtonPrefab: {fileID: 7563438166083378416, guid: 53f827800cd3fe4478239792f798f318,
     type: 3}
+  DefaultStateButtonColor: {r: 0, g: 0, b: 0, a: 0}
+  DisabledStateButtonColor: {r: 0, g: 0, b: 0, a: 0}
+  ButtonControllers: []
   FinishCanvas: {fileID: 9090954101455955113}
   FinishPanel: {fileID: 3475853598356355641}
   FinishButton: {fileID: 3622288746458728605}

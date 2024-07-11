@@ -1,5 +1,5 @@
 using DG.Tweening;
-using EchoOfTheTimes.Animations;
+using EchoOfTheTimes.Effects;
 using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Interfaces;
 using EchoOfTheTimes.LevelStates;
@@ -10,7 +10,8 @@ using Zenject;
 
 namespace EchoOfTheTimes.Units
 {
-    [RequireComponent(typeof(AnimationManager), typeof(Movable), typeof(PlayerPath))]
+    [RequireComponent(typeof(AnimationManager), typeof(Movable), typeof(PlayerPath)),
+    RequireComponent(typeof(SoundManager))]
     public class Player : MonoBehaviour
     {
         public AnimationManager Animations =>

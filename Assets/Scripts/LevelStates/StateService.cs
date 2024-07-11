@@ -1,5 +1,5 @@
 using DG.Tweening;
-using EchoOfTheTimes.ScriptableObjects;
+using EchoOfTheTimes.ScriptableObjects.Level;
 using System.Collections.Generic;
 using Zenject;
 

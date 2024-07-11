@@ -1,7 +1,6 @@
 using DG.Tweening;
-using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Interfaces;
-using EchoOfTheTimes.ScriptableObjects;
+using EchoOfTheTimes.ScriptableObjects.Level;
 using EchoOfTheTimes.UI;
 using EchoOfTheTimes.Units;
 using System;
