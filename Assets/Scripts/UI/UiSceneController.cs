@@ -2,7 +2,6 @@ using DG.Tweening;
 using EchoOfTheTimes.Core;
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.SceneManagement;
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -27,7 +26,7 @@ namespace EchoOfTheTimes.UI
         public Color DisabledStateButtonColor;
 
         [Header("Buttons Animator Controllers")]
-        public AnimatorController[] ButtonControllers;
+        public RuntimeAnimatorController[] ButtonControllers;
 
         [Header("Finish UI")]
         public Canvas FinishCanvas;

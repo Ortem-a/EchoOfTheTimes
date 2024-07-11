@@ -1,7 +1,5 @@
 using EchoOfTheTimes.Core;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using Zenject;
 
 namespace EchoOfTheTimes.Movement
@@ -10,7 +8,7 @@ namespace EchoOfTheTimes.Movement
     {
         private Camera _camera;
 
-        private InputMediator _userInputHandler;
+        private InputMediator _userInputMediator;
 
         //private float _inputAccuracy = 5f;
 
@@ -32,9 +30,9 @@ namespace EchoOfTheTimes.Movement
         private Vector3 _touchPosition;
 
         [Inject]
-        private void Construct(InputMediator inputHandler)
+        private void Construct(InputMediator inputMediator)
         {
-            _userInputHandler = inputHandler;
+            _userInputMediator = inputMediator;
 
             _camera = Camera.main;
             _touchPosition = Vector3.forward * _camera.nearClipPlane;
@@ -55,7 +53,7 @@ namespace EchoOfTheTimes.Movement
             if (Input.GetMouseButtonUp(0))
             {
                 if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) return;
-                
+
                 Vector3 mousePosition = Input.mousePosition;
 
                 float touchDuration = Time.time - _touchStartTime;
@@ -71,7 +69,7 @@ namespace EchoOfTheTimes.Movement
                     {
                         if (hit.transform.TryGetComponent(out Vertex vertex))
                         {
-                            _userInputHandler.OnTouched?.Invoke(vertex);
+                            _userInputMediator.OnTouched?.Invoke(vertex);
                             //_isSuccessfulTap = true;
                         }
                     }

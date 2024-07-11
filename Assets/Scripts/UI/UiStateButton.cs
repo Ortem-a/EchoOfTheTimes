@@ -1,5 +1,4 @@
 using EchoOfTheTimes.Core;
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,7 +17,7 @@ namespace EchoOfTheTimes.UI
         private Image[] _shadows;
 
         public void Init(int stateId, InputMediator inputHandler, UiSceneController uiSceneController,
-            AnimatorController animatorController, Color defaultColor, Color disabledColor)
+            RuntimeAnimatorController animatorController, Color defaultColor, Color disabledColor)
         {
             _inputMediator = inputHandler;
             _uiSceneController = uiSceneController;

@@ -1,6 +1,7 @@
 ﻿using DG.Tweening;
 using EchoOfTheTimes.Core;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace EchoOfTheTimes.Movement
 {
@@ -12,6 +13,9 @@ namespace EchoOfTheTimes.Movement
         private Transform _target;
         private Camera _camera;
 
+        [SerializeField]
+        private Color _defaultColor;
+
         protected override void Awake()
         {
             spawnedIndicator = Instantiate(inputIndicatorSettings.Indicator2DPrefab, Vector3.zero, Quaternion.identity, _parent);
@@ -19,6 +23,8 @@ namespace EchoOfTheTimes.Movement
             spawnedIndicator.transform.DOScale(0, 0f);
 
             _camera = Camera.main;
+
+            spawnedIndicator.GetComponent<Image>().color = _defaultColor;
         }
 
         public void ShowIndicator(Vertex at) => SpawnIndicator(at.transform);
@@ -27,12 +33,13 @@ namespace EchoOfTheTimes.Movement
         {
             spawnedIndicator.SetActive(true);
             _isFollow = true;
-            _target = at;
+            //_target = at;
+            _target = at.GetComponentInChildren<IndicationPlaceholder>().transform;
 
             spawnedIndicator.transform.DOScale(1, inputIndicatorSettings.IndicatorDuration2D_sec)
                 .OnComplete(() =>
                 {
-                    at.DOScale(0, inputIndicatorSettings.IndicatorDuration2D_sec)
+                    spawnedIndicator.transform.DOScale(0, inputIndicatorSettings.IndicatorDuration2D_sec)
                     .OnComplete(() =>
                     {
                         spawnedIndicator.SetActive(false);
