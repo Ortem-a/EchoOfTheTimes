@@ -38,7 +38,6 @@ namespace EchoOfTheTimes.Core
         private void Start()
         {
             _player.transform.position = StartCheckpoint.transform.position;
-            // _player.StopAndLink(null);
         }
 
         private void OnDestroy()

@@ -23,7 +23,7 @@ namespace EchoOfTheTimes.Movement
             spawnedIndicator.SetActive(false);
 
             _renderer = spawnedIndicator.GetComponent<Renderer>();
-            _defaultSphere = _renderer.material.color;
+            _renderer.material.color = _defaultSphere;
         }
 
         public void ShowSuccessIndicator(Vertex at) => SpawnSphere(at.transform, _defaultSphere, _splashSphere);
