@@ -6,6 +6,8 @@ namespace EchoOfTheTimes.UI
     public class HUDController : MonoBehaviour
     {
         private List<UiStateButton> _buttons = new List<UiStateButton>();
+        private bool _enableButtonsPending;
+        private float _enableButtonsTime;
 
         public void RegisterButton(UiStateButton button)
         {
@@ -14,6 +16,7 @@ namespace EchoOfTheTimes.UI
 
         public void DisableButtons()
         {
+            _enableButtonsPending = false;
             foreach (var button in _buttons)
             {
                 button.SetInteractable(false);
@@ -22,11 +25,20 @@ namespace EchoOfTheTimes.UI
 
         public void EnableButtons()
         {
-            foreach (var button in _buttons)
+            _enableButtonsPending = true;
+            _enableButtonsTime = Time.time + 0.25f;
+        }
+
+        private void Update()
+        {
+            if (_enableButtonsPending && Time.time >= _enableButtonsTime)
             {
-                button.SetInteractable(true);
+                _enableButtonsPending = false;
+                foreach (var button in _buttons)
+                {
+                    button.SetInteractable(true);
+                }
             }
         }
     }
 }
-
