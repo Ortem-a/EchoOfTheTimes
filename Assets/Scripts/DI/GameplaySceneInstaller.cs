@@ -50,6 +50,8 @@ namespace EchoOfTheTimes.DI
         private UiSceneController _uiSceneController;
         [SerializeField]
         private UiSceneView _uiSceneView;
+        [SerializeField]
+        private HUDController _hudController; // Добавляем HUDController
 
         public override void InstallBindings()
         {
@@ -96,6 +98,7 @@ namespace EchoOfTheTimes.DI
         {
             Container.Bind<UiSceneController>().FromInstance(_uiSceneController).AsSingle();
             Container.Bind<UiSceneView>().FromInstance(_uiSceneView).AsSingle();
+            Container.Bind<HUDController>().FromInstance(_hudController).AsSingle(); // Регистрируем HUDController
         }
 
         private void SubscribeEvents()
