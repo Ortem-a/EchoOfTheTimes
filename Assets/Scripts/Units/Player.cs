@@ -7,7 +7,6 @@ using EchoOfTheTimes.Movement;
 using System;
 using UnityEngine;
 using Zenject;
-using System.Security.Cryptography.X509Certificates;
 
 namespace EchoOfTheTimes.Units
 {
@@ -33,18 +32,20 @@ namespace EchoOfTheTimes.Units
         private VertexFollower _vertexFollower;
         private PlayerPath _playerPath;
         private Movable _movable;
+        private InputMediator _inputMediator;
 
         private AnimationManager _animationManager;
 
         private Action _onMoveCompleted = null;
 
         [Inject]
-        private void Construct(GraphVisibility graphVisibility, VertexFollower vertexFollower, Movable movable, PlayerPath playerPath)
+        private void Construct(GraphVisibility graphVisibility, VertexFollower vertexFollower, Movable movable, PlayerPath playerPath, InputMediator inputMediator)
         {
             _graph = graphVisibility;
             _vertexFollower = vertexFollower;
             _movable = movable;
             _playerPath = playerPath;
+            _inputMediator = inputMediator;
         }
 
         public void Teleportate(Vector3 to, float duration, TweenCallback onStart = null, TweenCallback onComplete = null)
@@ -67,9 +68,33 @@ namespace EchoOfTheTimes.Units
                 });
         }
 
-        public void MoveTo(Vertex[] waypoints)
+        public void MoveTo(Vertex[] waypoints, bool isFictitious = false)
         {
-            _movable.Move(waypoints, OnStartMove, OnCompleteMove);
+            if (isFictitious)
+            {
+                _movable.Move(waypoints, OnStartMoveFictitious, OnCompleteMoveFictitious);
+            }
+            else
+            {
+                _movable.Move(waypoints, OnStartMove, OnCompleteMove);
+            }
+        }
+
+        private void OnStartMoveFictitious()
+        {
+            IsBusy = true;
+
+            _position = _graph.GetNearestVertex(transform.position);
+
+            if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
+            {
+                freezer.OnCancel?.Invoke();
+            }
+
+            if (NextPosition.gameObject.TryGetComponent(out StateFreezer nextFreezer))
+            {
+                nextFreezer.OnFreeze?.Invoke();
+            }
         }
 
         private void OnStartMove()
@@ -77,8 +102,6 @@ namespace EchoOfTheTimes.Units
             IsBusy = true;
 
             _position = _graph.GetNearestVertex(transform.position);
-
-            //Debug.Log($"[ON START MOVE] {_position}");
 
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
@@ -96,9 +119,21 @@ namespace EchoOfTheTimes.Units
             }
         }
 
-        public void FuckYou()
+        private void OnCompleteMoveFictitious()
         {
-            //CreatePathAndMove();
+            IsBusy = false;
+
+            _onMoveCompleted?.Invoke();
+            _onMoveCompleted = null;
+
+            _position = _graph.GetNearestVertex(transform.position);
+
+            if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
+            {
+                freezer.OnFreeze?.Invoke();
+            }
+
+            // Дополнительная логика для фиктивного тача
         }
 
         private void OnCompleteMove()
@@ -109,8 +144,6 @@ namespace EchoOfTheTimes.Units
             _onMoveCompleted = null;
 
             _position = _graph.GetNearestVertex(transform.position);
-
-            //Debug.Log($"[ON COMPLETE MOVE] {_position}");
 
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
@@ -137,7 +170,6 @@ namespace EchoOfTheTimes.Units
 
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
-                //freezer.OnCancel?.Invoke();
                 freezer.OnFreeze?.Invoke();
             }
         }
@@ -153,6 +185,9 @@ namespace EchoOfTheTimes.Units
             {
                 freezer.OnFreeze?.Invoke();
             }
+
+            // Симуляция касания в финальный вертекс
+            _inputMediator.SimulateTouch(_position);
         }
 
         public void StopAndLink(Action onComplete)
