@@ -19,11 +19,7 @@ namespace EchoOfTheTimes.Movement
 
         protected override void Awake()
         {
-            spawnedIndicator = Instantiate(inputIndicatorSettings.Indicator3DPrefab, Vector3.zero, Quaternion.identity, transform);
-            spawnedIndicator.SetActive(false);
-
-            _renderer = spawnedIndicator.GetComponent<Renderer>();
-            _renderer.material.color = _defaultSphere;
+            _renderer = inputIndicatorSettings.Indicator3DPrefab.GetComponent<Renderer>();
         }
 
         public void ShowSuccessIndicator(Vertex at) => SpawnSphere(at.transform, _defaultSphere, _splashSphere);
@@ -32,7 +28,14 @@ namespace EchoOfTheTimes.Movement
 
         private void SpawnSphere(Transform at, Color defaultColor, Color splash)
         {
+            if (spawnedIndicator != null)
+            {
+                Destroy(spawnedIndicator);
+            }
+
+            spawnedIndicator = Instantiate(inputIndicatorSettings.Indicator3DPrefab, Vector3.zero, Quaternion.identity, transform);
             spawnedIndicator.SetActive(false);
+            _renderer = spawnedIndicator.GetComponent<Renderer>();
             _renderer.material.color = defaultColor;
             spawnedIndicator.transform.localScale = Vector3.one * inputIndicatorSettings.DefaultRadius;
 
@@ -51,6 +54,7 @@ namespace EchoOfTheTimes.Movement
                         {
                             spawnedIndicator.SetActive(false);
                             _renderer.material.color = defaultColor;
+                            Destroy(spawnedIndicator); // Destroy the indicator after use
                         });
                 });
         }
