@@ -21,18 +21,23 @@ namespace EchoOfTheTimes.Movement
 
         protected override void Awake()
         {
-            spawnedIndicator = Instantiate(inputIndicatorSettings.Indicator2DPrefab, Vector3.zero, Quaternion.identity, _parent);
-            spawnedIndicator.SetActive(false);
-            //spawnedIndicator.transform.localScale = Vector3.zero;
-
             _camera = Camera.main;
-
-            spawnedIndicator.GetComponent<Image>().color = _defaultColor;
-
             _timer = GetComponent<MonoBehaviourTimer>();
         }
 
-        public void ShowIndicator(Vertex at) => SpawnIndicator(at.transform);
+        public void ShowIndicator(Vertex at)
+        {
+            if (spawnedIndicator != null)
+            {
+                Destroy(spawnedIndicator);
+            }
+
+            spawnedIndicator = Instantiate(inputIndicatorSettings.Indicator2DPrefab, Vector3.zero, Quaternion.identity, _parent);
+            spawnedIndicator.SetActive(false);
+            spawnedIndicator.GetComponent<Image>().color = _defaultColor;
+
+            SpawnIndicator(at.transform);
+        }
 
         private void SpawnIndicator(Transform at)
         {
@@ -49,26 +54,6 @@ namespace EchoOfTheTimes.Movement
                 _target = null;
             });
         }
-
-        //private void SpawnIndicator(Transform at)
-        //{
-        //    spawnedIndicator.SetActive(true);
-        //    _isFollow = true;
-        //    //_target = at;
-        //    _target = at.GetComponentInChildren<IndicationPlaceholder>().transform;
-
-        //    spawnedIndicator.transform.DOScale(1, inputIndicatorSettings.IndicatorDuration2D_sec)
-        //        .OnComplete(() =>
-        //        {
-        //            spawnedIndicator.transform.DOScale(0, inputIndicatorSettings.IndicatorDuration2D_sec)
-        //            .OnComplete(() =>
-        //            {
-        //                spawnedIndicator.SetActive(false);
-        //                _isFollow = false;
-        //                _target = null;
-        //            });
-        //        });
-        //}
 
         private void LateUpdate()
         {
