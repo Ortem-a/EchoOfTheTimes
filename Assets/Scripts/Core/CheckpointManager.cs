@@ -1,4 +1,5 @@
 using EchoOfTheTimes.LevelStates;
+using EchoOfTheTimes.Movement;
 using EchoOfTheTimes.Persistence;
 using EchoOfTheTimes.Units;
 using System;
@@ -19,6 +20,9 @@ namespace EchoOfTheTimes.Core
 
         private Player _player;
         private LevelStateMachine _stateMachine;
+        private VertexFollower _vertexFollower;
+        private GraphVisibility _graphVisibility;
+        private InputMediator _inputMediator;
 
         private void OnValidate()
         {
@@ -38,6 +42,11 @@ namespace EchoOfTheTimes.Core
         private void Start()
         {
             _player.transform.position = StartCheckpoint.transform.position;
+
+            if (StartCheckpoint != null)
+            {
+                SimulateInitialTouch();
+            }
         }
 
         private void OnDestroy()
@@ -46,10 +55,13 @@ namespace EchoOfTheTimes.Core
         }
 
         [Inject]
-        private void Construct(Player player, LevelStateMachine stateMachine)
+        private void Construct(Player player, LevelStateMachine stateMachine, VertexFollower vertexFollower, GraphVisibility graphVisibility, InputMediator inputMediator)
         {
             _player = player;
             _stateMachine = stateMachine;
+            _vertexFollower = vertexFollower;
+            _graphVisibility = graphVisibility;
+            _inputMediator = inputMediator;
 
             ActiveCheckpoint = StartCheckpoint;
 
@@ -75,6 +87,15 @@ namespace EchoOfTheTimes.Core
 
             _player.Teleportate(PlayerData.Checkpoint, 0.1f);
             _stateMachine.LoadState(PlayerData.StateId);
+        }
+
+        private void SimulateInitialTouch()
+        {
+            if (ActiveCheckpoint != null)
+            {
+                Vertex checkpointVertex = _graphVisibility.GetNearestVertex(ActiveCheckpoint.transform.position);
+                _inputMediator.SimulateTouch(checkpointVertex);
+            }
         }
     }
 }

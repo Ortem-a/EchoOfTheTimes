@@ -53,6 +53,11 @@ namespace EchoOfTheTimes.Core
             _playerPath = playerPath;
         }
 
+        public void SimulateTouch(Vertex touchPosition)
+        {
+            OnTouched?.Invoke(touchPosition);
+        }
+
         private void HandleTouch(Vertex touchPosition)
         {
             _2dIndicator.ShowIndicator(touchPosition);

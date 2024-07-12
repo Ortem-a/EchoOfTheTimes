@@ -7,6 +7,7 @@ using EchoOfTheTimes.Movement;
 using System;
 using UnityEngine;
 using Zenject;
+using System.Security.Cryptography.X509Certificates;
 
 namespace EchoOfTheTimes.Units
 {
@@ -93,6 +94,11 @@ namespace EchoOfTheTimes.Units
             {
                 specialVertex.OnExit?.Invoke();
             }
+        }
+
+        public void FuckYou()
+        {
+            //CreatePathAndMove();
         }
 
         private void OnCompleteMove()
