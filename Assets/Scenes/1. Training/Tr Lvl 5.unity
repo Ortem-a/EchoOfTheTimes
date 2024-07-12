@@ -19441,6 +19441,11 @@ PrefabInstance:
       objectReference: {fileID: 2624397985308747777}
     - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
         type: 3}
+      propertyPath: _hudController
+      value: 
+      objectReference: {fileID: 1821417065}
+    - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
+        type: 3}
       propertyPath: _inputAnimator
       value: 
       objectReference: {fileID: 0}
@@ -33921,6 +33926,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1821417061}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1821417065 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6953473121762049095, guid: 8e865d93e2d788c409cd9b2ba418f63c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1821417061}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b8b66eca2cb93d45a62d500cc532f8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1823223926
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39930,6 +39947,7 @@ GameObject:
   - component: {fileID: 9179385252127099468}
   - component: {fileID: 9179385252127099471}
   - component: {fileID: 9179385252127099470}
+  - component: {fileID: 9179385252127099472}
   m_Layer: 0
   m_Name: UserInputs
   m_TagString: Untagged
@@ -40213,6 +40231,18 @@ MonoBehaviour:
   _splashSphere: {r: 1, g: 1, b: 1, a: 1}
   _defaultErrorSplashSphere: {r: 1, g: 1, b: 1, a: 1}
   _errorSplashSphere: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &9179385252127099472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 493172814624409082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3604dac6d77d4944b108d701fafa0fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
