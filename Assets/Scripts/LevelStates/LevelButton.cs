@@ -18,7 +18,7 @@ namespace EchoOfTheTimes.LevelStates
         public Action OnExit => null;
 
         [Header("Camera Shake Settings")]
-        private float shakeIntensity = 0.12f;
+        [SerializeField] private float shakeIntensity = 0.12f;
         [SerializeField] private float shakeFrequency = 1f;
         [SerializeField] private float shakeDuration = 1f;
         [SerializeField] private float shakeFalloff = 0.8f; // Затухание
