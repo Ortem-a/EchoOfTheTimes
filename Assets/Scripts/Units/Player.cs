@@ -132,8 +132,6 @@ namespace EchoOfTheTimes.Units
             {
                 freezer.OnFreeze?.Invoke();
             }
-
-            // ƒополнительна€ логика дл€ фиктивного тача
         }
 
         private void OnCompleteMove()
