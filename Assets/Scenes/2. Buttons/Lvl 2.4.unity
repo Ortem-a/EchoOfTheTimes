@@ -24614,6 +24614,7 @@ MonoBehaviour:
   Movables:
   - {fileID: 576095230}
   - {fileID: 1966212721}
+  - {fileID: 1583670725}
   shakeIntensity: 0
   shakeFrequency: 1
   shakeDuration: 1
@@ -34753,7 +34754,15 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 402956284883446663, guid: 4fdbdc9f9e23e58408cee8e6bc3cc65f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1583670726}
+    - targetCorrespondingSourceObject: {fileID: 402956284883446663, guid: 4fdbdc9f9e23e58408cee8e6bc3cc65f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1583670725}
   m_SourcePrefab: {fileID: 100100000, guid: 4fdbdc9f9e23e58408cee8e6bc3cc65f, type: 3}
 --- !u!4 &858717758 stripped
 Transform:
@@ -63807,6 +63816,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Radius: 0.1
+--- !u!1 &1583670722 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 402956284883446663, guid: 4fdbdc9f9e23e58408cee8e6bc3cc65f,
+    type: 3}
+  m_PrefabInstance: {fileID: 858717757}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1583670725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1583670722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99f0c7d95f88dfd4a8000488cb802eda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsLocalSpace: 1
+  _parameter:
+    StateId: 0
+    Target: {fileID: 858717758}
+    Position: {x: 0, y: -0.981, z: 0}
+    Rotation: {x: -0, y: 0, z: 0}
+    LocalScale: {x: 0.59999996, y: 0.19999999, z: 0.59999996}
+    IsLocalSpace: 1
+  _defaultPosition:
+    StateId: 0
+    Target: {fileID: 858717758}
+    Position: {x: -1.7354623, y: -12.415581, z: -0.8677257}
+    Rotation: {x: -0, y: 0, z: 0}
+    LocalScale: {x: 0.59999996, y: 0.19999999, z: 0.59999996}
+    IsLocalSpace: 1
+--- !u!114 &1583670726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1583670722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40733fe0294dba44b9fac527b20ad2b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1583697987
 GameObject:
   m_ObjectHideFlags: 0
@@ -79349,7 +79403,7 @@ PrefabInstance:
     - target: {fileID: 2237165733924946070, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.67559016
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 2237165733924946070, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}
@@ -79359,12 +79413,12 @@ PrefabInstance:
     - target: {fileID: 2237165733924946070, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.7372774
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 2237165733924946070, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2237165733924946070, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}
@@ -79374,7 +79428,7 @@ PrefabInstance:
     - target: {fileID: 2237165733924946070, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -95
+      value: -270
       objectReference: {fileID: 0}
     - target: {fileID: 2237165733924946070, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}
@@ -79428,7 +79482,7 @@ MonoBehaviour:
     StateId: 0
     Target: {fileID: 1966212719}
     Position: {x: -0.433866, y: 35.7, z: -2.169328}
-    Rotation: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: -235, z: 0}
     LocalScale: {x: 0, y: 0, z: 0}
     IsLocalSpace: 0
   _defaultPosition:

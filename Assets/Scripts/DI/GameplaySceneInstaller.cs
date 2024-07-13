@@ -72,7 +72,7 @@ namespace EchoOfTheTimes.DI
 
         private void BindSystems()
         {
-            Container.Bind<StateService>().FromNew().AsSingle();
+            Container.Bind<StateService>().AsSingle();
 
             Container.Bind<LevelStateMachine>().FromInstance(_stateMachine).AsSingle();
             Container.Bind<GraphVisibility>().FromInstance(_graph).AsSingle();
