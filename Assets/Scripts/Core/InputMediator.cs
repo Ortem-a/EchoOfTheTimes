@@ -119,13 +119,13 @@ namespace EchoOfTheTimes.Core
                     _levelStateMachine.ChangeState(levelStateId);
                 });
             }
-            else if (_player.PreviousWaypointIsDynamic)
+            /*else if (_player.PreviousWaypointIsDynamic) баг ебучий
             {
                 _player.WaitUntilCompleteMove(onComplete: () =>
                 {
                     _levelStateMachine.ChangeState(levelStateId);
                 });
-            }
+            }*/
             else
             {
                 _levelStateMachine.ChangeState(levelStateId);
