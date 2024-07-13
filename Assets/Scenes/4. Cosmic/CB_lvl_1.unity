@@ -8112,6 +8112,14 @@ MonoBehaviour:
   - {fileID: 1840886082}
   - {fileID: 1085019987}
   - {fileID: 1138288005}
+  shakeIntensity: 0.17
+  shakeFrequency: 1
+  shakeDuration: 1
+  shakeFalloff: 1
+  shakeRandomness: 1
+  shakeOnXAxis: 1
+  shakeOnYAxis: 1
+  shakeDelay: 0
 --- !u!4 &1085019985 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5991199649880978168, guid: 8a899fa27232ee144a43e2e3c0e768b8,
@@ -9906,6 +9914,7 @@ GameObject:
   - component: {fileID: 1291389923}
   - component: {fileID: 1291389922}
   - component: {fileID: 1291389925}
+  - component: {fileID: 1291389926}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -10092,6 +10101,18 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
+--- !u!114 &1291389926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291389920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a377e2860bc9874c94ea759cee3ea1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1304357765
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12879,6 +12900,11 @@ PrefabInstance:
       propertyPath: _playerPath
       value: 
       objectReference: {fileID: 831039351}
+    - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
+        type: 3}
+      propertyPath: _cameraShake
+      value: 
+      objectReference: {fileID: 1291389926}
     - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
         type: 3}
       propertyPath: _uiSceneView

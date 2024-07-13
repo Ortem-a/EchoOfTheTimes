@@ -2594,6 +2594,11 @@ PrefabInstance:
       objectReference: {fileID: 457768246}
     - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
         type: 3}
+      propertyPath: _cameraShake
+      value: 
+      objectReference: {fileID: 330585548}
+    - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
+        type: 3}
       propertyPath: _uiSceneView
       value: 
       objectReference: {fileID: 357508975}
@@ -4821,6 +4826,7 @@ GameObject:
   - component: {fileID: 330585545}
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
+  - component: {fileID: 330585548}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -4946,6 +4952,18 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
+--- !u!114 &330585548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a377e2860bc9874c94ea759cee3ea1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &353419231
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13827,6 +13845,14 @@ MonoBehaviour:
   - {fileID: 768390267}
   - {fileID: 1958547429}
   - {fileID: 999947988}
+  shakeIntensity: 0.17
+  shakeFrequency: 1
+  shakeDuration: 1
+  shakeFalloff: 1
+  shakeRandomness: 1
+  shakeOnXAxis: 1
+  shakeOnYAxis: 1
+  shakeDelay: 0
 --- !u!1 &968941762
 GameObject:
   m_ObjectHideFlags: 0

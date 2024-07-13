@@ -97,8 +97,10 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 9753b13f3cb848c4a983c34357f776bb,
+    type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: a8eb2f7a4b5e041379e2cf1fde9fb74d,
+    type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -28709,6 +28711,11 @@ PrefabInstance:
       objectReference: {fileID: 1996537190}
     - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
         type: 3}
+      propertyPath: _cameraShake
+      value: 
+      objectReference: {fileID: 1132644306}
+    - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
+        type: 3}
       propertyPath: _uiSceneView
       value: 
       objectReference: {fileID: 675805087}
@@ -29644,6 +29651,7 @@ GameObject:
   - component: {fileID: 1132644305}
   - component: {fileID: 1132644304}
   - component: {fileID: 1132644303}
+  - component: {fileID: 1132644306}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -29769,6 +29777,18 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1132644306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132644301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a377e2860bc9874c94ea759cee3ea1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1134021769
 GameObject:
   m_ObjectHideFlags: 0
@@ -39767,6 +39787,14 @@ MonoBehaviour:
   - {fileID: 322263416}
   - {fileID: 1483846306}
   - {fileID: 1872264566}
+  shakeIntensity: 0.17
+  shakeFrequency: 1
+  shakeDuration: 1
+  shakeFalloff: 1
+  shakeRandomness: 1
+  shakeOnXAxis: 1
+  shakeOnYAxis: 1
+  shakeDelay: 0
 --- !u!114 &1483846309
 MonoBehaviour:
   m_ObjectHideFlags: 0
