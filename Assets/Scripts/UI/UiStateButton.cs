@@ -1,4 +1,5 @@
 using EchoOfTheTimes.Core;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,8 @@ namespace EchoOfTheTimes.UI
         private bool _isSelected;
         private float _spawnTime;
 
+        private Image[] _shadows;
+
         public void Init(int stateId, InputMediator inputHandler, UiSceneController uiSceneController,
             HUDController hudController, RuntimeAnimatorController animatorController)
         {
@@ -28,6 +31,9 @@ namespace EchoOfTheTimes.UI
 
             _animator = GetComponent<Animator>();
             _animator.runtimeAnimatorController = animatorController;
+
+            _shadows = GetComponentsInChildren<Image>().Where(image => image.gameObject.name.Contains("Shadow")).ToArray();
+            SetShadowColor(_uiSceneController.DefaultStateButtonColor);
 
             _hudController.RegisterButton(this);
 
@@ -50,6 +56,24 @@ namespace EchoOfTheTimes.UI
         public void SetInteractable(bool isInteractable)
         {
             _button.interactable = isInteractable;
+        }
+
+        public void SetShadowColor(Color color)
+        {
+            foreach (var shadow in _shadows)
+            {
+                shadow.color = color;
+            }
+        }
+
+        public void SetDefaultShadowColor()
+        {
+            SetShadowColor(_uiSceneController.DefaultStateButtonColor);
+        }
+
+        public void SetDisabledShadowColor()
+        {
+            SetShadowColor(_uiSceneController.DisabledStateButtonColor);
         }
     }
 }
