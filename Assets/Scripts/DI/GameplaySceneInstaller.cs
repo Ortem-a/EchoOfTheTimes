@@ -51,10 +51,13 @@ namespace EchoOfTheTimes.DI
         [SerializeField]
         private UiSceneView _uiSceneView;
         [SerializeField]
-        private HUDController _hudController; // Добавляем HUDController
+        private HUDController _hudController;
+        [SerializeField]
+        private CameraShake _cameraShake;
 
         public override void InstallBindings()
         {
+            Container.Bind<CameraShake>().FromInstance(_cameraShake).AsSingle();
             BindSystems();
             BindPlayer();
             BindUi();
@@ -69,7 +72,7 @@ namespace EchoOfTheTimes.DI
 
         private void BindSystems()
         {
-            Container.Bind<StateService>().FromNew().AsSingle();
+            Container.Bind<StateService>().AsSingle();
 
             Container.Bind<LevelStateMachine>().FromInstance(_stateMachine).AsSingle();
             Container.Bind<GraphVisibility>().FromInstance(_graph).AsSingle();
@@ -98,14 +101,13 @@ namespace EchoOfTheTimes.DI
         {
             Container.Bind<UiSceneController>().FromInstance(_uiSceneController).AsSingle();
             Container.Bind<UiSceneView>().FromInstance(_uiSceneView).AsSingle();
-            Container.Bind<HUDController>().FromInstance(_hudController).AsSingle(); // Регистрируем HUDController
+            Container.Bind<HUDController>().FromInstance(_hudController).AsSingle();
         }
 
         private void SubscribeEvents()
         {
             _stateMachine.OnTransitionStart += _graph.ResetVertices;
             _stateMachine.OnTransitionStart += _stateMachine.StartTransition;
-            //_stateMachine.OnTransitionStart += () => _uiSceneController.SetActiveBottomPanelImmediate(false);
 
             _stateMachine.OnTransitionComplete += () => _verticesBlocker.Block();
             _stateMachine.OnTransitionComplete += _graph.Load;
@@ -113,14 +115,12 @@ namespace EchoOfTheTimes.DI
             _stateMachine.OnTransitionComplete += _stateMachine.CompleteTransition;
 
             _stateMachine.OnTransitionComplete += _uiSceneController.UpdateLabel;
-            //_stateMachine.OnTransitionComplete += () => _uiSceneController.SetActiveBottomPanelImmediate(true);
         }
 
         private void UnsubscribeEvents()
         {
             _stateMachine.OnTransitionStart -= _graph.ResetVertices;
             _stateMachine.OnTransitionStart -= _stateMachine.StartTransition;
-            //_stateMachine.OnTransitionStart -= () => _uiSceneController.SetActiveBottomPanelImmediate(false);
 
             _stateMachine.OnTransitionComplete -= () => _verticesBlocker.Block();
             _stateMachine.OnTransitionComplete -= _graph.Load;
@@ -128,7 +128,6 @@ namespace EchoOfTheTimes.DI
             _stateMachine.OnTransitionComplete -= _stateMachine.CompleteTransition;
 
             _stateMachine.OnTransitionComplete -= _uiSceneController.UpdateLabel;
-            //_stateMachine.OnTransitionComplete -= () => _uiSceneController.SetActiveBottomPanelImmediate(true);
         }
     }
 }

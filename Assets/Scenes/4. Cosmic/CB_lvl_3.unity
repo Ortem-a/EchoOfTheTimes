@@ -7206,6 +7206,11 @@ PrefabInstance:
       objectReference: {fileID: 1764142074}
     - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
         type: 3}
+      propertyPath: _cameraShake
+      value: 
+      objectReference: {fileID: 598125785}
+    - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
+        type: 3}
       propertyPath: _uiSceneView
       value: 
       objectReference: {fileID: 888547170}
@@ -7881,6 +7886,18 @@ MonoBehaviour:
   - Id: 0
     StatesParameters:
     - StateId: 0
+      Target: {fileID: 1719874757}
+      Position: {x: 9.111193, y: -14.64, z: 5.640255}
+      Rotation: {x: 0, y: 242.33, z: 0}
+      LocalScale: {x: 1, y: 1, z: 1}
+      IsLocalSpace: 0
+    - StateId: 0
+      Target: {fileID: 748308590}
+      Position: {x: 6.941824, y: -15.434771, z: 7.8095813}
+      Rotation: {x: -0, y: 90, z: -0}
+      LocalScale: {x: 4, y: 4, z: 4}
+      IsLocalSpace: 0
+    - StateId: 0
       Target: {fileID: 1603357347}
       Position: {x: 11.280522, y: -15.434771, z: 7.8095846}
       Rotation: {x: -0, y: 90, z: -0}
@@ -7898,14 +7915,20 @@ MonoBehaviour:
       Rotation: {x: -0, y: 90, z: -0}
       LocalScale: {x: 4, y: 4, z: 4}
       IsLocalSpace: 0
-    - StateId: 0
-      Target: {fileID: 748308590}
-      Position: {x: 6.941824, y: -15.434771, z: 7.8095813}
-      Rotation: {x: -0, y: 90, z: -0}
-      LocalScale: {x: 4, y: 4, z: 4}
-      IsLocalSpace: 0
   - Id: 1
     StatesParameters:
+    - StateId: 1
+      Target: {fileID: 1719874757}
+      Position: {x: 9.111193, y: -14.64, z: 5.640255}
+      Rotation: {x: 0, y: 258.2, z: 0}
+      LocalScale: {x: 1, y: 1, z: 1}
+      IsLocalSpace: 0
+    - StateId: 1
+      Target: {fileID: 748308590}
+      Position: {x: 6.941853, y: -15.738463, z: 8.113293}
+      Rotation: {x: 270, y: 180, z: 0}
+      LocalScale: {x: 4, y: 4, z: 4}
+      IsLocalSpace: 0
     - StateId: 1
       Target: {fileID: 1603357347}
       Position: {x: 11.280522, y: -15.738454, z: 8.113293}
@@ -7924,14 +7947,20 @@ MonoBehaviour:
       Rotation: {x: 90, y: 180, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
       IsLocalSpace: 0
-    - StateId: 1
-      Target: {fileID: 748308590}
-      Position: {x: 6.941853, y: -15.738463, z: 8.113293}
-      Rotation: {x: 270, y: 180, z: 0}
-      LocalScale: {x: 4, y: 4, z: 4}
-      IsLocalSpace: 0
   - Id: 2
     StatesParameters:
+    - StateId: 2
+      Target: {fileID: 1719874757}
+      Position: {x: 9.111193, y: -14.64, z: 5.640255}
+      Rotation: {x: 0, y: 226.1, z: 0}
+      LocalScale: {x: 1, y: 1, z: 1}
+      IsLocalSpace: 0
+    - StateId: 2
+      Target: {fileID: 748308590}
+      Position: {x: 6.6381574, y: -15.738456, z: 7.809573}
+      Rotation: {x: -0, y: -0, z: 90}
+      LocalScale: {x: 4, y: 4, z: 4}
+      IsLocalSpace: 0
     - StateId: 2
       Target: {fileID: 1603357347}
       Position: {x: 11.584229, y: -15.738475, z: 7.809584}
@@ -7948,12 +7977,6 @@ MonoBehaviour:
       Target: {fileID: 1943656415}
       Position: {x: 11.5842285, y: -15.738477, z: 3.470928}
       Rotation: {x: -0, y: 0, z: 270}
-      LocalScale: {x: 4, y: 4, z: 4}
-      IsLocalSpace: 0
-    - StateId: 2
-      Target: {fileID: 748308590}
-      Position: {x: 6.6381574, y: -15.738456, z: 7.809573}
-      Rotation: {x: -0, y: -0, z: 90}
       LocalScale: {x: 4, y: 4, z: 4}
       IsLocalSpace: 0
   Transitions:
@@ -17725,6 +17748,7 @@ GameObject:
   - component: {fileID: 598125783}
   - component: {fileID: 598125782}
   - component: {fileID: 598125781}
+  - component: {fileID: 598125785}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -17911,6 +17935,18 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &598125785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 598125779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a377e2860bc9874c94ea759cee3ea1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &600791649
 GameObject:
   m_ObjectHideFlags: 0
@@ -18367,10 +18403,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae61606e9b834dc4ea21b36f2ab08227, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _defaultSphere: {r: 1, g: 1, b: 1, a: 1}
+  _defaultSphere: {r: 0, g: 0, b: 0, a: 1}
   _splashSphere: {r: 1, g: 1, b: 1, a: 1}
-  _defaultErrorSplashSphere: {r: 1, g: 1, b: 1, a: 1}
-  _errorSplashSphere: {r: 1, g: 0, b: 0, a: 1}
+  _defaultErrorSplashSphere: {r: 0, g: 0, b: 0, a: 1}
+  _errorSplashSphere: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &606406898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54864,7 +54900,7 @@ PrefabInstance:
     - target: {fileID: 2237165733924946070, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9198215
+      value: -0.5175044
       objectReference: {fileID: 0}
     - target: {fileID: 2237165733924946070, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}
@@ -54874,7 +54910,7 @@ PrefabInstance:
     - target: {fileID: 2237165733924946070, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.39233714
+      value: 0.8556805
       objectReference: {fileID: 0}
     - target: {fileID: 2237165733924946070, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}
@@ -54889,13 +54925,18 @@ PrefabInstance:
     - target: {fileID: 2237165733924946070, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -46.2
+      value: -133.9
       objectReference: {fileID: 0}
     - target: {fileID: 2237165733924946070, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4119267773895558843, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: bb42ff8d639289c4b8851747cb866d81, type: 2}
     - target: {fileID: 6300991671216678915, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}
       propertyPath: m_Name
@@ -54904,7 +54945,15 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6300991671216678915, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1719874760}
+    - targetCorrespondingSourceObject: {fileID: 6300991671216678915, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1719874759}
   m_SourcePrefab: {fileID: 100100000, guid: 582a95177e8eb484bbb721fe7a6cbbe0, type: 3}
 --- !u!4 &1719874757 stripped
 Transform:
@@ -54912,6 +54961,57 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1719874756}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1719874758 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6300991671216678915, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1719874756}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1719874759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719874758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 522e92388dd056749a344ac1c69bf5db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentStateId: 0
+  IsLocalSpace: 0
+  States:
+  - StateId: 0
+    Target: {fileID: 1719874757}
+    Position: {x: 9.111193, y: -14.64, z: 5.640255}
+    Rotation: {x: 0, y: 242.33, z: 0}
+    LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 0
+  - StateId: 1
+    Target: {fileID: 1719874757}
+    Position: {x: 9.111193, y: -14.64, z: 5.640255}
+    Rotation: {x: 0, y: 258.2, z: 0}
+    LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 0
+  - StateId: 2
+    Target: {fileID: 1719874757}
+    Position: {x: 9.111193, y: -14.64, z: 5.640255}
+    Rotation: {x: 0, y: 226.1, z: 0}
+    LocalScale: {x: 1, y: 1, z: 1}
+    IsLocalSpace: 0
+--- !u!114 &1719874760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719874758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aac842b645a0984087826b5677aae87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1722616260
 GameObject:
   m_ObjectHideFlags: 0

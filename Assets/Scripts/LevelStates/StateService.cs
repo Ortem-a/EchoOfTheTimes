@@ -28,6 +28,12 @@ namespace EchoOfTheTimes.LevelStates
 
         public void SwitchState(List<StateParameter> stateParameters, bool isDebug = false, TweenCallback onComplete = null)
         {
+            if (_hudController == null)
+            {
+                UnityEngine.Debug.LogError("HUDController is not initialized");
+                return;
+            }
+
             // Начало смены состояния
             _hudController.DisableButtons();
 

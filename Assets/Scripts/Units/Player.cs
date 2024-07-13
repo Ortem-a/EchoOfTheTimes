@@ -7,6 +7,7 @@ using EchoOfTheTimes.Movement;
 using System;
 using UnityEngine;
 using Zenject;
+using EchoOfTheTimes.UI;
 
 namespace EchoOfTheTimes.Units
 {
@@ -89,11 +90,13 @@ namespace EchoOfTheTimes.Units
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
                 freezer.OnCancel?.Invoke();
+                UpdateButtonShadowColors(false);
             }
 
             if (NextPosition.gameObject.TryGetComponent(out StateFreezer nextFreezer))
             {
                 nextFreezer.OnFreeze?.Invoke();
+                UpdateButtonShadowColors(true);
             }
         }
 
@@ -106,11 +109,13 @@ namespace EchoOfTheTimes.Units
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
                 freezer.OnCancel?.Invoke();
+                UpdateButtonShadowColors(false);
             }
 
             if (NextPosition.gameObject.TryGetComponent(out StateFreezer nextFreezer))
             {
                 nextFreezer.OnFreeze?.Invoke();
+                UpdateButtonShadowColors(true);
             }
 
             if (Position.gameObject.TryGetComponent(out ISpecialVertex specialVertex))
@@ -131,9 +136,8 @@ namespace EchoOfTheTimes.Units
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
                 freezer.OnFreeze?.Invoke();
+                UpdateButtonShadowColors(true);
             }
-
-            // Дополнительная логика для фиктивного тача
         }
 
         private void OnCompleteMove()
@@ -148,6 +152,7 @@ namespace EchoOfTheTimes.Units
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
                 freezer.OnFreeze?.Invoke();
+                UpdateButtonShadowColors(true);
             }
 
             if (Position.gameObject.TryGetComponent(out ISpecialVertex specialVertex))
@@ -171,6 +176,7 @@ namespace EchoOfTheTimes.Units
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
                 freezer.OnFreeze?.Invoke();
+                UpdateButtonShadowColors(true);
             }
         }
 
@@ -184,6 +190,7 @@ namespace EchoOfTheTimes.Units
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
                 freezer.OnFreeze?.Invoke();
+                UpdateButtonShadowColors(true);
             }
 
             // Симуляция касания в финальный вертекс
@@ -217,6 +224,22 @@ namespace EchoOfTheTimes.Units
         private void ResetNextPosition()
         {
             _movable.ResetDestination();
+        }
+
+        private void UpdateButtonShadowColors(bool isInFreezer)
+        {
+            var buttons = FindObjectsOfType<UiStateButton>();
+            foreach (var button in buttons)
+            {
+                if (isInFreezer)
+                {
+                    button.SetDisabledShadowColor();
+                }
+                else
+                {
+                    button.SetDefaultShadowColor();
+                }
+            }
         }
     }
 }

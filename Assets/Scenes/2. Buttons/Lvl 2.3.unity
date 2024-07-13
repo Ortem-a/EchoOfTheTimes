@@ -2224,6 +2224,11 @@ PrefabInstance:
       objectReference: {fileID: 1411242125}
     - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
         type: 3}
+      propertyPath: _cameraShake
+      value: 
+      objectReference: {fileID: 1188958894}
+    - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
+        type: 3}
       propertyPath: _uiSceneView
       value: 
       objectReference: {fileID: 1447195777}
@@ -3947,6 +3952,7 @@ GameObject:
   - component: {fileID: 1188958893}
   - component: {fileID: 1188958892}
   - component: {fileID: 1188958891}
+  - component: {fileID: 1188958894}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -4072,6 +4078,18 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1188958894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188958889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a377e2860bc9874c94ea759cee3ea1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1236714478
 GameObject:
   m_ObjectHideFlags: 0
@@ -6349,6 +6367,14 @@ MonoBehaviour:
   - {fileID: 1972288188}
   - {fileID: 1749498935}
   - {fileID: 2002494787}
+  shakeIntensity: 0.04
+  shakeFrequency: 1
+  shakeDuration: 1
+  shakeFalloff: 1
+  shakeRandomness: 1
+  shakeOnXAxis: 1
+  shakeOnYAxis: 1
+  shakeDelay: 0
 --- !u!4 &1749498933 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4909843767566676560, guid: 9a95047c035e08e4b87dad034c02985b,
@@ -6606,10 +6632,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae61606e9b834dc4ea21b36f2ab08227, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _defaultSphere: {r: 1, g: 1, b: 1, a: 1}
+  _defaultSphere: {r: 0, g: 0, b: 0, a: 1}
   _splashSphere: {r: 1, g: 1, b: 1, a: 1}
-  _defaultErrorSplashSphere: {r: 1, g: 1, b: 1, a: 1}
-  _errorSplashSphere: {r: 1, g: 0, b: 0, a: 1}
+  _defaultErrorSplashSphere: {r: 0, g: 0, b: 0, a: 1}
+  _errorSplashSphere: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &1803894269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7360,7 +7386,7 @@ MonoBehaviour:
   _parameter:
     StateId: 0
     Target: {fileID: 1972288185}
-    Position: {x: 18.03096, y: 8.159011, z: -12.132417}
+    Position: {x: 18.03096, y: 8.16, z: -12.132417}
     Rotation: {x: -0, y: 180, z: -0}
     LocalScale: {x: 1, y: 1, z: 1}
     IsLocalSpace: 0
@@ -7514,6 +7540,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 35546288478506580, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2237165733924946070, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7522,7 +7553,7 @@ PrefabInstance:
     - target: {fileID: 2237165733924946070, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 12.56
+      value: 13.76
       objectReference: {fileID: 0}
     - target: {fileID: 2237165733924946070, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}

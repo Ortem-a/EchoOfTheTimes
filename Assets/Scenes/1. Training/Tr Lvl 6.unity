@@ -37234,10 +37234,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae61606e9b834dc4ea21b36f2ab08227, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _defaultSphere: {r: 1, g: 1, b: 1, a: 1}
+  _defaultSphere: {r: 0, g: 0, b: 0, a: 1}
   _splashSphere: {r: 1, g: 1, b: 1, a: 1}
-  _defaultErrorSplashSphere: {r: 1, g: 1, b: 1, a: 1}
-  _errorSplashSphere: {r: 1, g: 0, b: 0, a: 1}
+  _defaultErrorSplashSphere: {r: 0, g: 0, b: 0, a: 1}
+  _errorSplashSphere: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &1088950753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40339,6 +40339,7 @@ GameObject:
   - component: {fileID: 1188958893}
   - component: {fileID: 1188958892}
   - component: {fileID: 1188958891}
+  - component: {fileID: 1188958894}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -40465,6 +40466,18 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1188958894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188958889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a377e2860bc9874c94ea759cee3ea1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1189014499
 GameObject:
   m_ObjectHideFlags: 0
@@ -45206,6 +45219,11 @@ PrefabInstance:
       propertyPath: _playerPath
       value: 
       objectReference: {fileID: 1411242127}
+    - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
+        type: 3}
+      propertyPath: _cameraShake
+      value: 
+      objectReference: {fileID: 1188958894}
     - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
         type: 3}
       propertyPath: _uiSceneView
@@ -55476,6 +55494,14 @@ MonoBehaviour:
   - {fileID: 1616307932}
   - {fileID: 1949325959}
   - {fileID: 1795860367}
+  shakeIntensity: 0.09
+  shakeFrequency: 1
+  shakeDuration: 1
+  shakeFalloff: 1
+  shakeRandomness: 1
+  shakeOnXAxis: 1
+  shakeOnYAxis: 1
+  shakeDelay: 0
 --- !u!4 &1616307930 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7665439634298707061, guid: 538d9981847865c4aa37463ddd17177a,
@@ -59953,7 +59979,7 @@ PrefabInstance:
     - target: {fileID: 2237165733924946070, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.25738582
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 2237165733924946070, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}
@@ -59963,7 +59989,7 @@ PrefabInstance:
     - target: {fileID: 2237165733924946070, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.9663088
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 2237165733924946070, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}
@@ -59978,7 +60004,7 @@ PrefabInstance:
     - target: {fileID: 2237165733924946070, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -150.17
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 2237165733924946070, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}
