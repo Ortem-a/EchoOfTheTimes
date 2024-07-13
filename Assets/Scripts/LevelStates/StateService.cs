@@ -13,6 +13,7 @@ namespace EchoOfTheTimes.LevelStates
         private int _callbackCounter;
         private TweenCallback _onCompleteCallback;
         private HUDController _hudController;
+        private bool buttonsEnabledPending = false;
 
         [Inject]
         public StateService(LevelSettingsScriptableObject levelSettings, HUDController hudController)
@@ -36,6 +37,7 @@ namespace EchoOfTheTimes.LevelStates
 
             // Начало смены состояния
             _hudController.DisableButtons();
+            buttonsEnabledPending = false;
 
             _onCompleteCallback = onComplete;
             _completedCallbackCounter = 0;
@@ -59,7 +61,14 @@ namespace EchoOfTheTimes.LevelStates
             if (_completedCallbackCounter == _callbackCounter)
             {
                 // Конец смены состояния
-                _hudController.EnableButtons();
+                buttonsEnabledPending = true;
+                DOVirtual.DelayedCall(0.5f, () =>
+                {
+                    if (buttonsEnabledPending)
+                    {
+                        _hudController.EnableButtons();
+                    }
+                });
                 _onCompleteCallback?.Invoke();
             }
         }
@@ -70,6 +79,12 @@ namespace EchoOfTheTimes.LevelStates
                 timeToChangeState_sec: _timeToChangeState_sec,
                 isDebug: isDebug,
                 onComplete: onComplete);
+        }
+
+        public void DisableButtonsImmediately()
+        {
+            buttonsEnabledPending = false;
+            _hudController.DisableButtons();
         }
     }
 }

@@ -29,6 +29,15 @@ namespace EchoOfTheTimes.UI
             _enableButtonsTime = Time.time + 0.25f;
         }
 
+        public void EnableButtonsImmediately()
+        {
+            _enableButtonsPending = false;
+            foreach (var button in _buttons)
+            {
+                button.SetInteractable(true);
+            }
+        }
+
         private void Update()
         {
             if (_enableButtonsPending && Time.time >= _enableButtonsTime)
