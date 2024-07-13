@@ -36,7 +36,8 @@ namespace EchoOfTheTimes.Core
         {
             OnCheckpointChanged += UpdateCheckpoint;
 
-            _stateMachine.ChangeStateImmediate(StartPlayerData.StateId);
+            //_stateMachine.ChangeStateImmediate(StartPlayerData.StateId);
+            _stateMachine.ChangeStateImmediate(0);
         }
 
         private void Start()
