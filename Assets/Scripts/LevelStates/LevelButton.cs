@@ -22,7 +22,7 @@ namespace EchoOfTheTimes.LevelStates
         [SerializeField] private float shakeFrequency = 1f;
         [SerializeField] private float shakeDuration = 1f;
         [SerializeField] private float shakeFalloff = 0.8f; // Затухание
-        [SerializeField] private float shakeRandomness = 1f; // Случайность
+        [SerializeField] private float shakeRandomness = 1f;
         [SerializeField] private bool shakeOnXAxis = true; // Тряска по оси X
         [SerializeField] private bool shakeOnYAxis = true; // Тряска по оси Y
         [SerializeField] private float shakeDelay = 0f; // Задержка перед началом тряски
@@ -58,7 +58,7 @@ namespace EchoOfTheTimes.LevelStates
                 return;
             }
 
-            _cameraShake.ShakeCamera(shakeIntensity, shakeFrequency, shakeDuration, shakeFalloff, shakeRandomness, shakeOnXAxis, shakeOnYAxis, shakeDelay); // Start camera shake with inspector values
+            _cameraShake.ShakeCamera(shakeIntensity, shakeFrequency, shakeDuration, shakeFalloff, shakeRandomness, shakeOnXAxis, shakeOnYAxis, shakeDelay);
 
             _graph.ResetVertices();
 

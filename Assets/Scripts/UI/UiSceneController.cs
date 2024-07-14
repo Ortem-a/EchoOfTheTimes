@@ -39,8 +39,8 @@ namespace EchoOfTheTimes.UI
         [Header("Start Level UI")]
         public Canvas StartLevelCanvas;
         public CanvasGroup StartFadeInPanel; // CanvasGroup для плавного появления
-        public float StartFadeInDuration_sec = 2.0f; // Длительность появления
-        public float StartDelay_sec = 1.0f; // Задержка перед началом
+        public float StartFadeInDuration_sec = 1.0f; // Длительность появления
+        public float StartDelay_sec = 0.5f; // Задержка перед началом
         public float HUDStartBeforeEnd_sec = 0.5f; // Начало появления HUD за K секунд до конца
 
         private SceneLoader _loader;

@@ -60,7 +60,7 @@ namespace EchoOfTheTimes.LevelStates
 
             if (_completedCallbackCounter == _callbackCounter)
             {
-                // Конец смены состояния
+                // Можно добавить задержку активации HUD после смены состояния из состояниеуправлятора
                 buttonsEnabledPending = true;
                 DOVirtual.DelayedCall(0.5f, () =>
                 {
