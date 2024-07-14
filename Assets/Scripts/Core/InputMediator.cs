@@ -27,11 +27,15 @@ namespace EchoOfTheTimes.Core
         private void Awake()
         {
             OnTouched += HandleTouch;
+            //OnSwiped += HandleSwipe;
+            //OnDoubleTouched += HandleDoubleTouch;
         }
 
         private void OnDestroy()
         {
             OnTouched -= HandleTouch;
+            //OnSwiped -= HandleSwipe;
+            //OnDoubleTouched -= HandleDoubleTouch;
         }
 
         [Inject]
@@ -49,49 +53,42 @@ namespace EchoOfTheTimes.Core
             _playerPath = playerPath;
         }
 
-        public void SimulateTouch(Vertex touchPosition)
-        {
-            HandleTouch(touchPosition, true);
-        }
-
         private void HandleTouch(Vertex touchPosition)
         {
-            HandleTouch(touchPosition, false);
-        }
-
-        private void HandleTouch(Vertex touchPosition, bool isFictitious)
-        {
-            if (!isFictitious)
-            {
-                _2dIndicator.ShowIndicator(touchPosition);
-            }
+            _2dIndicator.ShowIndicator(touchPosition);
 
             if (HasPath(touchPosition) && !_player.IsTeleportate)
             {
-                if (!isFictitious)
-                {
-                    _3dIndicator.ShowSuccessIndicator(touchPosition);
-                }
+                _3dIndicator.ShowSuccessIndicator(touchPosition);
 
-                _player.Stop(() => CreatePathAndMove(touchPosition, isFictitious));
+                _player.Stop(() => CreatePathAndMove(touchPosition));
             }
             else
             {
-                if (!isFictitious)
-                {
-                    _3dIndicator.ShowErrorIndicator(touchPosition);
-                }
+                _3dIndicator.ShowErrorIndicator(touchPosition);
             }
         }
+
+        //private void HandleDoubleTouch()
+        //{
+        //    _camera.AutoRotateCameraAfterDoubleEmptyClick();
+        //}
+
+        //private void HandleSwipe(float swipeX)
+        //{
+        //    _camera.RotateCamera(swipeX);
+        //}
 
         private bool HasPath(Vertex destination)
         {
             var path = _graph.GetPathBFS(_player.Position, destination);
 
-            return path.Count != 0;
+            if (path.Count != 0) return true;
+
+            return false;
         }
 
-        private void CreatePathAndMove(Vertex destination, bool isFictitious)
+        private void CreatePathAndMove(Vertex destination)
         {
             List<Vertex> path = _graph.GetPathBFS((_player.NextPosition == null ? _player.Position : _player.NextPosition), destination);
 
@@ -101,7 +98,7 @@ namespace EchoOfTheTimes.Core
 
                 _playerPath.SetPath(path);
 
-                _player.MoveTo(path.ToArray(), isFictitious);
+                _player.MoveTo(path.ToArray());
             }
         }
 
@@ -110,6 +107,7 @@ namespace EchoOfTheTimes.Core
             if (_levelStateMachine.IsChanging || levelStateId == _levelStateMachine.GetCurrentStateId())
                 return;
 
+            // +++++++++++++++++++++++++++++++++++++++++++++++++++
             _player.CutPath();
 
             if (_player.StayOnDynamic)
@@ -119,18 +117,23 @@ namespace EchoOfTheTimes.Core
                     _levelStateMachine.ChangeState(levelStateId);
                 });
             }
-            /*else if (_player.PreviousWaypointIsDynamic) баг ебучий
+            else if (_player.PreviousWaypointIsDynamic)
             {
                 _player.WaitUntilCompleteMove(onComplete: () =>
                 {
                     _levelStateMachine.ChangeState(levelStateId);
                 });
-            }*/
+            }
             else
             {
                 _levelStateMachine.ChangeState(levelStateId);
             }
+            // +++++++++++++++++++++++++++++++++++++++++++++++++++
+
+            //_player.StopAndLink(onComplete: () =>
+            //{
+            //    _levelStateMachine.ChangeState(levelStateId);
+            //});
         }
     }
 }
-

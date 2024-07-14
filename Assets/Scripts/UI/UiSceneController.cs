@@ -103,12 +103,12 @@ namespace EchoOfTheTimes.UI
             for (int i = 0; i < _stateMachine.States.Count; i++)
             {
                 var stateButton = Instantiate(ButtonPrefab, BottomPanel).GetComponent<UiStateButton>();
-                stateButton.Init(i, _inputMediator, this, FindObjectOfType<HUDController>(), ButtonControllers[i]);
+                stateButton.Init(i, _inputMediator, this, ButtonControllers[i],
+                    DefaultStateButtonColor, DisabledStateButtonColor);
                 _stateButtons[i] = stateButton;
             }
             _stateButtons[0].Select();
         }
-
 
         private async void ExitToMainMenu()
         {

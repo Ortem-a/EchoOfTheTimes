@@ -1,5 +1,4 @@
 using EchoOfTheTimes.Core;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,42 +9,44 @@ namespace EchoOfTheTimes.UI
     {
         private InputMediator _inputMediator;
         private UiSceneController _uiSceneController;
-        private HUDController _hudController;
         private Button _button;
         private Animator _animator;
-        private bool _isSelected;
-        private float _spawnTime;
 
+        private Color _defaultColor;
+        private Color _disabledColor;
         private Image[] _shadows;
 
         public void Init(int stateId, InputMediator inputHandler, UiSceneController uiSceneController,
-            HUDController hudController, RuntimeAnimatorController animatorController)
+            RuntimeAnimatorController animatorController, Color defaultColor, Color disabledColor)
         {
             _inputMediator = inputHandler;
             _uiSceneController = uiSceneController;
-            _hudController = hudController;
 
             _button = GetComponent<Button>();
+            //_button.transition = Selectable.Transition.Animation;
             _button.transition = Selectable.Transition.None;
             _button.onClick.AddListener(() => ChangeState(stateId));
 
             _animator = GetComponent<Animator>();
             _animator.runtimeAnimatorController = animatorController;
 
-            _shadows = GetComponentsInChildren<Image>().Where(image => image.gameObject.name.Contains("Shadow")).ToArray();
-            SetShadowColor(_uiSceneController.DefaultStateButtonColor);
+            _defaultColor = defaultColor;
+            _disabledColor = disabledColor;
 
-            _hudController.RegisterButton(this);
+            _shadows = new Image[4];
+            _shadows[0] = transform.GetChild(0).GetComponent<Image>();
+            _shadows[1] = transform.GetChild(1).GetComponent<Image>();
+            _shadows[2] = transform.GetChild(2).GetComponent<Image>();
+            _shadows[3] = transform.GetChild(3).GetComponent<Image>();
 
-            _spawnTime = Time.time;  // Записываем время спавна кнопки
+            SetInteractable(true);
         }
 
         private void ChangeState(int stateId)
         {
-            if (Time.time - _spawnTime < 3f) return; // Проверяем, прошло ли 1 секунда после спавна
-
             Select();
             _uiSceneController.DeselectAllButtons(stateId);
+
             _inputMediator.ChangeLevelState(stateId);
         }
 
@@ -56,24 +57,17 @@ namespace EchoOfTheTimes.UI
         public void SetInteractable(bool isInteractable)
         {
             _button.interactable = isInteractable;
-        }
 
-        public void SetShadowColor(Color color)
-        {
-            foreach (var shadow in _shadows)
+            if (isInteractable)
             {
-                shadow.color = color;
+                for (int i = 0; i < _shadows.Length; i++)
+                    _shadows[i].color = _defaultColor;
             }
-        }
-
-        public void SetDefaultShadowColor()
-        {
-            SetShadowColor(_uiSceneController.DefaultStateButtonColor);
-        }
-
-        public void SetDisabledShadowColor()
-        {
-            SetShadowColor(_uiSceneController.DisabledStateButtonColor);
+            else
+            {
+                for (int i = 0; i < _shadows.Length; i++)
+                    _shadows[i].color = _disabledColor;
+            }
         }
     }
 }

@@ -7,7 +7,6 @@ using EchoOfTheTimes.Movement;
 using System;
 using UnityEngine;
 using Zenject;
-using EchoOfTheTimes.UI;
 
 namespace EchoOfTheTimes.Units
 {
@@ -33,20 +32,18 @@ namespace EchoOfTheTimes.Units
         private VertexFollower _vertexFollower;
         private PlayerPath _playerPath;
         private Movable _movable;
-        private InputMediator _inputMediator;
 
         private AnimationManager _animationManager;
 
         private Action _onMoveCompleted = null;
 
         [Inject]
-        private void Construct(GraphVisibility graphVisibility, VertexFollower vertexFollower, Movable movable, PlayerPath playerPath, InputMediator inputMediator)
+        private void Construct(GraphVisibility graphVisibility, VertexFollower vertexFollower, Movable movable, PlayerPath playerPath)
         {
             _graph = graphVisibility;
             _vertexFollower = vertexFollower;
             _movable = movable;
             _playerPath = playerPath;
-            _inputMediator = inputMediator;
         }
 
         public void Teleportate(Vector3 to, float duration, TweenCallback onStart = null, TweenCallback onComplete = null)
@@ -69,35 +66,9 @@ namespace EchoOfTheTimes.Units
                 });
         }
 
-        public void MoveTo(Vertex[] waypoints, bool isFictitious = false)
+        public void MoveTo(Vertex[] waypoints)
         {
-            if (isFictitious)
-            {
-                _movable.Move(waypoints, OnStartMoveFictitious, OnCompleteMoveFictitious);
-            }
-            else
-            {
-                _movable.Move(waypoints, OnStartMove, OnCompleteMove);
-            }
-        }
-
-        private void OnStartMoveFictitious()
-        {
-            IsBusy = true;
-
-            _position = _graph.GetNearestVertex(transform.position);
-
-            if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
-            {
-                freezer.OnCancel?.Invoke();
-                UpdateButtonShadowColors(false);
-            }
-
-            if (NextPosition.gameObject.TryGetComponent(out StateFreezer nextFreezer))
-            {
-                nextFreezer.OnFreeze?.Invoke();
-                UpdateButtonShadowColors(true);
-            }
+            _movable.Move(waypoints, OnStartMove, OnCompleteMove);
         }
 
         private void OnStartMove()
@@ -106,37 +77,21 @@ namespace EchoOfTheTimes.Units
 
             _position = _graph.GetNearestVertex(transform.position);
 
+            //Debug.Log($"[ON START MOVE] {_position}");
+
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
                 freezer.OnCancel?.Invoke();
-                UpdateButtonShadowColors(false);
             }
 
             if (NextPosition.gameObject.TryGetComponent(out StateFreezer nextFreezer))
             {
                 nextFreezer.OnFreeze?.Invoke();
-                UpdateButtonShadowColors(true);
             }
 
             if (Position.gameObject.TryGetComponent(out ISpecialVertex specialVertex))
             {
                 specialVertex.OnExit?.Invoke();
-            }
-        }
-
-        private void OnCompleteMoveFictitious()
-        {
-            IsBusy = false;
-
-            _onMoveCompleted?.Invoke();
-            _onMoveCompleted = null;
-
-            _position = _graph.GetNearestVertex(transform.position);
-
-            if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
-            {
-                freezer.OnFreeze?.Invoke();
-                UpdateButtonShadowColors(true);
             }
         }
 
@@ -149,10 +104,11 @@ namespace EchoOfTheTimes.Units
 
             _position = _graph.GetNearestVertex(transform.position);
 
+            //Debug.Log($"[ON COMPLETE MOVE] {_position}");
+
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
                 freezer.OnFreeze?.Invoke();
-                UpdateButtonShadowColors(true);
             }
 
             if (Position.gameObject.TryGetComponent(out ISpecialVertex specialVertex))
@@ -175,8 +131,8 @@ namespace EchoOfTheTimes.Units
 
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
+                //freezer.OnCancel?.Invoke();
                 freezer.OnFreeze?.Invoke();
-                UpdateButtonShadowColors(true);
             }
         }
 
@@ -190,11 +146,7 @@ namespace EchoOfTheTimes.Units
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
                 freezer.OnFreeze?.Invoke();
-                UpdateButtonShadowColors(true);
             }
-
-            // —имул€ци€ касани€ в финальный вертекс
-            _inputMediator.SimulateTouch(_position);
         }
 
         public void StopAndLink(Action onComplete)
@@ -224,22 +176,6 @@ namespace EchoOfTheTimes.Units
         private void ResetNextPosition()
         {
             _movable.ResetDestination();
-        }
-
-        private void UpdateButtonShadowColors(bool isInFreezer)
-        {
-            var buttons = FindObjectsOfType<UiStateButton>();
-            foreach (var button in buttons)
-            {
-                if (isInFreezer)
-                {
-                    button.SetDisabledShadowColor();
-                }
-                else
-                {
-                    button.SetDefaultShadowColor();
-                }
-            }
         }
     }
 }
