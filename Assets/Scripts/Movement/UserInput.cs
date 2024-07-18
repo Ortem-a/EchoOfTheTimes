@@ -46,6 +46,8 @@ namespace EchoOfTheTimes.Movement
                     _touchPosition.y = _startSwipePosition.y;
                     Vector3 touchPosition3D = _camera.ScreenToWorldPoint(_touchPosition);
 
+                    _userInputMediator.OnTouchedFirstTime?.Invoke();
+
                     if (Physics.Raycast(touchPosition3D, _camera.transform.forward, out RaycastHit hit, Mathf.Infinity))
                     {
                         if (hit.transform.TryGetComponent(out Vertex vertex))

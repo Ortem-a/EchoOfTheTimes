@@ -1,5 +1,6 @@
 using EchoOfTheTimes.ScriptableObjects.Level;
 using System.Collections.Generic;
+using UnityEditor.Graphs;
 using UnityEngine;
 using Zenject;
 
@@ -181,5 +182,7 @@ namespace EchoOfTheTimes.Core
 
             return path;
         }
+
+        public bool HasPath(Vertex from, Vertex to) => GetPathBFS(from, to).Count != 0;
     }
 }

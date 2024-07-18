@@ -1,5 +1,6 @@
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Movement;
+using EchoOfTheTimes.UI;
 using EchoOfTheTimes.Units;
 using System;
 using System.Collections.Generic;
@@ -12,20 +13,19 @@ namespace EchoOfTheTimes.Core
     public class InputMediator : MonoBehaviour
     {
         public Action<Vertex> OnTouched;
-        public Action OnDoubleTouched;
-        public Action<float> OnSwiped;
+        public Action OnTouchedFirstTime;
 
         private Player _player;
         private GraphVisibility _graph;
         private LevelStateMachine _levelStateMachine;
-        private RefinedOrbitCamera _camera;
         private Input3DIndicator _3dIndicator;
         private Input2DIndicator _2dIndicator;
-
+        private UiSceneController _uiController;
         private PlayerPath _playerPath;
 
         private void Awake()
         {
+            OnTouchedFirstTime += HandleFirstTouch;
             OnTouched += HandleTouch;
         }
 
@@ -36,28 +36,22 @@ namespace EchoOfTheTimes.Core
 
         [Inject]
         private void Construct(GraphVisibility graph, Player player, LevelStateMachine stateMachine,
-            RefinedOrbitCamera camera, Input3DIndicator input3DIndicator, Input2DIndicator input2DIndicator, PlayerPath playerPath)
+            Input3DIndicator input3DIndicator, Input2DIndicator input2DIndicator, PlayerPath playerPath, UiSceneController uiController)
         {
             _graph = graph;
             _player = player;
             _levelStateMachine = stateMachine;
-            _camera = camera;
 
             _3dIndicator = input3DIndicator;
             _2dIndicator = input2DIndicator;
 
             _playerPath = playerPath;
+            _uiController = uiController;
         }
 
-        public void SimulateTouch(Vertex touchPosition)
-        {
-            HandleTouch(touchPosition, true);
-        }
+        public void SimulateTouch(Vertex touchPosition) => HandleTouch(touchPosition, true);
 
-        private void HandleTouch(Vertex touchPosition)
-        {
-            HandleTouch(touchPosition, false);
-        }
+        private void HandleTouch(Vertex touchPosition) => HandleTouch(touchPosition, false);
 
         private void HandleTouch(Vertex touchPosition, bool isFictitious)
         {
@@ -66,7 +60,8 @@ namespace EchoOfTheTimes.Core
                 _2dIndicator.ShowIndicator(touchPosition);
             }
 
-            if (HasPath(touchPosition) && !_player.IsTeleportate)
+            if (_graph.HasPath(_player.Position, touchPosition) && !_player.IsTeleportate)
+            //if (HasPath(touchPosition) && !_player.IsTeleportate)
             {
                 if (!isFictitious)
                 {
@@ -84,12 +79,19 @@ namespace EchoOfTheTimes.Core
             }
         }
 
-        private bool HasPath(Vertex destination)
+        private void HandleFirstTouch()
         {
-            var path = _graph.GetPathBFS(_player.Position, destination);
+            _uiController.HideStartLevelCanvas();
 
-            return path.Count != 0;
+            OnTouchedFirstTime -= HandleFirstTouch;
         }
+
+        //private bool HasPath(Vertex destination)
+        //{
+        //    var path = _graph.GetPathBFS(_player.Position, destination);
+
+        //    return path.Count != 0;
+        //}
 
         private void CreatePathAndMove(Vertex destination, bool isFictitious)
         {

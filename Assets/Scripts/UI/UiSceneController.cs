@@ -110,15 +110,9 @@ namespace EchoOfTheTimes.UI
         }
 
 
-        private async void ExitToMainMenu()
-        {
-            await _loader.LoadSceneGroupAsync(0);
-        }
+        private async void ExitToMainMenu() => await _loader.LoadSceneGroupAsync(0);
 
-        private async void GoToNextLevel()
-        {
-            await _loader.LoadNextSceneGroupAsync();
-        }
+        private async void GoToNextLevel() => await _loader.LoadNextSceneGroupAsync();
 
         public void UpdateLabel()
         {
@@ -154,28 +148,11 @@ namespace EchoOfTheTimes.UI
             {
                 _stateButtons[i].SetInteractable(isActive);
             }
-
-            //if (isActive)
-            //{
-            //    BottomPanel.DOScale(1f, duration)
-            //        .OnStart(() => BottomPanel.gameObject.SetActive(isActive));
-            //}
-            //else
-            //{
-            //    BottomPanel.DOScale(0f, duration)
-            //        .OnComplete(() => BottomPanel.gameObject.SetActive(isActive));
-            //}
         }
 
-        public void SetActiveBottomPanelImmediate(bool isActive)
-        {
-            BottomPanel.gameObject.SetActive(isActive);
-        }
+        public void SetActiveBottomPanelImmediate(bool isActive) => BottomPanel.gameObject.SetActive(isActive);
 
-        public void SetActiveTopPanelImmediate(bool isActive)
-        {
-            TopPanel.gameObject.SetActive(isActive);
-        }
+        public void SetActiveTopPanelImmediate(bool isActive) => TopPanel.gameObject.SetActive(isActive);
 
         public void ShowStartLevelCanvas()
         {
@@ -205,6 +182,12 @@ namespace EchoOfTheTimes.UI
                     flgIsStartAnimationEnded = true;
                     hudCanvasGroup.alpha = 1f; // Убедитесь, что HUD полностью виден
                 });
+        }
+
+        public void HideStartLevelCanvas()
+        {
+            StartLevelCanvas.gameObject.SetActive(false);
+            StartFadeInPanel.alpha = 0f;
         }
 
         public void SetActiveHudImmediate(bool isActive)
