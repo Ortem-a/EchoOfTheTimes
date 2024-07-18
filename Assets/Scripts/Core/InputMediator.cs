@@ -12,7 +12,7 @@ namespace EchoOfTheTimes.Core
     [RequireComponent(typeof(Input3DIndicator), typeof(Input2DIndicator))]
     public class InputMediator : MonoBehaviour
     {
-        public Action<Vertex> OnTouched;
+        public Action<Vertex, bool> OnTouched;
         public Action OnTouchedFirstTime;
 
         private Player _player;
@@ -49,11 +49,7 @@ namespace EchoOfTheTimes.Core
             _uiController = uiController;
         }
 
-        public void SimulateTouch(Vertex touchPosition) => HandleTouch(touchPosition, true);
-
-        private void HandleTouch(Vertex touchPosition) => HandleTouch(touchPosition, false);
-
-        private void HandleTouch(Vertex touchPosition, bool isFictitious)
+        private void HandleTouch(Vertex touchPosition, bool isFictitious = false)
         {
             if (!isFictitious)
             {
@@ -61,7 +57,6 @@ namespace EchoOfTheTimes.Core
             }
 
             if (_graph.HasPath(_player.Position, touchPosition) && !_player.IsTeleportate)
-            //if (HasPath(touchPosition) && !_player.IsTeleportate)
             {
                 if (!isFictitious)
                 {
@@ -85,13 +80,6 @@ namespace EchoOfTheTimes.Core
 
             OnTouchedFirstTime -= HandleFirstTouch;
         }
-
-        //private bool HasPath(Vertex destination)
-        //{
-        //    var path = _graph.GetPathBFS(_player.Position, destination);
-
-        //    return path.Count != 0;
-        //}
 
         private void CreatePathAndMove(Vertex destination, bool isFictitious)
         {

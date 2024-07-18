@@ -52,7 +52,7 @@ namespace EchoOfTheTimes.Movement
                     {
                         if (hit.transform.TryGetComponent(out Vertex vertex))
                         {
-                            _userInputMediator.OnTouched?.Invoke(vertex);
+                            _userInputMediator.OnTouched?.Invoke(vertex, false);
                         }
                     }
                 }

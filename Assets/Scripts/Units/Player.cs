@@ -194,7 +194,7 @@ namespace EchoOfTheTimes.Units
             }
 
             // —имул€ци€ касани€ в финальный вертекс
-            _inputMediator.SimulateTouch(_position);
+            _inputMediator.OnTouched?.Invoke(_position, true);
         }
 
         public void StopAndLink(Action onComplete)
