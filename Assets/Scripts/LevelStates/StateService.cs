@@ -62,7 +62,7 @@ namespace EchoOfTheTimes.LevelStates
             {
                 // Можно добавить задержку активации HUD после смены состояния из состояниеуправлятора
                 buttonsEnabledPending = true;
-                DOVirtual.DelayedCall(0.5f, () =>
+                DOVirtual.DelayedCall(0.0f, () => //ВЫРЕЗАТЬ, ЗАДЕРЖКА ЕСТЬ ПРИ ОБРАБОТКЕ ВКЛЮЧЕНИЯ ВОЗМОЖНОСТИ ТЫКАТЬ В HUDCONTROLLERS
                 {
                     if (buttonsEnabledPending)
                     {
