@@ -26,7 +26,7 @@ namespace EchoOfTheTimes.UI
         public void EnableButtons()
         {
             _enableButtonsPending = true;
-            _enableButtonsTime = Time.time + 0f; // можно ставить задержку чтобы не залагались анимации
+            _enableButtonsTime = Time.time + 0.1f; // можно ставить задержку чтобы не залагались анимации
         }
 
         public void EnableButtonsImmediately()
