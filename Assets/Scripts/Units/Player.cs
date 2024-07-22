@@ -161,10 +161,7 @@ namespace EchoOfTheTimes.Units
             }
         }
 
-        public void WaitUntilCompleteMove(Action onComplete)
-        {
-            _onMoveCompleted += onComplete;
-        }
+        public void WaitUntilCompleteMove(Action onComplete) => _onMoveCompleted += onComplete;
 
         private void OnStartTeleportate()
         {
@@ -206,25 +203,13 @@ namespace EchoOfTheTimes.Units
             });
         }
 
-        public void Stop(Action onComplete)
-        {
-            _movable.Stop(onStopped: onComplete);
-        }
+        public void Stop(Action onComplete) => _movable.Stop(onStopped: onComplete);
 
-        public void ForceUnlink()
-        {
-            _vertexFollower.Unlink();
-        }
+        public void ForceUnlink() => _vertexFollower.Unlink();
 
-        public void CutPath()
-        {
-            _playerPath.CutPath();
-        }
+        public void CutPath() => _playerPath.CutPath();
 
-        private void ResetNextPosition()
-        {
-            _movable.ResetDestination();
-        }
+        private void ResetNextPosition() => _movable.ResetDestination();
 
         private void UpdateButtonShadowColors(bool isInFreezer)
         {

@@ -1,5 +1,4 @@
 using EchoOfTheTimes.LevelStates;
-using EchoOfTheTimes.Movement;
 using EchoOfTheTimes.Persistence;
 using EchoOfTheTimes.Units;
 using System;
@@ -43,10 +42,8 @@ namespace EchoOfTheTimes.Core
         {
             _player.transform.position = StartCheckpoint.transform.position;
 
-            if (StartCheckpoint != null)
-            {
-                SimulateInitialTouch();
-            }
+#warning ”¡–¿À »«-«¿  –»¬€’ ¿Õ»Ã¿÷»… œ–» —“¿–“≈ ”–Œ¬Õﬂ 
+            //SimulateInitialTouch();
         }
 
         private void OnDestroy()
@@ -90,9 +87,10 @@ namespace EchoOfTheTimes.Core
 
         private void SimulateInitialTouch()
         {
-            Vertex checkpointVertex = _graphVisibility.GetNearestVertex(ActiveCheckpoint.transform.position);
+            //Vertex checkpointVertex = _graphVisibility.GetNearestVertex(ActiveCheckpoint.transform.position);
 
-            _inputMediator.OnTouched?.Invoke(checkpointVertex, true);
+            //_inputMediator.OnTouched?.Invoke(checkpointVertex, true);
+            _inputMediator.OnTouched?.Invoke(StartCheckpoint.Point, true);
         }
     }
 }
