@@ -13,6 +13,12 @@ namespace EchoOfTheTimes.Core
 
         private void OnDrawGizmos()
         {
+            if (IsLadder || IsStairs)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawSphere(transform.position, 0.1f);
+            }
+
             if (IsDynamic) Gizmos.color = Color.blue;
             else Gizmos.color = Color.green;
 

@@ -22,7 +22,7 @@ namespace EchoOfTheTimes.Movement
         private Vertex _destination;
         private Vertex[] _path;
 
-        public Vertex Destination => _destination;
+        public Vertex NextWaypoint => _destination;
 
         private bool _isMoving = false;
         private bool _isNeedToStop = false;

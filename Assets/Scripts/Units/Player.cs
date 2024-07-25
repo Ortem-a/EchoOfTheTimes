@@ -24,7 +24,7 @@ namespace EchoOfTheTimes.Units
         private Vertex _position;
         public Vertex Position => _position == null ? _graph.GetNearestVertex(transform.position) : _position;
 
-        public Vertex NextPosition => _movable.Destination;
+        public Vertex NextPosition => _movable.NextWaypoint;
 
         public bool StayOnDynamic => _playerPath.StayOnDynamic;
         public bool PreviousWaypointIsDynamic => _playerPath.PrevIsDynamic;
