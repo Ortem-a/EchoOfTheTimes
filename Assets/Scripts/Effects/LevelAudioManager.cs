@@ -16,6 +16,7 @@ namespace EchoOfTheTimes.Effects
         private bool _isReadyToPlaySound = false;
         private AudioSource audioSource;
         private Player player;
+        private AudioSource ambientAudioSource;
 
         [Inject]
         private void Construct(Player playerInstance)
@@ -30,6 +31,42 @@ namespace EchoOfTheTimes.Effects
                 _isReadyToPlaySound = true;
                 Debug.Log("LevelAudioManager is ready to play sound.");
             });
+
+            ambientAudioSource = gameObject.AddComponent<AudioSource>();
+            ambientAudioSource.loop = true;
+        }
+
+        public void PlayAmbientSound(string sceneName)
+        {
+            if (_levelSoundsSceneContainer == null)
+            {
+                Debug.LogWarning("LevelSoundsSceneContainerScriptableObject is not assigned.");
+                return;
+            }
+
+            Debug.Log($"Attempting to play ambient sound for scene: {sceneName}");
+            var levelSound = GetLevelSound(sceneName);
+            if (levelSound != null && levelSound.AmbientSound != null)
+            {
+                Debug.Log($"Found ambient sound for scene: {sceneName}, sound: {levelSound.AmbientSound.name}");
+                ambientAudioSource.clip = levelSound.AmbientSound;
+                ambientAudioSource.volume = levelSound.AmbientSoundVolume;
+                ambientAudioSource.Play();
+                Debug.Log("Ambient sound started.");
+            }
+            else
+            {
+                Debug.LogWarning($"No ambient sound found for scene: {sceneName}");
+            }
+        }
+
+        public void StopAmbientSound()
+        {
+            if (ambientAudioSource != null && ambientAudioSource.isPlaying)
+            {
+                ambientAudioSource.Stop();
+                Debug.Log("Ambient sound stopped.");
+            }
         }
 
         public void PlayChangeStateSound()
@@ -54,32 +91,31 @@ namespace EchoOfTheTimes.Effects
 
         private void PlayLevelSound(Func<LevelSoundsSceneContainerScriptableObject.LevelSound, AudioClip> getClip, Func<LevelSoundsSceneContainerScriptableObject.LevelSound, float> getVolume, string soundName)
         {
-            if (_isReadyToPlaySound)
+            if (!_isReadyToPlaySound)
             {
-                string currentSceneName = SceneManager.GetActiveScene().name;
-                var levelSound = GetLevelSound(currentSceneName);
-                if (levelSound != null)
+                Debug.LogWarning($"{soundName} sound not ready to play for scene: {SceneManager.GetActiveScene().name}");
+                return;
+            }
+
+            string currentSceneName = SceneManager.GetActiveScene().name;
+            var levelSound = GetLevelSound(currentSceneName);
+            if (levelSound != null)
+            {
+                var clip = getClip(levelSound);
+                var volume = getVolume(levelSound);
+                if (clip != null)
                 {
-                    var clip = getClip(levelSound);
-                    var volume = getVolume(levelSound);
-                    if (clip != null)
-                    {
-                        PlaySound(clip, volume);
-                        Debug.Log($"{soundName} sound played.");
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"No {soundName} sound assigned for scene: {currentSceneName}");
-                    }
+                    PlaySound(clip, volume);
+                    Debug.Log($"{soundName} sound played.");
                 }
                 else
                 {
-                    Debug.LogWarning($"No sound configuration found for scene: {currentSceneName}");
+                    Debug.LogWarning($"No {soundName} sound assigned for scene: {currentSceneName}");
                 }
             }
             else
             {
-                Debug.LogWarning($"{soundName} sound not ready to play for scene: {SceneManager.GetActiveScene().name}");
+                Debug.LogWarning($"No sound configuration found for scene: {currentSceneName}");
             }
         }
 
@@ -102,9 +138,15 @@ namespace EchoOfTheTimes.Effects
 
         private LevelSoundsSceneContainerScriptableObject.LevelSound GetLevelSound(string sceneName)
         {
+            if (_levelSoundsSceneContainer == null || _levelSoundsSceneContainer.LevelSounds == null)
+            {
+                Debug.LogWarning("LevelSoundsSceneContainer or its LevelSounds are not assigned.");
+                return null;
+            }
+
             foreach (var levelSound in _levelSoundsSceneContainer.LevelSounds)
             {
-                if (levelSound.LevelScene.name == sceneName)
+                if (levelSound.LevelScene != null && levelSound.LevelScene.name == sceneName)
                 {
                     return levelSound;
                 }

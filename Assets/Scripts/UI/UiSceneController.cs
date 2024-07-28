@@ -1,8 +1,10 @@
 using DG.Tweening;
 using EchoOfTheTimes.Core;
+using EchoOfTheTimes.Effects;
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
 
@@ -47,6 +49,7 @@ namespace EchoOfTheTimes.UI
         private LevelStateMachine _stateMachine;
         private UiSceneView _sceneView;
         private InputMediator _inputMediator;
+        private LevelAudioManager _levelAudioManager;
 
         private UiStateButton[] _stateButtons;
 
@@ -57,11 +60,12 @@ namespace EchoOfTheTimes.UI
         }
 
         [Inject]
-        private void Construct(LevelStateMachine stateMachine, UiSceneView uiSceneView, InputMediator inputMediator)
+        private void Construct(LevelStateMachine stateMachine, UiSceneView uiSceneView, InputMediator inputMediator, LevelAudioManager levelAudioManager)
         {
             _stateMachine = stateMachine;
             _sceneView = uiSceneView;
             _inputMediator = inputMediator;
+            _levelAudioManager = levelAudioManager;
 
             CreateStateButtons();
             InitializeFinishCanvas();
@@ -132,6 +136,12 @@ namespace EchoOfTheTimes.UI
 
             FinishFadeOutPanel.gameObject.SetActive(true);
 
+            // Останавливаем эмбиент-звук перед началом затемнения
+            if (_levelAudioManager != null)
+            {
+                _levelAudioManager.StopAmbientSound();
+            }
+
             DOTween.To(() => FinishFadeOutPanel.alpha, x => FinishFadeOutPanel.alpha = x, 1f, FinishFadeOutDuration_sec)
                 .SetDelay(UselessFinishDuration_sec)
                 .OnComplete(() =>
@@ -193,6 +203,12 @@ namespace EchoOfTheTimes.UI
                 {
                     HUDCanvas.gameObject.SetActive(true); // Активируем HUDCanvas сразу
                     hudCanvasGroup.alpha = 0f; // Начальная непрозрачность HUD
+
+                    // Включаем эмбиент-звук в начале анимации появления
+                    if (_levelAudioManager != null)
+                    {
+                        _levelAudioManager.PlayAmbientSound(SceneManager.GetActiveScene().name);
+                    }
                 })
                 .OnUpdate(() =>
                 {
@@ -206,8 +222,6 @@ namespace EchoOfTheTimes.UI
                     hudCanvasGroup.alpha = 1f; // Убедитесь, что HUD полностью виден
                 });
         }
-
-
 
         public void SetActiveHudImmediate(bool isActive)
         {
