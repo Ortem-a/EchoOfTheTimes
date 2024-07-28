@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
+using UnityEngine;
 
 namespace EchoOfTheTimes.ScriptableObjects.Level
 {
@@ -16,7 +16,13 @@ namespace EchoOfTheTimes.ScriptableObjects.Level
             public AudioClip LevelButtonPilinkSound;
             public AudioClip LevelButtonChangeSound;
             public AudioClip TeleportSound;
-        } 
+            [Range(0f, 1f)] public float AmbientSoundVolume = 1.0f;
+            [Range(0f, 1f)] public float ChangeStateSoundVolume = 1.0f;
+            [Range(0f, 1f)] public float MovableByRulesObjectsSoundVolume = 1.0f;
+            [Range(0f, 1f)] public float LevelButtonPilinkSoundVolume = 1.0f;
+            [Range(0f, 1f)] public float LevelButtonChangeSoundVolume = 1.0f;
+            [Range(0f, 1f)] public float TeleportSoundVolume = 1.0f;
+        }
 
         [field: SerializeField]
         public LevelSound[] LevelSounds { get; private set; }

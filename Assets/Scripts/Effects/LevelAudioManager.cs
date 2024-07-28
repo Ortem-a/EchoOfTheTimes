@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
 using EchoOfTheTimes.Units;
+using System;
 
 namespace EchoOfTheTimes.Effects
 {
@@ -33,47 +34,25 @@ namespace EchoOfTheTimes.Effects
 
         public void PlayChangeStateSound()
         {
-            if (_isReadyToPlaySound)
-            {
-                string currentSceneName = SceneManager.GetActiveScene().name;
-                var levelSound = GetLevelSound(currentSceneName);
-                if (levelSound != null)
-                {
-                    PlaySound(levelSound.ChangeStateSound, 0.3f);
-                }
-                else
-                {
-                    Debug.LogWarning($"No change state sound found for scene: {currentSceneName}");
-                }
-            }
-            else
-            {
-                Debug.LogWarning($"Sound not ready to play for scene: {SceneManager.GetActiveScene().name}");
-            }
+            PlayLevelSound(levelSound => levelSound.ChangeStateSound, levelSound => levelSound.ChangeStateSoundVolume, "Change State");
         }
 
         public void PlayButtonPilinkSound()
         {
-            if (_isReadyToPlaySound)
-            {
-                string currentSceneName = SceneManager.GetActiveScene().name;
-                var levelSound = GetLevelSound(currentSceneName);
-                if (levelSound != null)
-                {
-                    PlaySound(levelSound.LevelButtonPilinkSound, 1.0f);
-                }
-                else
-                {
-                    Debug.LogWarning($"No button pilink sound found for scene: {currentSceneName}");
-                }
-            }
-            else
-            {
-                Debug.LogWarning($"Sound not ready to play for scene: {SceneManager.GetActiveScene().name}");
-            }
+            PlayLevelSound(levelSound => levelSound.LevelButtonPilinkSound, levelSound => levelSound.LevelButtonPilinkSoundVolume, "Button Pilink");
         }
 
         public void PlayButtonChangeSound()
+        {
+            PlayLevelSound(levelSound => levelSound.LevelButtonChangeSound, levelSound => levelSound.LevelButtonChangeSoundVolume, "Button Change");
+        }
+
+        public void PlayTeleportSound()
+        {
+            PlayLevelSound(levelSound => levelSound.TeleportSound, levelSound => levelSound.TeleportSoundVolume, "Teleport");
+        }
+
+        private void PlayLevelSound(Func<LevelSoundsSceneContainerScriptableObject.LevelSound, AudioClip> getClip, Func<LevelSoundsSceneContainerScriptableObject.LevelSound, float> getVolume, string soundName)
         {
             if (_isReadyToPlaySound)
             {
@@ -81,16 +60,26 @@ namespace EchoOfTheTimes.Effects
                 var levelSound = GetLevelSound(currentSceneName);
                 if (levelSound != null)
                 {
-                    PlaySound(levelSound.LevelButtonChangeSound, 0.3f);
+                    var clip = getClip(levelSound);
+                    var volume = getVolume(levelSound);
+                    if (clip != null)
+                    {
+                        PlaySound(clip, volume);
+                        Debug.Log($"{soundName} sound played.");
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"No {soundName} sound assigned for scene: {currentSceneName}");
+                    }
                 }
                 else
                 {
-                    Debug.LogWarning($"No button change sound found for scene: {currentSceneName}");
+                    Debug.LogWarning($"No sound configuration found for scene: {currentSceneName}");
                 }
             }
             else
             {
-                Debug.LogWarning($"Sound not ready to play for scene: {SceneManager.GetActiveScene().name}");
+                Debug.LogWarning($"{soundName} sound not ready to play for scene: {SceneManager.GetActiveScene().name}");
             }
         }
 
