@@ -131,6 +131,5 @@ namespace EchoOfTheTimes.DI
 
             _stateMachine.OnTransitionComplete -= _uiSceneController.UpdateLabel;
         }
-
     }
 }

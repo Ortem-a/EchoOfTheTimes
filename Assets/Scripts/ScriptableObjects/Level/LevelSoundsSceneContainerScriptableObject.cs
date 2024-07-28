@@ -13,7 +13,8 @@ namespace EchoOfTheTimes.ScriptableObjects.Level
             public AudioClip AmbientSound;
             public AudioClip ChangeStateSound;
             public AudioClip MovableByRulesObjectsSound;
-            public AudioClip LevelButtonSound;
+            public AudioClip LevelButtonPilinkSound;
+            public AudioClip LevelButtonChangeSound;
         }
 
         [field: SerializeField]
