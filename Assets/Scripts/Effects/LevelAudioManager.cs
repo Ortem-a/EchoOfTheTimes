@@ -39,7 +39,7 @@ namespace EchoOfTheTimes.Effects
                 var levelSound = GetLevelSound(currentSceneName);
                 if (levelSound != null)
                 {
-                    PlaySound(levelSound.ChangeStateSound, 1.0f);
+                    PlaySound(levelSound.ChangeStateSound, 0.3f);
                 }
                 else
                 {
@@ -81,7 +81,7 @@ namespace EchoOfTheTimes.Effects
                 var levelSound = GetLevelSound(currentSceneName);
                 if (levelSound != null)
                 {
-                    PlaySound(levelSound.LevelButtonChangeSound, 1.0f);
+                    PlaySound(levelSound.LevelButtonChangeSound, 0.3f);
                 }
                 else
                 {
