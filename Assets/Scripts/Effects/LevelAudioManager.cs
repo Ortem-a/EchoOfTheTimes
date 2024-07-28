@@ -3,7 +3,7 @@ using EchoOfTheTimes.ScriptableObjects.Level;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
-using EchoOfTheTimes.Units; // Добавьте пространство имен, в котором находится класс Player
+using EchoOfTheTimes.Units;
 
 namespace EchoOfTheTimes.Effects
 {
@@ -12,7 +12,7 @@ namespace EchoOfTheTimes.Effects
     {
         [SerializeField]
         private LevelSoundsSceneContainerScriptableObject _levelSoundsSceneContainer;
-        private bool _isReadyToPlaySound = false; // Флаг для отслеживания готовности к воспроизведению звука
+        private bool _isReadyToPlaySound = false;
         private AudioSource audioSource;
         private Player player;
 
@@ -24,8 +24,11 @@ namespace EchoOfTheTimes.Effects
 
         private void Start()
         {
-            // Установим задержку в одну секунду перед тем, как звуки смогут воспроизводиться
-            DOVirtual.DelayedCall(1f, () => _isReadyToPlaySound = true);
+            DOVirtual.DelayedCall(1f, () =>
+            {
+                _isReadyToPlaySound = true;
+                Debug.Log("LevelAudioManager is ready to play sound.");
+            });
         }
 
         public void PlayChangeStateSound()
@@ -36,34 +39,75 @@ namespace EchoOfTheTimes.Effects
                 var levelSound = GetLevelSound(currentSceneName);
                 if (levelSound != null)
                 {
-                    Debug.Log($"Playing sound for scene: {currentSceneName}"); // Отладка
-                    PlaySound(levelSound.ChangeStateSound, 1.0f); // Задаем громкость
+                    PlaySound(levelSound.ChangeStateSound, 1.0f);
                 }
                 else
                 {
-                    Debug.LogWarning($"No sound found for scene: {currentSceneName}"); // Отладка
+                    Debug.LogWarning($"No change state sound found for scene: {currentSceneName}");
                 }
             }
             else
             {
-                Debug.LogWarning($"Sound not ready to play for scene: {SceneManager.GetActiveScene().name}"); // Отладка
+                Debug.LogWarning($"Sound not ready to play for scene: {SceneManager.GetActiveScene().name}");
+            }
+        }
+
+        public void PlayButtonPilinkSound()
+        {
+            if (_isReadyToPlaySound)
+            {
+                string currentSceneName = SceneManager.GetActiveScene().name;
+                var levelSound = GetLevelSound(currentSceneName);
+                if (levelSound != null)
+                {
+                    PlaySound(levelSound.LevelButtonPilinkSound, 1.0f);
+                }
+                else
+                {
+                    Debug.LogWarning($"No button pilink sound found for scene: {currentSceneName}");
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"Sound not ready to play for scene: {SceneManager.GetActiveScene().name}");
+            }
+        }
+
+        public void PlayButtonChangeSound()
+        {
+            if (_isReadyToPlaySound)
+            {
+                string currentSceneName = SceneManager.GetActiveScene().name;
+                var levelSound = GetLevelSound(currentSceneName);
+                if (levelSound != null)
+                {
+                    PlaySound(levelSound.LevelButtonChangeSound, 1.0f);
+                }
+                else
+                {
+                    Debug.LogWarning($"No button change sound found for scene: {currentSceneName}");
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"Sound not ready to play for scene: {SceneManager.GetActiveScene().name}");
             }
         }
 
         private void PlaySound(AudioClip clip, float volume)
         {
-            // Создаем временный объект как дочерний объект игрока
+            if (clip == null) return;
+
             GameObject tempAudioGO = new GameObject("TempAudio");
-            tempAudioGO.transform.SetParent(player.transform); // Устанавливаем родительский объект
-            tempAudioGO.transform.localPosition = Vector3.zero; // Устанавливаем локальную позицию
+            tempAudioGO.transform.SetParent(player.transform);
+            tempAudioGO.transform.localPosition = Vector3.zero;
 
-            audioSource = tempAudioGO.AddComponent<AudioSource>(); // Добавляем компонент AudioSource
-            audioSource.clip = clip; // Устанавливаем аудиоклип
-            audioSource.volume = volume; // Устанавливаем громкость
-            audioSource.spatialBlend = 1.0f; // Устанавливаем пространственный звук
-            audioSource.Play(); // Воспроизводим звук
+            audioSource = tempAudioGO.AddComponent<AudioSource>();
+            audioSource.clip = clip;
+            audioSource.volume = volume;
+            audioSource.spatialBlend = 1.0f;
+            audioSource.Play();
 
-            // Уничтожаем временный объект после завершения воспроизведения
             Destroy(tempAudioGO, clip.length);
         }
 
