@@ -1432,6 +1432,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6621d6db202eff84d8e88f8e131779e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _levelSoundsSceneContainer: {fileID: 11400000, guid: 79741c28bad01d846856bb1e46dd493b,
+    type: 2}
 --- !u!82 &147264310
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2704,18 +2706,21 @@ MonoBehaviour:
     Position: {x: 21.501919, y: 12.801386, z: -8.661402}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
   - StateId: 0
     Target: {fileID: 407702388}
     Position: {x: 21.501917, y: 12.801386, z: -11.264574}
     Rotation: {x: -0, y: 90, z: -0}
     LocalScale: {x: 4, y: 4, z: 4}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
   - StateId: 1
     Target: {fileID: 407702388}
     Position: {x: 20.634176, y: 12.801386, z: -10.396839}
     Rotation: {x: -0, y: 270, z: -0}
     LocalScale: {x: 4, y: 4, z: 4}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
 --- !u!114 &407702391
 MonoBehaviour:
@@ -4103,18 +4108,21 @@ MonoBehaviour:
     Position: {x: 18.898722, y: 12.801386, z: -8.661402}
     Rotation: {x: 0, y: 270, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
   - StateId: 0
     Target: {fileID: 561010525}
     Position: {x: 18.898722, y: 12.801386, z: -8.661402}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
   - StateId: 1
     Target: {fileID: 561010525}
     Position: {x: 18.898722, y: 12.801386, z: -10.396864}
     Rotation: {x: -0, y: 90, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
 --- !u!114 &626102299
 MonoBehaviour:
@@ -4985,18 +4993,21 @@ MonoBehaviour:
     Position: {x: 16.295467, y: 12.801386, z: -8.661356}
     Rotation: {x: 0, y: 270, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
   - StateId: 2
     Target: {fileID: 209002269}
     Position: {x: 14.559993, y: 12.801386, z: -8.661264}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
   - StateId: 1
     Target: {fileID: 209002269}
     Position: {x: 15.427767, y: 12.801386, z: -9.529237}
     Rotation: {x: -0, y: 270, z: -0}
     LocalScale: {x: 4, y: 4, z: 4}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
 --- !u!114 &821770223
 MonoBehaviour:
@@ -9092,43 +9103,51 @@ MonoBehaviour:
       Position: {x: 14.560034, y: 12.801386, z: -15.6032505}
       Rotation: {x: -0, y: 180, z: -0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene: {fileID: 0}
       IsLocalSpace: 0
     - StateId: 2
       Target: {fileID: 1854299207}
       Position: {x: 14.560034, y: 12.801386, z: -13.000055}
       Rotation: {x: -0, y: 270, z: -0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene: {fileID: 0}
       IsLocalSpace: 0
     - StateId: 2
       Target: {fileID: 209002269}
       Position: {x: 14.559993, y: 12.801386, z: -8.661264}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene: {fileID: 0}
       IsLocalSpace: 0
     - StateId: 2
       Target: {fileID: 407702388}
       Position: {x: 21.501919, y: 12.801386, z: -8.661402}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene: {fileID: 0}
       IsLocalSpace: 0
     - StateId: 2
       Target: {fileID: 561010525}
       Position: {x: 18.898722, y: 12.801386, z: -8.661402}
       Rotation: {x: 0, y: 270, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene: {fileID: 0}
       IsLocalSpace: 0
     - StateId: 2
       Target: {fileID: 1179512672}
       Position: {x: 18.031002, y: 12.801386, z: -15.603262}
       Rotation: {x: -0, y: 90, z: -0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene: {fileID: 0}
       IsLocalSpace: 0
     - StateId: 2
       Target: {fileID: 2062266058}
       Position: {x: 20.634092, y: 12.801386, z: -14.735518}
       Rotation: {x: 0, y: 270, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene: {fileID: 0}
       IsLocalSpace: 0
+    Scene: {fileID: 0}
   - Id: 0
     StatesParameters:
     - StateId: 0
@@ -9136,43 +9155,51 @@ MonoBehaviour:
       Position: {x: 18.030964, y: 12.801386, z: -15.603345}
       Rotation: {x: -0, y: 90, z: -0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene: {fileID: 0}
       IsLocalSpace: 0
     - StateId: 0
       Target: {fileID: 1854299207}
       Position: {x: 15.427767, y: 12.801386, z: -12.132451}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene: {fileID: 0}
       IsLocalSpace: 0
     - StateId: 0
       Target: {fileID: 209002269}
       Position: {x: 16.295467, y: 12.801386, z: -8.661356}
       Rotation: {x: 0, y: 270, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene: {fileID: 0}
       IsLocalSpace: 0
     - StateId: 0
       Target: {fileID: 407702388}
       Position: {x: 21.501917, y: 12.801386, z: -11.264574}
       Rotation: {x: -0, y: 90, z: -0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene: {fileID: 0}
       IsLocalSpace: 0
     - StateId: 0
       Target: {fileID: 561010525}
       Position: {x: 18.898722, y: 12.801386, z: -8.661402}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene: {fileID: 0}
       IsLocalSpace: 0
     - StateId: 0
       Target: {fileID: 1179512672}
       Position: {x: 17.163229, y: 12.801386, z: -13.000148}
       Rotation: {x: 0, y: 270, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene: {fileID: 0}
       IsLocalSpace: 0
     - StateId: 0
       Target: {fileID: 2062266058}
       Position: {x: 20.634188, y: 12.801386, z: -13.000057}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene: {fileID: 0}
       IsLocalSpace: 0
+    Scene: {fileID: 0}
   - Id: 1
     StatesParameters:
     - StateId: 1
@@ -9180,43 +9207,51 @@ MonoBehaviour:
       Position: {x: 17.163218, y: 12.801386, z: -15.603212}
       Rotation: {x: -0, y: 180, z: -0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene: {fileID: 0}
       IsLocalSpace: 0
     - StateId: 1
       Target: {fileID: 1854299207}
       Position: {x: 15.427767, y: 12.801386, z: -12.132451}
       Rotation: {x: -0, y: 90, z: -0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene: {fileID: 0}
       IsLocalSpace: 0
     - StateId: 1
       Target: {fileID: 209002269}
       Position: {x: 15.427767, y: 12.801386, z: -9.529237}
       Rotation: {x: -0, y: 270, z: -0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene: {fileID: 0}
       IsLocalSpace: 0
     - StateId: 1
       Target: {fileID: 407702388}
       Position: {x: 20.634176, y: 12.801386, z: -10.396839}
       Rotation: {x: -0, y: 270, z: -0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene: {fileID: 0}
       IsLocalSpace: 0
     - StateId: 1
       Target: {fileID: 561010525}
       Position: {x: 18.898722, y: 12.801386, z: -10.396864}
       Rotation: {x: -0, y: 90, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene: {fileID: 0}
       IsLocalSpace: 0
     - StateId: 1
       Target: {fileID: 1179512672}
       Position: {x: 18.030949, y: 12.801386, z: -13.86775}
       Rotation: {x: -0, y: 90, z: -0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene: {fileID: 0}
       IsLocalSpace: 0
     - StateId: 1
       Target: {fileID: 2062266058}
       Position: {x: 20.634188, y: 12.801386, z: -13.000057}
       Rotation: {x: -0, y: 90, z: -0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene: {fileID: 0}
       IsLocalSpace: 0
+    Scene: {fileID: 0}
   Transitions:
   - StateFromId: 0
     StateToId: 1
@@ -9611,18 +9646,21 @@ MonoBehaviour:
     Position: {x: 17.163229, y: 12.801386, z: -13.000148}
     Rotation: {x: 0, y: 270, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
   - StateId: 1
     Target: {fileID: 1179512672}
     Position: {x: 18.030949, y: 12.801386, z: -13.86775}
     Rotation: {x: -0, y: 90, z: -0}
     LocalScale: {x: 4, y: 4, z: 4}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
   - StateId: 2
     Target: {fileID: 1179512672}
     Position: {x: 18.031002, y: 12.801386, z: -15.603262}
     Rotation: {x: -0, y: 90, z: -0}
     LocalScale: {x: 4, y: 4, z: 4}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
 --- !u!114 &1545476447
 MonoBehaviour:
@@ -10679,6 +10717,7 @@ MonoBehaviour:
     Position: {x: 0, y: -0.869, z: 0}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
+    Scene: {fileID: 0}
     IsLocalSpace: 1
   _defaultPosition:
     StateId: 0
@@ -10686,6 +10725,7 @@ MonoBehaviour:
     Position: {x: 23.1992, y: 12.93199, z: -14.736679}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
+    Scene: {fileID: 0}
     IsLocalSpace: 1
 --- !u!114 &1749498936
 MonoBehaviour:
@@ -11299,18 +11339,21 @@ MonoBehaviour:
     Position: {x: 15.427767, y: 12.801386, z: -12.132451}
     Rotation: {x: -0, y: 90, z: -0}
     LocalScale: {x: 4, y: 4, z: 4}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
   - StateId: 0
     Target: {fileID: 1854299207}
     Position: {x: 15.427767, y: 12.801386, z: -12.132451}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
   - StateId: 2
     Target: {fileID: 1854299207}
     Position: {x: 14.560034, y: 12.801386, z: -13.000055}
     Rotation: {x: -0, y: 270, z: -0}
     LocalScale: {x: 4, y: 4, z: 4}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
 --- !u!114 &1854299212
 MonoBehaviour:
@@ -11625,18 +11668,21 @@ MonoBehaviour:
     Position: {x: 14.560034, y: 12.801386, z: -15.6032505}
     Rotation: {x: -0, y: 180, z: -0}
     LocalScale: {x: 4, y: 4, z: 4}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
   - StateId: 0
     Target: {fileID: 408471030}
     Position: {x: 18.030964, y: 12.801386, z: -15.603345}
     Rotation: {x: -0, y: 90, z: -0}
     LocalScale: {x: 4, y: 4, z: 4}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
   - StateId: 1
     Target: {fileID: 408471030}
     Position: {x: 17.163218, y: 12.801386, z: -15.603212}
     Rotation: {x: -0, y: 180, z: -0}
     LocalScale: {x: 4, y: 4, z: 4}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
 --- !u!1 &1916427233
 GameObject:
@@ -12624,6 +12670,7 @@ MonoBehaviour:
     Position: {x: 18.03096, y: 8.16, z: -12.132417}
     Rotation: {x: -0, y: 180, z: -0}
     LocalScale: {x: 1, y: 1, z: 1}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
   _defaultPosition:
     StateId: 0
@@ -12631,6 +12678,7 @@ MonoBehaviour:
     Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0}
     LocalScale: {x: 0, y: 0, z: 0}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
 --- !u!114 &1972288189
 MonoBehaviour:
@@ -13041,6 +13089,7 @@ MonoBehaviour:
     Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0}
     LocalScale: {x: 0, y: 0, z: 0}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
   _defaultPosition:
     StateId: 0
@@ -13048,6 +13097,7 @@ MonoBehaviour:
     Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0}
     LocalScale: {x: 0, y: 0, z: 0}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
 --- !u!114 &2002494786
 MonoBehaviour:
@@ -13080,6 +13130,7 @@ MonoBehaviour:
     Position: {x: 0, y: -0.9789, z: 0}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 0.59999996, y: 0.19999999, z: 0.59999996}
+    Scene: {fileID: 0}
     IsLocalSpace: 1
   _defaultPosition:
     StateId: 0
@@ -13087,6 +13138,7 @@ MonoBehaviour:
     Position: {x: 23.1992, y: 12.86605, z: -14.736679}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 0.59999996, y: 0.19999999, z: 0.59999996}
+    Scene: {fileID: 0}
     IsLocalSpace: 1
 --- !u!114 &2002494788
 MonoBehaviour:
@@ -13438,18 +13490,21 @@ MonoBehaviour:
     Position: {x: 20.634188, y: 12.801386, z: -13.000057}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
   - StateId: 1
     Target: {fileID: 2062266058}
     Position: {x: 20.634188, y: 12.801386, z: -13.000057}
     Rotation: {x: -0, y: 90, z: -0}
     LocalScale: {x: 4, y: 4, z: 4}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
   - StateId: 2
     Target: {fileID: 2062266058}
     Position: {x: 20.634092, y: 12.801386, z: -14.735518}
     Rotation: {x: 0, y: 270, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
 --- !u!114 &2062266063
 MonoBehaviour:
