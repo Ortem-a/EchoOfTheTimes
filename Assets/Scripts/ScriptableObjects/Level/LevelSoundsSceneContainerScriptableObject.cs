@@ -16,7 +16,7 @@ namespace EchoOfTheTimes.ScriptableObjects.Level
             public AudioClip LevelButtonPilinkSound;
             public AudioClip LevelButtonChangeSound;
             public AudioClip TeleportSound;
-        }
+        } 
 
         [field: SerializeField]
         public LevelSound[] LevelSounds { get; private set; }

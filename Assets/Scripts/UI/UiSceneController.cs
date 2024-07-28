@@ -154,16 +154,18 @@ namespace EchoOfTheTimes.UI
                 _stateButtons[i].SetInteractable(isActive);
             }
 
-            if (isActive)
-            {
-                BottomPanel.DOScale(1f, duration)
-                    .OnStart(() => BottomPanel.gameObject.SetActive(isActive));
-            }
-            else
-            {
-                BottomPanel.DOScale(0f, duration)
-                    .OnComplete(() => BottomPanel.gameObject.SetActive(isActive));
-            }
+            // ÍÀÕÓß ß ÂÎÎÁÙÅ ÝÒÎ ÏÈÑÀË, ÊÒÎ ÇÍÀÅÒ?
+
+            //if (isActive)
+            //{
+            //    BottomPanel.DOScale(1f, duration)
+            //        .OnStart(() => BottomPanel.gameObject.SetActive(isActive));
+            //}
+            //else
+            //{
+            //    BottomPanel.DOScale(0f, duration)
+            //        .OnComplete(() => BottomPanel.gameObject.SetActive(isActive));
+            //}
         }
 
         public void SetActiveBottomPanelImmediate(bool isActive)
