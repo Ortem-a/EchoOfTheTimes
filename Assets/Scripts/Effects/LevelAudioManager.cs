@@ -1,9 +1,9 @@
-using DG.Tweening;
 using EchoOfTheTimes.ScriptableObjects.Level;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
 using EchoOfTheTimes.Units;
+using System.Collections;
 using System;
 
 namespace EchoOfTheTimes.Effects
@@ -26,14 +26,17 @@ namespace EchoOfTheTimes.Effects
 
         private void Start()
         {
-            DOVirtual.DelayedCall(1f, () =>
-            {
-                _isReadyToPlaySound = true;
-                Debug.Log("LevelAudioManager is ready to play sound.");
-            });
+            StartCoroutine(DelayedInit());
 
             ambientAudioSource = gameObject.AddComponent<AudioSource>();
             ambientAudioSource.loop = true;
+        }
+
+        private IEnumerator DelayedInit()
+        {
+            yield return new WaitForSeconds(1f);
+            _isReadyToPlaySound = true;
+            Debug.Log("LevelAudioManager is ready to play sound.");
         }
 
         public void PlayAmbientSound(string sceneName)
@@ -50,8 +53,9 @@ namespace EchoOfTheTimes.Effects
             {
                 Debug.Log($"Found ambient sound for scene: {sceneName}, sound: {levelSound.AmbientSound.name}");
                 ambientAudioSource.clip = levelSound.AmbientSound;
-                ambientAudioSource.volume = levelSound.AmbientSoundVolume;
+                ambientAudioSource.volume = 0f;
                 ambientAudioSource.Play();
+                StartCoroutine(FadeIn(ambientAudioSource, levelSound.AmbientSoundVolume, 1f)); // Время появления эмбиент-звука
                 Debug.Log("Ambient sound started.");
             }
             else
@@ -64,9 +68,34 @@ namespace EchoOfTheTimes.Effects
         {
             if (ambientAudioSource != null && ambientAudioSource.isPlaying)
             {
-                ambientAudioSource.Stop();
-                Debug.Log("Ambient sound stopped.");
+                StartCoroutine(FadeOut(ambientAudioSource, 1f)); // Время затухания эмбиент-звука
             }
+        }
+
+        private IEnumerator FadeIn(AudioSource audioSource, float targetVolume, float duration)
+        {
+            float currentTime = 0;
+            while (currentTime < duration)
+            {
+                currentTime += Time.deltaTime;
+                audioSource.volume = Mathf.Lerp(0, targetVolume, currentTime / duration);
+                yield return null;
+            }
+            audioSource.volume = targetVolume;
+        }
+
+        private IEnumerator FadeOut(AudioSource audioSource, float duration)
+        {
+            float startVolume = audioSource.volume;
+            float currentTime = 0;
+            while (currentTime < duration)
+            {
+                currentTime += Time.deltaTime;
+                audioSource.volume = Mathf.Lerp(startVolume, 0, currentTime / duration);
+                yield return null;
+            }
+            audioSource.volume = 0;
+            audioSource.Stop();
         }
 
         public void PlayChangeStateSound()

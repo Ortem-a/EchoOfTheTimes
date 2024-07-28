@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Effects;
@@ -136,7 +137,7 @@ namespace EchoOfTheTimes.UI
 
             FinishFadeOutPanel.gameObject.SetActive(true);
 
-            // Останавливаем эмбиент-звук перед началом затемнения
+            // Останавливаем эмбиент-звук с затуханием перед началом затемнения
             if (_levelAudioManager != null)
             {
                 _levelAudioManager.StopAmbientSound();
