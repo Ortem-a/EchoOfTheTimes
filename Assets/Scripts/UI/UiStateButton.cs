@@ -42,7 +42,9 @@ namespace EchoOfTheTimes.UI
 
         private void ChangeState(int stateId)
         {
-            if (Time.time - _spawnTime < 2f) return; // Ïðîâåðÿåì, ïðîøëî ëè 1 ñåêóíäà ïîñëå ñïàâíà -- ÝÒÎ ÊÎÑÒÛËÜ ×ÒÎÁÛ ÁËßÒÜ ÑÓÊÀ
+            // Ïðîâåðÿåì, ïðîøëî ëè 1 ñåêóíäà ïîñëå ñïàâíà
+            // ÝÒÎ ÊÎÑÒÛËÜ ×ÒÎÁÛ ÁËßÒÜ ÑÓÊÀ ÃËÀÇÀ ÎÒÊÐÛËÈÑÜ ÅÁÓ×ÈÅ ÓÓÓÓÓÓÓÓÓÓÓÓÓ
+            if (Time.time - _spawnTime < 2f) return; 
 
             Select();
             _uiSceneController.DeselectAllButtons(stateId);
