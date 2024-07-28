@@ -6,8 +6,6 @@ namespace EchoOfTheTimes.ScriptableObjects.Level
     public class LevelSoundsGlobalContainerScriptableObject : ScriptableObject
     {
         [field: SerializeField]
-        public AudioClip TeleportSound { get; private set; }
-        [field: SerializeField]
         public AudioClip FlatSurfaceStepsSound { get; private set; }  // Шаги по плоской поверхности
         [field: SerializeField]
         public AudioClip LadderStepsSound { get; private set; }  // Шаги по лестнице под 45°
