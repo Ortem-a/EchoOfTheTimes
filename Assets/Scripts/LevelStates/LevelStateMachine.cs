@@ -1,5 +1,6 @@
 using EchoOfTheTimes.Editor;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEditor;
 using UnityEngine;
 using Zenject;
@@ -122,7 +123,7 @@ namespace EchoOfTheTimes.LevelStates
         private void ChangeState(LevelState state, Transition transition, bool isDebug)
         {
             _current = state;
-            _currentScene = state.Scene; // Добавлено
+            Debug.Log("СЦЕНА " + " " + SceneManager.GetActiveScene().name); // Используем имя текущей активной сцены
 
             _stateService.SwitchState(
                 stateParameters: _current.StatesParameters,
