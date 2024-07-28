@@ -1,3 +1,4 @@
+using DG.Tweening;
 using EchoOfTheTimes.ScriptableObjects.Level;
 using UnityEditor;
 using UnityEngine;
@@ -10,13 +11,23 @@ namespace EchoOfTheTimes.Effects
     {
         [SerializeField]
         private LevelSoundsSceneContainerScriptableObject _levelSoundsSceneContainer;
+        private bool _isReadyToPlaySound = false; // Флаг для отслеживания готовности к воспроизведению звука
+
+        private void Start()
+        {
+            // Установим задержку в одну секунду перед тем, как звуки смогут воспроизводиться
+            DOVirtual.DelayedCall(1f, () => _isReadyToPlaySound = true);
+        }
 
         public void PlayChangeStateSound(SceneAsset scene)
         {
-            var levelSound = GetLevelSound(scene);
-            if (levelSound != null)
+            if (_isReadyToPlaySound)
             {
-                AudioSource.PlayClipAtPoint(levelSound.ChangeStateSound, Vector3.zero); // Убедитесь, что у вас есть подходящий источник воспроизведения
+                var levelSound = GetLevelSound(scene);
+                if (levelSound != null)
+                {
+                    AudioSource.PlayClipAtPoint(levelSound.ChangeStateSound, Vector3.zero); // Убедитесь, что у вас есть подходящий источник воспроизведения
+                }
             }
         }
 
