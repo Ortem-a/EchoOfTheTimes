@@ -109,7 +109,6 @@ namespace EchoOfTheTimes.UI
             _stateButtons[0].Select();
         }
 
-
         private async void ExitToMainMenu()
         {
             await _loader.LoadSceneGroupAsync(0);
@@ -148,23 +147,23 @@ namespace EchoOfTheTimes.UI
                 });
         }
 
-        public void SetActiveBottomPanel(bool isActive, float duration = 0.2f)
+        public void SetActiveBottomPanel(bool isActive, float duration = 0f)
         {
             for (int i = 0; i < _stateButtons.Length; i++)
             {
                 _stateButtons[i].SetInteractable(isActive);
             }
 
-            //if (isActive)
-            //{
-            //    BottomPanel.DOScale(1f, duration)
-            //        .OnStart(() => BottomPanel.gameObject.SetActive(isActive));
-            //}
-            //else
-            //{
-            //    BottomPanel.DOScale(0f, duration)
-            //        .OnComplete(() => BottomPanel.gameObject.SetActive(isActive));
-            //}
+            if (isActive)
+            {
+                BottomPanel.DOScale(1f, duration)
+                    .OnStart(() => BottomPanel.gameObject.SetActive(isActive));
+            }
+            else
+            {
+                BottomPanel.DOScale(0f, duration)
+                    .OnComplete(() => BottomPanel.gameObject.SetActive(isActive));
+            }
         }
 
         public void SetActiveBottomPanelImmediate(bool isActive)
@@ -182,30 +181,31 @@ namespace EchoOfTheTimes.UI
             StartLevelCanvas.gameObject.SetActive(true);
             StartFadeInPanel.alpha = 1f;
 
+            // Активируем BottomPanel сразу с началом анимации спадения темноты
+            SetActiveBottomPanelImmediate(true);
+
             // Запуск анимации появления стартового экрана
             DOTween.To(() => StartFadeInPanel.alpha, x => StartFadeInPanel.alpha = x, 0f, StartFadeInDuration_sec)
                 .SetDelay(StartDelay_sec)
                 .OnStart(() =>
                 {
-                    HUDCanvas.gameObject.SetActive(false);
+                    HUDCanvas.gameObject.SetActive(true); // Активируем HUDCanvas сразу
+                    hudCanvasGroup.alpha = 0f; // Начальная непрозрачность HUD
                 })
                 .OnUpdate(() =>
                 {
-                    // Начало появления HUD за K секунд до окончания анимации стартового экрана
-                    if (StartFadeInPanel.alpha <= HUDStartBeforeEnd_sec / StartFadeInDuration_sec)
-                    {
-                        HUDCanvas.gameObject.SetActive(true);
-                        hudCanvasGroup.alpha = Mathf.Lerp(0f, 1f, (HUDStartBeforeEnd_sec - StartFadeInPanel.alpha * StartFadeInDuration_sec) / HUDStartBeforeEnd_sec);
-                    }
+                    // Плавное появление HUD
+                    hudCanvasGroup.alpha = 1f - StartFadeInPanel.alpha;
                 })
                 .OnComplete(() =>
                 {
                     StartLevelCanvas.gameObject.SetActive(false);
-                    HUDCanvas.gameObject.SetActive(true);
                     flgIsStartAnimationEnded = true;
                     hudCanvasGroup.alpha = 1f; // Убедитесь, что HUD полностью виден
                 });
         }
+
+
 
         public void SetActiveHudImmediate(bool isActive)
         {

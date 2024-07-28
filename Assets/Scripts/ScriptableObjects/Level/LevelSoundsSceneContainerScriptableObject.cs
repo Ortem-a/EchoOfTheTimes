@@ -6,11 +6,12 @@ namespace EchoOfTheTimes.ScriptableObjects.Level
     public class LevelSoundsSceneContainerScriptableObject : ScriptableObject
     {
         [field: SerializeField]
-        public AudioClip[] AmbinentSounds { get; private set; }
+        public AudioClip[] AmbientSounds { get; private set; }
         [field: SerializeField]
         public AudioClip ChangeStateSound { get; private set; }
         [field: SerializeField]
         public AudioClip MovableByRulesObjectsSound { get; private set; }
-
+        [field: SerializeField]
+        public AudioClip LevelButtonSound { get; private set; } // Нажатие кнопки на уровне
     }
 }

@@ -42,7 +42,7 @@ namespace EchoOfTheTimes.UI
 
         private void ChangeState(int stateId)
         {
-            if (Time.time - _spawnTime < 2.9f) return; // Проверяем, прошло ли 1 секунда после спавна -- ЭТО КОСТЫЛЬ
+            if (Time.time - _spawnTime < 2f) return; // Проверяем, прошло ли 1 секунда после спавна -- ЭТО КОСТЫЛЬ ЧТОБЫ БЛЯТЬ СУКА
 
             Select();
             _uiSceneController.DeselectAllButtons(stateId);
