@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor;
 
 namespace EchoOfTheTimes.LevelStates
 {
@@ -8,5 +9,7 @@ namespace EchoOfTheTimes.LevelStates
         public int Id;
 
         public List<StateParameter> StatesParameters;
+
+        public SceneAsset Scene;
     }
 }

@@ -1,4 +1,5 @@
 using DG.Tweening;
+using UnityEditor;
 using UnityEngine;
 
 namespace EchoOfTheTimes.LevelStates
@@ -11,6 +12,8 @@ namespace EchoOfTheTimes.LevelStates
         public Vector3 Position;
         public Vector3 Rotation;
         public Vector3 LocalScale;
+
+        public SceneAsset Scene;
 
         public bool IsLocalSpace = false;
 

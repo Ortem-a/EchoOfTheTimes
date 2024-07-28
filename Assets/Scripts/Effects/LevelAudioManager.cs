@@ -1,4 +1,5 @@
 using EchoOfTheTimes.ScriptableObjects.Level;
+using UnityEditor;
 using UnityEngine;
 using Zenject;
 
@@ -7,18 +8,28 @@ namespace EchoOfTheTimes.Effects
     [RequireComponent(typeof(AudioSource))]
     public class LevelAudioManager : MonoBehaviour
     {
-        private AudioSource _audioSource;
+        [SerializeField]
+        private LevelSoundsSceneContainerScriptableObject _levelSoundsSceneContainer;
 
-        private LevelSoundsGlobalContainerScriptableObject _globalLevelSounds;
-        private LevelSoundsSceneContainerScriptableObject _sceneSounds;
-
-        [Inject]
-        private void Construct(LevelSoundsGlobalContainerScriptableObject globalLevelSounds, LevelSoundsSceneContainerScriptableObject sceneSounds)
+        public void PlayChangeStateSound(SceneAsset scene)
         {
-            _globalLevelSounds = globalLevelSounds;
-            _sceneSounds = sceneSounds;
+            var levelSound = GetLevelSound(scene);
+            if (levelSound != null)
+            {
+                AudioSource.PlayClipAtPoint(levelSound.ChangeStateSound, Vector3.zero); // Убедитесь, что у вас есть подходящий источник воспроизведения
+            }
+        }
 
-            _audioSource = GetComponent<AudioSource>();
+        private LevelSoundsSceneContainerScriptableObject.LevelSound GetLevelSound(SceneAsset scene)
+        {
+            foreach (var levelSound in _levelSoundsSceneContainer.LevelSounds)
+            {
+                if (levelSound.LevelScene == scene)
+                {
+                    return levelSound;
+                }
+            }
+            return null;
         }
     }
 }
