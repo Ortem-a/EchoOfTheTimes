@@ -146,7 +146,7 @@ namespace EchoOfTheTimes.LevelStates
                         States.Add(new LevelState()
                         {
                             Id = state.StateId,
-                            Scene = state.Scene // Установка Scene из StateParameter
+                            //Scene = state.Scene // Установка Scene из StateParameter
                         });
                     }
                 }

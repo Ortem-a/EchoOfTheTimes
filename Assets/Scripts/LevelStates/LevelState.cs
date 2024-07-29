@@ -9,7 +9,5 @@ namespace EchoOfTheTimes.LevelStates
         public int Id;
 
         public List<StateParameter> StatesParameters;
-
-        public SceneAsset Scene;
     }
 }
