@@ -108,6 +108,7 @@ namespace EchoOfTheTimes.DI
         {
             _stateMachine.OnTransitionStart += _graph.ResetVertices;
             _stateMachine.OnTransitionStart += _stateMachine.StartTransition;
+            _stateMachine.OnTransitionStart += () => _levelAudioManager.PlayChangeStateSound();
 
             _stateMachine.OnTransitionComplete += () => _verticesBlocker.Block();
             _stateMachine.OnTransitionComplete += _graph.Load;
@@ -121,6 +122,7 @@ namespace EchoOfTheTimes.DI
         {
             _stateMachine.OnTransitionStart -= _graph.ResetVertices;
             _stateMachine.OnTransitionStart -= _stateMachine.StartTransition;
+            _stateMachine.OnTransitionStart -= () => _levelAudioManager.PlayChangeStateSound();
 
             _stateMachine.OnTransitionComplete -= () => _verticesBlocker.Block();
             _stateMachine.OnTransitionComplete -= _graph.Load;

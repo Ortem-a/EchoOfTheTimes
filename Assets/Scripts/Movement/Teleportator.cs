@@ -1,4 +1,5 @@
 using DG.Tweening;
+using EchoOfTheTimes.Effects;
 using EchoOfTheTimes.Interfaces;
 using EchoOfTheTimes.ScriptableObjects.Level;
 using EchoOfTheTimes.UI;
@@ -18,15 +19,17 @@ namespace EchoOfTheTimes.Movement
 
         private Player _player;
         private UiSceneController _sceneController;
+        private LevelAudioManager _audioManager;
 
         private float _teleportDuration_sec;
         private float _teleportDisappearDuration_sec;
 
         [Inject]
-        private void Construct(Player player, LevelSettingsScriptableObject levelSettings, UiSceneController sceneController)
+        private void Construct(Player player, LevelSettingsScriptableObject levelSettings, UiSceneController sceneController, LevelAudioManager audioManager)
         {
             _player = player;
             _sceneController = sceneController;
+            _audioManager = audioManager;
 
             _teleportDuration_sec = levelSettings.TeleportDuration_sec;
             _teleportDisappearDuration_sec = levelSettings.TeleportDisappearDuration_sec;
@@ -40,6 +43,7 @@ namespace EchoOfTheTimes.Movement
             {
                 OnStartTeleportation(() =>
                 {
+                    _audioManager.PlayTeleportSound();
                     _player.Teleportate(
                         Destination.transform.position,
                         _teleportDuration_sec,
