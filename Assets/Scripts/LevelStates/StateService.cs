@@ -12,6 +12,7 @@ namespace EchoOfTheTimes.LevelStates
         private int _completedCallbackCounter;
         private int _callbackCounter;
         private TweenCallback _onCompleteCallback;
+
         private HUDController _hudController;
         private bool buttonsEnabledPending = false;
 
@@ -29,15 +30,11 @@ namespace EchoOfTheTimes.LevelStates
 
         public void SwitchState(List<StateParameter> stateParameters, bool isDebug = false, TweenCallback onComplete = null)
         {
-            if (_hudController == null)
+            if (_hudController != null)
             {
-                UnityEngine.Debug.LogError("HUDController is not initialized");
-                return;
+                _hudController.DisableButtons();
+                buttonsEnabledPending = false;
             }
-
-            // Начало смены состояния
-            _hudController.DisableButtons();
-            buttonsEnabledPending = false;
 
             _onCompleteCallback = onComplete;
             _completedCallbackCounter = 0;
@@ -62,7 +59,7 @@ namespace EchoOfTheTimes.LevelStates
             {
                 // Можно добавить задержку активации HUD после смены состояния из состояниеуправлятора
                 buttonsEnabledPending = true;
-                DOVirtual.DelayedCall(0.0f, () =>
+                DOVirtual.DelayedCall(0.0f, () => //ВЫРЕЗАТЬ, ЗАДЕРЖКА ЕСТЬ ПРИ ОБРАБОТКЕ ВКЛЮЧЕНИЯ ВОЗМОЖНОСТИ ТЫКАТЬ В HUDCONTROLLERS
                 {
                     if (buttonsEnabledPending)
                     {

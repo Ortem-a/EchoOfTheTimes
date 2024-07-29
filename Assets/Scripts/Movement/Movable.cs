@@ -22,7 +22,7 @@ namespace EchoOfTheTimes.Movement
         private Vertex _destination;
         private Vertex[] _path;
 
-        public Vertex Destination => _destination;
+        public Vertex NextWaypoint => _destination;
 
         private bool _isMoving = false;
         private bool _isNeedToStop = false;
@@ -54,6 +54,8 @@ namespace EchoOfTheTimes.Movement
                     {
                         _isNeedToStop = false;
                         ForceStop();
+                        _playerPath.CompleteFullPath();
+
                         _onStoppedMoving?.Invoke();
                     }
                     else
@@ -61,10 +63,13 @@ namespace EchoOfTheTimes.Movement
                         if (!TryGetNextWaypoint(out _destination))
                         {
                             ForceStop();
+
+                            _playerPath.CompleteFullPath();
                         }
                         else
                         {
-                            //transform.DOLookAt(_destination.position, _rotateDuration, _rotateConstraint);
+#warning ¬Õ»Ã¿Õ»≈ Õ¿ œŒ¬Œ–Œ“¿’
+                            transform.DOLookAt(_destination.transform.position, _rotateDuration, _rotateConstraint);
 
                             transform.position = Vector3.MoveTowards(transform.position, _destination.transform.position, _speed * Time.deltaTime);
 

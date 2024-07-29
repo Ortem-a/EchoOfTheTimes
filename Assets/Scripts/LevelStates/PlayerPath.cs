@@ -1,4 +1,5 @@
 using EchoOfTheTimes.Core;
+using EchoOfTheTimes.Effects;
 using EchoOfTheTimes.Movement;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,8 @@ namespace EchoOfTheTimes.LevelStates
 {
     public class PlayerPath : MonoBehaviour
     {
+        private AnimationManager _animationManager;
+
         private enum PathType
         {
             Static,
@@ -35,6 +38,8 @@ namespace EchoOfTheTimes.LevelStates
         private void Construct(Movable movable)
         {
             _movable = movable;
+
+            _animationManager = GetComponent<AnimationManager>();
         }
 
         public void SetPath(List<Vertex> path)
@@ -45,6 +50,8 @@ namespace EchoOfTheTimes.LevelStates
 
             CurrentVertexIndex = 0;
             _isMarkNeeded = true;
+
+            _animationManager.Move();
         }
 
         private void OnDrawGizmos()
@@ -133,6 +140,12 @@ namespace EchoOfTheTimes.LevelStates
                     }
                 }
             }
+        }
+
+        // invoke when player arrival to finish point at his path
+        public void CompleteFullPath()
+        { 
+            _animationManager.Idle();
         }
     }
 }

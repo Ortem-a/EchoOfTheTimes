@@ -8,10 +8,6 @@ public class CameraShake : MonoBehaviour
     private void Awake()
     {
         _camera = Camera.main;
-        if (_camera == null)
-        {
-            Debug.LogError("Main Camera not found!");
-        }
     }
 
     public void ShakeCamera(float intensity, float frequency, float duration, float falloff, float randomness, bool shakeOnX, bool shakeOnY, float delay)
@@ -21,12 +17,6 @@ public class CameraShake : MonoBehaviour
 
     private IEnumerator Shake(float intensity, float frequency, float duration, float falloff, float randomness, bool shakeOnX, bool shakeOnY, float delay)
     {
-        if (_camera == null)
-        {
-            Debug.LogError("Camera not assigned!");
-            yield break;
-        }
-
         yield return new WaitForSeconds(delay);
 
         Vector3 originalPosition = _camera.transform.localPosition;

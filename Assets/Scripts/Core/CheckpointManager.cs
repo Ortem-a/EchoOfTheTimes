@@ -1,5 +1,4 @@
 using EchoOfTheTimes.LevelStates;
-using EchoOfTheTimes.Movement;
 using EchoOfTheTimes.Persistence;
 using EchoOfTheTimes.Units;
 using System;
@@ -20,7 +19,6 @@ namespace EchoOfTheTimes.Core
 
         private Player _player;
         private LevelStateMachine _stateMachine;
-        private VertexFollower _vertexFollower;
         private GraphVisibility _graphVisibility;
         private InputMediator _inputMediator;
 
@@ -44,10 +42,8 @@ namespace EchoOfTheTimes.Core
         {
             _player.transform.position = StartCheckpoint.transform.position;
 
-            if (StartCheckpoint != null)
-            {
-                SimulateInitialTouch();
-            }
+#warning ”¡–¿À »«-«¿  –»¬€’ ¿Õ»Ã¿÷»… œ–» —“¿–“≈ ”–Œ¬Õﬂ 
+            //SimulateInitialTouch();
         }
 
         private void OnDestroy()
@@ -56,11 +52,10 @@ namespace EchoOfTheTimes.Core
         }
 
         [Inject]
-        private void Construct(Player player, LevelStateMachine stateMachine, VertexFollower vertexFollower, GraphVisibility graphVisibility, InputMediator inputMediator)
+        private void Construct(Player player, LevelStateMachine stateMachine, GraphVisibility graphVisibility, InputMediator inputMediator)
         {
             _player = player;
             _stateMachine = stateMachine;
-            _vertexFollower = vertexFollower;
             _graphVisibility = graphVisibility;
             _inputMediator = inputMediator;
 
@@ -92,11 +87,10 @@ namespace EchoOfTheTimes.Core
 
         private void SimulateInitialTouch()
         {
-            if (ActiveCheckpoint != null)
-            {
-                Vertex checkpointVertex = _graphVisibility.GetNearestVertex(ActiveCheckpoint.transform.position);
-                _inputMediator.SimulateTouch(checkpointVertex);
-            }
+            //Vertex checkpointVertex = _graphVisibility.GetNearestVertex(ActiveCheckpoint.transform.position);
+
+            //_inputMediator.OnTouched?.Invoke(checkpointVertex, true);
+            _inputMediator.OnTouched?.Invoke(StartCheckpoint.Point, true);
         }
     }
 }

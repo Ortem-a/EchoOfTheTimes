@@ -24,7 +24,7 @@ namespace EchoOfTheTimes.Units
         private Vertex _position;
         public Vertex Position => _position == null ? _graph.GetNearestVertex(transform.position) : _position;
 
-        public Vertex NextPosition => _movable.Destination;
+        public Vertex NextPosition => _movable.NextWaypoint;
 
         public bool StayOnDynamic => _playerPath.StayOnDynamic;
         public bool PreviousWaypointIsDynamic => _playerPath.PrevIsDynamic;
@@ -161,10 +161,7 @@ namespace EchoOfTheTimes.Units
             }
         }
 
-        public void WaitUntilCompleteMove(Action onComplete)
-        {
-            _onMoveCompleted += onComplete;
-        }
+        public void WaitUntilCompleteMove(Action onComplete) => _onMoveCompleted += onComplete;
 
         private void OnStartTeleportate()
         {
@@ -194,7 +191,7 @@ namespace EchoOfTheTimes.Units
             }
 
             // —имул€ци€ касани€ в финальный вертекс
-            _inputMediator.SimulateTouch(_position);
+            _inputMediator.OnTouched?.Invoke(_position, true);
         }
 
         public void StopAndLink(Action onComplete)
@@ -206,25 +203,13 @@ namespace EchoOfTheTimes.Units
             });
         }
 
-        public void Stop(Action onComplete)
-        {
-            _movable.Stop(onStopped: onComplete);
-        }
+        public void Stop(Action onComplete) => _movable.Stop(onStopped: onComplete);
 
-        public void ForceUnlink()
-        {
-            _vertexFollower.Unlink();
-        }
+        public void ForceUnlink() => _vertexFollower.Unlink();
 
-        public void CutPath()
-        {
-            _playerPath.CutPath();
-        }
+        public void CutPath() => _playerPath.CutPath();
 
-        private void ResetNextPosition()
-        {
-            _movable.ResetDestination();
-        }
+        private void ResetNextPosition() => _movable.ResetDestination();
 
         private void UpdateButtonShadowColors(bool isInFreezer)
         {
