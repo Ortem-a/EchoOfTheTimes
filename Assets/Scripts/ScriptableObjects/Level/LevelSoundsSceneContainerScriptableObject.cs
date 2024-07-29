@@ -1,5 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace EchoOfTheTimes.ScriptableObjects.Level
 {
@@ -9,7 +8,7 @@ namespace EchoOfTheTimes.ScriptableObjects.Level
         [System.Serializable]
         public class LevelSound
         {
-            public SceneAsset LevelScene;
+            public SceneField LevelScene;
             public AudioClip AmbientSound;
             public AudioClip ChangeStateSound;
             public AudioClip MovableByRulesObjectsSound;

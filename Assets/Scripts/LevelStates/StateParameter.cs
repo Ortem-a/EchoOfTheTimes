@@ -13,7 +13,7 @@ namespace EchoOfTheTimes.LevelStates
         public Vector3 Rotation;
         public Vector3 LocalScale;
 
-        public SceneAsset Scene;
+        public SceneField Scene;
 
         public bool IsLocalSpace = false;
 

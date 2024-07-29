@@ -5,6 +5,7 @@ using Zenject;
 using EchoOfTheTimes.Units;
 using System.Collections;
 using System;
+using System.Linq;
 
 namespace EchoOfTheTimes.Effects
 {
@@ -173,14 +174,7 @@ namespace EchoOfTheTimes.Effects
                 return null;
             }
 
-            foreach (var levelSound in _levelSoundsSceneContainer.LevelSounds)
-            {
-                if (levelSound.LevelScene != null && levelSound.LevelScene.name == sceneName)
-                {
-                    return levelSound;
-                }
-            }
-            return null;
+            return _levelSoundsSceneContainer.LevelSounds.FirstOrDefault(levelSound => levelSound.LevelScene.SceneName == sceneName);
         }
     }
 }

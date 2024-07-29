@@ -32,7 +32,7 @@ namespace EchoOfTheTimes.LevelStates
         public List<Transition> Transitions;
 
         private LevelState _current;
-        private SceneAsset _currentScene; // Добавлено
+        private SceneField _currentScene; // Добавлено
 
         public delegate void TransitionHandler();
         public TransitionHandler OnTransitionStart;
@@ -48,11 +48,11 @@ namespace EchoOfTheTimes.LevelStates
             _stateService = stateService;
         }
 
-        public SceneAsset CurrentScene // Добавлено
-        {
-            get { return _currentScene; }
-            private set { _currentScene = value; }
-        }
+        //public SceneAsset CurrentScene // Добавлено
+        //{
+        //    get { return _currentScene; }
+        //    private set { _currentScene = value; }
+        //}
 
         public void StartTransition()
         {
