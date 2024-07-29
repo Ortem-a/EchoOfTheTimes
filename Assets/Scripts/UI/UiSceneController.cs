@@ -1,8 +1,11 @@
+using System.Collections;
 using DG.Tweening;
 using EchoOfTheTimes.Core;
+using EchoOfTheTimes.Effects;
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
 
@@ -47,6 +50,7 @@ namespace EchoOfTheTimes.UI
         private LevelStateMachine _stateMachine;
         private UiSceneView _sceneView;
         private InputMediator _inputMediator;
+        private LevelAudioManager _levelAudioManager;
 
         private UiStateButton[] _stateButtons;
 
@@ -57,11 +61,12 @@ namespace EchoOfTheTimes.UI
         }
 
         [Inject]
-        private void Construct(LevelStateMachine stateMachine, UiSceneView uiSceneView, InputMediator inputMediator)
+        private void Construct(LevelStateMachine stateMachine, UiSceneView uiSceneView, InputMediator inputMediator, LevelAudioManager levelAudioManager)
         {
             _stateMachine = stateMachine;
             _sceneView = uiSceneView;
             _inputMediator = inputMediator;
+            _levelAudioManager = levelAudioManager;
 
             CreateStateButtons();
             InitializeFinishCanvas();
@@ -109,10 +114,15 @@ namespace EchoOfTheTimes.UI
             _stateButtons[0].Select();
         }
 
+        private async void ExitToMainMenu()
+        {
+            await _loader.LoadSceneGroupAsync(0);
+        }
 
-        private async void ExitToMainMenu() => await _loader.LoadSceneGroupAsync(0);
-
-        private async void GoToNextLevel() => await _loader.LoadNextSceneGroupAsync();
+        private async void GoToNextLevel()
+        {
+            await _loader.LoadNextSceneGroupAsync();
+        }
 
         public void UpdateLabel()
         {
@@ -126,6 +136,12 @@ namespace EchoOfTheTimes.UI
             _inputMediator.gameObject.SetActive(false);
 
             FinishFadeOutPanel.gameObject.SetActive(true);
+
+            // Останавливаем эмбиент-звук с затуханием перед началом затемнения
+            if (_levelAudioManager != null)
+            {
+                _levelAudioManager.StopAmbientSound();
+            }
 
             DOTween.To(() => FinishFadeOutPanel.alpha, x => FinishFadeOutPanel.alpha = x, 1f, FinishFadeOutDuration_sec)
                 .SetDelay(UselessFinishDuration_sec)
@@ -142,52 +158,70 @@ namespace EchoOfTheTimes.UI
                 });
         }
 
-        public void SetActiveBottomPanel(bool isActive, float duration = 0.2f)
+        public void SetActiveBottomPanel(bool isActive, float duration = 0f)
         {
             for (int i = 0; i < _stateButtons.Length; i++)
             {
                 _stateButtons[i].SetInteractable(isActive);
             }
+
+            // НАХУЯ Я ВООБЩЕ ЭТО ПИСАЛ, КТО ЗНАЕТ?
+
+            //if (isActive)
+            //{
+            //    BottomPanel.DOScale(1f, duration)
+            //        .OnStart(() => BottomPanel.gameObject.SetActive(isActive));
+            //}
+            //else
+            //{
+            //    BottomPanel.DOScale(0f, duration)
+            //        .OnComplete(() => BottomPanel.gameObject.SetActive(isActive));
+            //}
         }
 
-        public void SetActiveBottomPanelImmediate(bool isActive) => BottomPanel.gameObject.SetActive(isActive);
+        public void SetActiveBottomPanelImmediate(bool isActive)
+        {
+            BottomPanel.gameObject.SetActive(isActive);
+        }
 
-        public void SetActiveTopPanelImmediate(bool isActive) => TopPanel.gameObject.SetActive(isActive);
+        public void SetActiveTopPanelImmediate(bool isActive)
+        {
+            TopPanel.gameObject.SetActive(isActive);
+        }
 
         public void ShowStartLevelCanvas()
         {
             StartLevelCanvas.gameObject.SetActive(true);
             StartFadeInPanel.alpha = 1f;
 
+            // Активируем BottomPanel сразу с началом анимации спадения темноты
+            SetActiveBottomPanelImmediate(true);
+
             // Запуск анимации появления стартового экрана
             DOTween.To(() => StartFadeInPanel.alpha, x => StartFadeInPanel.alpha = x, 0f, StartFadeInDuration_sec)
                 .SetDelay(StartDelay_sec)
                 .OnStart(() =>
                 {
-                    HUDCanvas.gameObject.SetActive(false);
+                    HUDCanvas.gameObject.SetActive(true); // Активируем HUDCanvas сразу
+                    hudCanvasGroup.alpha = 0f; // Начальная непрозрачность HUD
+
+                    // Включаем эмбиент-звук в начале анимации появления
+                    if (_levelAudioManager != null)
+                    {
+                        _levelAudioManager.PlayAmbientSound(SceneManager.GetActiveScene().name);
+                    }
                 })
                 .OnUpdate(() =>
                 {
-                    // Начало появления HUD за K секунд до окончания анимации стартового экрана
-                    if (StartFadeInPanel.alpha <= HUDStartBeforeEnd_sec / StartFadeInDuration_sec)
-                    {
-                        HUDCanvas.gameObject.SetActive(true);
-                        hudCanvasGroup.alpha = Mathf.Lerp(0f, 1f, (HUDStartBeforeEnd_sec - StartFadeInPanel.alpha * StartFadeInDuration_sec) / HUDStartBeforeEnd_sec);
-                    }
+                    // Плавное появление HUD
+                    hudCanvasGroup.alpha = 1f - StartFadeInPanel.alpha;
                 })
                 .OnComplete(() =>
                 {
                     StartLevelCanvas.gameObject.SetActive(false);
-                    HUDCanvas.gameObject.SetActive(true);
                     flgIsStartAnimationEnded = true;
                     hudCanvasGroup.alpha = 1f; // Убедитесь, что HUD полностью виден
                 });
-        }
-
-        public void HideStartLevelCanvas()
-        {
-            StartLevelCanvas.gameObject.SetActive(false);
-            StartFadeInPanel.alpha = 0f;
         }
 
         public void SetActiveHudImmediate(bool isActive)

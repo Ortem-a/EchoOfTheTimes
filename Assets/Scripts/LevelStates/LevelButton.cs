@@ -1,4 +1,5 @@
 using EchoOfTheTimes.Core;
+using EchoOfTheTimes.Effects;
 using EchoOfTheTimes.Interfaces;
 using EchoOfTheTimes.Units;
 using System;
@@ -21,27 +22,41 @@ namespace EchoOfTheTimes.LevelStates
         [SerializeField] private float shakeIntensity = 0.12f;
         [SerializeField] private float shakeFrequency = 1f;
         [SerializeField] private float shakeDuration = 1f;
-        [SerializeField] private float shakeFalloff = 0.8f; // Затухание
+        [SerializeField] private float shakeFalloff = 0.8f;
         [SerializeField] private float shakeRandomness = 1f;
-        [SerializeField] private bool shakeOnXAxis = true; // Тряска по оси X
-        [SerializeField] private bool shakeOnYAxis = true; // Тряска по оси Y
-        [SerializeField] private float shakeDelay = 0f; // Задержка перед началом тряски
+        [SerializeField] private bool shakeOnXAxis = true;
+        [SerializeField] private bool shakeOnYAxis = true;
+        [SerializeField] private float shakeDelay = 0f;
 
         private GraphVisibility _graph;
         private Player _player;
         private int _maxMovables;
         private int _counter;
         private CameraShake _cameraShake;
+        private LevelAudioManager _audioManager;
 
         [Inject]
-        private void Construct(GraphVisibility graph, Player player, CameraShake cameraShake)
+        private void Construct(GraphVisibility graph, Player player, CameraShake cameraShake, LevelAudioManager audioManager)
         {
             _graph = graph;
             _player = player;
             _cameraShake = cameraShake;
+            _audioManager = audioManager;
+        }
 
+        private void Start()
+        {
             _maxMovables = Movables != null ? Movables.Count : 0;
             _counter = 0;
+
+            if (_audioManager != null)
+            {
+                Debug.Log("LevelAudioManager successfully injected.");
+            }
+            else
+            {
+                Debug.LogError("Failed to inject LevelAudioManager.");
+            }
         }
 
         private void Press()
@@ -51,6 +66,17 @@ namespace EchoOfTheTimes.LevelStates
             IsPressed = true;
 
             Debug.Log($"[LevelButton] {name} pressed! IsPressed: {IsPressed}");
+
+            if (_audioManager != null)
+            {
+                // Воспроизводим звуки нажатия кнопки и изменения состояния
+                _audioManager.PlayButtonPilinkSound();
+                _audioManager.PlayButtonChangeSound();
+            }
+            else
+            {
+                Debug.LogError("LevelAudioManager is not available.");
+            }
 
             if (_cameraShake == null)
             {

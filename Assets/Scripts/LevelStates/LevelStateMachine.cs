@@ -1,5 +1,7 @@
 using EchoOfTheTimes.Editor;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
+using UnityEditor;
 using UnityEngine;
 using Zenject;
 
@@ -30,6 +32,7 @@ namespace EchoOfTheTimes.LevelStates
         public List<Transition> Transitions;
 
         private LevelState _current;
+        private SceneField _currentScene; // Добавлено
 
         public delegate void TransitionHandler();
         public TransitionHandler OnTransitionStart;
@@ -44,6 +47,12 @@ namespace EchoOfTheTimes.LevelStates
         {
             _stateService = stateService;
         }
+
+        //public SceneAsset CurrentScene // Добавлено
+        //{
+        //    get { return _currentScene; }
+        //    private set { _currentScene = value; }
+        //}
 
         public void StartTransition()
         {
@@ -114,6 +123,7 @@ namespace EchoOfTheTimes.LevelStates
         private void ChangeState(LevelState state, Transition transition, bool isDebug)
         {
             _current = state;
+            Debug.Log("СЦЕНА " + " " + SceneManager.GetActiveScene().name); // Используем имя текущей активной сцены
 
             _stateService.SwitchState(
                 stateParameters: _current.StatesParameters,
@@ -136,6 +146,7 @@ namespace EchoOfTheTimes.LevelStates
                         States.Add(new LevelState()
                         {
                             Id = state.StateId,
+                            //Scene = state.Scene // Установка Scene из StateParameter
                         });
                     }
                 }

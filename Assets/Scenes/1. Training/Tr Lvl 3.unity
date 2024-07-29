@@ -887,12 +887,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 63577596}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2064064736}
+  m_Father: {fileID: 2008320086}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &63577598
 MonoBehaviour:
@@ -906,6 +906,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6621d6db202eff84d8e88f8e131779e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _levelSoundsSceneContainer: {fileID: 11400000, guid: 79741c28bad01d846856bb1e46dd493b,
+    type: 2}
 --- !u!82 &63577599
 AudioSource:
   m_ObjectHideFlags: 0
@@ -15581,7 +15583,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 7c6bb42ed82aaec488d0940df0e45b8c, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4882199138161886327, guid: 8e307bf8c72ae7248806573c77ce1c6a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 63577597}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e307bf8c72ae7248806573c77ce1c6a, type: 3}
 --- !u!114 &1411242125 stripped
@@ -19646,12 +19652,14 @@ MonoBehaviour:
     Position: {x: -5.0754623, y: -2.614955, z: -5.027731}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
   - StateId: 1
     Target: {fileID: 1754203594}
     Position: {x: -5.075461, y: -0.011761501, z: -5.027731}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
+    Scene: {fileID: 0}
     IsLocalSpace: 0
 --- !u!114 &1754203597
 MonoBehaviour:
@@ -20175,7 +20183,9 @@ MonoBehaviour:
       Position: {x: -5.0754623, y: -2.614955, z: -5.027731}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene: {fileID: 0}
       IsLocalSpace: 0
+    Scene: {fileID: 0}
   - Id: 1
     StatesParameters:
     - StateId: 1
@@ -20183,7 +20193,9 @@ MonoBehaviour:
       Position: {x: -5.075461, y: -0.011761501, z: -5.027731}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene: {fileID: 0}
       IsLocalSpace: 0
+    Scene: {fileID: 0}
   Transitions:
   - StateFromId: 0
     StateToId: 1
@@ -22123,6 +22135,12 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!4 &2008320086 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4882199138161886327, guid: 8e307bf8c72ae7248806573c77ce1c6a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1411242124}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2010809427
 GameObject:
   m_ObjectHideFlags: 0
@@ -22888,7 +22906,6 @@ Transform:
   - {fileID: 1793507010}
   - {fileID: 1151845701}
   - {fileID: 2028010219}
-  - {fileID: 63577597}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2081585456
