@@ -19,7 +19,8 @@ namespace EchoOfTheTimes.UI
         private Image[] _shadows;
 
         public void Init(int stateId, InputMediator inputHandler, UiSceneController uiSceneController,
-            HUDController hudController, RuntimeAnimatorController animatorController)
+            HUDController hudController, RuntimeAnimatorController animatorController,
+            Color lineDopColor, Color eyeColor, Color backColor, Color linesColor)
         {
             _inputMediator = inputHandler;
             _uiSceneController = uiSceneController;
@@ -38,13 +39,15 @@ namespace EchoOfTheTimes.UI
             _hudController.RegisterButton(this);
 
             _spawnTime = Time.time;  // Записываем время спавна кнопки
+
+            SetFuckingColorToFuckingButton(lineDopColor, eyeColor, backColor, linesColor);
         }
 
         private void ChangeState(int stateId)
         {
             // Проверяем, прошло ли 1 секунда после спавна
             // ЭТО КОСТЫЛЬ ЧТОБЫ БЛЯТЬ СУКА ГЛАЗА ОТКРЫЛИСЬ ЕБУЧИЕ УУУУУУУУУУУУУ
-            if (Time.time - _spawnTime < 2f) return; 
+            if (Time.time - _spawnTime < 2f) return;
 
             Select();
             _uiSceneController.DeselectAllButtons(stateId);
@@ -60,7 +63,7 @@ namespace EchoOfTheTimes.UI
             _button.interactable = isInteractable;
         }
 
-        public void SetShadowColor(Color color)
+        private void SetShadowColor(Color color)
         {
             foreach (var shadow in _shadows)
             {
@@ -76,6 +79,14 @@ namespace EchoOfTheTimes.UI
         public void SetDisabledShadowColor()
         {
             SetShadowColor(_uiSceneController.DisabledStateButtonColor);
+        }
+
+        private void SetFuckingColorToFuckingButton(Color lineDopColor, Color eyeColor, Color backColor, Color linesColor)
+        {
+            transform.GetChild(4).GetComponent<Image>().color = lineDopColor;
+            transform.GetChild(5).GetComponent<Image>().color = backColor;
+            transform.GetChild(6).GetComponent<Image>().color = eyeColor;
+            transform.GetChild(7).GetComponent<Image>().color = linesColor;
         }
     }
 }
