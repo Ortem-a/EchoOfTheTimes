@@ -18,17 +18,17 @@ namespace EchoOfTheTimes.Movement
         public Action OnExit => null;
 
         private Player _player;
-        private UiSceneController _sceneController;
+        private HUDController _hudController;
         private LevelAudioManager _audioManager;
 
         private float _teleportDuration_sec;
         private float _teleportDisappearDuration_sec;
 
         [Inject]
-        private void Construct(Player player, LevelSettingsScriptableObject levelSettings, UiSceneController sceneController, LevelAudioManager audioManager)
+        private void Construct(Player player, LevelSettingsScriptableObject levelSettings, HUDController hudController, LevelAudioManager audioManager)
         {
             _player = player;
-            _sceneController = sceneController;
+            _hudController = hudController;
             _audioManager = audioManager;
 
             _teleportDuration_sec = levelSettings.TeleportDuration_sec;
@@ -54,7 +54,7 @@ namespace EchoOfTheTimes.Movement
 
         private void OnStartTeleportation(TweenCallback onComplete)
         {
-            _sceneController.SetActiveBottomPanel(false);
+            _hudController.DisableButtons();
 
             _player.transform.DOScale(0f, _teleportDisappearDuration_sec)
                 .OnComplete(onComplete);
@@ -64,7 +64,7 @@ namespace EchoOfTheTimes.Movement
         {
             _player.transform.DOScale(1f, _teleportDisappearDuration_sec);
 
-            _sceneController.SetActiveBottomPanel(true);
+            _hudController.EnableButtons();
         }
     }
 }

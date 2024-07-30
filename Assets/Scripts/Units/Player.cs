@@ -34,7 +34,7 @@ namespace EchoOfTheTimes.Units
         private PlayerPath _playerPath;
         private Movable _movable;
         private InputMediator _inputMediator;
-        private HUDController _hudController; // Добавлено
+        private HUDController _hudController;
 
         private AnimationManager _animationManager;
 
@@ -48,7 +48,7 @@ namespace EchoOfTheTimes.Units
             _movable = movable;
             _playerPath = playerPath;
             _inputMediator = inputMediator;
-            _hudController = hudController; // Добавлено
+            _hudController = hudController;
         }
 
         public void Teleportate(Vector3 to, float duration, TweenCallback onStart = null, TweenCallback onComplete = null)
@@ -92,13 +92,11 @@ namespace EchoOfTheTimes.Units
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
                 freezer.OnCancel?.Invoke();
-                _hudController.DisableButtons();
             }
 
             if (NextPosition.gameObject.TryGetComponent(out StateFreezer nextFreezer))
             {
                 nextFreezer.OnFreeze?.Invoke();
-                _hudController.EnableButtons();
             }
         }
 
@@ -171,7 +169,6 @@ namespace EchoOfTheTimes.Units
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
                 freezer.OnFreeze?.Invoke();
-                _hudController.DisableButtons();
             }
         }
 
@@ -185,10 +182,9 @@ namespace EchoOfTheTimes.Units
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
                 freezer.OnFreeze?.Invoke();
-                _hudController.DisableButtons();
             }
 
-            // Симуляция касания в финальный вертекс
+            // Симуляция касания в финальный вертекс телепорта
             _inputMediator.OnTouched?.Invoke(_position, true);
         }
 
