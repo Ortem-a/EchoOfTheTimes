@@ -32,13 +32,11 @@ namespace EchoOfTheTimes.SceneManagement
             Manager.OnSceneLoaded += sceneName =>
             {
                 Debug.Log($"Loaded: '{sceneName}'");
-                PerformanceTracker.Instance.OnSceneLoaded(sceneName);
             };
 
             Manager.OnSceneUnloaded += sceneName =>
             {
                 Debug.Log($"Unloaded: '{sceneName}'");
-                PerformanceTracker.Instance.OnSceneUnloaded(sceneName);
             };
 
             Manager.OnSceneGroupLoaded += () => Debug.Log("Scene group loaded");
@@ -83,7 +81,6 @@ namespace EchoOfTheTimes.SceneManagement
             {
                 string previousSceneName = SceneGroups[_lastLoadedGroupIndex].GroupName;
                 Debug.Log($"Calling OnSceneUnloaded for scene: {previousSceneName}");
-                PerformanceTracker.Instance.OnSceneUnloaded(previousSceneName);
             }
 
             _lastLoadedGroupIndex = index;
@@ -92,7 +89,6 @@ namespace EchoOfTheTimes.SceneManagement
 
             string currentSceneName = SceneGroups[index].GroupName;
             Debug.Log($"Calling OnSceneLoaded for scene: {currentSceneName}");
-            PerformanceTracker.Instance.OnSceneLoaded(currentSceneName);
 
             EnableLoadingCanvas(false);
         }
