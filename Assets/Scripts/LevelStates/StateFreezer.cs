@@ -10,26 +10,26 @@ namespace EchoOfTheTimes.LevelStates
         public Action OnFreeze => Freeze;
         public Action OnCancel => Cancel;
 
-        private UiSceneController _uiSceneController;
+        private HUDController _hudController;
 
         [Inject]
-        private void Construct(UiSceneController uiSceneController)
+        private void Construct(HUDController hudController)
         {
-            _uiSceneController = uiSceneController;
+            _hudController = hudController;
         }
 
         private void Freeze()
         {
             Debug.Log($"[StateFreezer] Freeze");
 
-            _uiSceneController.SetActiveBottomPanel(false, 0f);
+            _hudController.DisableButtons();
         }
 
         private void Cancel()
         {
             Debug.Log($"[StateFreezer] Cancel");
 
-            _uiSceneController.SetActiveBottomPanel(true, 0f);
+            _hudController.EnableButtons();
         }
     }
 }

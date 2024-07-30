@@ -1,4 +1,5 @@
 using EchoOfTheTimes.Core;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,7 +17,10 @@ namespace EchoOfTheTimes.UI
         private bool _isSelected;
         private float _spawnTime;
 
-        private Image[] _shadows;
+        private Image[] _shadowsGood;
+        private Image[] _shadowsBad;
+
+        private bool _isGoodShadowActive;
 
         public void Init(int stateId, InputMediator inputHandler, UiSceneController uiSceneController,
             HUDController hudController, RuntimeAnimatorController animatorController,
@@ -33,20 +37,28 @@ namespace EchoOfTheTimes.UI
             _animator = GetComponent<Animator>();
             _animator.runtimeAnimatorController = animatorController;
 
-            _shadows = GetComponentsInChildren<Image>().Where(image => image.gameObject.name.Contains("Shadow")).ToArray();
-            SetShadowColor(_uiSceneController.DefaultStateButtonColor);
+            _shadowsGood = GetComponentsInChildren<Image>().Where(image => image.gameObject.name.Contains("Shadow_Good")).ToArray();
+            _shadowsBad = GetComponentsInChildren<Image>().Where(image => image.gameObject.name.Contains("Shadow_Bad")).ToArray();
+
+            SetGoodShadowColor(_uiSceneController.DefaultStateButtonColor);
+            SetBadShadowColor(_uiSceneController.DisabledStateButtonColor);
+
+            // Устанавливаем начальную прозрачность теней
+            SetAlpha(_shadowsGood, 1f);
+            SetAlpha(_shadowsBad, 0f);
 
             _hudController.RegisterButton(this);
 
             _spawnTime = Time.time;  // Записываем время спавна кнопки
 
             SetFuckingColorToFuckingButton(lineDopColor, eyeColor, backColor, linesColor);
+
+            _isGoodShadowActive = true;  // Изначально активны хорошие тени
         }
 
         private void ChangeState(int stateId)
         {
             // Проверяем, прошло ли 1 секунда после спавна
-            // ЭТО КОСТЫЛЬ ЧТОБЫ БЛЯТЬ СУКА ГЛАЗА ОТКРЫЛИСЬ ЕБУЧИЕ УУУУУУУУУУУУУ
             if (Time.time - _spawnTime < 2f) return;
 
             Select();
@@ -58,35 +70,62 @@ namespace EchoOfTheTimes.UI
 
         public void Select() => _animator.SetBool("Tap", true);
 
-        public void SetInteractable(bool isInteractable)
+        public void ChangeInteractable(bool isInteractable)
         {
             _button.interactable = isInteractable;
+
+            if (isInteractable)
+            {
+
+            }
+            else 
+            {
+
+            }
         }
 
-        private void SetShadowColor(Color color)
+        private void SetGoodShadowColor(Color color)
         {
-            foreach (var shadow in _shadows)
+            foreach (var shadow in _shadowsGood)
             {
                 shadow.color = color;
             }
         }
 
-        public void SetDefaultShadowColor()
+        private void SetBadShadowColor(Color color)
         {
-            SetShadowColor(_uiSceneController.DefaultStateButtonColor);
+            foreach (var shadow in _shadowsBad)
+            {
+                shadow.color = color;
+            }
         }
 
-        public void SetDisabledShadowColor()
+        public void SetGoodShadowActive(bool isActive)
         {
-            SetShadowColor(_uiSceneController.DisabledStateButtonColor);
+            SetAlpha(_shadowsGood, isActive ? 1f : 0f);
+        }
+
+        public void SetBadShadowActive(bool isActive)
+        {
+            SetAlpha(_shadowsBad, isActive ? 1f : 0f);
+        }
+
+        private void SetAlpha(Image[] images, float alpha)
+        {
+            foreach (var image in images)
+            {
+                var color = image.color;
+                color.a = alpha;
+                image.color = color;
+            }
         }
 
         private void SetFuckingColorToFuckingButton(Color lineDopColor, Color eyeColor, Color backColor, Color linesColor)
         {
-            transform.GetChild(4).GetComponent<Image>().color = lineDopColor;
-            transform.GetChild(5).GetComponent<Image>().color = backColor;
-            transform.GetChild(6).GetComponent<Image>().color = eyeColor;
-            transform.GetChild(7).GetComponent<Image>().color = linesColor;
+            transform.GetChild(8).GetComponent<Image>().color = lineDopColor;
+            transform.GetChild(9).GetComponent<Image>().color = backColor;
+            transform.GetChild(10).GetComponent<Image>().color = eyeColor;
+            transform.GetChild(11).GetComponent<Image>().color = linesColor;
         }
     }
 }

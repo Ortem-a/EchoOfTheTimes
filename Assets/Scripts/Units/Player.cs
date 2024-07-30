@@ -1,13 +1,13 @@
 using DG.Tweening;
-using EchoOfTheTimes.Effects;
 using EchoOfTheTimes.Core;
+using EchoOfTheTimes.Effects;
 using EchoOfTheTimes.Interfaces;
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Movement;
+using EchoOfTheTimes.UI;
 using System;
 using UnityEngine;
 using Zenject;
-using EchoOfTheTimes.UI;
 
 namespace EchoOfTheTimes.Units
 {
@@ -34,19 +34,21 @@ namespace EchoOfTheTimes.Units
         private PlayerPath _playerPath;
         private Movable _movable;
         private InputMediator _inputMediator;
+        private HUDController _hudController; // Добавлено
 
         private AnimationManager _animationManager;
 
         private Action _onMoveCompleted = null;
 
         [Inject]
-        private void Construct(GraphVisibility graphVisibility, VertexFollower vertexFollower, Movable movable, PlayerPath playerPath, InputMediator inputMediator)
+        private void Construct(GraphVisibility graphVisibility, VertexFollower vertexFollower, Movable movable, PlayerPath playerPath, InputMediator inputMediator, HUDController hudController) // Добавлено
         {
             _graph = graphVisibility;
             _vertexFollower = vertexFollower;
             _movable = movable;
             _playerPath = playerPath;
             _inputMediator = inputMediator;
+            _hudController = hudController; // Добавлено
         }
 
         public void Teleportate(Vector3 to, float duration, TweenCallback onStart = null, TweenCallback onComplete = null)
@@ -90,13 +92,13 @@ namespace EchoOfTheTimes.Units
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
                 freezer.OnCancel?.Invoke();
-                UpdateButtonShadowColors(false);
+                _hudController.DisableButtons();
             }
 
             if (NextPosition.gameObject.TryGetComponent(out StateFreezer nextFreezer))
             {
                 nextFreezer.OnFreeze?.Invoke();
-                UpdateButtonShadowColors(true);
+                _hudController.EnableButtons();
             }
         }
 
@@ -109,13 +111,11 @@ namespace EchoOfTheTimes.Units
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
                 freezer.OnCancel?.Invoke();
-                UpdateButtonShadowColors(false);
             }
 
             if (NextPosition.gameObject.TryGetComponent(out StateFreezer nextFreezer))
             {
                 nextFreezer.OnFreeze?.Invoke();
-                UpdateButtonShadowColors(true);
             }
 
             if (Position.gameObject.TryGetComponent(out ISpecialVertex specialVertex))
@@ -136,7 +136,6 @@ namespace EchoOfTheTimes.Units
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
                 freezer.OnFreeze?.Invoke();
-                UpdateButtonShadowColors(true);
             }
         }
 
@@ -152,7 +151,6 @@ namespace EchoOfTheTimes.Units
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
                 freezer.OnFreeze?.Invoke();
-                UpdateButtonShadowColors(true);
             }
 
             if (Position.gameObject.TryGetComponent(out ISpecialVertex specialVertex))
@@ -173,7 +171,7 @@ namespace EchoOfTheTimes.Units
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
                 freezer.OnFreeze?.Invoke();
-                UpdateButtonShadowColors(true);
+                _hudController.DisableButtons();
             }
         }
 
@@ -187,7 +185,7 @@ namespace EchoOfTheTimes.Units
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
                 freezer.OnFreeze?.Invoke();
-                UpdateButtonShadowColors(true);
+                _hudController.DisableButtons();
             }
 
             // Симуляция касания в финальный вертекс
@@ -211,20 +209,17 @@ namespace EchoOfTheTimes.Units
 
         private void ResetNextPosition() => _movable.ResetDestination();
 
-        private void UpdateButtonShadowColors(bool isInFreezer)
-        {
-            var buttons = FindObjectsOfType<UiStateButton>();
-            foreach (var button in buttons)
-            {
-                if (isInFreezer)
-                {
-                    button.SetDisabledShadowColor();
-                }
-                else
-                {
-                    button.SetDefaultShadowColor();
-                }
-            }
-        }
+        //void UpdateButtonShadowColors(bool isGood) // Изменено
+        //{
+        ////    Втянуть HUDController, вызывать метод ChangeAllShadows
+        //    if (isGood)
+        //    {
+        //        _hudController.DisableButtons();
+        //    }
+        //    else
+        //    {
+        //        _hudController.EnableButtons();
+        //    }
+        //}
     }
 }

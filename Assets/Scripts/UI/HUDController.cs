@@ -20,19 +20,38 @@ namespace EchoOfTheTimes.UI
             _enableButtonsPending = false;
             foreach (var button in _buttons)
             {
-                button.SetInteractable(false);
+                button.ChangeInteractable(false);
             }
+
+            SetShadowsToBad();
         }
 
         public void EnableButtons()
         {
+            Debug.Log("ХОРОШИЕ ТЕНИ");
             _enableButtonsPending = true;
             _enableButtonsTime = Time.time + 0.05f; // можно ставить задержку чтобы не залагались анимации
         }
 
-        private void ChangeShadow()
+        private void SetShadowsToGood()
         {
+            foreach (var button in _buttons)
+            {
+                button.SetGoodShadowActive(true);
+                button.SetBadShadowActive(false);
+            }
+        }
 
+        private void SetShadowsToBad()
+        {
+            Debug.Log("ПЛОХИЕ ТЕНИ");
+            foreach (var button in _buttons)
+            {
+ 
+                button.SetGoodShadowActive(false);
+                button.SetBadShadowActive(true);
+                
+            }
         }
 
         public void EnableButtonsImmediately()
@@ -40,7 +59,7 @@ namespace EchoOfTheTimes.UI
             _enableButtonsPending = false;
             foreach (var button in _buttons)
             {
-                button.SetInteractable(true);
+                button.ChangeInteractable(true);
             }
         }
 
@@ -51,7 +70,9 @@ namespace EchoOfTheTimes.UI
                 _enableButtonsPending = false;
                 foreach (var button in _buttons)
                 {
-                    button.SetInteractable(true);
+                    button.ChangeInteractable(true);
+
+                    SetShadowsToGood();
                 }
             }
         }

@@ -42,8 +42,7 @@ namespace EchoOfTheTimes.Core
         {
             _player.transform.position = StartCheckpoint.transform.position;
 
-#warning ”¡–¿À »«-«¿  –»¬€’ ¿Õ»Ã¿÷»… œ–» —“¿–“≈ ”–Œ¬Õﬂ 
-            //SimulateInitialTouch();
+            SimulateInitialTouch();
         }
 
         private void OnDestroy()
