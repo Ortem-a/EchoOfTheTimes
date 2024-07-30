@@ -13,8 +13,6 @@ namespace EchoOfTheTimes.Core
     public class InputMediator : MonoBehaviour
     {
         public Action<Vertex, bool> OnTouched;
-        public Action OnTouchedFirstTime;
-
         private Player _player;
         private GraphVisibility _graph;
         private LevelStateMachine _levelStateMachine;
@@ -25,7 +23,6 @@ namespace EchoOfTheTimes.Core
 
         private void Awake()
         {
-            OnTouchedFirstTime += HandleFirstTouch;
             OnTouched += HandleTouch;
         }
 
@@ -72,13 +69,6 @@ namespace EchoOfTheTimes.Core
                     _3dIndicator.ShowErrorIndicator(touchPosition);
                 }
             }
-        }
-
-        private void HandleFirstTouch()
-        {
-            _uiController.HideStartLevelCanvas();
-
-            OnTouchedFirstTime -= HandleFirstTouch;
         }
 
         private void CreatePathAndMove(Vertex destination, bool isFictitious)

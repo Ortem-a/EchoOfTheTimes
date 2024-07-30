@@ -213,6 +213,8 @@ namespace EchoOfTheTimes.UI
                 {
                     // Плавное появление HUD
                     hudCanvasGroup.alpha = 1f - StartFadeInPanel.alpha;
+
+                    Debug.Log("Альфа во время обновления: " + hudCanvasGroup.alpha);
                 })
                 .OnComplete(() =>
                 {
@@ -220,17 +222,6 @@ namespace EchoOfTheTimes.UI
                     flgIsStartAnimationEnded = true;
                     hudCanvasGroup.alpha = 1f; // Убедитесь, что HUD полностью виден
                 });
-        }
-
-        public void HideStartLevelCanvas()
-        {
-            StartLevelCanvas.gameObject.SetActive(false);
-            StartFadeInPanel.alpha = 1f;
-
-            SetActiveBottomPanelImmediate(true);
-
-            // Запуск анимации появления стартового экрана
-            DOTween.To(() => StartFadeInPanel.alpha, x => StartFadeInPanel.alpha = x, 0f, StartFadeInDuration_sec / 2f);
         }
 
         public void SetActiveHudImmediate(bool isActive)
