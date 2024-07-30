@@ -24,8 +24,17 @@ namespace EchoOfTheTimes.UI
         public Transform TopPanel;
         public GameObject ButtonPrefab;
 
+        [Header("Button color settings")]
         public Color DefaultStateButtonColor;
         public Color DisabledStateButtonColor;
+        [SerializeField]
+        private Color _lineDopColor;
+        [SerializeField]
+        private Color _eyeColor;
+        [SerializeField]
+        private Color _backColor;
+        [SerializeField]
+        private Color _linesColor;
 
         [Header("Buttons Animator Controllers")]
         public RuntimeAnimatorController[] ButtonControllers;
@@ -107,7 +116,8 @@ namespace EchoOfTheTimes.UI
             for (int i = 0; i < _stateMachine.States.Count; i++)
             {
                 var stateButton = Instantiate(ButtonPrefab, BottomPanel).GetComponent<UiStateButton>();
-                stateButton.Init(i, _inputMediator, this, FindObjectOfType<HUDController>(), ButtonControllers[i]);
+                stateButton.Init(i, _inputMediator, this, FindObjectOfType<HUDController>(), ButtonControllers[i],
+                    _lineDopColor, _eyeColor, _backColor, _linesColor);
                 _stateButtons[i] = stateButton;
             }
             _stateButtons[0].Select();
@@ -231,7 +241,7 @@ namespace EchoOfTheTimes.UI
             SetActiveBottomPanelImmediate(true);
 
             // Запуск анимации появления стартового экрана
-            DOTween.To(() => StartFadeInPanel.alpha, x => StartFadeInPanel.alpha = x, 0f, StartFadeInDuration_sec / 5f);
+            DOTween.To(() => StartFadeInPanel.alpha, x => StartFadeInPanel.alpha = x, 0f, StartFadeInDuration_sec / 2f);
         }
 
         public void SetActiveHudImmediate(bool isActive)
