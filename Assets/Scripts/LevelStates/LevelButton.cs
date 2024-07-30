@@ -1,6 +1,7 @@
 using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Effects;
 using EchoOfTheTimes.Interfaces;
+using EchoOfTheTimes.UI;
 using EchoOfTheTimes.Units;
 using System;
 using System.Collections.Generic;
@@ -34,14 +35,16 @@ namespace EchoOfTheTimes.LevelStates
         private int _counter;
         private CameraShake _cameraShake;
         private LevelAudioManager _audioManager;
+        private HUDController _hudController;
 
         [Inject]
-        private void Construct(GraphVisibility graph, Player player, CameraShake cameraShake, LevelAudioManager audioManager)
+        private void Construct(GraphVisibility graph, Player player, CameraShake cameraShake, LevelAudioManager audioManager, HUDController hudController)
         {
             _graph = graph;
             _player = player;
             _cameraShake = cameraShake;
             _audioManager = audioManager;
+            _hudController = hudController;
         }
 
         private void Start()
@@ -84,6 +87,8 @@ namespace EchoOfTheTimes.LevelStates
                 return;
             }
 
+            _hudController.DisableButtons();
+
             _cameraShake.ShakeCamera(shakeIntensity, shakeFrequency, shakeDuration, shakeFalloff, shakeRandomness, shakeOnXAxis, shakeOnYAxis, shakeDelay);
 
             _graph.ResetVertices();
@@ -106,6 +111,8 @@ namespace EchoOfTheTimes.LevelStates
                 _graph.Load();
 
                 _player.ForceUnlink();
+
+                _hudController.EnableButtons();
             }
         }
     }

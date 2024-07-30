@@ -50,9 +50,9 @@ namespace EchoOfTheTimes.UI
         [Header("Start Level UI")]
         public Canvas StartLevelCanvas;
         public CanvasGroup StartFadeInPanel; // CanvasGroup для плавного появления
-        public float StartFadeInDuration_sec = 1.0f; // Длительность появления
-        public float StartDelay_sec = 0.5f; // Задержка перед началом
-        public float HUDStartBeforeEnd_sec = 0.5f; // Начало появления HUD за K секунд до конца
+        private float StartFadeInDuration_sec = 2f; // Длительность появления
+        private float StartDelay_sec = 0.5f; // Задержка перед началом
+        private float HUDStartBeforeEnd_sec = 1f; // Начало появления HUD за K секунд до конца
 
         private SceneLoader _loader;
         private LevelStateMachine _stateMachine;
@@ -156,6 +156,9 @@ namespace EchoOfTheTimes.UI
 
             DOTween.To(() => FinishFadeOutPanel.alpha, x => FinishFadeOutPanel.alpha = x, 1f, FinishFadeOutDuration_sec)
                 .SetDelay(UselessFinishDuration_sec)
+                .OnUpdate(() => {
+                    Debug.Log("Альфа во время обновления ФИНИША: " + FinishFadeOutPanel.alpha);
+                })
                 .OnComplete(() =>
                 {
                     if (_loader.HasNextLevel)
@@ -214,7 +217,7 @@ namespace EchoOfTheTimes.UI
                     // Плавное появление HUD
                     hudCanvasGroup.alpha = 1f - StartFadeInPanel.alpha;
 
-                    Debug.Log("Альфа во время обновления: " + hudCanvasGroup.alpha);
+                    Debug.Log("Альфа во время обновления: " + StartFadeInPanel.alpha);
                 })
                 .OnComplete(() =>
                 {
