@@ -41,7 +41,9 @@ namespace EchoOfTheTimes.Units
         private Action _onMoveCompleted = null;
 
         [Inject]
-        private void Construct(GraphVisibility graphVisibility, VertexFollower vertexFollower, Movable movable, PlayerPath playerPath, InputMediator inputMediator, HUDController hudController) // Добавлено
+        private void Construct(GraphVisibility graphVisibility, VertexFollower vertexFollower,
+            Movable movable, PlayerPath playerPath,
+            InputMediator inputMediator, HUDController hudController) // Добавлено
         {
             _graph = graphVisibility;
             _vertexFollower = vertexFollower;
@@ -114,6 +116,11 @@ namespace EchoOfTheTimes.Units
             if (NextPosition.gameObject.TryGetComponent(out StateFreezer nextFreezer))
             {
                 nextFreezer.OnFreeze?.Invoke();
+            }
+
+            if (NextPosition.gameObject.TryGetComponent(out Teleportator nextTeleportator))
+            {
+                _hudController.DisableButtons();
             }
 
             if (Position.gameObject.TryGetComponent(out ISpecialVertex specialVertex))
