@@ -4209,6 +4209,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1981220280205832065, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6c87aef7b9cc7734489bdd8326df7f82, type: 2}
     - target: {fileID: 2237165733924946070, guid: 582a95177e8eb484bbb721fe7a6cbbe0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -19652,14 +19657,18 @@ MonoBehaviour:
     Position: {x: -5.0754623, y: -2.614955, z: -5.027731}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-    Scene: {fileID: 0}
+    Scene:
+      sceneAsset: {fileID: 0}
+      sceneName: 
     IsLocalSpace: 0
   - StateId: 1
     Target: {fileID: 1754203594}
     Position: {x: -5.075461, y: -0.011761501, z: -5.027731}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-    Scene: {fileID: 0}
+    Scene:
+      sceneAsset: {fileID: 0}
+      sceneName: 
     IsLocalSpace: 0
 --- !u!114 &1754203597
 MonoBehaviour:
@@ -20183,9 +20192,10 @@ MonoBehaviour:
       Position: {x: -5.0754623, y: -2.614955, z: -5.027731}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
-      Scene: {fileID: 0}
+      Scene:
+        sceneAsset: {fileID: 0}
+        sceneName: 
       IsLocalSpace: 0
-    Scene: {fileID: 0}
   - Id: 1
     StatesParameters:
     - StateId: 1
@@ -20193,9 +20203,10 @@ MonoBehaviour:
       Position: {x: -5.075461, y: -0.011761501, z: -5.027731}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
-      Scene: {fileID: 0}
+      Scene:
+        sceneAsset: {fileID: 0}
+        sceneName: 
       IsLocalSpace: 0
-    Scene: {fileID: 0}
   Transitions:
   - StateFromId: 0
     StateToId: 1
