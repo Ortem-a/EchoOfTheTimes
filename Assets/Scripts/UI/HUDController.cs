@@ -8,6 +8,7 @@ namespace EchoOfTheTimes.UI
         private List<UiStateButton> _buttons = new List<UiStateButton>();
         private bool _enableButtonsPending;
         private float _enableButtonsTime;
+        private bool isNowOkShadow = true;
 
         public void RegisterButton(UiStateButton button)
         {
@@ -27,6 +28,11 @@ namespace EchoOfTheTimes.UI
         {
             _enableButtonsPending = true;
             _enableButtonsTime = Time.time + 0.05f; // можно ставить задержку чтобы не залагались анимации
+        }
+
+        private void ChangeShadow()
+        {
+
         }
 
         public void EnableButtonsImmediately()
