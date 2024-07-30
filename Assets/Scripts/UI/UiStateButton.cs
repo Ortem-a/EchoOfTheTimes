@@ -73,15 +73,6 @@ namespace EchoOfTheTimes.UI
         public void ChangeInteractable(bool isInteractable)
         {
             _button.interactable = isInteractable;
-
-            if (isInteractable)
-            {
-
-            }
-            else 
-            {
-
-            }
         }
 
         private void SetGoodShadowColor(Color color)
@@ -102,12 +93,12 @@ namespace EchoOfTheTimes.UI
 
         public void SetGoodShadowActive(bool isActive)
         {
-            SetAlpha(_shadowsGood, isActive ? 1f : 0f);
+            StartCoroutine(FadeShadow(_shadowsGood, isActive ? 1f : 0f, 0.25f));
         }
 
         public void SetBadShadowActive(bool isActive)
         {
-            SetAlpha(_shadowsBad, isActive ? 1f : 0f);
+            StartCoroutine(FadeShadow(_shadowsBad, isActive ? 1f : 0f, 0.25f));
         }
 
         private void SetAlpha(Image[] images, float alpha)
@@ -118,6 +109,22 @@ namespace EchoOfTheTimes.UI
                 color.a = alpha;
                 image.color = color;
             }
+        }
+
+        private IEnumerator FadeShadow(Image[] images, float targetAlpha, float duration)
+        {
+            float startAlpha = images[0].color.a;
+            float elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float newAlpha = Mathf.Lerp(startAlpha, targetAlpha, elapsed / duration);
+                SetAlpha(images, newAlpha);
+                yield return null;
+            }
+
+            SetAlpha(images, targetAlpha);
         }
 
         private void SetFuckingColorToFuckingButton(Color lineDopColor, Color eyeColor, Color backColor, Color linesColor)
