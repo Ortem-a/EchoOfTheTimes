@@ -198,30 +198,34 @@ namespace EchoOfTheTimes.UI
             // Активируем BottomPanel сразу с началом анимации спадения темноты
             SetActiveBottomPanelImmediate(true);
 
+            
+
             // Запуск анимации появления стартового экрана
             DOTween.To(() => StartFadeInPanel.alpha, x => StartFadeInPanel.alpha = x, 0f, StartFadeInDuration_sec)
                 .SetDelay(StartDelay_sec)
                 .OnStart(() =>
                 {
-                    HUDCanvas.gameObject.SetActive(true); // Активируем HUDCanvas сразу
-                    hudCanvasGroup.alpha = 0f; // Начальная непрозрачность HUD
+                    HUDCanvas.gameObject.SetActive(false);
+                    // hudCanvasGroup.alpha = 0f; // Начальная непрозрачность HUD
 
-                    // Включаем эмбиент-звук в начале анимации появления
-                    if (_levelAudioManager != null)
-                    {
-                        _levelAudioManager.PlayAmbientSound(SceneManager.GetActiveScene().name);
-                    }
+                    // Включаем эмбиент-звук в начале
+                    // _levelAudioManager.PlayAmbientSound(SceneManager.GetActiveScene().name);
                 })
                 .OnUpdate(() =>
                 {
                     // Плавное появление HUD
-                    hudCanvasGroup.alpha = 1f - StartFadeInPanel.alpha;
+                    if (StartFadeInPanel.alpha <= HUDStartBeforeEnd_sec / StartFadeInDuration_sec)
+                    {
+                        HUDCanvas.gameObject.SetActive(true);
+                        hudCanvasGroup.alpha = Mathf.Lerp(0f, 1f, (HUDStartBeforeEnd_sec - StartFadeInPanel.alpha * StartFadeInDuration_sec) / HUDStartBeforeEnd_sec);
+                    }
 
                     Debug.Log("Альфа во время обновления: " + StartFadeInPanel.alpha);
                 })
                 .OnComplete(() =>
                 {
                     StartLevelCanvas.gameObject.SetActive(false);
+                    HUDCanvas.gameObject.SetActive(true);
                     flgIsStartAnimationEnded = true;
                     hudCanvasGroup.alpha = 1f; // Убедитесь, что HUD полностью виден
                 });
