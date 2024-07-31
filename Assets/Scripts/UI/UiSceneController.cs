@@ -198,8 +198,6 @@ namespace EchoOfTheTimes.UI
             // Активируем BottomPanel сразу с началом анимации спадения темноты
             SetActiveBottomPanelImmediate(true);
 
-            
-
             // Запуск анимации появления стартового экрана
             DOTween.To(() => StartFadeInPanel.alpha, x => StartFadeInPanel.alpha = x, 0f, StartFadeInDuration_sec)
                 .SetDelay(StartDelay_sec)
@@ -220,14 +218,16 @@ namespace EchoOfTheTimes.UI
                         hudCanvasGroup.alpha = Mathf.Lerp(0f, 1f, (HUDStartBeforeEnd_sec - StartFadeInPanel.alpha * StartFadeInDuration_sec) / HUDStartBeforeEnd_sec);
                     }
 
-                    Debug.Log("Альфа во время обновления: " + StartFadeInPanel.alpha);
+                    // Debug.Log("Альфа во время обновления: " + StartFadeInPanel.alpha);
                 })
                 .OnComplete(() =>
                 {
                     StartLevelCanvas.gameObject.SetActive(false);
                     HUDCanvas.gameObject.SetActive(true);
                     flgIsStartAnimationEnded = true;
-                    hudCanvasGroup.alpha = 1f; // Убедитесь, что HUD полностью виден
+                    hudCanvasGroup.alpha = 1f;
+
+                    _levelAudioManager.PlayAmbientSound(SceneManager.GetActiveScene().name);
                 });
         }
 
