@@ -1891,12 +1891,18 @@ MonoBehaviour:
       Position: {x: 1.7354627, y: -15.434771, z: 0.8677311}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene:
+        sceneAsset: {fileID: 0}
+        sceneName: 
       IsLocalSpace: 0
     - StateId: 0
       Target: {fileID: 0}
       Position: {x: -1.7354627, y: -15.434771, z: 0.86773133}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene:
+        sceneAsset: {fileID: 0}
+        sceneName: 
       IsLocalSpace: 0
   - Id: 1
     StatesParameters:
@@ -1905,12 +1911,18 @@ MonoBehaviour:
       Position: {x: 5.2063885, y: -15.434771, z: 0.8677312}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene:
+        sceneAsset: {fileID: 0}
+        sceneName: 
       IsLocalSpace: 0
     - StateId: 1
       Target: {fileID: 0}
       Position: {x: 1.7354627, y: -15.434771, z: 0.8677311}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
+      Scene:
+        sceneAsset: {fileID: 0}
+        sceneName: 
       IsLocalSpace: 0
   Transitions:
   - StateFromId: 0
@@ -2332,6 +2344,46 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2616508095073705835, guid: 8e865d93e2d788c409cd9b2ba418f63c,
+        type: 3}
+      propertyPath: _exitButton.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2616508095073705835, guid: 8e865d93e2d788c409cd9b2ba418f63c,
+        type: 3}
+      propertyPath: _exitButton.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2616508095073705835, guid: 8e865d93e2d788c409cd9b2ba418f63c,
+        type: 3}
+      propertyPath: _exitButton.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2616508095073705835, guid: 8e865d93e2d788c409cd9b2ba418f63c,
+        type: 3}
+      propertyPath: _exitButton.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2616508095073705835, guid: 8e865d93e2d788c409cd9b2ba418f63c,
+        type: 3}
+      propertyPath: _linesColor.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2616508095073705835, guid: 8e865d93e2d788c409cd9b2ba418f63c,
+        type: 3}
+      propertyPath: _linesColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2616508095073705835, guid: 8e865d93e2d788c409cd9b2ba418f63c,
+        type: 3}
+      propertyPath: _linesColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2616508095073705835, guid: 8e865d93e2d788c409cd9b2ba418f63c,
+        type: 3}
+      propertyPath: _linesColor.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2616508095073705835, guid: 8e865d93e2d788c409cd9b2ba418f63c,
         type: 3}
       propertyPath: DefaultStateButtonColor.a
@@ -9636,6 +9688,7 @@ GameObject:
   - component: {fileID: 1729870977}
   - component: {fileID: 1729870979}
   - component: {fileID: 1729870978}
+  - component: {fileID: 1729870980}
   m_Layer: 0
   m_Name: UserInputs
   m_TagString: Untagged
@@ -9724,6 +9777,18 @@ MonoBehaviour:
   _splashSphere: {r: 1, g: 1, b: 1, a: 1}
   _defaultErrorSplashSphere: {r: 1, g: 1, b: 1, a: 1}
   _errorSplashSphere: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &1729870980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1729870973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3604dac6d77d4944b108d701fafa0fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1740939164
 GameObject:
   m_ObjectHideFlags: 0
