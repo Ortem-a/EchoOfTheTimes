@@ -35,9 +35,18 @@ namespace EchoOfTheTimes.UI
         private Color _backColor;
         [SerializeField]
         private Color _linesColor;
+        [SerializeField]
+        private Color _exitButton;
 
         [Header("Buttons Animator Controllers")]
         public RuntimeAnimatorController[] ButtonControllers;
+
+        [Header("Start Level UI")]
+        public Canvas StartLevelCanvas;
+        public CanvasGroup StartFadeInPanel; // CanvasGroup для плавного появления
+        private float StartFadeInDuration_sec = 2f; // Длительность появления
+        private float StartDelay_sec = 0.5f; // Задержка перед началом
+        private float HUDStartBeforeEnd_sec = 1f; // Начало появления HUD за K секунд до конца
 
         [Header("Finish UI")]
         public Canvas FinishCanvas;
@@ -46,13 +55,6 @@ namespace EchoOfTheTimes.UI
         public CanvasGroup FinishFadeOutPanel;
         public float UselessFinishDuration_sec;
         public float FinishFadeOutDuration_sec;
-
-        [Header("Start Level UI")]
-        public Canvas StartLevelCanvas;
-        public CanvasGroup StartFadeInPanel; // CanvasGroup для плавного появления
-        private float StartFadeInDuration_sec = 2f; // Длительность появления
-        private float StartDelay_sec = 0.5f; // Задержка перед началом
-        private float HUDStartBeforeEnd_sec = 1f; // Начало появления HUD за K секунд до конца
 
         private SceneLoader _loader;
         private LevelStateMachine _stateMachine;
@@ -67,6 +69,8 @@ namespace EchoOfTheTimes.UI
         {
             InitializeHUD();
             ShowStartLevelCanvas();
+
+            ApplyExitButtonColor();
         }
 
         [Inject]
@@ -110,6 +114,26 @@ namespace EchoOfTheTimes.UI
             FinishCanvas.gameObject.SetActive(false);
             FinishFadeOutPanel.alpha = 0f;
             FinishFadeOutPanel.gameObject.SetActive(false);
+        }
+
+        private void ApplyExitButtonColor()
+        {
+            if (ToMainMenuButton != null)
+            {
+                var buttonImage = ToMainMenuButton.GetComponent<Image>();
+                if (buttonImage != null)
+                {
+                    buttonImage.color = _exitButton;
+                }
+                else
+                {
+                    Debug.LogWarning("Button Image component is missing on ToMainMenuButton.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("ToMainMenuButton is not assigned.");
+            }
         }
 
         private void CreateStateButtons()
