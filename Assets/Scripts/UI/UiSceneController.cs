@@ -118,22 +118,8 @@ namespace EchoOfTheTimes.UI
 
         private void ApplyExitButtonColor()
         {
-            if (ToMainMenuButton != null)
-            {
-                var buttonImage = ToMainMenuButton.GetComponent<Image>();
-                if (buttonImage != null)
-                {
-                    buttonImage.color = _exitButton;
-                }
-                else
-                {
-                    Debug.LogWarning("Button Image component is missing on ToMainMenuButton.");
-                }
-            }
-            else
-            {
-                Debug.LogWarning("ToMainMenuButton is not assigned.");
-            }
+            var buttonImage = ToMainMenuButton.GetComponent<Image>();
+            buttonImage.color = _exitButton;
         }
 
         private void CreateStateButtons()
@@ -228,18 +214,14 @@ namespace EchoOfTheTimes.UI
                 .OnStart(() =>
                 {
                     HUDCanvas.gameObject.SetActive(false);
-                    // hudCanvasGroup.alpha = 0f; // Начальная непрозрачность HUD
-
-                    // Включаем эмбиент-звук в начале
-                    // _levelAudioManager.PlayAmbientSound(SceneManager.GetActiveScene().name);
                 })
                 .OnUpdate(() =>
                 {
                     // Плавное появление HUD
-                    if (StartFadeInPanel.alpha <= HUDStartBeforeEnd_sec / StartFadeInDuration_sec)
+                    if (StartFadeInPanel.alpha <= 1)
                     {
                         HUDCanvas.gameObject.SetActive(true);
-                        hudCanvasGroup.alpha = Mathf.Lerp(0f, 1f, (HUDStartBeforeEnd_sec - StartFadeInPanel.alpha * StartFadeInDuration_sec) / HUDStartBeforeEnd_sec);
+                        hudCanvasGroup.alpha = Mathf.Lerp(0f, 1f, (HUDStartBeforeEnd_sec - StartFadeInPanel.alpha * StartFadeInDuration_sec) / HUDStartBeforeEnd_sec * 2);
                     }
 
                     // Debug.Log("Альфа во время обновления: " + StartFadeInPanel.alpha);
