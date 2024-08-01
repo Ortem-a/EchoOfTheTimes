@@ -214,6 +214,8 @@ namespace EchoOfTheTimes.UI
                 .OnStart(() =>
                 {
                     HUDCanvas.gameObject.SetActive(false);
+
+                    _levelAudioManager.PlayAmbientSound(SceneManager.GetActiveScene().name);
                 })
                 .OnUpdate(() =>
                 {
@@ -232,8 +234,6 @@ namespace EchoOfTheTimes.UI
                     HUDCanvas.gameObject.SetActive(true);
                     flgIsStartAnimationEnded = true;
                     hudCanvasGroup.alpha = 1f;
-
-                    _levelAudioManager.PlayAmbientSound(SceneManager.GetActiveScene().name);
                 });
         }
 
