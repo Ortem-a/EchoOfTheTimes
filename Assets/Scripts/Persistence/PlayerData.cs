@@ -1,16 +1,22 @@
-using UnityEngine;
+using System.Collections.Generic;
 
 namespace EchoOfTheTimes.Persistence
 {
     [System.Serializable]
     public class PlayerData
     {
-        public Vector3 Checkpoint;
-        public int StateId;
+        public List<int> OpenedLevelIds = new List<int>() { 0 };
 
         public override string ToString()
         {
-            return $"StateId {StateId} | Checkpoint {Checkpoint}";
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+            foreach (int id in OpenedLevelIds)
+            {
+                sb.Append($"{id}, ");
+            }
+
+            return $"Opened Levels ({OpenedLevelIds.Count}) Ids: <{sb}>";
         }
     }
 }

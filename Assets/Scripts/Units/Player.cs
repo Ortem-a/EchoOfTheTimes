@@ -43,7 +43,7 @@ namespace EchoOfTheTimes.Units
         [Inject]
         private void Construct(GraphVisibility graphVisibility, VertexFollower vertexFollower,
             Movable movable, PlayerPath playerPath,
-            InputMediator inputMediator, HUDController hudController) // Добавлено
+            InputMediator inputMediator, HUDController hudController)
         {
             _graph = graphVisibility;
             _vertexFollower = vertexFollower;
