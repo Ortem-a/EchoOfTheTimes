@@ -4,10 +4,15 @@ using System.Linq;
 namespace EchoOfTheTimes.SceneManagement
 {
     [System.Serializable]
-    public class SceneGroup
+    public class GameLevel
     {
-        public string GroupName = "New Scene Group";
+        public string FullName = "Chapter|Level";
+        public string ChapterName => FullName.Split('|')[0];
+        public string LevelName => FullName.Split('|')[1];
+
         public List<SceneData> Scenes;
+
+        public bool IsLocked = true;
 
         public string FindSceneNameByType(SceneType type)
         {

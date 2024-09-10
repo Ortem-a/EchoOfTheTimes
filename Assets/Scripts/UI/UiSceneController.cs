@@ -137,7 +137,9 @@ namespace EchoOfTheTimes.UI
 
         private async void ExitToMainMenu()
         {
-            await _loader.LoadSceneGroupAsync(0);
+            await _loader.LoadMainMenuSceneAsync();
+
+            //await _loader.LoadSceneGroupAsync(0);
         }
 
         private async void GoToNextLevel()
