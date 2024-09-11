@@ -16,6 +16,7 @@ namespace EchoOfTheTimes.UI
         {
             _loader = FindObjectOfType<SceneLoader>();
 
+            return;
             for (int i = 1; i < _loader.GameChapters.Count; i++)
             {
                 //CreateButton(i);

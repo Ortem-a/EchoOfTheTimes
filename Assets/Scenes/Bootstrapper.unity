@@ -302,10 +302,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b26bd9dad9789148b59cdcddc984b2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GroupToLoad:
-    FullName: Chapter|Level
-    Scenes: []
-    IsLocked: 1
+  ChapterIndexToLoad: 0
+  LevelIndexToLoad: 0
   _loadingBar: {fileID: 280027407}
   _fillSpeed: 0.5
   _loadingCanvas: {fileID: 1741936056}
@@ -313,13 +311,33 @@ MonoBehaviour:
   GameChapters:
   - Title: MainMenu
     Levels:
-    - FullName: MainMenu
+    - FullName: 0|MainMenu
       Scenes:
       - Reference:
           asset: {fileID: 102900000, guid: 124cbbf867512a74495c071355e6ea3a, type: 3}
           guid: 124cbbf867512a74495c071355e6ea3a
         Type: 0
+      - Reference:
+          asset: {fileID: 102900000, guid: bee79e3659b93ba41b934aa27b6e34da, type: 3}
+          guid: bee79e3659b93ba41b934aa27b6e34da
+        Type: 2
       IsLocked: 0
+  - Title: Training
+    Levels:
+    - FullName: 1|1
+      Scenes:
+      - Reference:
+          asset: {fileID: 102900000, guid: 35e8a7cdd261e7042b2a3f063354d17f, type: 3}
+          guid: 35e8a7cdd261e7042b2a3f063354d17f
+        Type: 0
+      IsLocked: 0
+    - FullName: 1|2
+      Scenes:
+      - Reference:
+          asset: {fileID: 102900000, guid: 9f4b8cb4ce35a174493f864c62bb0c2a, type: 3}
+          guid: 9f4b8cb4ce35a174493f864c62bb0c2a
+        Type: 0
+      IsLocked: 1
 --- !u!4 &570535979
 Transform:
   m_ObjectHideFlags: 0
