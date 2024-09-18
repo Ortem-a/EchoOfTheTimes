@@ -10,20 +10,27 @@ namespace EchoOfTheTimes.Persistence
 
         public PlayerData DataToSave { get; private set; }
 
-        public SaveLoadService()
+        public SaveLoadService(PlayerData data, bool fromPreset = false)
         {
-            _pathToFile = Path.Combine(Application.dataPath, _fileName);
+            _pathToFile = Path.Combine(Application.persistentDataPath, _fileName);
 
-            if (File.Exists(_pathToFile))
+            if (fromPreset)
             {
-                Load();
+                DataToSave = data;
             }
             else
             {
-                Debug.LogWarning($"There is no file with saves! Generate file... '{_pathToFile}'");
+                if (File.Exists(_pathToFile))
+                {
+                    Load();
+                }
+                else
+                {
+                    Debug.LogWarning($"There is no file with saves! Generate file... '{_pathToFile}' with default data: {data}");
 
-                DataToSave = new PlayerData();
-                Save();
+                    DataToSave = data;
+                    Save();
+                }
             }
         }
 

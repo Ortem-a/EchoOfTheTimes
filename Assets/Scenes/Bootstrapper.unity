@@ -251,6 +251,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 533080369}
+  - component: {fileID: 533080370}
   m_Layer: 0
   m_Name: PersistenceService
   m_TagString: Untagged
@@ -273,6 +274,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &533080370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533080368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7cf60bab1721d84fb80192d1cd6d61f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _presetType: 0
 --- !u!1 &570535977
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,7 +316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b26bd9dad9789148b59cdcddc984b2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChapterIndexToLoad: 0
+  ChapterIndexToLoad: 1
   LevelIndexToLoad: 0
   _loadingBar: {fileID: 280027407}
   _fillSpeed: 0.5
@@ -311,7 +325,7 @@ MonoBehaviour:
   GameChapters:
   - Title: MainMenu
     Levels:
-    - FullName: 0|MainMenu
+    - FullName: MainMenu|0
       Scenes:
       - Reference:
           asset: {fileID: 102900000, guid: 124cbbf867512a74495c071355e6ea3a, type: 3}
@@ -321,23 +335,25 @@ MonoBehaviour:
           asset: {fileID: 102900000, guid: bee79e3659b93ba41b934aa27b6e34da, type: 3}
           guid: bee79e3659b93ba41b934aa27b6e34da
         Type: 2
-      IsLocked: 0
+      LevelStatus: 0
+    ChapterStatus: 0
   - Title: Training
     Levels:
-    - FullName: 1|1
+    - FullName: Training|1
       Scenes:
       - Reference:
           asset: {fileID: 102900000, guid: 35e8a7cdd261e7042b2a3f063354d17f, type: 3}
           guid: 35e8a7cdd261e7042b2a3f063354d17f
         Type: 0
-      IsLocked: 0
-    - FullName: 1|2
+      LevelStatus: 0
+    - FullName: Training|2
       Scenes:
       - Reference:
           asset: {fileID: 102900000, guid: 9f4b8cb4ce35a174493f864c62bb0c2a, type: 3}
           guid: 9f4b8cb4ce35a174493f864c62bb0c2a
         Type: 0
-      IsLocked: 1
+      LevelStatus: 0
+    ChapterStatus: 0
 --- !u!4 &570535979
 Transform:
   m_ObjectHideFlags: 0

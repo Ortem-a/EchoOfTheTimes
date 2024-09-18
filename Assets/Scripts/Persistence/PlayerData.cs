@@ -1,3 +1,4 @@
+using EchoOfTheTimes.SceneManagement;
 using System.Collections.Generic;
 
 namespace EchoOfTheTimes.Persistence
@@ -5,18 +6,18 @@ namespace EchoOfTheTimes.Persistence
     [System.Serializable]
     public class PlayerData
     {
-        public List<int> OpenedLevels = new List<int>() { 0 };
+        public List<GameChapter> Data;
 
         public override string ToString()
         {
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
-            foreach (int id in OpenedLevels)
+            foreach (var chapter in Data)
             {
-                sb.Append($"{id}, ");
+                sb.Append($"{chapter}\n===============\n");
             }
 
-            return $"Opened Levels ({OpenedLevels.Count}) Ids: <{sb}>";
+            return $"Player Data: <{sb}>";
         }
     }
 }
