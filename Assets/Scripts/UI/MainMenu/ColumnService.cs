@@ -1,3 +1,4 @@
+using EchoOfTheTimes.Persistence;
 using UnityEngine;
 
 namespace EchoOfTheTimes.UI.MainMenu
@@ -10,17 +11,38 @@ namespace EchoOfTheTimes.UI.MainMenu
         private void Awake()
         {
             _columns = GetComponentsInChildren<Column>();
-
-            for (int i = 0; i < _columns.Length; i++)
-            {
-                _columns[i].Id = i;
-            }
-
-            _activeColumn = _columns[0];
         }
 
         private void Start()
         {
+            for (int i = 0; i < _columns.Length; i++)
+            {
+                _columns[i].Id = i;
+
+                var gameChapter = PersistenceService.SaveLoadService.DataToSave.Data[i + 1];
+
+                _columns[i].Chapter = gameChapter;
+
+                _columns[i].Initialize();
+
+                _columns[i].MarkAs(gameChapter.ChapterStatus);
+
+                for (int j = 0; j < gameChapter.Levels.Count; j++)
+                {
+                    _columns[i].Segments[j].MarkAs(gameChapter.Levels[j].LevelStatus);
+                }
+            }
+
+            var firstLockedChapterIndex = PersistenceService.SaveLoadService.DataToSave.Data
+                .FindIndex((x) => x.ChapterStatus == SceneManagement.StatusType.Locked);
+
+            if (firstLockedChapterIndex == -1)
+            {
+                firstLockedChapterIndex = PersistenceService.SaveLoadService.DataToSave.Data.Count;
+            }
+
+            _activeColumn = _columns[firstLockedChapterIndex - 2];
+
             _activeColumn.SetEnable(true);
             _activeColumn.Raise();
         }
@@ -32,7 +54,8 @@ namespace EchoOfTheTimes.UI.MainMenu
                 _columns[i].SetEnable(false);
             }
 
-            _activeColumn.Fall(() => {
+            _activeColumn.Fall(() =>
+            {
                 for (int i = 0; i < _columns.Length; i++)
                 {
                     _columns[i].SetEnable(true);

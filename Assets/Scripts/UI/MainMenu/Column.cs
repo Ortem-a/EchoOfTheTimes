@@ -1,3 +1,4 @@
+using EchoOfTheTimes.SceneManagement;
 using UnityEngine;
 
 namespace EchoOfTheTimes.UI.MainMenu
@@ -13,22 +14,38 @@ namespace EchoOfTheTimes.UI.MainMenu
         private ColumnTweener _tweener;
         private ColumnService _service;
 
-        private Segment[] _segments;
+        public GameChapter Chapter;
+
+        public Segment[] Segments { get; private set; }
+
+        private Color _gizmoColor;
 
         private void Awake()
         {
             _collider = GetComponent<BoxCollider>();
             _tweener = GetComponent<ColumnTweener>();
             _service = GetComponentInParent<ColumnService>();
-            _segments = GetComponentsInChildren<Segment>();
+            Segments = GetComponentsInChildren<Segment>();
         }
 
-        private void Start()
+        public void Initialize()
         {
-            for (int i = 0; i < _segments.Length; i++)
+            for (int i = 0; i < Chapter.Levels.Count; i++)
             {
-                _segments[i].SetEnable(false);
+                Segments[i].Level = Chapter.Levels[i];
             }
+
+            for (int i = 0; i < Segments.Length; i++)
+            {
+                Segments[i].SetEnable(false);
+            }
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = _gizmoColor;
+
+            Gizmos.DrawSphere(transform.position + Vector3.up, 0.5f);
         }
 
         public void SetEnable(bool isEnable)
@@ -43,9 +60,9 @@ namespace EchoOfTheTimes.UI.MainMenu
 
             _tweener.RaiseTween(() =>
             {
-                for (int i = 0; i < _segments.Length; i++)
+                for (int i = 0; i < Segments.Length; i++)
                 {
-                    _segments[i].SetEnable(true);
+                    Segments[i].SetEnable(true);
                 }
             });
         }
@@ -55,9 +72,9 @@ namespace EchoOfTheTimes.UI.MainMenu
             IsRaise = false;
 
             _tweener.FallTween(() => {
-                for (int i = 0; i < _segments.Length; i++)
+                for (int i = 0; i < Segments.Length; i++)
                 {
-                    _segments[i].SetEnable(false);
+                    Segments[i].SetEnable(false);
                 }
                 onComplete?.Invoke();
                 });
@@ -66,6 +83,45 @@ namespace EchoOfTheTimes.UI.MainMenu
         private void NotifyService()
         {
             _service.HandleTouch(Id);
+        }
+
+        public void MarkAs(StatusType status)
+        {
+            switch (status)
+            {
+                case StatusType.Locked:
+                    MarkAsLocked();
+                    break;
+                case StatusType.Unlocked:
+                    MarkAsUnlocked();
+                    break;
+                case StatusType.Completed:
+                    MarkAsCompleted();
+                    break;
+                default:
+                    throw new System.NotImplementedException($"Not implemented status '{status}'!");
+            }
+        }
+
+        private void MarkAsLocked()
+        {
+            Debug.Log($"Mark {name} as Locked!");
+
+            _gizmoColor = Color.red;
+        }
+
+        private void MarkAsUnlocked()
+        {
+            Debug.Log($"Mark {name} as Unlocked!");
+
+            _gizmoColor = Color.yellow;
+        }
+
+        private void MarkAsCompleted()
+        {
+            Debug.Log($"Mark {name} as Completed!");
+
+            _gizmoColor = Color.green;
         }
     }
 }

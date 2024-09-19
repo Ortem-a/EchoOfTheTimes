@@ -8,7 +8,7 @@ namespace EchoOfTheTimes.Persistence
         private readonly string _fileName = "SaveData.json";
         private readonly string _pathToFile;
 
-        public PlayerData DataToSave { get; private set; }
+        public PlayerData DataToSave { get; set; }
 
         public SaveLoadService(PlayerData data, bool fromPreset = false)
         {

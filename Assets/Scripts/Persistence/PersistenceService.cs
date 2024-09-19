@@ -1,4 +1,6 @@
+using EchoOfTheTimes.SceneManagement;
 using EchoOfTheTimes.ScriptableObjects.Persistence;
+using System;
 using System.IO;
 using UnityEngine;
 using Zenject;
@@ -7,9 +9,16 @@ namespace EchoOfTheTimes.Persistence
 {
     public class PersistenceService : MonoBehaviour
     {
+        public static Action OnLevelCompleted { get; private set; }
+        public static Action OnExitToMainMenu { get; private set; }
+
+        public static SaveLoadService SaveLoadService { get; private set; }
+
+        public static GameLevel LastLoadedLevel;
+
         private enum PresetType
         {
-            Saved,
+            SavedFile,
             Default,
             AllUnlock
         }
@@ -17,25 +26,38 @@ namespace EchoOfTheTimes.Persistence
         [SerializeField]
         private PresetType _presetType;
 
-        public static SaveLoadService SaveLoadService { get; private set; }
-
         private PlayerData _defaultData;
         private PlayerData _allUnlockData;
+
+//        private void Awake()
+//        {
+//#warning ЗАГЛУШКА ДЛЯ ТЕСТОВ
+//            LastLoadedLevel = SaveLoadService.DataToSave.Data[1].Levels[0];
+//        }
+
+        private void OnDestroy()
+        {
+            OnLevelCompleted -= HandleLevelCompleted;
+            OnExitToMainMenu -= HandleExitToMainMenu;
+        }
 
         [Inject]
         private void Construct()
         {
+            OnLevelCompleted += HandleLevelCompleted;
+            OnExitToMainMenu += HandleExitToMainMenu;
+
             LoadPresets();
 
             SaveLoadService = _presetType switch
             {
-                PresetType.Saved => new SaveLoadService(_defaultData),
+                PresetType.SavedFile => new SaveLoadService(_defaultData),
                 PresetType.Default => new SaveLoadService(_defaultData, true),
                 PresetType.AllUnlock => new SaveLoadService(_allUnlockData, true),
-                _ => throw new System.ArgumentException($"Unexpected {nameof(PresetType)} with value: '{_presetType}'!"),
+                _ => throw new ArgumentException($"Unexpected {nameof(PresetType)} with value: '{_presetType}'!"),
             };
 
-            Debug.Log($"Enable {typeof(SaveLoadService)} with preset: {_presetType}!");
+            Debug.Log($"Enable {nameof(SaveLoadService)} with preset: {_presetType}!");
         }
 
         private void LoadPresets()
@@ -50,10 +72,87 @@ namespace EchoOfTheTimes.Persistence
 
             if (preset == null)
             {
-                throw new System.NullReferenceException($"You need to create '{path.Split(Path.PathSeparator)[^1]}' first!");
+                throw new NullReferenceException($"You need to create '{path.Split(Path.PathSeparator)[^1]}' first!");
             }
 
             return preset.Data;
+        }
+
+        private void HandleLevelCompleted()
+        {
+            var newDataToSave = SaveLoadService.DataToSave;
+
+            // пометить текущий уровень как пройденный
+            var lastLoadedChapterTitle = LastLoadedLevel.ChapterName;
+            var lastLoadedLevelName = LastLoadedLevel.LevelName;
+            int lastLoadedChapterIndex = -1;
+            int lastLoadedLevelIndex = -1;
+            for (int i = 0; i < newDataToSave.Data.Count; i++)
+            {
+                if (newDataToSave.Data[i].Title == lastLoadedChapterTitle)
+                {
+                    var lastLoadedChapter = newDataToSave.Data[i];
+                    lastLoadedChapterIndex = i;
+                    for (int j = 0; j < lastLoadedChapter.Levels.Count; j++)
+                    {
+                        if (lastLoadedChapter.Levels[j].LevelName == lastLoadedLevelName)
+                        {
+                            lastLoadedChapter.Levels[j].LevelStatus = StatusType.Completed;
+                            lastLoadedLevelIndex = j;
+                            break;
+                        }
+                    }
+
+                    break;
+                }
+            }
+
+            // пометить следующий как открытый
+            // возможны случаи:
+            // ЕСЛИ УРОВЕНЬ В НАЧАЛЕ ИЛИ В СЕРЕДИНЕ ГЛАВЫ
+            // ЕСЛИ ПОСЛЕДНИЙ УРОВЕНЬ ГЛАВЫ
+            // ЕСЛИ ПОСЛЕДНИЙ УРОВЕНЬ ПОСЛЕДНЕЙ ГЛАВЫ
+
+            // если не последний уровень на главе
+            if (lastLoadedLevelIndex < newDataToSave.Data[lastLoadedChapterIndex].Levels.Count - 1)
+            {
+                lastLoadedLevelIndex++;
+                newDataToSave.Data[lastLoadedChapterIndex].Levels[lastLoadedLevelIndex].LevelStatus = StatusType.Unlocked;
+            }
+            else
+            {
+                // если не последняя глава
+                if (lastLoadedChapterIndex < newDataToSave.Data.Count - 1)
+                {
+                    newDataToSave.Data[lastLoadedChapterIndex].ChapterStatus = StatusType.Completed;
+
+                    lastLoadedChapterIndex++;
+                    newDataToSave.Data[lastLoadedChapterIndex].ChapterStatus = StatusType.Unlocked;
+                    newDataToSave.Data[lastLoadedChapterIndex].Levels[0].LevelStatus = StatusType.Unlocked;
+                }
+                else
+                {
+                    newDataToSave.Data[lastLoadedChapterIndex].ChapterStatus = StatusType.Completed;
+                }
+            }
+
+            LastLoadedLevel = newDataToSave.Data[lastLoadedChapterIndex].Levels[lastLoadedLevelIndex];
+
+            // сохранить данные
+            if (_presetType == PresetType.SavedFile)
+            {
+                SaveLoadService.DataToSave = newDataToSave;
+                SaveLoadService.Save();
+            }
+        }
+
+        private void HandleExitToMainMenu()
+        {
+            // сохранить данные
+            if (_presetType == PresetType.SavedFile)
+            {
+                SaveLoadService.Save();
+            }
         }
     }
 }
