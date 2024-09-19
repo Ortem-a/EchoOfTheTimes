@@ -1,16 +1,23 @@
-using UnityEngine;
+using EchoOfTheTimes.SceneManagement;
+using System.Collections.Generic;
 
 namespace EchoOfTheTimes.Persistence
 {
     [System.Serializable]
     public class PlayerData
     {
-        public Vector3 Checkpoint;
-        public int StateId;
+        public List<GameChapter> Data;
 
         public override string ToString()
         {
-            return $"StateId {StateId} | Checkpoint {Checkpoint}";
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+            foreach (var chapter in Data)
+            {
+                sb.Append($"{chapter}\n===============\n");
+            }
+
+            return $"Player Data: <{sb}>";
         }
     }
 }

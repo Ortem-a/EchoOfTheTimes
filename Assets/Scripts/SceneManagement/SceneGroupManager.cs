@@ -12,9 +12,9 @@ namespace EchoOfTheTimes.SceneManagement
         public event Action<string> OnSceneUnloaded = delegate { };
         public event Action OnSceneGroupLoaded = delegate { };
 
-        private SceneGroup _activeSceneGroup;
+        private GameLevel _activeSceneGroup;
 
-        public async Task LoadScenesAsync(SceneGroup group, IProgress<float> progress, bool reloadDuplicateScenes = false)
+        public async Task LoadScenesAsync(GameLevel group, IProgress<float> progress, bool reloadDuplicateScenes = false)
         {
             _activeSceneGroup = group;
             var loadedScenes = new List<string>();

@@ -2,6 +2,7 @@ using DG.Tweening;
 using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Effects;
 using EchoOfTheTimes.LevelStates;
+using EchoOfTheTimes.Persistence;
 using EchoOfTheTimes.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -137,7 +138,11 @@ namespace EchoOfTheTimes.UI
 
         private async void ExitToMainMenu()
         {
-            await _loader.LoadSceneGroupAsync(0);
+            PersistenceService.OnExitToMainMenu?.Invoke();
+
+            await _loader.LoadMainMenuSceneAsync();
+
+            //await _loader.LoadSceneGroupAsync(0);
         }
 
         private async void GoToNextLevel()

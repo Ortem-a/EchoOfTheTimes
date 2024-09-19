@@ -1,4 +1,5 @@
 using EchoOfTheTimes.Interfaces;
+using EchoOfTheTimes.Persistence;
 using EchoOfTheTimes.UI;
 using EchoOfTheTimes.Units;
 using System;
@@ -31,6 +32,8 @@ namespace EchoOfTheTimes.Core
             _player.Stop(null);
 
             _inputHandler.gameObject.SetActive(false);
+
+            PersistenceService.OnLevelCompleted?.Invoke();
         }
     }
 }

@@ -1,5 +1,4 @@
 using EchoOfTheTimes.LevelStates;
-using EchoOfTheTimes.Persistence;
 using EchoOfTheTimes.Units;
 using System;
 using UnityEngine;
@@ -11,10 +10,10 @@ namespace EchoOfTheTimes.Core
     {
         public Action<Checkpoint> OnCheckpointChanged;
 
-        public PlayerData StartPlayerData;
+        //public PlayerData StartPlayerData;
         public Checkpoint StartCheckpoint;
 
-        public PlayerData PlayerData;
+        //public PlayerData PlayerData;
         public Checkpoint ActiveCheckpoint;
 
         private Player _player;
@@ -22,13 +21,13 @@ namespace EchoOfTheTimes.Core
         private GraphVisibility _graphVisibility;
         private InputMediator _inputMediator;
 
-        private void OnValidate()
-        {
-            if (StartCheckpoint != null)
-            {
-                StartPlayerData.Checkpoint = StartCheckpoint.transform.position;
-            }
-        }
+        //private void OnValidate()
+        //{
+        //    if (StartCheckpoint != null)
+        //    {
+        //        StartPlayerData.Checkpoint = StartCheckpoint.transform.position;
+        //    }
+        //}
 
         private void Awake()
         {
@@ -60,28 +59,30 @@ namespace EchoOfTheTimes.Core
 
             ActiveCheckpoint = StartCheckpoint;
 
-            PlayerData = new PlayerData()
-            {
-                StateId = StartPlayerData.StateId,
-                Checkpoint = StartPlayerData.Checkpoint
-            };
+            //PlayerData = new PlayerData()
+            //{
+            //    //StateId = StartPlayerData.StateId,
+            //    Checkpoint = StartPlayerData.Checkpoint
+            //};
         }
 
         private void UpdateCheckpoint(Checkpoint checkpoint)
         {
-            PlayerData.StateId = _stateMachine.GetCurrentStateId();
-            PlayerData.Checkpoint = checkpoint.transform.position;
+            //PlayerData.StateId = _stateMachine.GetCurrentStateId();
+            //PlayerData.Checkpoint = checkpoint.transform.position;
 
             ActiveCheckpoint = checkpoint;
-            Debug.Log($"[CheckpointManager] Checkpoint changed! | PlayerData {PlayerData} | ActiveCheckpoint {ActiveCheckpoint}");
+            Debug.Log($"[CheckpointManager] Checkpoint changed! | ActiveCheckpoint {ActiveCheckpoint}");
+            //Debug.Log($"[CheckpointManager] Checkpoint changed! | PlayerData {PlayerData} | ActiveCheckpoint {ActiveCheckpoint}");
         }
 
         public void AcceptActiveCheckpointToScene()
         {
-            Debug.Log($"[CheckpointManager] Accept Active Checkpoint To Scene '{PlayerData}'");
+            //Debug.Log($"[CheckpointManager] Accept Active Checkpoint To Scene '{PlayerData}'");
 
-            _player.Teleportate(PlayerData.Checkpoint, 0.1f);
-            _stateMachine.LoadState(PlayerData.StateId);
+            //_player.Teleportate(PlayerData.Checkpoint, 0.1f);
+            _stateMachine.LoadState(0);
+            //_stateMachine.LoadState(PlayerData.StateId);
         }
 
         private void SimulateInitialTouch()

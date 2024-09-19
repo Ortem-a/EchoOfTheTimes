@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731715, g: 0.13414735, b: 0.121078536, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -242,6 +242,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 280027405}
   m_CullTransparentMesh: 1
+--- !u!1 &533080368
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 533080369}
+  - component: {fileID: 533080370}
+  m_Layer: 0
+  m_Name: PersistenceService
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &533080369
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533080368}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &533080370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533080368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7cf60bab1721d84fb80192d1cd6d61f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _presetType: 2
 --- !u!1 &570535977
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,178 +316,182 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b26bd9dad9789148b59cdcddc984b2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GroupToLoad: 0
+  ChapterIndexToLoad: 1
+  LevelIndexToLoad: 0
   _loadingBar: {fileID: 280027407}
   _fillSpeed: 0.5
   _loadingCanvas: {fileID: 1741936056}
   _loadingCamera: {fileID: 829349314}
-  SceneGroups:
-  - GroupName: MainMenu
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 124cbbf867512a74495c071355e6ea3a, type: 3}
-        guid: 124cbbf867512a74495c071355e6ea3a
-      Type: 0
-    - Reference:
-        asset: {fileID: 102900000, guid: bee79e3659b93ba41b934aa27b6e34da, type: 3}
-        guid: bee79e3659b93ba41b934aa27b6e34da
-      Type: 0
-  - GroupName: Ch 1 Lvl 1
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 35e8a7cdd261e7042b2a3f063354d17f, type: 3}
-        guid: 35e8a7cdd261e7042b2a3f063354d17f
-      Type: 0
-  - GroupName: Ch 1 Lvl 2
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 9f4b8cb4ce35a174493f864c62bb0c2a, type: 3}
-        guid: 9f4b8cb4ce35a174493f864c62bb0c2a
-      Type: 0
-  - GroupName: Ch 1 Lvl 3
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: cd558dc935c80ed40a46b877d4d8016d, type: 3}
-        guid: cd558dc935c80ed40a46b877d4d8016d
-      Type: 0
-  - GroupName: Ch 1 Lvl 4
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 530801fa6079cfe419d2a1d19795e42e, type: 3}
-        guid: 530801fa6079cfe419d2a1d19795e42e
-      Type: 0
-  - GroupName: Ch 1 Lvl 5
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 5087adcfbd86c674fa02e9a2b14dff8b, type: 3}
-        guid: 5087adcfbd86c674fa02e9a2b14dff8b
-      Type: 0
-  - GroupName: Ch 1 Lvl 6
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 9cdaf39d58e38544b841694896ab0959, type: 3}
-        guid: 9cdaf39d58e38544b841694896ab0959
-      Type: 0
-  - GroupName: Ch 2 Lvl 1
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: f0ffa0dc8fbfe474dab809c88193ef6a, type: 3}
-        guid: f0ffa0dc8fbfe474dab809c88193ef6a
-      Type: 0
-  - GroupName: Ch 2 Lvl 2
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 27a5531a52c648e44a7dd5eff44bfb2b, type: 3}
-        guid: 27a5531a52c648e44a7dd5eff44bfb2b
-      Type: 0
-  - GroupName: Ch 2 Lvl 3
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 4d09e715a74187a42ae974403a300c20, type: 3}
-        guid: 4d09e715a74187a42ae974403a300c20
-      Type: 0
-  - GroupName: Ch 2 Lvl 4
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 3989e3cd72703674fad7106e48d6d840, type: 3}
-        guid: 3989e3cd72703674fad7106e48d6d840
-      Type: 0
-  - GroupName: Ch 3 Lvl 1
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 432eab8f14705684cb72511907e47005, type: 3}
-        guid: 432eab8f14705684cb72511907e47005
-      Type: 0
-  - GroupName: Ch 3 Lvl 2
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 1fc3aa92bedf4c4449eea3cac11c2f7a, type: 3}
-        guid: 1fc3aa92bedf4c4449eea3cac11c2f7a
-      Type: 0
-  - GroupName: Ch 3 Lvl 3
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: a752e8ae53b3164459477560187a74dd, type: 3}
-        guid: a752e8ae53b3164459477560187a74dd
-      Type: 0
-  - GroupName: Ch 3 Lvl 4
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 519fbd28809757c4fb8a2845169fb5a1, type: 3}
-        guid: 519fbd28809757c4fb8a2845169fb5a1
-      Type: 0
-  - GroupName: Ch 3 Lvl 5
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 2b7d874a45c39c045ab5cb0de5fc1541, type: 3}
-        guid: 2b7d874a45c39c045ab5cb0de5fc1541
-      Type: 0
-  - GroupName: Ch 3 Lvl 6
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: f8f8d80d506c2894580d5a882c6aee38, type: 3}
-        guid: f8f8d80d506c2894580d5a882c6aee38
-      Type: 0
-  - GroupName: Ch 4 Lvl 1
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 52f535afd77efdb49a59f419972f7b50, type: 3}
-        guid: 52f535afd77efdb49a59f419972f7b50
-      Type: 0
-  - GroupName: Ch 4 Lvl 2
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 4ec98d5173d336b4992448563c8c177c, type: 3}
-        guid: 4ec98d5173d336b4992448563c8c177c
-      Type: 0
-  - GroupName: Ch 4 Lvl 3
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 12a94989ca71b0943bd6fe066460cf2b, type: 3}
-        guid: 12a94989ca71b0943bd6fe066460cf2b
-      Type: 0
-  - GroupName: Ch 4 Lvl 4
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 93a472720ca9dc444b3a7416dc607ade, type: 3}
-        guid: 93a472720ca9dc444b3a7416dc607ade
-      Type: 0
-  - GroupName: Ch 5 Lvl 1
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 92fd1bf9eba0d9a4a85ec07f2c8e3813, type: 3}
-        guid: 92fd1bf9eba0d9a4a85ec07f2c8e3813
-      Type: 0
-  - GroupName: Ch 5 Lvl 2
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 3e7064f833c13ff41b7bb335434bf288, type: 3}
-        guid: 3e7064f833c13ff41b7bb335434bf288
-      Type: 0
-  - GroupName: Ch 5 Lvl 3
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 80574fa9e071a25468b3ee05a90b408c, type: 3}
-        guid: 80574fa9e071a25468b3ee05a90b408c
-      Type: 0
-  - GroupName: Ch 5 Lvl 4
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: ae8e48c161766944b8bc10e737b4d12f, type: 3}
-        guid: ae8e48c161766944b8bc10e737b4d12f
-      Type: 0
-  - GroupName: Ch 5 Lvl 5
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 82d784b88549f574f970e707b9403a36, type: 3}
-        guid: 82d784b88549f574f970e707b9403a36
-      Type: 0
-  - GroupName: Ch 5 Lvl 6
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 93a472720ca9dc444b3a7416dc607ade, type: 3}
-        guid: 93a472720ca9dc444b3a7416dc607ade
-      Type: 0
+  GameChapters:
+  - Title: MainMenu
+    Levels:
+    - FullName: MainMenu|0
+      Scenes:
+      - Reference:
+          asset: {fileID: 102900000, guid: 124cbbf867512a74495c071355e6ea3a, type: 3}
+          guid: 124cbbf867512a74495c071355e6ea3a
+        Type: 0
+      - Reference:
+          asset: {fileID: 102900000, guid: bee79e3659b93ba41b934aa27b6e34da, type: 3}
+          guid: bee79e3659b93ba41b934aa27b6e34da
+        Type: 2
+      LevelStatus: 1
+    ChapterStatus: 1
+  - Title: Training
+    Levels:
+    - FullName: Training|1
+      Scenes:
+      - Reference:
+          asset: {fileID: 102900000, guid: 35e8a7cdd261e7042b2a3f063354d17f, type: 3}
+          guid: 35e8a7cdd261e7042b2a3f063354d17f
+        Type: 0
+      LevelStatus: 1
+    - FullName: Training|2
+      Scenes:
+      - Reference:
+          asset: {fileID: 102900000, guid: 9f4b8cb4ce35a174493f864c62bb0c2a, type: 3}
+          guid: 9f4b8cb4ce35a174493f864c62bb0c2a
+        Type: 0
+      LevelStatus: 1
+    - FullName: Training|3
+      Scenes:
+      - Reference:
+          asset: {fileID: 102900000, guid: cd558dc935c80ed40a46b877d4d8016d, type: 3}
+          guid: cd558dc935c80ed40a46b877d4d8016d
+        Type: 0
+      LevelStatus: 1
+    - FullName: Training|4
+      Scenes:
+      - Reference:
+          asset: {fileID: 102900000, guid: 530801fa6079cfe419d2a1d19795e42e, type: 3}
+          guid: 530801fa6079cfe419d2a1d19795e42e
+        Type: 0
+      LevelStatus: 1
+    ChapterStatus: 1
+  - Title: Training TEST 1
+    Levels:
+    - FullName: Training TEST 1|1
+      Scenes:
+      - Reference:
+          asset: {fileID: 102900000, guid: 35e8a7cdd261e7042b2a3f063354d17f, type: 3}
+          guid: 35e8a7cdd261e7042b2a3f063354d17f
+        Type: 0
+      LevelStatus: 1
+    - FullName: Training TEST 1|1
+      Scenes:
+      - Reference:
+          asset: {fileID: 102900000, guid: 35e8a7cdd261e7042b2a3f063354d17f, type: 3}
+          guid: 35e8a7cdd261e7042b2a3f063354d17f
+        Type: 0
+      LevelStatus: 1
+    - FullName: Training TEST 1|1
+      Scenes:
+      - Reference:
+          asset: {fileID: 102900000, guid: 35e8a7cdd261e7042b2a3f063354d17f, type: 3}
+          guid: 35e8a7cdd261e7042b2a3f063354d17f
+        Type: 0
+      LevelStatus: 1
+    - FullName: Training TEST 1|1
+      Scenes:
+      - Reference:
+          asset: {fileID: 102900000, guid: 35e8a7cdd261e7042b2a3f063354d17f, type: 3}
+          guid: 35e8a7cdd261e7042b2a3f063354d17f
+        Type: 0
+      LevelStatus: 1
+    ChapterStatus: 1
+  - Title: Training TEST 2
+    Levels:
+    - FullName: Training TEST 2|1
+      Scenes:
+      - Reference:
+          asset: {fileID: 102900000, guid: 35e8a7cdd261e7042b2a3f063354d17f, type: 3}
+          guid: 35e8a7cdd261e7042b2a3f063354d17f
+        Type: 0
+      LevelStatus: 1
+    - FullName: Training TEST 2|1
+      Scenes:
+      - Reference:
+          asset: {fileID: 102900000, guid: 35e8a7cdd261e7042b2a3f063354d17f, type: 3}
+          guid: 35e8a7cdd261e7042b2a3f063354d17f
+        Type: 0
+      LevelStatus: 1
+    - FullName: Training TEST 2|1
+      Scenes:
+      - Reference:
+          asset: {fileID: 102900000, guid: 35e8a7cdd261e7042b2a3f063354d17f, type: 3}
+          guid: 35e8a7cdd261e7042b2a3f063354d17f
+        Type: 0
+      LevelStatus: 1
+    - FullName: Training TEST 2|1
+      Scenes:
+      - Reference:
+          asset: {fileID: 102900000, guid: 35e8a7cdd261e7042b2a3f063354d17f, type: 3}
+          guid: 35e8a7cdd261e7042b2a3f063354d17f
+        Type: 0
+      LevelStatus: 1
+    ChapterStatus: 1
+  - Title: Training  TEST 3
+    Levels:
+    - FullName: Training  TEST 3|1
+      Scenes:
+      - Reference:
+          asset: {fileID: 102900000, guid: 35e8a7cdd261e7042b2a3f063354d17f, type: 3}
+          guid: 35e8a7cdd261e7042b2a3f063354d17f
+        Type: 0
+      LevelStatus: 1
+    - FullName: Training  TEST 3|1
+      Scenes:
+      - Reference:
+          asset: {fileID: 102900000, guid: 35e8a7cdd261e7042b2a3f063354d17f, type: 3}
+          guid: 35e8a7cdd261e7042b2a3f063354d17f
+        Type: 0
+      LevelStatus: 1
+    - FullName: Training  TEST 3|1
+      Scenes:
+      - Reference:
+          asset: {fileID: 102900000, guid: 35e8a7cdd261e7042b2a3f063354d17f, type: 3}
+          guid: 35e8a7cdd261e7042b2a3f063354d17f
+        Type: 0
+      LevelStatus: 1
+    - FullName: Training  TEST 3|1
+      Scenes:
+      - Reference:
+          asset: {fileID: 102900000, guid: 35e8a7cdd261e7042b2a3f063354d17f, type: 3}
+          guid: 35e8a7cdd261e7042b2a3f063354d17f
+        Type: 0
+      LevelStatus: 1
+    ChapterStatus: 1
+  - Title: Training  TEST 4
+    Levels:
+    - FullName: Training  TEST 4|1
+      Scenes:
+      - Reference:
+          asset: {fileID: 102900000, guid: 35e8a7cdd261e7042b2a3f063354d17f, type: 3}
+          guid: 35e8a7cdd261e7042b2a3f063354d17f
+        Type: 0
+      LevelStatus: 1
+    - FullName: Training  TEST 4|1
+      Scenes:
+      - Reference:
+          asset: {fileID: 102900000, guid: 35e8a7cdd261e7042b2a3f063354d17f, type: 3}
+          guid: 35e8a7cdd261e7042b2a3f063354d17f
+        Type: 0
+      LevelStatus: 1
+    - FullName: Training  TEST 4|1
+      Scenes:
+      - Reference:
+          asset: {fileID: 102900000, guid: 35e8a7cdd261e7042b2a3f063354d17f, type: 3}
+          guid: 35e8a7cdd261e7042b2a3f063354d17f
+        Type: 0
+      LevelStatus: 1
+    - FullName: Training  TEST 4|1
+      Scenes:
+      - Reference:
+          asset: {fileID: 102900000, guid: 35e8a7cdd261e7042b2a3f063354d17f, type: 3}
+          guid: 35e8a7cdd261e7042b2a3f063354d17f
+        Type: 0
+      LevelStatus: 1
+    ChapterStatus: 1
 --- !u!4 &570535979
 Transform:
   m_ObjectHideFlags: 0
@@ -1018,3 +1067,4 @@ SceneRoots:
   - {fileID: 570535979}
   - {fileID: 1756243861}
   - {fileID: 208479775}
+  - {fileID: 533080369}
