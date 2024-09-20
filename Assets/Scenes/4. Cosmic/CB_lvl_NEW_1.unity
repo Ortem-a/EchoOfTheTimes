@@ -920,7 +920,7 @@ Transform:
   m_GameObject: {fileID: 92647777}
   serializedVersion: 2
   m_LocalRotation: {x: -0.5, y: 0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: 0.00000011920929, y: 1.7354628, z: -0.3037058}
+  m_LocalPosition: {x: -0.00000059604645, y: 1.7354628, z: -0.3037058}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -960,26 +960,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsLocalSpace: 1
-  _parameter:
-    StateId: 0
+  _indexedStates:
+  - StateId: 0
     Target: {fileID: 92647778}
-    Position: {x: 0.30370593, y: 1.7354629, z: 0}
+    Position: {x: 0.30370593, y: 1.7354629, z: 0.00000023841858}
     Rotation: {x: 0, y: 0, z: 270}
     LocalScale: {x: 4, y: 4, z: 4}
     Scene:
       sceneAsset: {fileID: 0}
       sceneName: 
     IsLocalSpace: 1
-  _defaultPosition:
-    StateId: 0
-    Target: {fileID: 92647778}
-    Position: {x: -0.38599944, y: -1.6013112, z: 0.75773096}
-    Rotation: {x: 0, y: 270, z: 0}
-    LocalScale: {x: 4, y: 4, z: 4}
-    Scene:
-      sceneAsset: {fileID: 0}
-      sceneName: 
-    IsLocalSpace: 1
+  _currentStateIndex: 0
 --- !u!114 &92647781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2558,10 +2549,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f467f3cb60486d24da4c8aa9ba457ff2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Movables:
-  - {fileID: 363551337}
-  - {fileID: 523364723}
-  - {fileID: 92647780}
+  MovableStates:
+  - Movable: {fileID: 92647780}
+    StateIndex: 0
+  - Movable: {fileID: 523364723}
+    StateIndex: 0
+  - Movable: {fileID: 363551337}
+    StateIndex: 0
   shakeIntensity: 0.12
   shakeFrequency: 1
   shakeDuration: 1
@@ -3194,7 +3188,7 @@ PrefabInstance:
     - target: {fileID: 5409898169494853789, guid: 4fdbdc9f9e23e58408cee8e6bc3cc65f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5409898169494853789, guid: 4fdbdc9f9e23e58408cee8e6bc3cc65f,
         type: 3}
@@ -3294,26 +3288,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsLocalSpace: 1
-  _parameter:
-    StateId: 0
+  _indexedStates:
+  - StateId: 0
     Target: {fileID: 363551335}
-    Position: {x: 0, y: -0.981, z: 0}
+    Position: {x: -0, y: -0.977, z: 0}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 0.59999996, y: 0.19999999, z: 0.59999996}
     Scene:
       sceneAsset: {fileID: 0}
       sceneName: 
     IsLocalSpace: 1
-  _defaultPosition:
-    StateId: 0
-    Target: {fileID: 363551335}
-    Position: {x: 0.48173654, y: -1.5379118, z: -3.5809262}
-    Rotation: {x: 0, y: 180, z: 0}
-    LocalScale: {x: 0.59999996, y: 0.19999999, z: 0.59999996}
-    Scene:
-      sceneAsset: {fileID: 0}
-      sceneName: 
-    IsLocalSpace: 1
+  _currentStateIndex: 0
 --- !u!114 &363551338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3562,7 +3547,7 @@ PrefabInstance:
     - target: {fileID: 5991199649880978168, guid: 8a899fa27232ee144a43e2e3c0e768b8,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5991199649880978168, guid: 8a899fa27232ee144a43e2e3c0e768b8,
         type: 3}
@@ -3733,26 +3718,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsLocalSpace: 1
-  _parameter:
-    StateId: 0
+  _indexedStates:
+  - StateId: 0
     Target: {fileID: 186595982}
-    Position: {x: 0, y: -0.869, z: 0}
+    Position: {x: 0, y: -0.858, z: 0}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
     Scene:
       sceneAsset: {fileID: 0}
       sceneName: 
     IsLocalSpace: 1
-  _defaultPosition:
-    StateId: 0
-    Target: {fileID: 186595982}
-    Position: {x: -0.38599944, y: -1.4707115, z: -0.11000037}
-    Rotation: {x: 0, y: 270, z: 0}
-    LocalScale: {x: 1, y: 1, z: 1}
-    Scene:
-      sceneAsset: {fileID: 0}
-      sceneName: 
-    IsLocalSpace: 1
+  _currentStateIndex: 0
 --- !u!114 &370885540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3765,10 +3741,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f467f3cb60486d24da4c8aa9ba457ff2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Movables:
-  - {fileID: 1383208870}
-  - {fileID: 370885539}
-  - {fileID: 607309594}
+  MovableStates:
+  - Movable: {fileID: 607309594}
+    StateIndex: 0
+  - Movable: {fileID: 370885539}
+    StateIndex: 0
+  - Movable: {fileID: 1383208870}
+    StateIndex: 0
   shakeIntensity: 0.12
   shakeFrequency: 1
   shakeDuration: 1
@@ -5485,7 +5464,7 @@ PrefabInstance:
     - target: {fileID: 4909843767566676560, guid: 9a95047c035e08e4b87dad034c02985b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.839
+      value: -0.86
       objectReference: {fileID: 0}
     - target: {fileID: 7651214748501870043, guid: 9a95047c035e08e4b87dad034c02985b,
         type: 3}
@@ -5785,26 +5764,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsLocalSpace: 1
-  _parameter:
-    StateId: 0
+  _indexedStates:
+  - StateId: 0
     Target: {fileID: 523364721}
-    Position: {x: 0, y: -0.869, z: 0}
+    Position: {x: -0, y: -0.861, z: 0}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 1, y: 1, z: 1}
     Scene:
       sceneAsset: {fileID: 0}
       sceneName: 
     IsLocalSpace: 1
-  _defaultPosition:
-    StateId: 0
-    Target: {fileID: 523364721}
-    Position: {x: 0.48173648, y: -1.4707118, z: -3.5809262}
-    Rotation: {x: 0, y: 180, z: 0}
-    LocalScale: {x: 1, y: 1, z: 1}
-    Scene:
-      sceneAsset: {fileID: 0}
-      sceneName: 
-    IsLocalSpace: 1
+  _currentStateIndex: 0
 --- !u!114 &523364724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6795,7 +6765,7 @@ Transform:
   m_GameObject: {fileID: 607309592}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: -0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: -0.0000007152558, y: 1.7354634, z: 0.30370584}
+  m_LocalPosition: {x: -0.0000040531163, y: 1.7354653, z: 0.3037068}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6818,26 +6788,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsLocalSpace: 1
-  _parameter:
-    StateId: 0
+  _indexedStates:
+  - StateId: 0
     Target: {fileID: 607309593}
-    Position: {x: 0.3036981, y: 1.7354698, z: 0.0000005635364}
+    Position: {x: 0.30370525, y: 1.7354634, z: -0.00000015171904}
     Rotation: {x: 0, y: 0, z: 270}
     LocalScale: {x: 4, y: 4, z: 4}
     Scene:
       sceneAsset: {fileID: 0}
       sceneName: 
     IsLocalSpace: 1
-  _defaultPosition:
-    StateId: 0
-    Target: {fileID: 607309593}
-    Position: {x: 1.3494751, y: -1.6013196, z: -3.580927}
-    Rotation: {x: 0, y: 180, z: 0}
-    LocalScale: {x: 4, y: 4, z: 4}
-    Scene:
-      sceneAsset: {fileID: 0}
-      sceneName: 
-    IsLocalSpace: 1
+  _currentStateIndex: 0
 --- !u!114 &607309595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8804,8 +8765,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4909843767566676560, guid: 9a95047c035e08e4b87dad034c02985b,
         type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4909843767566676560, guid: 9a95047c035e08e4b87dad034c02985b,
+        type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.869
+      value: -0.834
       objectReference: {fileID: 0}
     - target: {fileID: 7651214748501870043, guid: 9a95047c035e08e4b87dad034c02985b,
         type: 3}
@@ -14175,26 +14141,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsLocalSpace: 1
-  _parameter:
-    StateId: 0
+  _indexedStates:
+  - StateId: 0
     Target: {fileID: 1383208868}
-    Position: {x: 0, y: -0.98, z: 0}
+    Position: {x: 0, y: -0.976, z: 0}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 0.59999996, y: 0.19999999, z: 0.59999996}
     Scene:
       sceneAsset: {fileID: 0}
       sceneName: 
     IsLocalSpace: 1
-  _defaultPosition:
-    StateId: 0
-    Target: {fileID: 1383208868}
-    Position: {x: -0.38599944, y: -1.5373116, z: -0.11000037}
-    Rotation: {x: 0, y: 270, z: 0}
-    LocalScale: {x: 0.59999996, y: 0.19999999, z: 0.59999996}
-    Scene:
-      sceneAsset: {fileID: 0}
-      sceneName: 
-    IsLocalSpace: 1
+  _currentStateIndex: 0
 --- !u!114 &1383208871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17446,6 +17403,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5991199649880978168, guid: 8a899fa27232ee144a43e2e3c0e768b8,
         type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5991199649880978168, guid: 8a899fa27232ee144a43e2e3c0e768b8,
+        type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.708
       objectReference: {fileID: 0}
@@ -17942,7 +17904,7 @@ PrefabInstance:
     - target: {fileID: 4909843767566676560, guid: 9a95047c035e08e4b87dad034c02985b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.869
+      value: -0.853
       objectReference: {fileID: 0}
     - target: {fileID: 7651214748501870043, guid: 9a95047c035e08e4b87dad034c02985b,
         type: 3}
