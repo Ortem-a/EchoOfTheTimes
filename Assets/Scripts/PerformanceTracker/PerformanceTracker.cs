@@ -83,7 +83,7 @@ public class PerformanceTracker : MonoBehaviour
                 { "isEditor", isEditor }
             };
 
-            AnalyticsService.Instance.CustomData("levelPerformanceData", customData);
+            //AnalyticsService.Instance.CustomData("levelPerformanceData", customData);
             Debug.Log("Performance data sent.");
         }
         else
