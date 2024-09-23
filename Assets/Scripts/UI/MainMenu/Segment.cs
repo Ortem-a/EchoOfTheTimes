@@ -13,9 +13,11 @@ namespace EchoOfTheTimes.UI.MainMenu
         public GameLevel Level;
 
         private SceneLoader _sceneLoader;
+        private PersistenceService _persistenceService;
 
         private void Awake()
         {
+            _persistenceService = FindObjectOfType<PersistenceService>();
             _sceneLoader = FindObjectOfType<SceneLoader>();
             _collider = GetComponent<BoxCollider>();
 
@@ -33,7 +35,8 @@ namespace EchoOfTheTimes.UI.MainMenu
 
             if (Level.LevelStatus != StatusType.Locked)
             {
-                PersistenceService.LastLoadedLevel = Level;
+                //PersistenceService.LastLoadedLevel = Level;
+                _persistenceService.UpdateLastLoadedLevel(Level);
 
                 await _sceneLoader.LoadSceneGroupAsync(Level);
             }
@@ -59,21 +62,21 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         private void MarkAsLocked()
         {
-            Debug.Log($"Mark {name} as Locked!");
+            //Debug.Log($"Mark {name} as Locked!");
 
             GetComponent<Renderer>().material.color = Color.red;
         }
 
         private void MarkAsUnlocked()
         {
-            Debug.Log($"Mark {name} as Unlocked!");
+            //Debug.Log($"Mark {name} as Unlocked!");
 
             GetComponent<Renderer>().material.color = Color.yellow;
         }
 
         private void MarkAsCompleted()
         {
-            Debug.Log($"Mark {name} as Completed!");
+            //Debug.Log($"Mark {name} as Completed!");
 
             GetComponent<Renderer>().material.color = Color.green;
         }

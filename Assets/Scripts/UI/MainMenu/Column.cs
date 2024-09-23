@@ -105,21 +105,21 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         private void MarkAsLocked()
         {
-            Debug.Log($"Mark {name} as Locked!");
+            //Debug.Log($"Mark {name} as Locked!");
 
             _gizmoColor = Color.red;
         }
 
         private void MarkAsUnlocked()
         {
-            Debug.Log($"Mark {name} as Unlocked!");
+            //Debug.Log($"Mark {name} as Unlocked!");
 
             _gizmoColor = Color.yellow;
         }
 
         private void MarkAsCompleted()
         {
-            Debug.Log($"Mark {name} as Completed!");
+            //Debug.Log($"Mark {name} as Completed!");
 
             _gizmoColor = Color.green;
         }
