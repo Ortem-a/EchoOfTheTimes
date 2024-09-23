@@ -2,6 +2,7 @@ using EchoOfTheTimes.SceneManagement;
 using EchoOfTheTimes.ScriptableObjects;
 using EchoOfTheTimes.ScriptableObjects.Persistence;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using Zenject;
@@ -13,9 +14,9 @@ namespace EchoOfTheTimes.Persistence
         public static Action OnLevelCompleted { get; private set; }
         public static Action OnExitToMainMenu { get; private set; }
 
-        public static SaveLoadService SaveLoadService { get; private set; }
+        private SaveLoadService _saveLoadService;
 
-        public static GameLevel LastLoadedLevel;
+        private GameLevel _lastLoadedLevel;
 
         private PresetType _presetType;
 
@@ -38,7 +39,7 @@ namespace EchoOfTheTimes.Persistence
 
             _presetType = (Resources.Load(@"ScriptableObjects/BootstrapSettings") as BootstrapSettingsScriptableObject).UsedSavingPreset;
 
-            SaveLoadService = _presetType switch
+            _saveLoadService = _presetType switch
             {
                 PresetType.SavedFile => new SaveLoadService(_defaultData),
                 PresetType.Default => new SaveLoadService(_defaultData, true),
@@ -46,7 +47,7 @@ namespace EchoOfTheTimes.Persistence
                 _ => throw new ArgumentException($"Unexpected {nameof(PresetType)} with value: '{_presetType}'!"),
             };
 
-            Debug.Log($"Enable {nameof(SaveLoadService)} with preset: {_presetType}!");
+            Debug.Log($"Enable {nameof(_saveLoadService)} with preset: {_presetType}!");
         }
 
         private void LoadPresets()
@@ -69,11 +70,14 @@ namespace EchoOfTheTimes.Persistence
 
         private void HandleLevelCompleted()
         {
-            var newDataToSave = SaveLoadService.DataToSave;
+            var newDataToSave = _saveLoadService.DataToSave;
+
+#warning can be if U start NOT from MAIN MENU
+            _lastLoadedLevel ??= _saveLoadService.DataToSave.Data[1].Levels[0];
 
             // пометить текущий уровень как пройденный
-            var lastLoadedChapterTitle = LastLoadedLevel.ChapterName;
-            var lastLoadedLevelName = LastLoadedLevel.LevelName;
+            var lastLoadedChapterTitle = _lastLoadedLevel.ChapterName;
+            var lastLoadedLevelName = _lastLoadedLevel.LevelName;
             int lastLoadedChapterIndex = -1;
             int lastLoadedLevelIndex = -1;
             for (int i = 0; i < newDataToSave.Data.Count; i++)
@@ -125,13 +129,13 @@ namespace EchoOfTheTimes.Persistence
                 }
             }
 
-            LastLoadedLevel = newDataToSave.Data[lastLoadedChapterIndex].Levels[lastLoadedLevelIndex];
+            _lastLoadedLevel = newDataToSave.Data[lastLoadedChapterIndex].Levels[lastLoadedLevelIndex];
 
             // сохранить данные
             if (_presetType == PresetType.SavedFile)
             {
-                SaveLoadService.DataToSave = newDataToSave;
-                SaveLoadService.Save();
+                _saveLoadService.DataToSave = newDataToSave;
+                _saveLoadService.Save();
             }
         }
 
@@ -140,8 +144,12 @@ namespace EchoOfTheTimes.Persistence
             // сохранить данные
             if (_presetType == PresetType.SavedFile)
             {
-                SaveLoadService.Save();
+                _saveLoadService.Save();
             }
         }
+
+        public List<GameChapter> GetData() => _saveLoadService.DataToSave.Data;
+
+        public void UpdateLastLoadedLevel(GameLevel level) => _lastLoadedLevel = level;
     }
 }

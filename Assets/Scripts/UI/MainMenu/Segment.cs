@@ -13,9 +13,11 @@ namespace EchoOfTheTimes.UI.MainMenu
         public GameLevel Level;
 
         private SceneLoader _sceneLoader;
+        private PersistenceService _persistenceService;
 
         private void Awake()
         {
+            _persistenceService = FindObjectOfType<PersistenceService>();
             _sceneLoader = FindObjectOfType<SceneLoader>();
             _collider = GetComponent<BoxCollider>();
 
@@ -33,7 +35,8 @@ namespace EchoOfTheTimes.UI.MainMenu
 
             if (Level.LevelStatus != StatusType.Locked)
             {
-                PersistenceService.LastLoadedLevel = Level;
+                //PersistenceService.LastLoadedLevel = Level;
+                _persistenceService.UpdateLastLoadedLevel(Level);
 
                 await _sceneLoader.LoadSceneGroupAsync(Level);
             }
