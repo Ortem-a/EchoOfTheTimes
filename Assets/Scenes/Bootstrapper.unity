@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -286,7 +286,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7cf60bab1721d84fb80192d1cd6d61f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _presetType: 2
 --- !u!1 &570535977
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,10 +330,6 @@ MonoBehaviour:
           asset: {fileID: 102900000, guid: 124cbbf867512a74495c071355e6ea3a, type: 3}
           guid: 124cbbf867512a74495c071355e6ea3a
         Type: 0
-      - Reference:
-          asset: {fileID: 102900000, guid: bee79e3659b93ba41b934aa27b6e34da, type: 3}
-          guid: bee79e3659b93ba41b934aa27b6e34da
-        Type: 2
       LevelStatus: 1
     ChapterStatus: 1
   - Title: Training
@@ -682,7 +677,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89715ad69b973a14899afa2c6730b30b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scriptableObjectInstallers: []
+  _scriptableObjectInstallers:
+  - {fileID: 11400000, guid: b7e303db9179fde4fba1c5d599662053, type: 2}
   _monoInstallers:
   - {fileID: 1006948037}
   _installerPrefabs: []

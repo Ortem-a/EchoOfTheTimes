@@ -1,4 +1,5 @@
 using EchoOfTheTimes.SceneManagement;
+using EchoOfTheTimes.ScriptableObjects;
 using EchoOfTheTimes.ScriptableObjects.Persistence;
 using System;
 using System.IO;
@@ -16,24 +17,10 @@ namespace EchoOfTheTimes.Persistence
 
         public static GameLevel LastLoadedLevel;
 
-        private enum PresetType
-        {
-            SavedFile,
-            Default,
-            AllUnlock
-        }
-
-        [SerializeField]
         private PresetType _presetType;
 
         private PlayerData _defaultData;
         private PlayerData _allUnlockData;
-
-//        private void Awake()
-//        {
-//#warning «¿√À”ÿ ¿ ƒÀﬂ “≈—“Œ¬
-//            LastLoadedLevel = SaveLoadService.DataToSave.Data[1].Levels[0];
-//        }
 
         private void OnDestroy()
         {
@@ -48,6 +35,8 @@ namespace EchoOfTheTimes.Persistence
             OnExitToMainMenu += HandleExitToMainMenu;
 
             LoadPresets();
+
+            _presetType = (Resources.Load(@"ScriptableObjects/BootstrapSettings") as BootstrapSettingsScriptableObject).UsedSavingPreset;
 
             SaveLoadService = _presetType switch
             {

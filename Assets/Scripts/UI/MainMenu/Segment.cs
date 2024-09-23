@@ -59,21 +59,21 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         private void MarkAsLocked()
         {
-            Debug.Log($"Mark {name} as Locked!");
+            //Debug.Log($"Mark {name} as Locked!");
 
             GetComponent<Renderer>().material.color = Color.red;
         }
 
         private void MarkAsUnlocked()
         {
-            Debug.Log($"Mark {name} as Unlocked!");
+            //Debug.Log($"Mark {name} as Unlocked!");
 
             GetComponent<Renderer>().material.color = Color.yellow;
         }
 
         private void MarkAsCompleted()
         {
-            Debug.Log($"Mark {name} as Completed!");
+            //Debug.Log($"Mark {name} as Completed!");
 
             GetComponent<Renderer>().material.color = Color.green;
         }
