@@ -10,9 +10,17 @@ using Zenject;
 
 namespace EchoOfTheTimes.LevelStates
 {
+    [System.Serializable]
+    public class MovableStateInfo
+    {
+        public MovableByButton Movable; // Ссылка на MovableByButton
+        public int StateIndex = 0; // Индекс состояния по умолчанию
+    }
+
     public class LevelButton : MonoBehaviour, ISpecialVertex
     {
-        public List<MovableByButton> Movables;
+        [Header("Movables with State Index")]
+        public List<MovableStateInfo> MovableStates = new List<MovableStateInfo>(); // Список с MovableStateInfo
 
         public bool IsPressed { get; private set; } = false;
 
@@ -49,7 +57,7 @@ namespace EchoOfTheTimes.LevelStates
 
         private void Start()
         {
-            _maxMovables = Movables != null ? Movables.Count : 0;
+            _maxMovables = MovableStates != null ? MovableStates.Count : 0;
             _counter = 0;
 
             if (_audioManager != null)
@@ -72,7 +80,6 @@ namespace EchoOfTheTimes.LevelStates
 
             if (_audioManager != null)
             {
-                // Воспроизводим звуки нажатия кнопки и изменения состояния
                 _audioManager.PlayButtonPilinkSound();
                 _audioManager.PlayButtonChangeSound();
             }
@@ -95,9 +102,13 @@ namespace EchoOfTheTimes.LevelStates
 
             _player.StopAndLink(onComplete: () =>
             {
-                for (int i = 0; i < _maxMovables; i++)
+                foreach (var movableState in MovableStates)
                 {
-                    Movables[i].Move(onComplete: ExecutePostActions);
+                    if (movableState.Movable != null)
+                    {
+                        movableState.Movable.CurrentStateIndex = movableState.StateIndex; // Установка индекса
+                        movableState.Movable.Move(onComplete: ExecutePostActions);
+                    }
                 }
             });
         }
@@ -109,9 +120,7 @@ namespace EchoOfTheTimes.LevelStates
             if (_counter == _maxMovables)
             {
                 _graph.Load();
-
                 _player.ForceUnlink();
-
                 _hudController.EnableButtons();
             }
         }

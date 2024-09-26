@@ -1,5 +1,6 @@
 ﻿using EchoOfTheTimes.Utils;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -10,8 +11,20 @@ namespace EchoOfTheTimes.LevelStates
     {
         public bool IsLocalSpace;
 
+        // Список для хранения параметров состояния по индексам
         [SerializeField]
-        private StateParameter _parameter;
+        private List<StateParameter> _indexedStates = new List<StateParameter>();
+
+        // Текущий индекс выбранного состояния
+        [SerializeField]
+        private int _currentStateIndex = 0;
+
+        // Свойство для доступа к текущему индексу
+        public int CurrentStateIndex
+        {
+            get => _currentStateIndex;
+            set => _currentStateIndex = Mathf.Clamp(value, 0, _indexedStates.Count - 1); // Ограничиваем индекс
+        }
 
         private StateService _stateService;
 
@@ -23,31 +36,17 @@ namespace EchoOfTheTimes.LevelStates
 
         public virtual void Move(Action onComplete)
         {
-            _stateService.AcceptState(_parameter, onComplete: () => onComplete?.Invoke());
+            if (_currentStateIndex < 0 || _currentStateIndex >= _indexedStates.Count)
+            {
+                Debug.LogError($"Invalid state index: {_currentStateIndex}");
+                return;
+            }
+            _stateService.AcceptState(_indexedStates[_currentStateIndex], onComplete: () => onComplete?.Invoke());
         }
 
 #if UNITY_EDITOR
-        [SerializeField]
-        private StateParameter _defaultPosition;
-
-        public StateParameter Parameter => _parameter;
-        public StateParameter GetDefaultPosition()
-        {
-            return _defaultPosition ?? new StateParameter
-            {
-                StateId = 0,
-                Target = transform,
-                Position = transform.position,
-                Rotation = transform.rotation.eulerAngles,
-                LocalScale = transform.localScale,
-                IsLocalSpace = IsLocalSpace
-            };
-        }
-
         public void SetOrUpdateParams()
         {
-            SetDefaultPosition();
-
             Vector3 newPosition = transform.position;
             Vector3 newRotation = transform.rotation.eulerAngles;
             if (IsLocalSpace)
@@ -58,7 +57,7 @@ namespace EchoOfTheTimes.LevelStates
 
             var newStateParam = new StateParameter
             {
-                StateId = 0,
+                StateId = CurrentStateIndex,
                 Target = transform,
                 Position = newPosition,
                 Rotation = newRotation,
@@ -66,41 +65,35 @@ namespace EchoOfTheTimes.LevelStates
                 IsLocalSpace = IsLocalSpace
             };
 
-            _parameter = newStateParam;
+            // Обновляем или добавляем состояние
+            if (CurrentStateIndex < _indexedStates.Count)
+            {
+                _indexedStates[CurrentStateIndex] = newStateParam; // Перезаписываем существующий
+            }
+            else
+            {
+                _indexedStates.Add(newStateParam); // Добавляем новый
+            }
         }
 
         public void TransformObjectByParams()
         {
-            SetDefaultPosition();
+            if (_currentStateIndex < 0 || _currentStateIndex >= _indexedStates.Count)
+            {
+                Debug.LogError($"Invalid state index: {_currentStateIndex}");
+                return;
+            }
 
+            var parameter = _indexedStates[_currentStateIndex];
             if (IsLocalSpace)
             {
-                transform.SetLocalPositionAndRotation(_parameter.Position, Quaternion.Euler(_parameter.Rotation));
+                transform.SetLocalPositionAndRotation(parameter.Position, Quaternion.Euler(parameter.Rotation));
             }
             else
             {
-                transform.SetPositionAndRotation(_parameter.Position, Quaternion.Euler(_parameter.Rotation));
+                transform.SetPositionAndRotation(parameter.Position, Quaternion.Euler(parameter.Rotation));
             }
-            transform.localScale = _parameter.LocalScale;
-        }
-
-        private void SetDefaultPosition()
-        {
-            _defaultPosition = new StateParameter
-            {
-                StateId = 0,
-                Target = transform,
-                Position = transform.position,
-                Rotation = transform.rotation.eulerAngles,
-                LocalScale = transform.localScale,
-                IsLocalSpace = IsLocalSpace
-            };
-        }
-
-        public void TransformToDefaultPosition()
-        {
-            transform.SetPositionAndRotation(_defaultPosition.Position, Quaternion.Euler(_defaultPosition.Rotation));
-            transform.localScale = _defaultPosition.LocalScale;
+            transform.localScale = parameter.LocalScale;
         }
 #endif
     }

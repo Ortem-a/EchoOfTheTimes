@@ -55646,10 +55646,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f467f3cb60486d24da4c8aa9ba457ff2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Movables:
-  - {fileID: 1616307932}
-  - {fileID: 1949325959}
-  - {fileID: 1795860367}
+  MovableStates:
+  - Movable: {fileID: 1795860367}
+    StateIndex: 0
+  - Movable: {fileID: 1949325959}
+    StateIndex: 0
+  - Movable: {fileID: 1616307932}
+    StateIndex: 0
   shakeIntensity: 0.09
   shakeFrequency: 1
   shakeDuration: 1
@@ -55683,26 +55686,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsLocalSpace: 1
-  _parameter:
-    StateId: 0
+  _indexedStates:
+  - StateId: 0
     Target: {fileID: 164445283}
-    Position: {x: 0, y: -0.869, z: 0}
+    Position: {x: 0, y: -0.879, z: 0}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 0, y: 0, z: 0}
     Scene:
       sceneAsset: {fileID: 0}
       sceneName: 
     IsLocalSpace: 1
-  _defaultPosition:
-    StateId: 0
-    Target: {fileID: 164445283}
-    Position: {x: -6.826638, y: 0.13832654, z: -3.6781247}
-    Rotation: {x: 0, y: 270, z: 0}
-    LocalScale: {x: 0, y: 0, z: 0}
-    Scene:
-      sceneAsset: {fileID: 0}
-      sceneName: 
-    IsLocalSpace: 1
+  _currentStateIndex: 0
 --- !u!114 &1616307933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61804,8 +61798,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsLocalSpace: 0
-  _parameter:
-    StateId: 0
+  _indexedStates:
+  - StateId: 0
     Target: {fileID: 1795860363}
     Position: {x: -5.958909, y: 5.2141147, z: -3.6781247}
     Rotation: {x: -0, y: 0, z: 0}
@@ -61814,16 +61808,7 @@ MonoBehaviour:
       sceneAsset: {fileID: 0}
       sceneName: 
     IsLocalSpace: 0
-  _defaultPosition:
-    StateId: 0
-    Target: {fileID: 1795860363}
-    Position: {x: -5.958909, y: 5.2141147, z: -3.6781247}
-    Rotation: {x: -0, y: 0, z: 0}
-    LocalScale: {x: 4, y: 4, z: 4}
-    Scene:
-      sceneAsset: {fileID: 0}
-      sceneName: 
-    IsLocalSpace: 0
+  _currentStateIndex: 0
 --- !u!114 &1795860368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68266,26 +68251,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsLocalSpace: 1
-  _parameter:
-    StateId: 0
+  _indexedStates:
+  - StateId: 0
     Target: {fileID: 1949325957}
-    Position: {x: 0.004, y: -1.044, z: 0.009}
+    Position: {x: 0.004, y: -1.043, z: 0.009}
     Rotation: {x: -0, y: 10.800001, z: 0}
     LocalScale: {x: 0.59999996, y: 0.19999999, z: 0.59999996}
     Scene:
       sceneAsset: {fileID: 0}
       sceneName: 
     IsLocalSpace: 1
-  _defaultPosition:
-    StateId: 0
-    Target: {fileID: 1949325957}
-    Position: {x: -6.8320384, y: 0.03332652, z: -3.6757247}
-    Rotation: {x: 0, y: 280.8, z: 0}
-    LocalScale: {x: 0.59999996, y: 0.19999999, z: 0.59999996}
-    Scene:
-      sceneAsset: {fileID: 0}
-      sceneName: 
-    IsLocalSpace: 1
+  _currentStateIndex: 0
 --- !u!114 &1949325960
 MonoBehaviour:
   m_ObjectHideFlags: 0
