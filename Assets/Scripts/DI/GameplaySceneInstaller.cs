@@ -99,9 +99,9 @@ namespace EchoOfTheTimes.DI
 
         private void BindUi()
         {
+            Container.Bind<HUDController>().FromInstance(_hudController).AsSingle();
             Container.Bind<UiSceneController>().FromInstance(_uiSceneController).AsSingle();
             Container.Bind<UiSceneView>().FromInstance(_uiSceneView).AsSingle();
-            Container.Bind<HUDController>().FromInstance(_hudController).AsSingle();
         }
 
         private void SubscribeEvents()
