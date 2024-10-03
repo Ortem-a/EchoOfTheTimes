@@ -44,7 +44,7 @@ namespace EchoOfTheTimes.Persistence
                 PresetType.SavedFile => new SaveLoadService(_defaultData),
                 PresetType.Default => new SaveLoadService(_defaultData, true),
                 PresetType.AllUnlock => new SaveLoadService(_allUnlockData, true),
-                _ => throw new ArgumentException($"Unexpected {nameof(PresetType)} with value: '{_presetType}'!"),
+                _ => throw new NotImplementedException($"Not implemented {nameof(PresetType)} with value: '{_presetType}'!"),
             };
 
             Debug.Log($"Enable {nameof(_saveLoadService)} with preset: {_presetType}!");
