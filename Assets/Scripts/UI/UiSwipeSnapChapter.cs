@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UiSwipeSnapChapter : MonoBehaviour, IBeginDragHandler, IEndDragHandler
+public class UiSwipeSnapChapter : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     public event Action<int> TabSelected;
     public event Action<int> TabSnapped;
 
     [SerializeField] private RectTransform _contentContainer;
-    [SerializeField] private Scrollbar _scrollbar;
+    [SerializeField] private ScrollRect _scrollRect;
     [SerializeField] private float _snapSpeed = 15;
 
     public int SelectedTabIndex => _selectedTabIndex;
@@ -18,8 +18,8 @@ public class UiSwipeSnapChapter : MonoBehaviour, IBeginDragHandler, IEndDragHand
 
     private bool _isDragging;
     private bool _isSnapping;
-    private readonly List<float> _itemPositionsNormalized = new List<float>(); // 0-1 значения шкалы
-    private float _targetScrollBarValueNormalized = 0;
+    private readonly List<float> _itemPositionsNormalized = new List<float>();
+    private float _targetScrollPosition = 0;
     private float _itemSizeNormalized;
     private int _selectedTabIndex;
 
@@ -30,11 +30,6 @@ public class UiSwipeSnapChapter : MonoBehaviour, IBeginDragHandler, IEndDragHand
 
     private void Update()
     {
-        if (_isDragging)
-        {
-            return;
-        }
-
         if (_isSnapping)
         {
             SnapContent();
@@ -47,9 +42,13 @@ public class UiSwipeSnapChapter : MonoBehaviour, IBeginDragHandler, IEndDragHand
         _isSnapping = false;
     }
 
+    public void OnDrag(PointerEventData eventData)
+    {
+        // События свайпа обрабатываются ScrollRect
+    }
+
     public void OnEndDrag(PointerEventData eventData)
     {
-        _targetScrollBarValueNormalized = _scrollbar.value;
         _isDragging = false;
         _isSnapping = true;
 
@@ -82,7 +81,7 @@ public class UiSwipeSnapChapter : MonoBehaviour, IBeginDragHandler, IEndDragHand
         }
 
         _selectedTabIndex = tabIndex;
-        _targetScrollBarValueNormalized = _itemPositionsNormalized[tabIndex];
+        _targetScrollPosition = _itemPositionsNormalized[tabIndex];
         _isSnapping = true;
 
         TabSelected?.Invoke(tabIndex);
@@ -100,17 +99,20 @@ public class UiSwipeSnapChapter : MonoBehaviour, IBeginDragHandler, IEndDragHand
 
     private void FindSnappingTabAndStartSnapping()
     {
+        float closestPosition = float.MaxValue;
+        int closestIndex = _selectedTabIndex;
+
         for (int i = 0; i < _itemPositionsNormalized.Count; i++)
         {
-            var itemPositionNormalized = _itemPositionsNormalized[i];
-
-            if (_targetScrollBarValueNormalized < itemPositionNormalized + _itemSizeNormalized / 2f
-                && _targetScrollBarValueNormalized > itemPositionNormalized - _itemSizeNormalized / 2f)
+            float distance = Mathf.Abs(_scrollRect.horizontalNormalizedPosition - _itemPositionsNormalized[i]);
+            if (distance < closestPosition)
             {
-                SelectTab(i);
-                break;
+                closestPosition = distance;
+                closestIndex = i;
             }
         }
+
+        SelectTab(closestIndex);
     }
 
     private void SnapContent()
@@ -122,10 +124,11 @@ public class UiSwipeSnapChapter : MonoBehaviour, IBeginDragHandler, IEndDragHand
         }
 
         var targetPosition = _itemPositionsNormalized[_selectedTabIndex];
-        _scrollbar.value = Mathf.Lerp(_scrollbar.value, targetPosition, Time.deltaTime * _snapSpeed);
+        _scrollRect.horizontalNormalizedPosition = Mathf.Lerp(_scrollRect.horizontalNormalizedPosition, targetPosition, Time.deltaTime * _snapSpeed);
 
-        if (Mathf.Abs(_scrollbar.value - targetPosition) <= 0.0001f)
+        if (Mathf.Abs(_scrollRect.horizontalNormalizedPosition - targetPosition) <= 0.0001f)
         {
+            _scrollRect.horizontalNormalizedPosition = targetPosition;
             _isSnapping = false;
             TabSnapped?.Invoke(_selectedTabIndex);
         }
