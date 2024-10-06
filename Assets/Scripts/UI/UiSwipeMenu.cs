@@ -7,8 +7,6 @@ public class UiSwipeMenu : MonoBehaviour
     [SerializeField] private Image _uiItemPrefab;
     [SerializeField] private Transform _itemsContainer;
     [SerializeField] private UiSwipeSnapChapter _swipeSnapMenu;
-    [SerializeField] private TMP_Text _textSnappedIndex;
-    [SerializeField] private TMP_Text _textSelectedIndex;
 
     public void SlideNext()
     {

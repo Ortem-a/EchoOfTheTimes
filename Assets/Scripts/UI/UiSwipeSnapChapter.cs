@@ -14,6 +14,7 @@ public class UiSwipeSnapChapter : MonoBehaviour, IBeginDragHandler, IEndDragHand
     [SerializeField] private float _snapSpeed = 15;
 
     public int SelectedTabIndex => _selectedTabIndex;
+    public int ItemCount => _itemPositionsNormalized.Count;
 
     private bool _isDragging;
     private bool _isSnapping;

@@ -805,8 +805,6 @@ MonoBehaviour:
     type: 3}
   _itemsContainer: {fileID: 344082423}
   _swipeSnapMenu: {fileID: 243716316}
-  _textSnappedIndex: {fileID: 0}
-  _textSelectedIndex: {fileID: 0}
 --- !u!1 &296570011
 GameObject:
   m_ObjectHideFlags: 0
@@ -1665,6 +1663,7 @@ GameObject:
   - component: {fileID: 656481499}
   - component: {fileID: 656481498}
   - component: {fileID: 656481497}
+  - component: {fileID: 656481500}
   m_Layer: 5
   m_Name: NextButton
   m_TagString: Untagged
@@ -1786,6 +1785,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 656481495}
   m_CullTransparentMesh: 1
+--- !u!114 &656481500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656481495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7e370c9fa13d114c962638a72eaf22b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swipeSnapChapter: {fileID: 243716316}
+  hideOnFirstChapter: 0
+  hideOnLastChapter: 1
 --- !u!1 &677632599
 GameObject:
   m_ObjectHideFlags: 0
@@ -3932,6 +3946,7 @@ GameObject:
   - component: {fileID: 1920454718}
   - component: {fileID: 1920454717}
   - component: {fileID: 1920454716}
+  - component: {fileID: 1920454719}
   m_Layer: 5
   m_Name: PreviousButton
   m_TagString: Untagged
@@ -4053,6 +4068,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1920454714}
   m_CullTransparentMesh: 1
+--- !u!114 &1920454719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920454714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7e370c9fa13d114c962638a72eaf22b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swipeSnapChapter: {fileID: 243716316}
+  hideOnFirstChapter: 1
+  hideOnLastChapter: 0
 --- !u!1 &1990116503
 GameObject:
   m_ObjectHideFlags: 0
