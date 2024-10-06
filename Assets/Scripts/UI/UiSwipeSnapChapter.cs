@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,7 +7,7 @@ using UnityEngine.UI;
 public class UiSwipeSnapChapter : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 {
     public event Action<int> TabSelected;
-    public event Action<int > TabSnapped;
+    public event Action<int> TabSnapped;
 
     [SerializeField] private RectTransform _contentContainer;
     [SerializeField] private Scrollbar _scrollbar;
@@ -31,11 +30,11 @@ public class UiSwipeSnapChapter : MonoBehaviour, IBeginDragHandler, IEndDragHand
     private void Update()
     {
         if (_isDragging)
-        {  
-            return; 
+        {
+            return;
         }
 
-        if (_isSnapping) 
+        if (_isSnapping)
         {
             SnapContent();
         }
@@ -56,7 +55,6 @@ public class UiSwipeSnapChapter : MonoBehaviour, IBeginDragHandler, IEndDragHand
         FindSnappingTabAndStartSnapping();
     }
 
-    // Пересчитываем лейаут в том же кадре
     public void Recalculate()
     {
         LayoutRebuilder.ForceRebuildLayoutImmediate(_contentContainer);
@@ -66,14 +64,13 @@ public class UiSwipeSnapChapter : MonoBehaviour, IBeginDragHandler, IEndDragHand
         var itemsCount = _contentContainer.childCount;
         _itemSizeNormalized = 1f / (itemsCount - 1f);
 
-        for(var i = 0; i < itemsCount; i++)
+        for (var i = 0; i < itemsCount; i++)
         {
             var itemPositionNormalized = _itemSizeNormalized * i;
-
             _itemPositionsNormalized.Add(itemPositionNormalized);
         }
 
-        SelectTab(_selectedTabIndex + 1);
+        SelectTab(_selectedTabIndex);
     }
 
     public void SelectTab(int tabIndex)
@@ -88,6 +85,16 @@ public class UiSwipeSnapChapter : MonoBehaviour, IBeginDragHandler, IEndDragHand
         _isSnapping = true;
 
         TabSelected?.Invoke(tabIndex);
+    }
+
+    public void SlideNext()
+    {
+        SelectTab(_selectedTabIndex + 1);
+    }
+
+    public void SlidePrevious()
+    {
+        SelectTab(_selectedTabIndex - 1);
     }
 
     private void FindSnappingTabAndStartSnapping()
