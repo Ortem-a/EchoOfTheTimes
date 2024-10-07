@@ -102,6 +102,9 @@ public class UiSwipeSnapChapter : MonoBehaviour, IBeginDragHandler, IEndDragHand
         float closestPosition = float.MaxValue;
         int closestIndex = _selectedTabIndex;
 
+        // Порог для смены страницы: 1/3 от размера элемента
+        float swipeThreshold = _itemSizeNormalized / 3f;
+
         for (int i = 0; i < _itemPositionsNormalized.Count; i++)
         {
             float distance = Mathf.Abs(_scrollRect.horizontalNormalizedPosition - _itemPositionsNormalized[i]);
@@ -110,6 +113,16 @@ public class UiSwipeSnapChapter : MonoBehaviour, IBeginDragHandler, IEndDragHand
                 closestPosition = distance;
                 closestIndex = i;
             }
+        }
+
+        // Переход на предыдущий или следующий элемент при достижении порога свайпа
+        if (_scrollRect.horizontalNormalizedPosition > _itemPositionsNormalized[_selectedTabIndex] + swipeThreshold && _selectedTabIndex < _itemPositionsNormalized.Count - 1)
+        {
+            closestIndex = _selectedTabIndex + 1; // Свайп вправо
+        }
+        else if (_scrollRect.horizontalNormalizedPosition < _itemPositionsNormalized[_selectedTabIndex] - swipeThreshold && _selectedTabIndex > 0)
+        {
+            closestIndex = _selectedTabIndex - 1; // Свайп влево
         }
 
         SelectTab(closestIndex);
