@@ -7,7 +7,8 @@ public class ScreenTransitionManager : MonoBehaviour
     public RectTransform firstPanel;
     public RectTransform secondPanel;
     public float transitionDuration = 1f; // Время перемещения панелей
-    public float delayBeforeTransition = 2f; // Задержка перед началом перехода
+    public float delayBeforeTransition = 2f; // Задержка перед началом перехода вперед
+    public float delayAfterBackwardTransition = 2f; // Задержка после обратного перехода перед загрузкой сцены
 
     private Vector2 screenSize;
     private bool isTransitioning = false;
@@ -41,7 +42,7 @@ public class ScreenTransitionManager : MonoBehaviour
 
     private IEnumerator StartForwardTransition()
     {
-        // Ждем заданную задержку
+        // Ждем заданную задержку перед началом перехода вперед
         yield return new WaitForSeconds(delayBeforeTransition);
 
         // Запускаем параллельное перемещение панелей
@@ -82,7 +83,7 @@ public class ScreenTransitionManager : MonoBehaviour
 
     private IEnumerator BackwardTransition()
     {
-        // Запускаем параллельное перемещение панелей
+        // Запускаем параллельное перемещение панелей сразу же
         StartCoroutine(MovePanel(firstPanel, Vector2.zero, transitionDuration));
         StartCoroutine(MovePanel(secondPanel, new Vector2(screenSize.x, 0), transitionDuration));
 
@@ -95,9 +96,12 @@ public class ScreenTransitionManager : MonoBehaviour
         // Разрешаем взаимодействие с FirstPanel
         SetInteractable(true);
 
+        // Ждем заданную задержку после обратного перехода
+        yield return new WaitForSeconds(delayAfterBackwardTransition);
+
         isTransitioning = false;
 
-        // Вызываем коллбек после завершения перехода
+        // Вызываем коллбек после задержки
         onTransitionComplete?.Invoke();
     }
 
