@@ -7,7 +7,7 @@ public class FadeableUI : MonoBehaviour
     [HideInInspector]
     public CanvasGroup canvasGroup;
 
-    public float fadeDuration = 0.3f; // Время плавного исчезновения
+    public float fadeDuration = 0.7f; // Время плавного исчезновения
 
     private void Awake()
     {
