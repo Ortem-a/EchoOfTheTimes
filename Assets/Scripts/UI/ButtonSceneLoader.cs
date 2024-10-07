@@ -8,7 +8,7 @@ public class ButtonSceneLoader : MonoBehaviour, IPointerClickHandler
 {
     [Header("Настройки")]
     public string sceneName; // Название сцены для загрузки
-    public float delay = 1f; // Задержка перед загрузкой сцены (должна совпадать с максимальным fadeDuration среди всех FadeableUI)
+    public float delay = 0.1f; // Задержка перед загрузкой сцены (должна совпадать с максимальным fadeDuration среди всех FadeableUI)
 
     public void OnPointerClick(PointerEventData eventData)
     {
