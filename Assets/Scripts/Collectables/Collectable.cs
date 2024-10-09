@@ -4,15 +4,11 @@ using UnityEngine;
 namespace EchoOfTheTimes.Collectables
 {
     [RequireComponent(typeof(SphereCollider), typeof(CollectableEffectsService))]
-    public class Item : MonoBehaviour, ICollectable, ISpawnable
+    public class Collectable : MonoBehaviour, ICollectable
     {
-        public int Id { get; private set; }
-
-        public CollectableStatusType Status { get; private set; }
-
         private SphereCollider _collider;
         private CollectableEffectsService _effectsService;
-        private ItemSpawner _spawner;
+        private CollectableSpawner _spawner;
 
         private void Awake()
         {
@@ -34,15 +30,7 @@ namespace EchoOfTheTimes.Collectables
 
         public void Collect()
         {
-            Status = CollectableStatusType.Unassigned;
-
-            Debug.Log($"COLLECTED ITEM: <{Id} | {Status}>");
-        }
-
-        public void Spawn(int id, CollectableStatusType status)
-        {
-            Id = id;
-            Status = status;
+            Debug.Log($"COLLECTED: {name}");
         }
     }
 }

@@ -151,5 +151,7 @@ namespace EchoOfTheTimes.Persistence
         public List<GameChapter> GetData() => _saveLoadService.DataToSave.Data;
 
         public void UpdateLastLoadedLevel(GameLevel level) => _lastLoadedLevel = level;
+
+        public GameLevel GetLastLoadedLevel() => _lastLoadedLevel;
     }
 }

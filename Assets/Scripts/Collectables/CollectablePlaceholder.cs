@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace EchoOfTheTimes.Collectables
 {
-    public class ItemPlaceholder : MonoBehaviour
+    public class CollectablePlaceholder : MonoBehaviour
     {
         [SerializeField]
         private Color _gizmoColor = Color.magenta;

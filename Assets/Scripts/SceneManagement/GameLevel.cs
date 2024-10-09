@@ -11,6 +11,8 @@ namespace EchoOfTheTimes.SceneManagement
         public string ChapterName => FullName.Split('|')[0];
         public string LevelName => FullName.Split('|')[1];
 
+        public int Collected;
+
         public List<SceneData> Scenes;
 
         public StatusType LevelStatus = StatusType.Locked;
