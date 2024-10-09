@@ -99,7 +99,8 @@ public class ChapterItemClickHandler : MonoBehaviour, IPointerClickHandler
         yield return new WaitForSeconds(delay);
 
         // Загружаем сцену
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+        SceneManager.UnloadSceneAsync("0_MainMenu_UI_Chapters");
     }
 
     private void DisableUIInteraction()
