@@ -1,3 +1,4 @@
+using EchoOfTheTimes.Persistence;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -13,12 +14,17 @@ namespace EchoOfTheTimes.UI.MainMenu
         [SerializeField]
         private MuteButtonController _muteSoundController;
 
+        private bool _isSoundMuted;
+
         [Inject]
         private void Construct(UiMainMenuService mainMenuService)
         {
-            var isSoundMuted = mainMenuService.PersistenceService.GetSettings();
+            _isSoundMuted = mainMenuService.PersistenceService.GetSettings();
+        }
 
-            _muteSoundController.SetButtonIcon(isSoundMuted);
+        private void Start()
+        {
+            _muteSoundController.SetButtonIcon(_isSoundMuted);
         }
 
         public void ShowHeadPanelForLevels() => ShowAboutUsButton(false);

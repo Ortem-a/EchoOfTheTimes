@@ -15,19 +15,24 @@ namespace EchoOfTheTimes.UI.MainMenu
         private List<GameLevel> _levelsData;
 
         [SerializeField]
+        private ChapterProgressView _chapterProgressView;
+
+        [SerializeField]
         private string _chapterTitle;
 
         [Inject]
         private void Construct(UiMainMenuService mainMenuService)
         {
             _persistenceService = mainMenuService.PersistenceService;
+
+            _levelsData = _persistenceService.GetData()
+                .Find((chapter) => chapter.Title == _chapterTitle).Levels;
+
+            _chapterProgressView.UpdateLabel(_levelsData);
         }
 
         private void Awake()
         {
-            _levelsData = _persistenceService.GetData()
-                .Find((chapter) => chapter.Title == _chapterTitle).Levels;
-
             _views = GetComponentsInChildren<LevelButtonView>();
             _handlers = new LevelButtonHandler[_views.Length];
             for (int i = 0; i < _views.Length; i++)

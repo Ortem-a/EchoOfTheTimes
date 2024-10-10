@@ -21,11 +21,11 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         [SerializeField]
         private EventSystem _eventSystem;
-
         [SerializeField]
         private TMP_Text _playerTotalCollectablesLabel;
-
         private HeadPanelSuperviser _headPanelSuperviser;
+        [SerializeField]
+        private Transform _levelsParentPanel;
 
         [Inject]
         private void Construct()
@@ -34,6 +34,11 @@ namespace EchoOfTheTimes.UI.MainMenu
             PersistenceService = FindObjectOfType<PersistenceService>();
 
             _headPanelSuperviser = GetComponent<HeadPanelSuperviser>();
+
+            for (int i = 0; i < _levelsParentPanel.transform.childCount; i++)
+            {
+                _levelsParentPanel.GetChild(i).gameObject.SetActive(false);
+            }
         }
 
         private void Awake()

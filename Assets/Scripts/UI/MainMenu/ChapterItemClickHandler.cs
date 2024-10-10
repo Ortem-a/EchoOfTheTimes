@@ -37,7 +37,7 @@ namespace EchoOfTheTimes.UI.MainMenu
         {
             _chaptersPanel.SetActive(false);
             _chaptersFooterPanel.SetActive(false);
-            _levelsPanel.gameObject.SetActive(true);
+            _levelsPanel.transform.parent.gameObject.SetActive(true);
 
             return;
 
