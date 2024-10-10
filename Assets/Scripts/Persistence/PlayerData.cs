@@ -6,6 +6,8 @@ namespace EchoOfTheTimes.Persistence
     [System.Serializable]
     public class PlayerData
     {
+        public bool SoundsMuted;
+
         public List<GameChapter> Data;
 
         public override string ToString()

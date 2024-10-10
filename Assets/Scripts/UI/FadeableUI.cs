@@ -1,6 +1,5 @@
-using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
+using UnityEngine;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class FadeableUI : MonoBehaviour
@@ -13,10 +12,6 @@ public class FadeableUI : MonoBehaviour
     private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
-        if (canvasGroup == null)
-        {
-            Debug.LogError("Компонент CanvasGroup не найден на объекте " + gameObject.name + ". Пожалуйста, добавьте компонент CanvasGroup на этот объект.");
-        }
 
         // Устанавливаем начальную прозрачность в 0, чтобы объект был полностью прозрачным при старте
         canvasGroup.alpha = 0f;
@@ -30,28 +25,14 @@ public class FadeableUI : MonoBehaviour
 
     public void StartFadeIn()
     {
-        if (canvasGroup != null)
-        {
-            StopAllCoroutines(); // Останавливаем все корутины, чтобы избежать конфликтов
-            StartCoroutine(FadeInCoroutine());
-        }
-        else
-        {
-            Debug.LogError("Невозможно запустить FadeInCoroutine, так как canvasGroup равно null на объекте " + gameObject.name);
-        }
+        StopAllCoroutines(); // Останавливаем все корутины, чтобы избежать конфликтов
+        StartCoroutine(FadeInCoroutine());
     }
 
     public void StartFadeOut()
     {
-        if (canvasGroup != null)
-        {
-            StopAllCoroutines(); // Останавливаем все корутины, чтобы избежать конфликтов
-            StartCoroutine(FadeOutCoroutine());
-        }
-        else
-        {
-            Debug.LogError("Невозможно запустить FadeOutCoroutine, так как canvasGroup равно null на объекте " + gameObject.name);
-        }
+        StopAllCoroutines(); // Останавливаем все корутины, чтобы избежать конфликтов
+        StartCoroutine(FadeOutCoroutine());
     }
 
     private IEnumerator FadeInCoroutine()
