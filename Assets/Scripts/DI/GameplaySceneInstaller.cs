@@ -1,3 +1,4 @@
+using EchoOfTheTimes.Collectables;
 using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Effects;
 using EchoOfTheTimes.LevelStates;
@@ -22,6 +23,8 @@ namespace EchoOfTheTimes.DI
         private VerticesBlocker _verticesBlocker;
         [SerializeField]
         private LevelAudioManager _levelAudioManager;
+        [SerializeField]
+        private CollectableService _collectableService;
 
         [Header("Player")]
         [SerializeField]
@@ -81,6 +84,8 @@ namespace EchoOfTheTimes.DI
             Container.Bind<Input3DIndicator>().FromInstance(_input3DIndicator).AsSingle();
             Container.Bind<Input2DIndicator>().FromInstance(_input2DIndicator).AsSingle();
             Container.Bind<LevelAudioManager>().FromInstance(_levelAudioManager).AsSingle();
+
+            Container.Bind<CollectableService>().FromInstance(_collectableService).AsSingle();
         }
 
         private void BindPlayer()

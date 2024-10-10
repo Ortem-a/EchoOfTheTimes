@@ -11,6 +11,7 @@ namespace EchoOfTheTimes.SceneManagement
         public string ChapterName => FullName.Split('|')[0];
         public string LevelName => FullName.Split('|')[1];
 
+        public int TotalCollectables;
         public int Collected;
 
         public List<SceneData> Scenes;
@@ -31,7 +32,7 @@ namespace EchoOfTheTimes.SceneManagement
                 sb.Append($"\t{scene.Name}\n");
             }
 
-            return $"Full Name: {FullName} ({LevelStatus})\n{sb}";
+            return $"Full Name: {FullName} ({Collected}/{TotalCollectables}) ({LevelStatus})\n{sb}";
         }
     }
 }

@@ -11,7 +11,7 @@ namespace EchoOfTheTimes.Persistence
 {
     public class PersistenceService : MonoBehaviour
     {
-        public static Action OnLevelCompleted { get; private set; }
+        public static Action<int> OnLevelCompleted { get; private set; }
         public static Action OnExitToMainMenu { get; private set; }
 
         private SaveLoadService _saveLoadService;
@@ -68,7 +68,7 @@ namespace EchoOfTheTimes.Persistence
             return preset.Data;
         }
 
-        private void HandleLevelCompleted()
+        private void HandleLevelCompleted(int collected)
         {
             var newDataToSave = _saveLoadService.DataToSave;
 
@@ -91,6 +91,7 @@ namespace EchoOfTheTimes.Persistence
                         if (lastLoadedChapter.Levels[j].LevelName == lastLoadedLevelName)
                         {
                             lastLoadedChapter.Levels[j].LevelStatus = StatusType.Completed;
+                            lastLoadedChapter.Levels[j].Collected = collected;
                             lastLoadedLevelIndex = j;
                             break;
                         }
@@ -152,6 +153,13 @@ namespace EchoOfTheTimes.Persistence
 
         public void UpdateLastLoadedLevel(GameLevel level) => _lastLoadedLevel = level;
 
-        public GameLevel GetLastLoadedLevel() => _lastLoadedLevel;
+        public GameLevel GetLevel(string chapterTitle, string levelName)
+        {
+            var chapterIndex = _saveLoadService.DataToSave.Data.FindIndex((chapter) => chapter.Title == chapterTitle);
+            var levelIndex = _saveLoadService.DataToSave.Data[chapterIndex].Levels.FindIndex(
+                (level) => level.LevelName == levelName);
+
+            return _saveLoadService.DataToSave.Data[chapterIndex].Levels[levelIndex];
+        }
     }
 }

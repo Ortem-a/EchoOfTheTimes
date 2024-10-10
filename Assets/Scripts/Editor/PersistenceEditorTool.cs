@@ -26,6 +26,7 @@ namespace EchoOfTheTimes.Editor
                 for (int j = 0; j < playerData.Data[i].Levels.Count; j++)
                 {
                     playerData.Data[i].Levels[j].LevelStatus = StatusType.Locked;
+                    playerData.Data[i].Levels[j].Collected = 0;
                 }
             }
 
@@ -62,6 +63,7 @@ namespace EchoOfTheTimes.Editor
                 for (int j = 0; j < playerData.Data[i].Levels.Count; j++)
                 {
                     playerData.Data[i].Levels[j].LevelStatus = StatusType.Unlocked;
+                    playerData.Data[i].Levels[j].Collected = playerData.Data[i].Levels[j].TotalCollectables;
                 }
             }
 

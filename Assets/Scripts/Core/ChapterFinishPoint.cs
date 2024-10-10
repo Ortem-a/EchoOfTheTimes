@@ -1,3 +1,4 @@
+using EchoOfTheTimes.Collectables;
 using EchoOfTheTimes.Interfaces;
 using EchoOfTheTimes.Persistence;
 using EchoOfTheTimes.UI;
@@ -16,13 +17,16 @@ namespace EchoOfTheTimes.Core
         private Player _player;
         private InputMediator _inputHandler;
         private UiSceneController _sceneController;
+        private CollectableService _collectableService;
 
         [Inject]
-        public void Construct(Player player, InputMediator inputHandler, UiSceneController sceneController)
+        public void Construct(Player player, InputMediator inputHandler, UiSceneController sceneController, 
+            CollectableService collectableService)
         {
             _player = player;
             _inputHandler = inputHandler;
             _sceneController = sceneController;
+            _collectableService = collectableService;
         }
 
         private void Enter()
@@ -33,7 +37,7 @@ namespace EchoOfTheTimes.Core
 
             _inputHandler.gameObject.SetActive(false);
 
-            PersistenceService.OnLevelCompleted?.Invoke();
+            PersistenceService.OnLevelCompleted?.Invoke(_collectableService.CollectedResult);
         }
     }
 }

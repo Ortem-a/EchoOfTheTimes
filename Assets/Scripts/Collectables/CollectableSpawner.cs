@@ -15,9 +15,12 @@ namespace EchoOfTheTimes.Collectables
 
         private void Awake()
         {
+            var serivce = GetComponent<CollectableService>();
+
             foreach (var placeholder in _placeholders)
             {
-                Instantiate(_prefab, placeholder.transform);
+                var collectable = Instantiate(_prefab, placeholder.transform);
+                collectable.Initialize(serivce);
             }
         }
 

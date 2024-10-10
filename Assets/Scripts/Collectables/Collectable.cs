@@ -8,7 +8,7 @@ namespace EchoOfTheTimes.Collectables
     {
         private SphereCollider _collider;
         private CollectableEffectsService _effectsService;
-        private CollectableSpawner _spawner;
+        private CollectableService _service;
 
         private void Awake()
         {
@@ -28,9 +28,8 @@ namespace EchoOfTheTimes.Collectables
             }
         }
 
-        public void Collect()
-        {
-            Debug.Log($"COLLECTED: {name}");
-        }
+        public void Initialize(CollectableService service) => _service = service;
+
+        public void Collect() => _service.OnCollected();
     }
 }
