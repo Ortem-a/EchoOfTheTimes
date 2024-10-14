@@ -8,11 +8,10 @@ namespace EchoOfTheTimes.UI.MainMenu
 {
     public class ChapterItemClickHandler : MonoBehaviour, IPointerClickHandler
     {
-        [SerializeField]
-        private LevelStatusUpdater _levelsPanel;
-        
-        private GameObject _chaptersPanel;
-        private GameObject _chaptersFooterPanel;
+        [field: SerializeField]
+        public LevelStatusUpdater LevelsPanel { get; private set; }
+
+        private UiMainMenuService _mainMenuService;
 
         [Header("Настройки главы")]
         public string sceneName; // Название сцены для загрузки
@@ -29,15 +28,12 @@ namespace EchoOfTheTimes.UI.MainMenu
         [Inject]
         private void Construct(UiMainMenuService mainMenuService)
         {
-            _chaptersPanel = mainMenuService.ChaptersPanel;
-            _chaptersFooterPanel = mainMenuService.ChaptersFooterPanel;
+            _mainMenuService = mainMenuService;
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            _chaptersPanel.SetActive(false);
-            _chaptersFooterPanel.SetActive(false);
-            _levelsPanel.transform.parent.gameObject.SetActive(true);
+            _mainMenuService.ShowLevelsList(this);
 
             return;
 

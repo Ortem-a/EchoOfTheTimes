@@ -1,4 +1,3 @@
-using EchoOfTheTimes.Persistence;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -20,6 +19,8 @@ namespace EchoOfTheTimes.UI.MainMenu
         private void Construct(UiMainMenuService mainMenuService)
         {
             _isSoundMuted = mainMenuService.PersistenceService.GetSettings();
+
+            _backToChaptersButton.onClick.AddListener(mainMenuService.ShowChaptersList);
         }
 
         private void Start()

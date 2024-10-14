@@ -8,7 +8,7 @@ namespace EchoOfTheTimes.DI
     {
         [SerializeField]
         private UiMainMenuService _uiMainMenuService;
-
+        
         public override void InstallBindings()
         {
             Container.Bind<UiMainMenuService>().FromInstance(_uiMainMenuService).AsSingle();

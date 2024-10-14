@@ -1,4 +1,3 @@
-using EchoOfTheTimes.Persistence;
 using EchoOfTheTimes.SceneManagement;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +7,6 @@ namespace EchoOfTheTimes.UI.MainMenu
 {
     public class LevelStatusUpdater : MonoBehaviour
     {
-        private PersistenceService _persistenceService;
-
         private LevelButtonView[] _views;
         private LevelButtonHandler[] _handlers;
         private List<GameLevel> _levelsData;
@@ -23,9 +20,7 @@ namespace EchoOfTheTimes.UI.MainMenu
         [Inject]
         private void Construct(UiMainMenuService mainMenuService)
         {
-            _persistenceService = mainMenuService.PersistenceService;
-
-            _levelsData = _persistenceService.GetData()
+            _levelsData = mainMenuService.PersistenceService.GetData()
                 .Find((chapter) => chapter.Title == _chapterTitle).Levels;
 
             _chapterProgressView.UpdateLabel(_levelsData);
