@@ -8,14 +8,25 @@ namespace EchoOfTheTimes.UI.MainMenu
 {
     public class UiSwipeSnapChapter : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
     {
-        public event Action<int> TabSelected;
-        public event Action<int> TabSnapped;
+        public Action<int> TabSelected;
+        public Action<int> TabSnapped;
+
+        public static Action<int> OnChapterSwiped;
 
         [SerializeField] private RectTransform _contentContainer;
         [SerializeField] private ScrollRect _scrollRect;
         [SerializeField] private float _snapSpeed = 15;
 
-        public int SelectedTabIndex => _selectedTabIndex;
+        private int _selectedTabIndex;
+        public int SelectedTabIndex
+        {
+            get => _selectedTabIndex;
+            private set
+            {
+                _selectedTabIndex = value;
+                OnChapterSwiped?.Invoke(value);
+            }
+        }
         public int ItemCount => _itemPositionsNormalized.Count;
 
         private bool _isDragging;
@@ -23,7 +34,6 @@ namespace EchoOfTheTimes.UI.MainMenu
         private readonly List<float> _itemPositionsNormalized = new List<float>();
         private float _targetScrollPosition = 0;
         private float _itemSizeNormalized;
-        private int _selectedTabIndex;
 
         private void Start()
         {
@@ -72,7 +82,7 @@ namespace EchoOfTheTimes.UI.MainMenu
                 _itemPositionsNormalized.Add(itemPositionNormalized);
             }
 
-            SelectTab(_selectedTabIndex);
+            SelectTab(SelectedTabIndex);
         }
 
         public void SelectTab(int tabIndex)
@@ -82,7 +92,7 @@ namespace EchoOfTheTimes.UI.MainMenu
                 return;
             }
 
-            _selectedTabIndex = tabIndex;
+            SelectedTabIndex = tabIndex;
             _targetScrollPosition = _itemPositionsNormalized[tabIndex];
             _isSnapping = true;
 
@@ -91,18 +101,18 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         public void SlideNext()
         {
-            SelectTab(_selectedTabIndex + 1);
+            SelectTab(SelectedTabIndex + 1);
         }
 
         public void SlidePrevious()
         {
-            SelectTab(_selectedTabIndex - 1);
+            SelectTab(SelectedTabIndex - 1);
         }
 
         private void FindSnappingTabAndStartSnapping()
         {
             float closestPosition = float.MaxValue;
-            int closestIndex = _selectedTabIndex;
+            int closestIndex = SelectedTabIndex;
 
             // Порог для смены страницы: 1/3 от размера элемента
             float swipeThreshold = _itemSizeNormalized / 3f;
@@ -118,13 +128,13 @@ namespace EchoOfTheTimes.UI.MainMenu
             }
 
             // Переход на предыдущий или следующий элемент при достижении порога свайпа
-            if (_scrollRect.horizontalNormalizedPosition > _itemPositionsNormalized[_selectedTabIndex] + swipeThreshold && _selectedTabIndex < _itemPositionsNormalized.Count - 1)
+            if (_scrollRect.horizontalNormalizedPosition > _itemPositionsNormalized[SelectedTabIndex] + swipeThreshold && SelectedTabIndex < _itemPositionsNormalized.Count - 1)
             {
-                closestIndex = _selectedTabIndex + 1; // Свайп вправо
+                closestIndex = SelectedTabIndex + 1; // Свайп вправо
             }
-            else if (_scrollRect.horizontalNormalizedPosition < _itemPositionsNormalized[_selectedTabIndex] - swipeThreshold && _selectedTabIndex > 0)
+            else if (_scrollRect.horizontalNormalizedPosition < _itemPositionsNormalized[SelectedTabIndex] - swipeThreshold && SelectedTabIndex > 0)
             {
-                closestIndex = _selectedTabIndex - 1; // Свайп влево
+                closestIndex = SelectedTabIndex - 1; // Свайп влево
             }
 
             SelectTab(closestIndex);
@@ -138,14 +148,14 @@ namespace EchoOfTheTimes.UI.MainMenu
                 return;
             }
 
-            var targetPosition = _itemPositionsNormalized[_selectedTabIndex];
+            var targetPosition = _itemPositionsNormalized[SelectedTabIndex];
             _scrollRect.horizontalNormalizedPosition = Mathf.Lerp(_scrollRect.horizontalNormalizedPosition, targetPosition, Time.deltaTime * _snapSpeed);
 
             if (Mathf.Abs(_scrollRect.horizontalNormalizedPosition - targetPosition) <= 0.0001f)
             {
                 _scrollRect.horizontalNormalizedPosition = targetPosition;
                 _isSnapping = false;
-                TabSnapped?.Invoke(_selectedTabIndex);
+                TabSnapped?.Invoke(SelectedTabIndex);
             }
         }
     }

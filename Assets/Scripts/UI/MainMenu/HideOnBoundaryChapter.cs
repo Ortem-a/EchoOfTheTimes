@@ -8,22 +8,16 @@ namespace EchoOfTheTimes.UI.MainMenu
         public bool hideOnFirstChapter = false;
         public bool hideOnLastChapter = false;
 
-        private void Start()
-        {
-            if (swipeSnapChapter != null)
-            {
-                swipeSnapChapter.TabSelected += OnTabSelected;
-                UpdateVisibility(swipeSnapChapter.SelectedTabIndex);
-            }
-        }
+        //private void Start()
+        //{
+        //    swipeSnapChapter.TabSelected += OnTabSelected;
+        //    UpdateVisibility(swipeSnapChapter.SelectedTabIndex);
+        //}
 
-        private void OnDestroy()
-        {
-            if (swipeSnapChapter != null)
-            {
-                swipeSnapChapter.TabSelected -= OnTabSelected;
-            }
-        }
+        //private void OnDestroy()
+        //{
+        //    swipeSnapChapter.TabSelected -= OnTabSelected;
+        //}
 
         private void OnTabSelected(int index)
         {

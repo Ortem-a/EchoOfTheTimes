@@ -1,24 +1,26 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace EchoOfTheTimes.UI.MainMenu
 {
     public class UiSwipeMenu : MonoBehaviour
     {
-        [SerializeField] private Image _uiItemPrefab;
-        [SerializeField] private Transform _itemsContainer;
-        [SerializeField] private UiSwipeSnapChapter _swipeSnapMenu;
+        [SerializeField]
+        private UiSwipeSnapChapter _swipeSnapMenu;
 
         public void SlideNext()
         {
-            var index = _swipeSnapMenu.SelectedTabIndex;
-            _swipeSnapMenu.SelectTab(index + 1);
+            _swipeSnapMenu.SlideNext();
+
+            //var index = _swipeSnapMenu.SelectedTabIndex;
+            //_swipeSnapMenu.SelectTab(index + 1);
         }
 
         public void SlidePrevious()
         {
-            var index = _swipeSnapMenu.SelectedTabIndex;
-            _swipeSnapMenu.SelectTab(index - 1);
+            _swipeSnapMenu.SlidePrevious();
+
+            //var index = _swipeSnapMenu.SelectedTabIndex;
+            //_swipeSnapMenu.SelectTab(index - 1);
         }
     }
 }

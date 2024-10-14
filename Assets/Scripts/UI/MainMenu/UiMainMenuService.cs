@@ -3,6 +3,7 @@ using EchoOfTheTimes.SceneManagement;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using Zenject;
 
 namespace EchoOfTheTimes.UI.MainMenu
@@ -28,6 +29,11 @@ namespace EchoOfTheTimes.UI.MainMenu
         [SerializeField]
         private Transform _levelsParentPanel;
 
+        [SerializeField]
+        private Button _toLeftButton;
+        [SerializeField]
+        private Button _toRightButton;
+
         [Inject]
         private void Construct()
         {
@@ -47,6 +53,13 @@ namespace EchoOfTheTimes.UI.MainMenu
         private void Awake()
         {
             HeadPanelSuperviser.ShowHeadPanelForChapters();
+
+            UiSwipeSnapChapter.OnChapterSwiped += ShowOrHideChpaterSwitchButtons;
+        }
+
+        private void OnDestroy()
+        {
+            UiSwipeSnapChapter.OnChapterSwiped -= ShowOrHideChpaterSwitchButtons;
         }
 
         public void ExitGame()
@@ -94,6 +107,25 @@ namespace EchoOfTheTimes.UI.MainMenu
             }
 
             _playerTotalCollectablesLabel.text = playerProgress.ToString();
+        }
+
+        private void ShowOrHideChpaterSwitchButtons(int currentChapterIndex)
+        {
+            if (currentChapterIndex == 0)
+            {
+                // hide left button
+                _toLeftButton.gameObject.SetActive(false);
+            }
+            else if (currentChapterIndex == _levelsParentPanel.transform.childCount - 1)
+            {
+                // hide right button
+                _toRightButton.gameObject.SetActive(false);
+            }
+            else
+            {
+                _toLeftButton.gameObject.SetActive(true);
+                _toRightButton.gameObject.SetActive(true);
+            }
         }
     }
 }
