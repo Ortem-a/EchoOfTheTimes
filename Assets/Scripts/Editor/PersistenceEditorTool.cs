@@ -1,8 +1,10 @@
 using EchoOfTheTimes.Persistence;
 using EchoOfTheTimes.SceneManagement;
 using EchoOfTheTimes.ScriptableObjects.Persistence;
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
+#endif
 using UnityEngine;
 using System.IO;
 
@@ -10,6 +12,7 @@ namespace EchoOfTheTimes.Editor
 {
     public class PersistenceEditorTool : MonoBehaviour
     {
+#if UNITY_EDITOR
         private const string _pathToFolder = @"Assets/Resources/ScriptableObjects/Persistence/";
 
         [MenuItem("Persistence/Presets/Create 'Default'")]
@@ -131,5 +134,6 @@ namespace EchoOfTheTimes.Editor
 
             return data;
         }
+#endif
     }
 }

@@ -3555,18 +3555,12 @@ MonoBehaviour:
       Position: {x: 1.7354627, y: -15.434771, z: 0.8677311}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
-      Scene:
-        sceneAsset: {fileID: 0}
-        sceneName: 
       IsLocalSpace: 0
     - StateId: 0
       Target: {fileID: 1299229936}
       Position: {x: -1.7354627, y: -15.434771, z: 0.86773133}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
-      Scene:
-        sceneAsset: {fileID: 0}
-        sceneName: 
       IsLocalSpace: 0
   - Id: 1
     StatesParameters:
@@ -3575,18 +3569,12 @@ MonoBehaviour:
       Position: {x: 5.2063885, y: -15.434771, z: 0.8677312}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
-      Scene:
-        sceneAsset: {fileID: 0}
-        sceneName: 
       IsLocalSpace: 0
     - StateId: 1
       Target: {fileID: 1299229936}
       Position: {x: 1.7354627, y: -15.434771, z: 0.8677311}
       Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 4, y: 4, z: 4}
-      Scene:
-        sceneAsset: {fileID: 0}
-        sceneName: 
       IsLocalSpace: 0
   Transitions:
   - StateFromId: 0
@@ -7250,6 +7238,56 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 310938047948640820, guid: 8e307bf8c72ae7248806573c77ce1c6a,
+        type: 3}
+      propertyPath: SizeModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 310938047948640820, guid: 8e307bf8c72ae7248806573c77ce1c6a,
+        type: 3}
+      propertyPath: NoiseModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 310938047948640820, guid: 8e307bf8c72ae7248806573c77ce1c6a,
+        type: 3}
+      propertyPath: ShapeModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 311150508558828766, guid: 8e307bf8c72ae7248806573c77ce1c6a,
+        type: 3}
+      propertyPath: SubModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 311150508558828766, guid: 8e307bf8c72ae7248806573c77ce1c6a,
+        type: 3}
+      propertyPath: NoiseModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 311150508558828766, guid: 8e307bf8c72ae7248806573c77ce1c6a,
+        type: 3}
+      propertyPath: InitialModule.gravitySource
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 311150508558828766, guid: 8e307bf8c72ae7248806573c77ce1c6a,
+        type: 3}
+      propertyPath: ExternalForcesModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 473447963895289374, guid: 8e307bf8c72ae7248806573c77ce1c6a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 473554541891803252, guid: 8e307bf8c72ae7248806573c77ce1c6a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 475028877079706654, guid: 8e307bf8c72ae7248806573c77ce1c6a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4882199138161886327, guid: 8e307bf8c72ae7248806573c77ce1c6a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7304,6 +7342,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Main_poopsik
+      objectReference: {fileID: 0}
+    - target: {fileID: 6019662211977608984, guid: 8e307bf8c72ae7248806573c77ce1c6a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8096,13 +8139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 925ff58b1deb8de469b239482e4ad029, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartPlayerData:
-    Checkpoint: {x: 5.206389, y: -14.78277, z: -1.7354628}
-    StateId: 0
   StartCheckpoint: {fileID: 1502195044}
-  PlayerData:
-    Checkpoint: {x: 0, y: 0, z: 0}
-    StateId: 0
   ActiveCheckpoint: {fileID: 0}
 --- !u!1 &578203732
 GameObject:
@@ -22211,18 +22248,12 @@ MonoBehaviour:
     Position: {x: 1.7354627, y: -15.434771, z: 0.8677311}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-    Scene:
-      sceneAsset: {fileID: 0}
-      sceneName: 
     IsLocalSpace: 0
   - StateId: 1
     Target: {fileID: 1572228572}
     Position: {x: 5.2063885, y: -15.434771, z: 0.8677312}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-    Scene:
-      sceneAsset: {fileID: 0}
-      sceneName: 
     IsLocalSpace: 0
 --- !u!114 &1572228574
 MonoBehaviour:
@@ -24212,18 +24243,12 @@ MonoBehaviour:
     Position: {x: -1.7354627, y: -15.434771, z: 0.86773133}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-    Scene:
-      sceneAsset: {fileID: 0}
-      sceneName: 
     IsLocalSpace: 0
   - StateId: 1
     Target: {fileID: 1299229936}
     Position: {x: 1.7354627, y: -15.434771, z: 0.8677311}
     Rotation: {x: -0, y: 0, z: 0}
     LocalScale: {x: 4, y: 4, z: 4}
-    Scene:
-      sceneAsset: {fileID: 0}
-      sceneName: 
     IsLocalSpace: 0
 --- !u!114 &1701890744
 MonoBehaviour:

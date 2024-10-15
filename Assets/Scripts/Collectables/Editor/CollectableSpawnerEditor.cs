@@ -1,16 +1,20 @@
 using EchoOfTheTimes.Persistence;
 using EchoOfTheTimes.SceneManagement;
 using System.Linq;
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
+#endif
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace EchoOfTheTimes.Collectables.Editor
 {
+#if UNITY_EDITOR
     [CustomEditor(typeof(CollectableSpawner))]
     public class CollectableSpawnerEditor : UnityEditor.Editor
     {
+
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
@@ -56,4 +60,5 @@ namespace EchoOfTheTimes.Collectables.Editor
             }
         }
     }
+#endif
 }
