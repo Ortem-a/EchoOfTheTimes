@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace EchoOfTheTimes.UI
+namespace EchoOfTheTimes.UI.MainMenu
 {
     public class UiLevelsGridService : MonoBehaviour
     {
@@ -12,23 +12,13 @@ namespace EchoOfTheTimes.UI
 
         private SceneLoader _loader;
 
-        private void Start()
-        {
-            _loader = FindObjectOfType<SceneLoader>();
-
-            return;
-            for (int i = 1; i < _loader.GameChapters.Count; i++)
-            {
-                //CreateButton(i);
-                CreateChapter(i);
-            }
-        }
+        //private void Start()
+        //{
+        //    _loader = FindObjectOfType<SceneLoader>();
+        //}
 
         private void CreateChapter(int chapterIndex)
         {
-            // add chapter title
-            // _loader.GameChapters[chapterIndex].Title
-
             for (int i = 0; i < _loader.GameChapters[chapterIndex].Levels.Count; i++)
             {
                 CreateButton(_loader.GameChapters[chapterIndex].Levels[i], ButtonsContainer);
@@ -39,8 +29,7 @@ namespace EchoOfTheTimes.UI
         {
             var obj = Instantiate(ButtonPrefab, container);
 
-            obj.transform.GetChild(0).GetComponent<TMP_Text>().text = level.LevelName;// _loader.GameChapters[index].GroupName;
-            //obj.GetComponent<Button>().onClick.AddListener(() => LoadSceneGroup(index));
+            obj.transform.GetChild(0).GetComponent<TMP_Text>().text = level.LevelName;
             obj.GetComponent<Button>().onClick.AddListener(() => LoadSceneGroup(level));
         }
 
@@ -48,10 +37,5 @@ namespace EchoOfTheTimes.UI
         {
             await _loader.LoadSceneGroupAsync(level);
         }
-
-        //private async void LoadSceneGroup(int index)
-        //{
-        //    await _loader.LoadSceneGroupAsync(index);
-        //}
     }
 }

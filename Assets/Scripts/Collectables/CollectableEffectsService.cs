@@ -28,9 +28,9 @@ namespace EchoOfTheTimes.Collectables
         [SerializeField]
         private float _onCollectDuration;
 
-        private Tweener _moveTweener;
-        private Tweener _rotationTweener;
-        private Tweener _completeTweener;
+        private Tweener _moveTweener = null;
+        private Tweener _rotationTweener = null;
+        private Tweener _completeTweener = null;
 
         public void Idle()
         {
@@ -50,9 +50,9 @@ namespace EchoOfTheTimes.Collectables
 
         private void OnDestroy()
         {
-            _moveTweener.Kill();
-            _rotationTweener.Kill();
-            _completeTweener.Kill();
+            _moveTweener?.Kill();
+            _rotationTweener?.Kill();
+            _completeTweener?.Kill();
         }
     }
 }
