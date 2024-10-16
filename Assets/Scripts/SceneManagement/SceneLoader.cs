@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
+using Io.AppMetrica;
+using EchoOfTheTimes.Persistence;
 
 namespace EchoOfTheTimes.SceneManagement
 {
@@ -22,6 +24,9 @@ namespace EchoOfTheTimes.SceneManagement
 
         //public SceneGroup[] SceneGroups;
         public List<GameChapter> GameChapters;
+
+        private float levelStartTime;
+        private float levelDuration;
 
         private float _targetProgress;
         private bool _isLoading;
@@ -115,6 +120,7 @@ namespace EchoOfTheTimes.SceneManagement
             EnableLoadingCanvas();
 
             await Manager.LoadScenesAsync(level, progress);
+            StartLevelTimer(); // Запуск таймера
 
             Debug.Log($"Calling OnSceneLoaded for scene: {level.LevelName}");
 
@@ -128,6 +134,7 @@ namespace EchoOfTheTimes.SceneManagement
 
             var currentLevelIndex = chapter.Levels.FindIndex((level) => level.LevelName == _currentLevel.LevelName);
 
+            EndLevel(); // стоп таймер перед загрузкой некст уровня
             await LoadSceneGroupAsync(chapter.Levels[currentLevelIndex + 1]);
 
             //await LoadSceneGroupAsync(_lastLoadedGroupIndex + 1);
@@ -161,6 +168,29 @@ namespace EchoOfTheTimes.SceneManagement
             _isLoading = enable;
             _loadingCamera.gameObject.SetActive(enable);
             _loadingCanvas.gameObject.SetActive(enable);
+        }
+
+        private void StartLevelTimer()
+        {
+            levelStartTime = Time.time;
+        }
+
+        private void EndLevel()
+        {
+            levelDuration = Time.time - levelStartTime;
+            Debug.Log($"Level duration: {levelDuration} seconds");
+
+            // Отправка события в аппметрику
+            string jsonData = JsonUtility.ToJson(new
+            {
+                level_name = _currentLevel.LevelName,
+                chapter_name = _currentLevel.ChapterName,
+                duration = levelDuration.ToString()
+            });
+
+            AppMetrica.ReportEvent("level_completed", jsonData);
+
+            Debug.Log("Отправили длительность уровня");
         }
     }
 }
