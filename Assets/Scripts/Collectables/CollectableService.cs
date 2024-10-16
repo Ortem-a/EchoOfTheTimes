@@ -20,16 +20,15 @@ namespace EchoOfTheTimes.Collectables
         [SerializeField]
         private int _totalCollectables;
 
-        private CollectableSpawner _spawner;
-        private PersistenceService _persistenceService;
-
         private void Awake()
         {
-            _spawner = GetComponent<CollectableSpawner>();
-            _totalCollectables = _spawner.NumberOfPlaceholders;
+            var persistenceService = FindObjectOfType<PersistenceService>();
 
-            _persistenceService = FindObjectOfType<PersistenceService>();
-            _collectedEarlier = _persistenceService.GetLevel(ChapterTitle, LevelName).Collected;
+            _collectedEarlier = persistenceService != null 
+                ? persistenceService.GetLevel(ChapterTitle, LevelName).Collected
+                : 0;
+        
+            _totalCollectables = GetComponent<CollectableSpawner>().NumberOfPlaceholders;
         }
 
         public void OnCollected()

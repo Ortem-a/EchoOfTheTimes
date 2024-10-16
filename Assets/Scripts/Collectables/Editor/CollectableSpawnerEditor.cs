@@ -1,4 +1,3 @@
-using EchoOfTheTimes.Persistence;
 using EchoOfTheTimes.SceneManagement;
 using System.Linq;
 #if UNITY_EDITOR
@@ -37,6 +36,7 @@ namespace EchoOfTheTimes.Collectables.Editor
 
                 var sceneLoader = FindObjectOfType<SceneLoader>();
 
+                Scene activeScene = EditorSceneManager.GetActiveScene();
                 Scene scene = default;
                 bool needToClose = false;
                 if (sceneLoader == null)
@@ -51,6 +51,10 @@ namespace EchoOfTheTimes.Collectables.Editor
                 var levelIndex = sceneLoader.GameChapters[chapterIndex].Levels.FindIndex((level) => level.LevelName == service.LevelName);
 
                 sceneLoader.GameChapters[chapterIndex].Levels[levelIndex].TotalCollectables = placeholders.Length;
+
+                EditorUtility.SetDirty(spawner);
+                EditorUtility.SetDirty(service);
+                EditorSceneManager.SaveScene(activeScene);
 
                 if (needToClose)
                 {
