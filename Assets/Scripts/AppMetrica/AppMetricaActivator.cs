@@ -10,9 +10,10 @@ public static class AppMetricaActivator
         AppMetrica.Activate(new AppMetricaConfig("3ea92f77-fb26-430e-bbf7-51b28bb93658")
         {
             FirstActivationAsUpdate = !IsFirstLaunch(),
+            Logs = true, // или дл€ чего эта ебанина ещЄ есть? € не понимаю какой долбоЄб обдолбанный писал доки к этому говну
         });
 
-        Debug.Log("AppMetrica не выЄбываетс€");
+        Debug.Log("AppMetrica не выЄбываетс€ сука и не логируетс€ сху€ли");
     }
 
     private static bool IsFirstLaunch()
