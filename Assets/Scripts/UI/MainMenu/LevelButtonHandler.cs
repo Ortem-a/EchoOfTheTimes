@@ -28,6 +28,8 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         private async void HandleButtonClicked()
         {
+            if (_levelData.LevelStatus == StatusType.Locked) return;
+
             await _sceneLoader.LoadSceneGroupAsync(_levelData);
         }
     }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 100698205249725923}
   - component: {fileID: 896786098063047211}
   - component: {fileID: 286917321735133401}
+  - component: {fileID: 1598584265935943249}
   m_Layer: 5
   m_Name: UiChapterButton
   m_TagString: Untagged
@@ -27,7 +28,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3564362910765533992}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -110,5 +111,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 847dc7c7fdb5a9c46bf794c9bf1c1f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: 
-  delay: 1
+  <LevelsPanel>k__BackingField: {fileID: 0}
+  sceneName: 1_MainMenu_UI_Levels
+  delay: 0.7
+  firstCanvas: {fileID: 0}
+  secondCanvas: {fileID: 5864838722982741497}
+  scaleDuration: 0.37
+  targetScale: 1.07
+--- !u!114 &1598584265935943249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3564362910765533992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f9e8f47f4a7d7a4fb9c66fc43dfa390, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

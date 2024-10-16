@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using Zenject;
+using EchoOfTheTimes.SceneManagement;
 
 namespace EchoOfTheTimes.UI.MainMenu
 {
@@ -25,14 +26,20 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         private bool isTransitioning = false;
 
+        private StatusType _chapterStatus;
+
         [Inject]
         private void Construct(UiMainMenuService mainMenuService)
         {
             _mainMenuService = mainMenuService;
         }
 
+        public void SetStatus(StatusType status) => _chapterStatus = status;
+
         public void OnPointerClick(PointerEventData eventData)
         {
+            if (_chapterStatus == StatusType.Locked) return;
+
             _mainMenuService.ShowLevelsList(this);
 
             return;
