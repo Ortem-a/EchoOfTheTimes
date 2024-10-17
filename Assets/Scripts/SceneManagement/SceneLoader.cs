@@ -189,7 +189,6 @@ namespace EchoOfTheTimes.SceneManagement
             });
 
             AppMetrica.ReportEvent("level_completed", jsonData);
-            ;
 
             if (AppMetrica.IsActivated()) 
             {
