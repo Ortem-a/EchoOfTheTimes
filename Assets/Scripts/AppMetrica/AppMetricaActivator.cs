@@ -18,6 +18,7 @@ public static class AppMetricaActivator
 
     private static bool IsFirstLaunch()
     {
+        Debug.Log("Why blyat");
         // Implement logic to detect whether the app is opening for the first time.
         // For example, you can check for files (settings, databases, and so on),
         // which the app creates on its first launch.

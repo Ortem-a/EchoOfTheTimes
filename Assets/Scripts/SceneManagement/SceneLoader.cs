@@ -190,6 +190,11 @@ namespace EchoOfTheTimes.SceneManagement
 
             AppMetrica.ReportEvent("level_completed", jsonData);
 
+            if (AppMetrica.IsActivated()) 
+            {
+                Debug.Log("AppMetrica АКТИВНА");
+            }
+
             Debug.Log("Отправили длительность уровня");
         }
     }
