@@ -60,6 +60,7 @@ namespace EchoOfTheTimes.SceneManagement
             AppMetrica.ReportEvent("level_completed", jsonData);
 
             // MyTracker - статистики уровня
+#if !UNITY_IOS && !UNITY_ANDROID
             var eventCustomParams = new Dictionary<string, string>
             {
                 ["level_name"] = levelName,
@@ -70,6 +71,7 @@ namespace EchoOfTheTimes.SceneManagement
             };
 
             MyTracker.TrackEvent("level_completed", eventCustomParams);
+#endif
         }
 
         private void StartFPSTracking()
@@ -125,6 +127,7 @@ namespace EchoOfTheTimes.SceneManagement
             AppMetrica.ReportEvent("level_fps_stats", jsonData);
 
             // MyTracker - статистики производительности
+#if !UNITY_IOS && !UNITY_ANDROID
             var eventCustomParams = new Dictionary<string, string>
             {
                 ["level_name"] = levelName,
@@ -136,6 +139,7 @@ namespace EchoOfTheTimes.SceneManagement
             };
 
             MyTracker.TrackEvent("level_fps_stats", eventCustomParams);
+#endif
         }
 
         // Надо как-то прокинуть сюда данные
