@@ -45,11 +45,17 @@ namespace EchoOfTheTimes.SceneManagement
             Debug.Log($"Level duration: {levelDuration} seconds");
 
             // AppMetrica - статистики уровня
-            string jsonData = $"{{ \"level_name\": \"{levelName}\"," +
-                              $" \"chapter_name\": \"{chapterName}\"," +
-                              $" \"duration\": \"{levelDuration}\"," +
-                              $" \"num_collectables\": \"{num_collectables.ToString()}\"," +
-                              $" \"status\": \"{status}\" }}";
+            string jsonData = $"{{" +
+                      $" \"chapter\": {{" +
+                      $"     \"chapter_name\": \"{chapterName}\"," +
+                      $"     \"level\": {{" +
+                      $"         \"level_name\": \"{levelName}\"," +
+                      $"         \"duration\": \"{levelDuration}\"," +
+                      $"         \"num_collectables\": \"{num_collectables}\"," +
+                      $"         \"status\": \"{status}\"" +
+                      $"     }}" +
+                      $" }}" +
+                      $"}}";
 
             AppMetrica.ReportEvent("level_completed", jsonData);
 
@@ -103,12 +109,18 @@ namespace EchoOfTheTimes.SceneManagement
             float maxFPS = trimmedFPSList.Max();
 
             // AppMetrica - статистики производительности
-            string jsonData = $"{{ \"level_name\": \"{levelName}\"," +
-                              $" \"chapter_name\": \"{chapterName}\"," +
-                              $" \"average_fps\": \"{averageFPS:F2}\"," +
-                              $" \"median_fps\": \"{medianFPS:F2}\"," +
-                              $" \"max_fps\": \"{maxFPS:F2}\"," +
-                              $" \"min_fps\": \"{minFPS:F2}\" }}";
+            string jsonData = $"{{" +
+                      $" \"chapter\": {{" +
+                      $"     \"chapter_name\": \"{chapterName}\"," +
+                      $"     \"level\": {{" +
+                      $"         \"level_name\": \"{levelName}\"," +
+                      $"         \"average_fps\": \"{averageFPS:F2}\"," +
+                      $"         \"median_fps\": \"{medianFPS:F2}\"," +
+                      $"         \"max_fps\": \"{maxFPS:F2}\"," +
+                      $"         \"min_fps\": \"{minFPS:F2}\"" +
+                      $"     }}" +
+                      $" }}" +
+                      $"}}";
 
             AppMetrica.ReportEvent("level_fps_stats", jsonData);
 
@@ -138,7 +150,7 @@ namespace EchoOfTheTimes.SceneManagement
             }
             else
             {
-                status = "full";
+                status = "default";
             }
         }
 
