@@ -60,19 +60,22 @@ namespace EchoOfTheTimes.SceneManagement
             AppMetrica.ReportEvent("level_completed", jsonData);
 
             // MyTracker - статистики уровня
-#if !UNITY_IOS && !UNITY_ANDROID
-            var eventCustomParams = new Dictionary<string, string>
+            if (Application.platform == RuntimePlatform.Android)
             {
-                ["level_name"] = levelName,
-                ["chapter_name"] = chapterName,
-                ["duration"] = levelDuration.ToString(),
-                ["num_collectables"] = num_collectables.ToString(),
-                ["status"] = status
-            };
+                var eventCustomParams = new Dictionary<string, string>
+                {
+                    ["level_name"] = levelName,
+                    ["chapter_name"] = chapterName,
+                    ["duration"] = levelDuration.ToString(),
+                    ["num_collectables"] = num_collectables.ToString(),
+                    ["status"] = status
+                };
 
-            MyTracker.TrackEvent("level_completed", eventCustomParams);
-#endif
+                MyTracker.TrackEvent("level_completed", eventCustomParams);
+            }
         }
+    
+
 
         private void StartFPSTracking()
         {
@@ -110,7 +113,7 @@ namespace EchoOfTheTimes.SceneManagement
             float minFPS = trimmedFPSList.Min();
             float maxFPS = trimmedFPSList.Max();
 
-            // AppMetrica - статистики производительности
+            // AppMetrica - статистика производительности
             string jsonData = $"{{" +
                       $" \"chapter\": {{" +
                       $"     \"chapter_name\": \"{chapterName}\"," +
@@ -126,20 +129,21 @@ namespace EchoOfTheTimes.SceneManagement
 
             AppMetrica.ReportEvent("level_fps_stats", jsonData);
 
-            // MyTracker - статистики производительности
-#if !UNITY_IOS && !UNITY_ANDROID
-            var eventCustomParams = new Dictionary<string, string>
+            // MyTracker - статистика производительности
+            if (Application.platform == RuntimePlatform.Android)
             {
-                ["level_name"] = levelName,
-                ["chapter_name"] = chapterName,
-                ["average_fps"] = averageFPS.ToString(),
-                ["median_fps"] = medianFPS.ToString(),
-                ["max_fps"] = maxFPS.ToString(),
-                ["min_fps"] = minFPS.ToString()
-            };
+                var eventCustomParams = new Dictionary<string, string>
+                {
+                    ["level_name"] = levelName,
+                    ["chapter_name"] = chapterName,
+                    ["average_fps"] = averageFPS.ToString(),
+                    ["median_fps"] = medianFPS.ToString(),
+                    ["max_fps"] = maxFPS.ToString(),
+                    ["min_fps"] = minFPS.ToString()
+                };
 
-            MyTracker.TrackEvent("level_fps_stats", eventCustomParams);
-#endif
+                MyTracker.TrackEvent("level_fps_stats", eventCustomParams);
+            }
         }
 
         // Надо как-то прокинуть сюда данные
