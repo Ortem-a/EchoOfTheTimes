@@ -15,8 +15,7 @@ namespace EchoOfTheTimes.SceneManagement
         private string status = "default"; // "default" - прошёл без сбора всех коллектаблов, "full" - собрал всё
         private int num_collectables = 0; // Количество собранных коллектаблов за это прохождение уровня
 
-        // FPS
-        private List<float> fpsList = new List<float>();
+        private List<float> fpsList = new List<float>(); // Храним FPSики
 
         private void Start()
         {
@@ -128,7 +127,7 @@ namespace EchoOfTheTimes.SceneManagement
         }
 
         // Надо как-то прокинуть сюда данные
-        public void SetStatus(int collected, int max_collectables_on_lvl)
+        public void SetStatus(int collected = 0, int max_collectables_on_lvl = 2)
         {
             if (collected < 0 || max_collectables_on_lvl < 0) return;
 
