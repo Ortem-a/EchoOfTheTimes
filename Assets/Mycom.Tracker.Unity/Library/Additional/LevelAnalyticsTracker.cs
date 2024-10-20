@@ -31,8 +31,6 @@ namespace EchoOfTheTimes.SceneManagement
             EndFPSTracking();
         }
 
-        //-------------------------------------------------------------------
-
         private void StartLevelTimer()
         {
             levelStartTime = Time.time;
@@ -45,19 +43,17 @@ namespace EchoOfTheTimes.SceneManagement
             Debug.Log($"Level duration: {levelDuration} seconds");
 
             // AppMetrica - статистики уровня
-            string jsonData = $"{{" +
-                      $" \"chapter\": {{" +
-                      $"     \"chapter_name\": \"{chapterName}\"," +
-                      $"     \"level\": {{" +
-                      $"         \"level_name\": \"{levelName}\"," +
-                      $"         \"duration\": \"{levelDuration}\"," +
-                      $"         \"num_collectables\": \"{num_collectables}\"," +
-                      $"         \"status\": \"{status}\"" +
-                      $"     }}" +
-                      $" }}" +
-                      $"}}";
+            string levelData = $@"
+            {{
+                ""level_name"": ""{levelName}"",
+                ""details"": {{
+                    ""duration"": {levelDuration},
+                    ""num_collectables"": {num_collectables},
+                    ""status"": ""{status}""
+                }}
+            }}";
 
-            AppMetrica.ReportEvent("level_completed", jsonData);
+            AppMetrica.ReportEvent("level_completed", levelData);
 
             // MyTracker - статистики уровня
             if (Application.platform == RuntimePlatform.Android)
@@ -74,8 +70,6 @@ namespace EchoOfTheTimes.SceneManagement
                 MyTracker.TrackEvent("level_completed", eventCustomParams);
             }
         }
-    
-
 
         private void StartFPSTracking()
         {
@@ -114,20 +108,19 @@ namespace EchoOfTheTimes.SceneManagement
             float maxFPS = trimmedFPSList.Max();
 
             // AppMetrica - статистика производительности
-            string jsonData = $"{{" +
-                      $" \"chapter\": {{" +
-                      $"     \"chapter_name\": \"{chapterName}\"," +
-                      $"     \"level\": {{" +
-                      $"         \"level_name\": \"{levelName}\"," +
-                      $"         \"average_fps\": \"{averageFPS:F2}\"," +
-                      $"         \"median_fps\": \"{medianFPS:F2}\"," +
-                      $"         \"max_fps\": \"{maxFPS:F2}\"," +
-                      $"         \"min_fps\": \"{minFPS:F2}\"" +
-                      $"     }}" +
-                      $" }}" +
-                      $"}}";
+            string levelData = $@"
+            {{
+                ""level_name"": ""{levelName}"",
+                ""details"": {{
+                    ""average_fps"": ""{averageFPS:F2}"",
+                    ""median_fps"": ""{medianFPS:F2}"",
+                    ""max_fps"": ""{maxFPS:F2}"",
+                    ""min_fps"": ""{minFPS:F2}""
+                }}
+            }}";
 
-            AppMetrica.ReportEvent("level_fps_stats", jsonData);
+            AppMetrica.ReportEvent("level_fps_stats", levelData);
+
 
             // MyTracker - статистика производительности
             if (Application.platform == RuntimePlatform.Android)
