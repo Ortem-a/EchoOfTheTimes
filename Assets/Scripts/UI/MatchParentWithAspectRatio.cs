@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class AdjustPanelWithAspectRatio : MonoBehaviour
 {
-    [SerializeField] private RectTransform firstPanel;  // Панель, которую нужно отрегулировать
-    [SerializeField] private RectTransform secondPanel;  // Панель, которую нужно отрегулировать
+    [SerializeField] private RectTransform firstPanel;  
+    [SerializeField] private RectTransform secondPanel;
 
     private const float aspectRatio = 716f / 1281f; // Соотношение ширины к высоте
 
@@ -26,7 +26,7 @@ public class AdjustPanelWithAspectRatio : MonoBehaviour
 
         // Корректрируем
         // float correctedWidth = originalWidth * secondPanel.anchorMin[1];
-        float correctedHeight = 0.9f * originalHeight * (1 - (secondPanel.anchorMin[1] + (1 - secondPanel.anchorMax[1])));
+        float correctedHeight = 0.7f * originalHeight * (1 - (secondPanel.anchorMin[1] + (1 - secondPanel.anchorMax[1])));
 
         // Вычисляем новую ширину на основе заданного соотношения
         float newWidth = correctedHeight * aspectRatio;
