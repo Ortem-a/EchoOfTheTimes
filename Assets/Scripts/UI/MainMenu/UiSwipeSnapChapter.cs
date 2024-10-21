@@ -15,6 +15,7 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         [SerializeField] private RectTransform _contentContainer;
         [SerializeField] private ScrollRect _scrollRect;
+        [SerializeField] private RectTransform _referenceRect; // Объект, чью ширину будем использовать
         [SerializeField] private float _snapSpeed = 15;
 
         private int _selectedTabIndex;
@@ -27,13 +28,13 @@ namespace EchoOfTheTimes.UI.MainMenu
                 OnChapterSwiped?.Invoke(value);
             }
         }
-        public int ItemCount => _itemPositionsNormalized.Count;
+        public int ItemCount = 8;
 
         private bool _isDragging;
         private bool _isSnapping;
-        private readonly List<float> _itemPositionsNormalized = new List<float>();
+        private readonly List<float> _itemPositions = new List<float>(); // Позиции в пикселях
         private float _targetScrollPosition = 0;
-        private float _itemSizeNormalized;
+        private float _itemWidth;
 
         private void Start()
         {
@@ -71,29 +72,33 @@ namespace EchoOfTheTimes.UI.MainMenu
         {
             LayoutRebuilder.ForceRebuildLayoutImmediate(_contentContainer);
 
-            _itemPositionsNormalized.Clear();
+            _itemPositions.Clear();
 
             var itemsCount = _contentContainer.childCount;
-            _itemSizeNormalized = 1f / (itemsCount - 1f);
 
+            // Используем ТОЛЬКО ширину переданного объекта (_referenceRect)
+            _itemWidth = _referenceRect.rect.width;
+
+            // Рассчитываем позиции элементов в пикселях, на основе их индекса и ширины
             for (var i = 0; i < itemsCount; i++)
             {
-                var itemPositionNormalized = _itemSizeNormalized * i;
-                _itemPositionsNormalized.Add(itemPositionNormalized);
+                float itemPosition = i * _itemWidth;
+                _itemPositions.Add(itemPosition);
             }
 
+            // Убедимся, что позиция на выбранной вкладке верна
             SelectTab(SelectedTabIndex);
         }
 
         public void SelectTab(int tabIndex)
         {
-            if (tabIndex < 0 || tabIndex >= _itemPositionsNormalized.Count)
+            if (tabIndex < 0 || tabIndex >= _itemPositions.Count)
             {
                 return;
             }
 
             SelectedTabIndex = tabIndex;
-            _targetScrollPosition = _itemPositionsNormalized[tabIndex];
+            _targetScrollPosition = _itemPositions[tabIndex] / (_contentContainer.rect.width - _referenceRect.rect.width);
             _isSnapping = true;
 
             TabSelected?.Invoke(tabIndex);
@@ -114,12 +119,12 @@ namespace EchoOfTheTimes.UI.MainMenu
             float closestPosition = float.MaxValue;
             int closestIndex = SelectedTabIndex;
 
-            // Порог для смены страницы: 1/3 от размера элемента
-            float swipeThreshold = _itemSizeNormalized / 3f;
+            // Порог для смены страницы: 1/3 от ширины объекта (_referenceRect)
+            float swipeThreshold = _itemWidth / 3f;
 
-            for (int i = 0; i < _itemPositionsNormalized.Count; i++)
+            for (int i = 0; i < _itemPositions.Count; i++)
             {
-                float distance = Mathf.Abs(_scrollRect.horizontalNormalizedPosition - _itemPositionsNormalized[i]);
+                float distance = Mathf.Abs(_scrollRect.horizontalNormalizedPosition * (_contentContainer.rect.width - _referenceRect.rect.width) - _itemPositions[i]);
                 if (distance < closestPosition)
                 {
                     closestPosition = distance;
@@ -128,11 +133,11 @@ namespace EchoOfTheTimes.UI.MainMenu
             }
 
             // Переход на предыдущий или следующий элемент при достижении порога свайпа
-            if (_scrollRect.horizontalNormalizedPosition > _itemPositionsNormalized[SelectedTabIndex] + swipeThreshold && SelectedTabIndex < _itemPositionsNormalized.Count - 1)
+            if (_scrollRect.horizontalNormalizedPosition > _itemPositions[SelectedTabIndex] / (_contentContainer.rect.width - _referenceRect.rect.width) + swipeThreshold && SelectedTabIndex < _itemPositions.Count - 1)
             {
                 closestIndex = SelectedTabIndex + 1; // Свайп вправо
             }
-            else if (_scrollRect.horizontalNormalizedPosition < _itemPositionsNormalized[SelectedTabIndex] - swipeThreshold && SelectedTabIndex > 0)
+            else if (_scrollRect.horizontalNormalizedPosition < _itemPositions[SelectedTabIndex] / (_contentContainer.rect.width - _referenceRect.rect.width) - swipeThreshold && SelectedTabIndex > 0)
             {
                 closestIndex = SelectedTabIndex - 1; // Свайп влево
             }
@@ -142,13 +147,13 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         private void SnapContent()
         {
-            if (_itemPositionsNormalized.Count < 2)
+            if (_itemPositions.Count < 2)
             {
                 _isSnapping = false;
                 return;
             }
 
-            var targetPosition = _itemPositionsNormalized[SelectedTabIndex];
+            var targetPosition = _itemPositions[SelectedTabIndex] / (_contentContainer.rect.width - _referenceRect.rect.width);
             _scrollRect.horizontalNormalizedPosition = Mathf.Lerp(_scrollRect.horizontalNormalizedPosition, targetPosition, Time.deltaTime * _snapSpeed);
 
             if (Mathf.Abs(_scrollRect.horizontalNormalizedPosition - targetPosition) <= 0.0001f)

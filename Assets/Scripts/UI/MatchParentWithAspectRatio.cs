@@ -1,0 +1,42 @@
+using UnityEngine;
+
+public class AdjustPanelWithAspectRatio : MonoBehaviour
+{
+    [SerializeField] private RectTransform firstPanel;  // Панель, которую нужно отрегулировать
+    [SerializeField] private RectTransform secondPanel;  // Панель, которую нужно отрегулировать
+
+    private const float aspectRatio = 716f / 1281f; // Соотношение ширины к высоте
+
+    private void Start()
+    {
+        AdjustPanelSize();
+    }
+
+    private void AdjustPanelSize()
+    {
+        if (firstPanel == null)
+        {
+            Debug.LogError("RectTransform не назначен!");
+            return;
+        }
+
+        // Получаем исходные ширину и высоту
+        float originalWidth = firstPanel.rect.width;
+        float originalHeight = firstPanel.rect.height;
+
+        // Корректрируем
+        // float correctedWidth = originalWidth * secondPanel.anchorMin[1];
+        float correctedHeight = 0.9f * originalHeight * (1 - (secondPanel.anchorMin[1] + (1 - secondPanel.anchorMax[1])));
+
+        // Вычисляем новую ширину на основе заданного соотношения
+        float newWidth = correctedHeight * aspectRatio;
+
+        // Вычисляем разницу и делим её на 2
+        float difference = (originalWidth - newWidth) / 2f;
+
+        // Присваиваем значение в Left и Right
+        RectTransform thisRectTransform = GetComponent<RectTransform>();
+        thisRectTransform.offsetMin = new Vector2(difference, thisRectTransform.offsetMin.y); // Left
+        thisRectTransform.offsetMax = new Vector2(-difference, thisRectTransform.offsetMax.y); // Right
+    }
+}

@@ -125,7 +125,7 @@ namespace EchoOfTheTimes.UI.MainMenu
 
             // Загружаем сцену
             SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
-            SceneManager.UnloadSceneAsync("0_MainMenu_UI_Chapters");
+            // SceneManager.UnloadSceneAsync("0_MainMenu_UI_Chapters");
         }
 
         private void DisableUIInteraction()

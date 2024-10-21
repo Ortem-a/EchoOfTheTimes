@@ -9,7 +9,7 @@ namespace EchoOfTheTimes.UI.MainMenu
         private float _defaultWidth = 25f;
         private float _defaultHeight = 25f;
 
-        private float _multiplyer = 2f;
+        private float _multiplyer = 1.57f;
 
         private int _lastIndex = -1;
 
