@@ -14,12 +14,6 @@ public class AdjustPanelWithAspectRatio : MonoBehaviour
 
     private void AdjustPanelSize()
     {
-        if (firstPanel == null)
-        {
-            Debug.LogError("RectTransform не назначен!");
-            return;
-        }
-
         // ѕолучаем исходные ширину и высоту
         float originalWidth = firstPanel.rect.width;
         float originalHeight = firstPanel.rect.height;

@@ -41,7 +41,7 @@ namespace EchoOfTheTimes.UI.MainMenu
                     _image.color = Color.white;
                     break;
                 case StatusType.Completed:
-                    _image.color = Color.yellow;
+                    // _image.color = Color.yellow;
                     break;
             }
         }

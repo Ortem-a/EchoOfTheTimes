@@ -42,6 +42,8 @@ namespace EchoOfTheTimes.SceneManagement
             float levelDuration = Time.time - levelStartTime;
             Debug.Log($"Level duration: {levelDuration} seconds");
 
+#warning АРТЁМ ПРОКИНЬ ПЛИЗ ЕБУЧИЙ СБОР КОЛЛЕКТАБЛОВ
+
             // AppMetrica - статистики уровня
             string levelData = $@"
             {{
@@ -142,8 +144,6 @@ namespace EchoOfTheTimes.SceneManagement
         // Надо как-то прокинуть сюда данные
         public void SetStatus(int collected = 0, int max_collectables_on_lvl = 2)
         {
-            if (collected < 0 || max_collectables_on_lvl < 0) return;
-
             // Если за прохождение уровня собрал всё, то красава, иначе дефолтыч
             if (collected == max_collectables_on_lvl)
             {
