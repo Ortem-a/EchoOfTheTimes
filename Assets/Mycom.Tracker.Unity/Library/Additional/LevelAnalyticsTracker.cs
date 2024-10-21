@@ -44,14 +44,15 @@ namespace EchoOfTheTimes.SceneManagement
 
 #warning АРТЁМ ПРОКИНЬ ПЛИЗ ЕБУЧИЙ СБОР КОЛЛЕКТАБЛОВ
 
-            // AppMetrica - статистики уровня
+            // AppMetrica - статистика завершения уровня
             string levelData = $@"
             {{
-                ""level_name"": ""{levelName}"",
-                ""details"": {{
-                    ""duration"": {levelDuration},
-                    ""num_collectables"": {num_collectables},
-                    ""status"": ""{status}""
+                ""level_completed"": {{
+                    ""{levelName}"": {{
+                        ""duration"": {levelDuration},
+                        ""num_collectables"": {num_collectables},
+                        ""status"": ""{status}""
+                    }}
                 }}
             }}";
 
@@ -109,20 +110,20 @@ namespace EchoOfTheTimes.SceneManagement
             float minFPS = trimmedFPSList.Min();
             float maxFPS = trimmedFPSList.Max();
 
-            // AppMetrica - статистика производительности
-            string levelData = $@"
+            // AppMetrica - статистика производительности уровня
+            string jsonData = $@"
             {{
-                ""level_name"": ""{levelName}"",
-                ""details"": {{
-                    ""average_fps"": ""{averageFPS:F2}"",
-                    ""median_fps"": ""{medianFPS:F2}"",
-                    ""max_fps"": ""{maxFPS:F2}"",
-                    ""min_fps"": ""{minFPS:F2}""
+                ""level_fps_stats"": {{
+                    ""{levelName}"": {{
+                        ""average_fps"": ""{averageFPS:F2}"",
+                        ""median_fps"": ""{medianFPS:F2}"",
+                        ""max_fps"": ""{maxFPS:F2}"",
+                        ""min_fps"": ""{minFPS:F2}""
+                    }}
                 }}
             }}";
 
-            AppMetrica.ReportEvent("level_fps_stats", levelData);
-
+            AppMetrica.ReportEvent("level_fps_stats", jsonData);
 
             // MyTracker - статистика производительности
             if (Application.platform == RuntimePlatform.Android)
