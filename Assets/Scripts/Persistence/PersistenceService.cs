@@ -72,7 +72,7 @@ namespace EchoOfTheTimes.Persistence
         {
             var newDataToSave = _saveLoadService.DataToSave;
 
-#warning can be if U start NOT from MAIN MENU
+#warning мюдн янупюмърэ онякедмхи гюцпсфеммши спнбемэ б тюик янупюмемхи х апюрэ нррсдю
             _lastLoadedLevel ??= _saveLoadService.DataToSave.Data[1].Levels[0];
 
             // ОНЛЕРХРЭ РЕЙСЫХИ СПНБЕМЭ ЙЮЙ ОПНИДЕММШИ
