@@ -15,7 +15,7 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         [SerializeField] private RectTransform _contentContainer;
         [SerializeField] private ScrollRect _scrollRect;
-        [SerializeField] private RectTransform _referenceRect; // Объект, чью ширину будем использовать
+        [SerializeField] private RectTransform _referenceRect; // Объект чью ширину юзаем = ширина экрана юзера
         [SerializeField] private float _snapSpeed = 15;
 
         private int _selectedTabIndex;
@@ -32,7 +32,7 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         private bool _isDragging;
         private bool _isSnapping;
-        private readonly List<float> _itemPositions = new List<float>(); // Позиции в пикселях
+        private readonly List<float> _itemPositions = new List<float>(); // Позиции в пикселях, иначе этот кусок говна у меня не работал нормально, если хошь, можешь переделать)
         private float _targetScrollPosition = 0;
         private float _itemWidth;
 
@@ -116,34 +116,31 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         private void FindSnappingTabAndStartSnapping()
         {
-            float closestPosition = float.MaxValue;
-            int closestIndex = SelectedTabIndex;
+            float scrollPos = _scrollRect.horizontalNormalizedPosition * (_contentContainer.rect.width - _referenceRect.rect.width);
+            float currentItemPos = _itemPositions[SelectedTabIndex];
 
-            // Порог для смены страницы: 1/3 от ширины объекта (_referenceRect)
-            float swipeThreshold = _itemWidth / 3f;
+            float distance = scrollPos - currentItemPos;
 
-            for (int i = 0; i < _itemPositions.Count; i++)
+            // Порог для смены страницы: процент от ширины элемента (например, 25%)
+            float swipeThreshold = _itemWidth * 0.25f; // Настраиваемое значение
+
+            if (Mathf.Abs(distance) > swipeThreshold)
             {
-                float distance = Mathf.Abs(_scrollRect.horizontalNormalizedPosition * (_contentContainer.rect.width - _referenceRect.rect.width) - _itemPositions[i]);
-                if (distance < closestPosition)
+                if (distance > 0 && SelectedTabIndex < _itemPositions.Count - 1)
                 {
-                    closestPosition = distance;
-                    closestIndex = i;
+                    // Свайп вправо: переходим на следующую вкладку
+                    SelectedTabIndex++;
+                }
+                else if (distance < 0 && SelectedTabIndex > 0)
+                {
+                    // Свайп влево: возвращаемся на предыдущую вкладку
+                    SelectedTabIndex--;
                 }
             }
 
-            // Переход на предыдущий или следующий элемент при достижении порога свайпа
-            if (_scrollRect.horizontalNormalizedPosition > _itemPositions[SelectedTabIndex] / (_contentContainer.rect.width - _referenceRect.rect.width) + swipeThreshold && SelectedTabIndex < _itemPositions.Count - 1)
-            {
-                closestIndex = SelectedTabIndex + 1; // Свайп вправо
-            }
-            else if (_scrollRect.horizontalNormalizedPosition < _itemPositions[SelectedTabIndex] / (_contentContainer.rect.width - _referenceRect.rect.width) - swipeThreshold && SelectedTabIndex > 0)
-            {
-                closestIndex = SelectedTabIndex - 1; // Свайп влево
-            }
-
-            SelectTab(closestIndex);
+            SelectTab(SelectedTabIndex);
         }
+
 
         private void SnapContent()
         {
