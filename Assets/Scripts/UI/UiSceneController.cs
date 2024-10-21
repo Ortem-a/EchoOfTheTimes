@@ -59,7 +59,7 @@ namespace EchoOfTheTimes.UI
 
         private SceneLoader _loader;
         private LevelStateMachine _stateMachine;
-        private UiSceneView _sceneView;
+        private PlayerProgressHudView _sceneView;
         private InputMediator _inputMediator;
         private LevelAudioManager _levelAudioManager;
         private HUDController _hudController;
@@ -75,7 +75,7 @@ namespace EchoOfTheTimes.UI
         }
 
         [Inject]
-        private void Construct(LevelStateMachine stateMachine, UiSceneView uiSceneView, InputMediator inputMediator, LevelAudioManager levelAudioManager, HUDController hudController)
+        private void Construct(LevelStateMachine stateMachine, PlayerProgressHudView uiSceneView, InputMediator inputMediator, LevelAudioManager levelAudioManager, HUDController hudController)
         {
             _stateMachine = stateMachine;
             _sceneView = uiSceneView;
@@ -150,11 +150,11 @@ namespace EchoOfTheTimes.UI
             await _loader.LoadNextSceneGroupAsync();
         }
 
-        public void UpdateLabel()
-        {
-            int stateId = _stateMachine.GetCurrentStateId();
-            _sceneView.UpdateLabel(stateId);
-        }
+        //public void UpdateLabel()
+        //{
+        //    int stateId = _stateMachine.GetCurrentStateId();
+        //    _sceneView.UpdateProgress(stateId);
+        //}
 
         public void EnableFinishCanvas()
         {

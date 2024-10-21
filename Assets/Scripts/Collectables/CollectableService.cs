@@ -1,4 +1,5 @@
 using EchoOfTheTimes.Persistence;
+using EchoOfTheTimes.UI;
 using UnityEngine;
 
 namespace EchoOfTheTimes.Collectables
@@ -20,6 +21,8 @@ namespace EchoOfTheTimes.Collectables
         [SerializeField]
         private int _totalCollectables;
 
+        private PlayerProgressHudView _playerProgressHudView;
+
         private void Awake()
         {
             var persistenceService = FindObjectOfType<PersistenceService>();
@@ -29,6 +32,8 @@ namespace EchoOfTheTimes.Collectables
                 : 0;
         
             _totalCollectables = GetComponent<CollectableSpawner>().NumberOfPlaceholders;
+
+            _playerProgressHudView = FindObjectOfType<PlayerProgressHudView>();
         }
 
         public void OnCollected()
@@ -39,6 +44,8 @@ namespace EchoOfTheTimes.Collectables
             {
                 _collectedEarlier++;
             }
+
+            _playerProgressHudView.UpdateProgress(_collectedCollectables);
         }
 
 #if UNITY_EDITOR
