@@ -29,6 +29,7 @@ namespace EchoOfTheTimes.UI.MainMenu
             }
         }
         public int ItemCount = 8;
+        public float change_progress_cf = 0;
 
         private bool _isDragging;
         private bool _isSnapping;
@@ -53,11 +54,41 @@ namespace EchoOfTheTimes.UI.MainMenu
         {
             _isDragging = true;
             _isSnapping = false;
+
+            // ShowChangeChapterProgress(); // запускать, когда начался свайп и выводить риалтайм до тех пор, пока не закончится
         }
 
+        // Следим за прогрессом свайпа, будем использовать для ПЛАВНОГО изменения размера прогресс_кружочков, цвета фона, декораций и остальной поебени
         public void OnDrag(PointerEventData eventData)
         {
-            // События свайпа обрабатываются ScrollRect
+            ShowChangeChapterProgress();
+        }
+
+        private void ShowChangeChapterProgressInvert()
+        {
+            float scrollPos = _scrollRect.horizontalNormalizedPosition * (_contentContainer.rect.width - _referenceRect.rect.width);
+            float currentItemPos = _itemPositions[SelectedTabIndex];
+
+            float distance = scrollPos - currentItemPos;
+
+            if (distance >= 0)
+            {
+                change_progress_cf = -1f * (1f - distance / _itemWidth);
+            }
+            else
+            {
+                change_progress_cf = 1f + distance / _itemWidth;
+            }
+        }
+
+        private void ShowChangeChapterProgress()
+        {
+            float scrollPos = _scrollRect.horizontalNormalizedPosition * (_contentContainer.rect.width - _referenceRect.rect.width);
+            float currentItemPos = _itemPositions[SelectedTabIndex];
+
+            float distance = scrollPos - currentItemPos;
+
+            change_progress_cf = distance / _itemWidth;
         }
 
         public void OnEndDrag(PointerEventData eventData)
@@ -124,6 +155,8 @@ namespace EchoOfTheTimes.UI.MainMenu
             // Порог для смены страницы: процент от ширины элемента (например, 25%)
             float swipeThreshold = _itemWidth * 0.25f; // Настраиваемое значение
 
+            // change_progress_cf = distance / _itemWidth; // Это считается только в момент конца свайпа, а надо в риаотайме как-то
+
             if (Mathf.Abs(distance) > swipeThreshold)
             {
                 if (distance > 0 && SelectedTabIndex < _itemPositions.Count - 1)
@@ -152,6 +185,12 @@ namespace EchoOfTheTimes.UI.MainMenu
 
             var targetPosition = _itemPositions[SelectedTabIndex] / (_contentContainer.rect.width - _referenceRect.rect.width);
             _scrollRect.horizontalNormalizedPosition = Mathf.Lerp(_scrollRect.horizontalNormalizedPosition, targetPosition, Time.deltaTime * _snapSpeed);
+
+            // change_progress_cf = (_scrollRect.horizontalNormalizedPosition - targetPosition) / _itemWidth;
+
+            // change_progress_cf = _scrollRect.horizontalNormalizedPosition;
+
+            ShowChangeChapterProgressInvert();
 
             if (Mathf.Abs(_scrollRect.horizontalNormalizedPosition - targetPosition) <= 0.0001f)
             {
