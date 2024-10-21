@@ -3,24 +3,8 @@ apply plugin: 'com.android.library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-// Android Resolver Dependencies Start
-    implementation 'androidx.annotation:annotation:1.7.1' // Packages/io.appmetrica.analytics/Editor/AppMetricaDependencies.xml:5
-    implementation 'com.my.tracker:mytracker-sdk:3.3.2' // Assets/Mycom.Tracker.Unity/Editor/MyTrackerDependencies.xml:3
-    implementation 'io.appmetrica.analytics:analytics:7.2.0' // Packages/io.appmetrica.analytics/Editor/AppMetricaDependencies.xml:4
-// Android Resolver Dependencies End
 **DEPS**}
 
-// Android Resolver Exclusions Start
-android {
-  packagingOptions {
-      exclude ('/lib/armeabi/*' + '*')
-      exclude ('/lib/mips/*' + '*')
-      exclude ('/lib/mips64/*' + '*')
-      exclude ('/lib/x86/*' + '*')
-      exclude ('/lib/x86_64/*' + '*')
-  }
-}
-// Android Resolver Exclusions End
 android {
     ndkPath "**NDKPATH**"
 
