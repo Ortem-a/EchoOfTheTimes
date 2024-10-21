@@ -52,7 +52,7 @@ namespace EchoOfTheTimes.DI
         [SerializeField]
         private UiSceneController _uiSceneController;
         [SerializeField]
-        private UiSceneView _uiSceneView;
+        private PlayerProgressHudView _uiSceneView;
         [SerializeField]
         private HUDController _hudController;
         [SerializeField]
@@ -106,7 +106,7 @@ namespace EchoOfTheTimes.DI
         {
             Container.Bind<HUDController>().FromInstance(_hudController).AsSingle();
             Container.Bind<UiSceneController>().FromInstance(_uiSceneController).AsSingle();
-            Container.Bind<UiSceneView>().FromInstance(_uiSceneView).AsSingle();
+            Container.Bind<PlayerProgressHudView>().FromInstance(_uiSceneView).AsSingle();
         }
 
         private void SubscribeEvents()
@@ -120,7 +120,7 @@ namespace EchoOfTheTimes.DI
             _stateMachine.OnTransitionComplete += _vertexFollower.Unlink;
             _stateMachine.OnTransitionComplete += _stateMachine.CompleteTransition;
 
-            _stateMachine.OnTransitionComplete += _uiSceneController.UpdateLabel;
+            //_stateMachine.OnTransitionComplete += _uiSceneController.UpdateLabel;
         }
 
         private void UnsubscribeEvents()
@@ -134,7 +134,7 @@ namespace EchoOfTheTimes.DI
             _stateMachine.OnTransitionComplete -= _vertexFollower.Unlink;
             _stateMachine.OnTransitionComplete -= _stateMachine.CompleteTransition;
 
-            _stateMachine.OnTransitionComplete -= _uiSceneController.UpdateLabel;
+            //_stateMachine.OnTransitionComplete -= _uiSceneController.UpdateLabel;
         }
     }
 }
