@@ -9,6 +9,10 @@ public class ScrollFollower : MonoBehaviour
     private void Awake()
     {
         followerScrollRect = GetComponent<ScrollRect>();
+
+        // Отключаем возможность пользовательского ввода для синхронизируемого ScrollRect
+        followerScrollRect.horizontal = false;
+        followerScrollRect.vertical = false;
     }
 
     private void Start()
