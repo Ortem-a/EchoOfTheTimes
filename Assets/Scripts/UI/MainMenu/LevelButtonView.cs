@@ -27,7 +27,7 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         private void UpdateLabel(int collected, int total)
         {
-            _collectablesLabel.text = $"{collected} / {total}";
+            _collectablesLabel.text = $"{collected}/{total}";
         }
 
         private void UpdateLevelStatus(StatusType status)
