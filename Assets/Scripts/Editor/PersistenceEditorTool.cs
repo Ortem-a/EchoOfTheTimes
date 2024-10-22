@@ -39,6 +39,7 @@ namespace EchoOfTheTimes.Editor
             playerData.Data[1].ChapterStatus = StatusType.Unlocked;
             playerData.Data[1].Levels[0].LevelStatus = StatusType.Unlocked;
 
+            playerData.LastLoadedLevelFullName = string.Empty;
 
             preset.Data = playerData;
 
@@ -69,6 +70,8 @@ namespace EchoOfTheTimes.Editor
                     playerData.Data[i].Levels[j].Collected = playerData.Data[i].Levels[j].TotalCollectables;
                 }
             }
+
+            playerData.LastLoadedLevelFullName = playerData.Data[^1].Levels[^1].FullName;
 
             preset.Data = playerData;
 

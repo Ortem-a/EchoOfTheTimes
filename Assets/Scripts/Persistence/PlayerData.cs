@@ -8,6 +8,8 @@ namespace EchoOfTheTimes.Persistence
     {
         public bool SoundsMuted;
 
+        public string LastLoadedLevelFullName = string.Empty;
+
         public List<GameChapter> Data;
 
         public override string ToString()
