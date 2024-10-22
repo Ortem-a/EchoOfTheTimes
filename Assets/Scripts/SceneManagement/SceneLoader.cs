@@ -35,9 +35,13 @@ namespace EchoOfTheTimes.SceneManagement
 
         public readonly SceneGroupManager Manager = new SceneGroupManager();
 
+        private PersistenceService _persistenceService;
+
         [Inject]
-        public void Construct()
+        public void Construct(PersistenceService persistenceService)
         {
+            _persistenceService = persistenceService;
+
             Manager.OnSceneLoaded += sceneName =>
             {
                 Debug.Log($"Loaded: '{sceneName}'");
@@ -75,38 +79,6 @@ namespace EchoOfTheTimes.SceneManagement
             _loadingBar.fillAmount = Mathf.Lerp(currentFillAmount, _targetProgress, Time.deltaTime * dynamicFillSpeed);
         }
 
-        //public async Task LoadSceneGroupAsync(int index)
-        //{
-        //    _loadingBar.fillAmount = 0f;
-        //    _targetProgress = 1f;
-
-        //    if (index < 0 || index >= GameChapters.Length)
-        //    {
-        //        Debug.LogError($"Invalid scene group index: [{index}]");
-        //        return;
-        //    }
-
-        //    LoadingProgress progress = new LoadingProgress();
-        //    progress.Progressed += target => _targetProgress = Mathf.Max(target, _targetProgress);
-
-        //    EnableLoadingCanvas();
-
-        //    if (_lastLoadedGroupIndex >= 0)
-        //    {
-        //        string previousSceneName = GameChapters[_lastLoadedGroupIndex].GroupName;
-        //        Debug.Log($"Calling OnSceneUnloaded for scene: {previousSceneName}");
-        //    }
-
-        //    _lastLoadedGroupIndex = index;
-
-        //    await Manager.LoadScenesAsync(GameChapters[index], progress);
-
-        //    string currentSceneName = GameChapters[index].GroupName;
-        //    Debug.Log($"Calling OnSceneLoaded for scene: {currentSceneName}");
-
-        //    EnableLoadingCanvas(false);
-        //}
-
         public async Task LoadSceneGroupAsync(GameLevel level)
         {
             _currentLevel = level;
@@ -122,6 +94,11 @@ namespace EchoOfTheTimes.SceneManagement
             await Manager.LoadScenesAsync(level, progress);
 
             Debug.Log($"Calling OnSceneLoaded for scene: {level.LevelName}");
+
+            if (level.FullName != "MainMenu|0")
+            {
+                _persistenceService.UpdateLastLoadedLevel(level);
+            }
 
             EnableLoadingCanvas(false);
         }
