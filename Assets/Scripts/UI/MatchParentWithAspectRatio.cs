@@ -10,8 +10,21 @@ public class AdjustPanelWithAspectRatio : MonoBehaviour
 
     private void Start()
     {
-        AdjustPanelSize();
+        if (firstPanel != null && secondPanel != null && thirdPanel != null) 
+        {
+            AdjustPanelSize();
+        }
+        else if (firstPanel == null && secondPanel == null && thirdPanel == null)
+        {
+            AdjustPanelSizeJust();
+        }
     }
+
+    private void AdjustPanelSizeJust()
+    {
+        return;
+    }
+
 
     private void AdjustPanelSize()
     {
@@ -22,7 +35,7 @@ public class AdjustPanelWithAspectRatio : MonoBehaviour
         // Корректрируем
         // float correctedWidth = originalWidth * secondPanel.anchorMin[1];
         float correctedHeight = (1 - (thirdPanel.anchorMin[1] + (1 - thirdPanel.anchorMax[1]))) *
-                                originalHeight * 
+                                originalHeight *
                                 (1 - (secondPanel.anchorMin[1] + (1 - secondPanel.anchorMax[1])));
 
         // Вычисляем новую ширину на основе заданного соотношения
