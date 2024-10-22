@@ -5,7 +5,7 @@ public class AdjustPanelWithAspectRatio : MonoBehaviour
     [SerializeField] private RectTransform firstPanel;  
     [SerializeField] private RectTransform secondPanel;
 
-    private const float aspectRatio = 716f / 1281f; // Соотношение ширины к высоте
+    [SerializeField] private float aspectRatio = 716f / 1281f; // Соотношение ширины к высоте
 
     private void Start()
     {
