@@ -88,7 +88,21 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         private void ShowChaptersUiPanels(bool show)
         {
-            ChaptersPanel.SetActive(show);
+            //ChaptersPanel.SetActive(show); // Как мне не трогать определённый объект на сцене тут?
+            //ChaptersFooterPanel.SetActive(show);
+            //_lastChapterUiItem.LevelsPanel.transform.parent.gameObject.SetActive(!show);
+            GameObject excludeObject = ChaptersPanel.transform.Find("ScrollableViewHorizontalCHAPTERS_NAMES").gameObject;
+
+            foreach (Transform child in ChaptersPanel.transform)
+            {
+                if (child.gameObject == excludeObject)
+                {
+                    continue;
+                }
+
+                child.gameObject.SetActive(show);
+            }
+
             ChaptersFooterPanel.SetActive(show);
             _lastChapterUiItem.LevelsPanel.transform.parent.gameObject.SetActive(!show);
         }
