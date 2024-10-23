@@ -88,15 +88,23 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         private void ShowChaptersUiPanels(bool show)
         {
-            //ChaptersPanel.SetActive(show); // Как мне не трогать определённый объект на сцене тут?
-            //ChaptersFooterPanel.SetActive(show);
-            //_lastChapterUiItem.LevelsPanel.transform.parent.gameObject.SetActive(!show);
-            GameObject excludeObject = ChaptersPanel.transform.Find("ScrollableViewHorizontalCHAPTERS_NAMES").gameObject;
+            // Это чтобы само название главы не пропадало при переходе на меню уровней и назад
+            GameObject excludeObject1 = ChaptersPanel.transform.Find("ScrollableViewHorizontalCHAPTERS_NAMES").gameObject;
 
             foreach (Transform child in ChaptersPanel.transform)
             {
-                if (child.gameObject == excludeObject)
+                // Проверяем наличие скрипта ExcludeFromHide на child
+                ExcludeFromHide excludeScript = child.GetComponent<ExcludeFromHide>();
+
+                if (excludeScript != null && excludeScript.boundaryValue)
                 {
+                    continue;
+                }
+
+                // ScrollableViewHorizontalCHAPTERS_NAMES
+                if (child.gameObject == excludeObject1)
+                {
+                    Debug.Log(ChaptersPanel.name);
                     continue;
                 }
 
@@ -106,6 +114,7 @@ namespace EchoOfTheTimes.UI.MainMenu
             ChaptersFooterPanel.SetActive(show);
             _lastChapterUiItem.LevelsPanel.transform.parent.gameObject.SetActive(!show);
         }
+
 
         private void CalculateAndShowTotalPlayerProgress()
         {
@@ -125,20 +134,28 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         private void ShowOrHideChpaterSwitchButtons(int currentChapterIndex)
         {
+            ExcludeFromHide toLeftExclude = _toLeftButton.GetComponent<ExcludeFromHide>();
+            ExcludeFromHide toRightExclude = _toRightButton.GetComponent<ExcludeFromHide>();
+
             if (currentChapterIndex == 0)
             {
                 // hide left button
                 _toLeftButton.gameObject.SetActive(false);
+                toLeftExclude.boundaryValue = true;
             }
             else if (currentChapterIndex == _levelsParentPanel.transform.childCount - 1)
             {
                 // hide right button
                 _toRightButton.gameObject.SetActive(false);
+                toRightExclude.boundaryValue = true;
             }
             else
             {
                 _toLeftButton.gameObject.SetActive(true);
                 _toRightButton.gameObject.SetActive(true);
+
+                toLeftExclude.boundaryValue = false;
+                toRightExclude.boundaryValue = false;
             }
         }
     }
