@@ -16,6 +16,9 @@ namespace EchoOfTheTimes.Persistence
         {
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
+            sb.Append($"Settings:\n\t{nameof(SoundsMuted)}: {SoundsMuted}\n");
+            sb.Append($"{nameof(LastLoadedLevelFullName)}: {LastLoadedLevelFullName}\n");
+
             foreach (var chapter in Data)
             {
                 sb.Append($"{chapter}\n===============\n");
