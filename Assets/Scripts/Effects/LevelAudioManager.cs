@@ -1,62 +1,60 @@
+using EchoOfTheTimes.Persistence;
 using EchoOfTheTimes.ScriptableObjects.Level;
+using EchoOfTheTimes.Units;
+using System;
+using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
-using EchoOfTheTimes.Units;
-using System.Collections;
-using System;
-using System.Linq;
 
 namespace EchoOfTheTimes.Effects
 {
     [RequireComponent(typeof(AudioSource))]
     public class LevelAudioManager : MonoBehaviour
     {
-        [SerializeField]
         private LevelSoundsSceneContainerScriptableObject _levelSoundsSceneContainer;
         private bool _isReadyToPlaySound = false;
-        private AudioSource audioSource;
-        private Player player;
-        private AudioSource ambientAudioSource;
+        private AudioSource _audioSource;
+        private Player _player;
+        private AudioSource _ambientAudioSource;
+
+        private bool _isMuted;
 
         [Inject]
-        private void Construct(Player playerInstance)
+        private void Construct(Player playerInstance, LevelSoundsSceneContainerScriptableObject levelSoundsSceneContainer)
         {
-            player = playerInstance;
+            _player = playerInstance;
+            _levelSoundsSceneContainer = levelSoundsSceneContainer;
+
+            _ambientAudioSource = GetComponent<AudioSource>();
+            _ambientAudioSource.loop = true;
+
+            _isMuted = FindObjectOfType<PersistenceService>().GetSettings();
+            _ambientAudioSource.mute = _isMuted;
         }
 
         private void Start()
         {
             StartCoroutine(DelayedInit());
-
-            ambientAudioSource = gameObject.AddComponent<AudioSource>();
-            ambientAudioSource.loop = true;
         }
 
         private IEnumerator DelayedInit()
         {
             yield return new WaitForSeconds(1f);
             _isReadyToPlaySound = true;
-            Debug.Log("LevelAudioManager is ready to play sound.");
         }
 
         public void PlayAmbientSound(string sceneName)
         {
-            if (_levelSoundsSceneContainer == null)
-            {
-                Debug.LogWarning("LevelSoundsSceneContainerScriptableObject is not assigned.");
-                return;
-            }
-
-            Debug.Log($"Attempting to play ambient sound for scene: {sceneName}");
             var levelSound = GetLevelSound(sceneName);
             if (levelSound != null && levelSound.AmbientSound != null)
             {
                 Debug.Log($"Found ambient sound for scene: {sceneName}, sound: {levelSound.AmbientSound.name}");
-                ambientAudioSource.clip = levelSound.AmbientSound;
-                ambientAudioSource.volume = 0f;
-                ambientAudioSource.Play();
-                StartCoroutine(FadeIn(ambientAudioSource, levelSound.AmbientSoundVolume, 1f)); // Время появления эмбиент-звука
+                _ambientAudioSource.clip = levelSound.AmbientSound;
+                _ambientAudioSource.volume = 0f;
+                _ambientAudioSource.Play();
+                StartCoroutine(FadeIn(_ambientAudioSource, levelSound.AmbientSoundVolume, 1f)); // Время появления эмбиент-звука
                 Debug.Log("Ambient sound started.");
             }
             else
@@ -67,9 +65,9 @@ namespace EchoOfTheTimes.Effects
 
         public void StopAmbientSound()
         {
-            if (ambientAudioSource != null && ambientAudioSource.isPlaying)
+            if (_ambientAudioSource != null && _ambientAudioSource.isPlaying)
             {
-                StartCoroutine(FadeOut(ambientAudioSource, 1f)); // Время затухания эмбиент-звука
+                StartCoroutine(FadeOut(_ambientAudioSource, 1f)); // Время затухания эмбиент-звука
             }
         }
 
@@ -123,7 +121,7 @@ namespace EchoOfTheTimes.Effects
         {
             if (!_isReadyToPlaySound)
             {
-                Debug.LogWarning($"{soundName} sound not ready to play for scene: {SceneManager.GetActiveScene().name}");
+                //Debug.LogWarning($"{soundName} sound not ready to play for scene: {SceneManager.GetActiveScene().name}");
                 return;
             }
 
@@ -151,30 +149,23 @@ namespace EchoOfTheTimes.Effects
 
         private void PlaySound(AudioClip clip, float volume)
         {
-            if (clip == null) return;
-
             GameObject tempAudioGO = new GameObject("TempAudio");
-            tempAudioGO.transform.SetParent(player.transform);
+            tempAudioGO.transform.SetParent(_player.transform);
             tempAudioGO.transform.localPosition = Vector3.zero;
 
-            audioSource = tempAudioGO.AddComponent<AudioSource>();
-            audioSource.clip = clip;
-            audioSource.volume = volume;
-            audioSource.spatialBlend = 1.0f;
-            audioSource.Play();
+            _audioSource = tempAudioGO.AddComponent<AudioSource>();
+            _audioSource.clip = clip;
+            _audioSource.volume = volume;
+            _audioSource.spatialBlend = 1.0f;
+            _audioSource.Play();
 
             Destroy(tempAudioGO, clip.length);
         }
 
         private LevelSoundsSceneContainerScriptableObject.LevelSound GetLevelSound(string sceneName)
         {
-            if (_levelSoundsSceneContainer == null || _levelSoundsSceneContainer.LevelSounds == null)
-            {
-                Debug.LogWarning("LevelSoundsSceneContainer or its LevelSounds are not assigned.");
-                return null;
-            }
-
-            return _levelSoundsSceneContainer.LevelSounds.FirstOrDefault(levelSound => levelSound.LevelScene.SceneName == sceneName);
+            return _levelSoundsSceneContainer.LevelSounds
+                .FirstOrDefault(levelSound => levelSound.LevelScene.SceneName == sceneName);
         }
     }
 }

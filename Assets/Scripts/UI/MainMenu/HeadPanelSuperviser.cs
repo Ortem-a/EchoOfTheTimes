@@ -10,22 +10,11 @@ namespace EchoOfTheTimes.UI.MainMenu
         private Button _aboutUsButton;
         [SerializeField]
         private Button _backToChaptersButton;
-        [SerializeField]
-        private MuteButtonController _muteSoundController;
-
-        private bool _isSoundMuted;
 
         [Inject]
         private void Construct(UiMainMenuService mainMenuService)
         {
-            _isSoundMuted = mainMenuService.PersistenceService.GetSettings();
-
             _backToChaptersButton.onClick.AddListener(mainMenuService.ShowChaptersList);
-        }
-
-        private void Start()
-        {
-            _muteSoundController.SetButtonIcon(_isSoundMuted);
         }
 
         public void ShowHeadPanelForLevels() => ShowAboutUsButton(false);

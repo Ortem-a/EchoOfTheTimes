@@ -161,6 +161,16 @@ namespace EchoOfTheTimes.Persistence
 
         public bool GetSettings() => _saveLoadService.DataToSave.SoundsMuted;
 
+        public void SetAndSaveSetttings(bool isMuted)
+        {
+            _saveLoadService.DataToSave.SoundsMuted = isMuted;
+
+            if (_presetType == PresetType.SavedFile)
+            {
+                _saveLoadService.Save();
+            }
+        }
+
         public void UpdateLastLoadedLevel(GameLevel level) => _lastLoadedLevel = level.FullName;
 
         public GameLevel GetLevel(string chapterTitle, string levelName)

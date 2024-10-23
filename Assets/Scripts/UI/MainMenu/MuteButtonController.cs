@@ -1,26 +1,46 @@
-using System.Collections;
-using System.Collections.Generic;
+using EchoOfTheTimes.Persistence;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace EchoOfTheTimes.UI.MainMenu
 {
-    [RequireComponent(typeof(Image))]
+    [RequireComponent(typeof(Image), typeof(Button))]
     public class MuteButtonController : MonoBehaviour
     {
         private Image _image;
+        private Button _button;
 
         [SerializeField]
         private Sprite _mutedIcon;
         [SerializeField]
         private Sprite _soundEnableIcon;
 
-        private void Awake()
+        private PersistenceService _persistenceService;
+        private bool _isMuted;
+
+        [Inject]
+        private void Construct(UiMainMenuService mainMenuService)
         {
+            _persistenceService = mainMenuService.PersistenceService;
+            _isMuted = _persistenceService.GetSettings();
+
             _image = GetComponent<Image>();
+
+            _button = GetComponent<Button>();
+            _button.onClick.AddListener(HandleButtonOnClick);
         }
 
-        public void SetButtonIcon(bool isMuted)
+        private void HandleButtonOnClick()
+        {
+            _isMuted = !_isMuted;
+
+            _persistenceService.SetAndSaveSetttings(_isMuted);
+
+            SetButtonIcon(_isMuted);
+        }
+
+        private void SetButtonIcon(bool isMuted)
         {
             if (isMuted)
             {
