@@ -232,7 +232,7 @@ namespace EchoOfTheTimes.UI
                         hudCanvasGroup.alpha = Mathf.Lerp(0f, 1f, (HUDStartBeforeEnd_sec - StartFadeInPanel.alpha * StartFadeInDuration_sec) / HUDStartBeforeEnd_sec * 2);
                     }
 
-                    // Debug.Log("Альфа во время обновления: " + StartFadeInPanel.alpha);
+                    Debug.Log("Альфа во время обновления: " + StartFadeInPanel.alpha);
                 })
                 .OnComplete(() =>
                 {
