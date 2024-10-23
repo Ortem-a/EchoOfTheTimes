@@ -20,7 +20,7 @@ namespace EchoOfTheTimes.UI
 
         public void UpdateProgress(int collected)
         {
-            _progressLabel.text = $"{collected} / {_totalCollectables}";
+            _progressLabel.text = $"{collected}/{_totalCollectables}";
         }
     }
 }

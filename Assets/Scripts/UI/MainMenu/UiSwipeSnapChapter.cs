@@ -117,7 +117,6 @@ namespace EchoOfTheTimes.UI.MainMenu
                 _itemPositions.Add(itemPosition);
             }
 
-            // ”бедимс€, что позици€ на выбранной вкладке верна
             SelectTab(SelectedTabIndex);
         }
 
@@ -185,10 +184,6 @@ namespace EchoOfTheTimes.UI.MainMenu
 
             var targetPosition = _itemPositions[SelectedTabIndex] / (_contentContainer.rect.width - _referenceRect.rect.width);
             _scrollRect.horizontalNormalizedPosition = Mathf.Lerp(_scrollRect.horizontalNormalizedPosition, targetPosition, Time.deltaTime * _snapSpeed);
-
-            // change_progress_cf = (_scrollRect.horizontalNormalizedPosition - targetPosition) / _itemWidth;
-
-            // change_progress_cf = _scrollRect.horizontalNormalizedPosition;
 
             ShowChangeChapterProgressInvert();
 

@@ -21,7 +21,7 @@ namespace EchoOfTheTimes.UI.MainMenu
                 totalInChapter += level.TotalCollectables;
             }
 
-            _progressPerChapterLabel.text = $"{collectedInChapter} / {totalInChapter}";
+            _progressPerChapterLabel.text = $"{collectedInChapter}/{totalInChapter}";
         }
     }
 }
