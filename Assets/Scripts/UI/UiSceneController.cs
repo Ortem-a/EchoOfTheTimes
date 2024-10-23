@@ -210,6 +210,9 @@ namespace EchoOfTheTimes.UI
             StartLevelCanvas.gameObject.SetActive(true);
             StartFadeInPanel.alpha = 1f;
 
+            // Перенёс сюды чтобы не дропался ФПС на глазах у игрока при загрузке музыки
+            _levelAudioManager.PlayAmbientSound();
+
             // Активируем BottomPanel сразу с началом анимации спадения темноты
             SetActiveBottomPanelImmediate(true);
 
@@ -221,7 +224,7 @@ namespace EchoOfTheTimes.UI
                     HUDCanvas.gameObject.SetActive(false);
 
                     //_levelAudioManager.PlayAmbientSound(SceneManager.GetActiveScene().name);
-                    _levelAudioManager.PlayAmbientSound();
+                    //_levelAudioManager.PlayAmbientSound();
                 })
                 .OnUpdate(() =>
                 {
