@@ -88,31 +88,33 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         private void ShowChaptersUiPanels(bool show)
         {
-            ChaptersPanel.SetActive(show);
-            ChaptersFooterPanel.SetActive(show);
-            _lastChapterUiItem.LevelsPanel.transform.parent.gameObject.SetActive(!show);
-            //GameObject excludeObject1 = ChaptersPanel.transform.Find("ScrollableViewHorizontalCHAPTERS_NAMES").gameObject;
-            //GameObject excludeObject2 = ChaptersPanel.transform.Find("ToLeft_Button").gameObject;
+            // Это чтобы само название главы не пропадало при переходе на меню уровней и назад
+            GameObject excludeObject1 = ChaptersPanel.transform.Find("ScrollableViewHorizontalCHAPTERS_NAMES").gameObject;
 
-            //foreach (Transform child in ChaptersPanel.transform)
-            //{
-            //    if (child.gameObject == excludeObject1)
-            //    {
-            //        Debug.Log(ChaptersPanel.name);
-            //        continue;
-            //    }
+            foreach (Transform child in ChaptersPanel.transform)
+            {
+                // Проверяем наличие скрипта ExcludeFromHide на child
+                ExcludeFromHide excludeScript = child.GetComponent<ExcludeFromHide>();
 
-            //    if (child.gameObject == excludeObject2 && ChaptersPanel.name == "UiChapterButton 1") 
-            //    {
-            //        continue;
-            //    }
+                if (excludeScript != null && excludeScript.boundaryValue)
+                {
+                    continue;
+                }
 
-            //    child.gameObject.SetActive(show);
-            //}
+                // ScrollableViewHorizontalCHAPTERS_NAMES
+                if (child.gameObject == excludeObject1)
+                {
+                    Debug.Log(ChaptersPanel.name);
+                    continue;
+                }
+
+                child.gameObject.SetActive(show);
+            }
 
             ChaptersFooterPanel.SetActive(show);
             _lastChapterUiItem.LevelsPanel.transform.parent.gameObject.SetActive(!show);
         }
+
 
         private void CalculateAndShowTotalPlayerProgress()
         {
@@ -132,20 +134,28 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         private void ShowOrHideChpaterSwitchButtons(int currentChapterIndex)
         {
+            ExcludeFromHide toLeftExclude = _toLeftButton.GetComponent<ExcludeFromHide>();
+            ExcludeFromHide toRightExclude = _toRightButton.GetComponent<ExcludeFromHide>();
+
             if (currentChapterIndex == 0)
             {
                 // hide left button
                 _toLeftButton.gameObject.SetActive(false);
+                toLeftExclude.boundaryValue = true;
             }
             else if (currentChapterIndex == _levelsParentPanel.transform.childCount - 1)
             {
                 // hide right button
                 _toRightButton.gameObject.SetActive(false);
+                toRightExclude.boundaryValue = true;
             }
             else
             {
                 _toLeftButton.gameObject.SetActive(true);
                 _toRightButton.gameObject.SetActive(true);
+
+                toLeftExclude.boundaryValue = false;
+                toRightExclude.boundaryValue = false;
             }
         }
     }
