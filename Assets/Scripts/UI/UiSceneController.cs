@@ -220,7 +220,8 @@ namespace EchoOfTheTimes.UI
                 {
                     HUDCanvas.gameObject.SetActive(false);
 
-                    _levelAudioManager.PlayAmbientSound(SceneManager.GetActiveScene().name);
+                    //_levelAudioManager.PlayAmbientSound(SceneManager.GetActiveScene().name);
+                    _levelAudioManager.PlayAmbientSound();
                 })
                 .OnUpdate(() =>
                 {

@@ -22,9 +22,9 @@ namespace EchoOfTheTimes.Effects
         private bool _isMuted;
 
         [Inject]
-        private void Construct(Player playerInstance, LevelSoundsSceneContainerScriptableObject levelSoundsSceneContainer)
+        private void Construct(Player player, LevelSoundsSceneContainerScriptableObject levelSoundsSceneContainer)
         {
-            _player = playerInstance;
+            _player = player;
             _levelSoundsSceneContainer = levelSoundsSceneContainer;
 
             _ambientAudioSource = GetComponent<AudioSource>();
@@ -45,27 +45,33 @@ namespace EchoOfTheTimes.Effects
             _isReadyToPlaySound = true;
         }
 
-        public void PlayAmbientSound(string sceneName)
+        //public void PlayAmbientSound(string sceneName)
+        public void PlayAmbientSound()
         {
-            var levelSound = GetLevelSound(sceneName);
-            if (levelSound != null && levelSound.AmbientSound != null)
-            {
-                Debug.Log($"Found ambient sound for scene: {sceneName}, sound: {levelSound.AmbientSound.name}");
-                _ambientAudioSource.clip = levelSound.AmbientSound;
-                _ambientAudioSource.volume = 0f;
-                _ambientAudioSource.Play();
-                StartCoroutine(FadeIn(_ambientAudioSource, levelSound.AmbientSoundVolume, 1f)); // Время появления эмбиент-звука
-                Debug.Log("Ambient sound started.");
-            }
-            else
-            {
-                Debug.LogWarning($"No ambient sound found for scene: {sceneName}");
-            }
+            _ambientAudioSource.clip = _levelSoundsSceneContainer.AmbientSound;
+            _ambientAudioSource.volume = 0f;
+            _ambientAudioSource.Play();
+            StartCoroutine(FadeIn(_ambientAudioSource, _levelSoundsSceneContainer.AmbientSoundVolume, 1f));
+
+            //var levelSound = GetLevelSound(sceneName);
+            //if (levelSound != null && levelSound.AmbientSound != null)
+            //{
+            //    Debug.Log($"Found ambient sound for scene: {sceneName}, sound: {levelSound.AmbientSound.name}");
+            //    _ambientAudioSource.clip = levelSound.AmbientSound;
+            //    _ambientAudioSource.volume = 0f;
+            //    _ambientAudioSource.Play();
+            //    StartCoroutine(FadeIn(_ambientAudioSource, levelSound.AmbientSoundVolume, 1f)); // Время появления эмбиент-звука
+            //    Debug.Log("Ambient sound started.");
+            //}
+            //else
+            //{
+            //    Debug.LogWarning($"No ambient sound found for scene: {sceneName}");
+            //}
         }
 
         public void StopAmbientSound()
         {
-            if (_ambientAudioSource != null && _ambientAudioSource.isPlaying)
+            if (_ambientAudioSource.isPlaying)
             {
                 StartCoroutine(FadeOut(_ambientAudioSource, 1f)); // Время затухания эмбиент-звука
             }
@@ -99,25 +105,44 @@ namespace EchoOfTheTimes.Effects
 
         public void PlayChangeStateSound()
         {
-            PlayLevelSound(levelSound => levelSound.ChangeStateSound, levelSound => levelSound.ChangeStateSoundVolume, "Change State");
+            //PlayLevelSound(levelSound => levelSound.ChangeStateSound, levelSound => levelSound.ChangeStateSoundVolume, "Change State");
+            PlayLevelSound(
+                _levelSoundsSceneContainer.ChangeStateSound,
+                _levelSoundsSceneContainer.ChangeStateSoundVolume
+                );
         }
 
         public void PlayButtonPilinkSound()
         {
-            PlayLevelSound(levelSound => levelSound.LevelButtonPilinkSound, levelSound => levelSound.LevelButtonPilinkSoundVolume, "Button Pilink");
+            //PlayLevelSound(levelSound => levelSound.LevelButtonPilinkSound, levelSound => levelSound.LevelButtonPilinkSoundVolume, "Button Pilink");
+            PlayLevelSound(
+                _levelSoundsSceneContainer.LevelButtonPilinkSound,
+                _levelSoundsSceneContainer.LevelButtonPilinkSoundVolume
+                );
         }
 
         public void PlayButtonChangeSound()
         {
-            PlayLevelSound(levelSound => levelSound.LevelButtonChangeSound, levelSound => levelSound.LevelButtonChangeSoundVolume, "Button Change");
+            //PlayLevelSound(levelSound => levelSound.LevelButtonChangeSound, levelSound => levelSound.LevelButtonChangeSoundVolume, "Button Change");
+            PlayLevelSound(
+                _levelSoundsSceneContainer.LevelButtonChangeSound,
+                _levelSoundsSceneContainer.LevelButtonChangeSoundVolume
+                );
         }
 
         public void PlayTeleportSound()
         {
-            PlayLevelSound(levelSound => levelSound.TeleportSound, levelSound => levelSound.TeleportSoundVolume, "Teleport");
+            //PlayLevelSound(levelSound => levelSound.TeleportSound, levelSound => levelSound.TeleportSoundVolume, "Teleport");
+            PlayLevelSound(
+                _levelSoundsSceneContainer.TeleportSound, 
+                _levelSoundsSceneContainer.TeleportSoundVolume
+                );
         }
 
-        private void PlayLevelSound(Func<LevelSoundsSceneContainerScriptableObject.LevelSound, AudioClip> getClip, Func<LevelSoundsSceneContainerScriptableObject.LevelSound, float> getVolume, string soundName)
+        private void PlayLevelSound(AudioClip clip, float volume)
+            //Func<LevelSoundsSceneContainerScriptableObject.LevelSound, AudioClip> getClip,
+            //Func<LevelSoundsSceneContainerScriptableObject.LevelSound, float> getVolume,
+            //string soundName)
         {
             if (!_isReadyToPlaySound)
             {
@@ -125,26 +150,31 @@ namespace EchoOfTheTimes.Effects
                 return;
             }
 
-            string currentSceneName = SceneManager.GetActiveScene().name;
-            var levelSound = GetLevelSound(currentSceneName);
-            if (levelSound != null)
+            if (clip != null)
             {
-                var clip = getClip(levelSound);
-                var volume = getVolume(levelSound);
-                if (clip != null)
-                {
-                    PlaySound(clip, volume);
-                    Debug.Log($"{soundName} sound played.");
-                }
-                else
-                {
-                    Debug.LogWarning($"No {soundName} sound assigned for scene: {currentSceneName}");
-                }
+                PlaySound(clip, volume);
             }
-            else
-            {
-                Debug.LogWarning($"No sound configuration found for scene: {currentSceneName}");
-            }
+
+            //string currentSceneName = SceneManager.GetActiveScene().name;
+            //var levelSound = GetLevelSound(currentSceneName);
+            //if (levelSound != null)
+            //{
+            //    var clip = getClip(levelSound);
+            //    var volume = getVolume(levelSound);
+            //    if (clip != null)
+            //    {
+            //        PlaySound(clip, volume);
+            //        Debug.Log($"{soundName} sound played.");
+            //    }
+            //    else
+            //    {
+            //        Debug.LogWarning($"No {soundName} sound assigned for scene: {currentSceneName}");
+            //    }
+            //}
+            //else
+            //{
+            //    Debug.LogWarning($"No sound configuration found for scene: {currentSceneName}");
+            //}
         }
 
         private void PlaySound(AudioClip clip, float volume)
@@ -162,10 +192,10 @@ namespace EchoOfTheTimes.Effects
             Destroy(tempAudioGO, clip.length);
         }
 
-        private LevelSoundsSceneContainerScriptableObject.LevelSound GetLevelSound(string sceneName)
-        {
-            return _levelSoundsSceneContainer.LevelSounds
-                .FirstOrDefault(levelSound => levelSound.LevelScene.SceneName == sceneName);
-        }
+        //private LevelSoundsSceneContainerScriptableObject.LevelSound GetLevelSound(string sceneName)
+        //{
+        //    return _levelSoundsSceneContainer.LevelSounds
+        //        .FirstOrDefault(levelSound => levelSound.LevelScene.SceneName == sceneName);
+        //}
     }
 }
