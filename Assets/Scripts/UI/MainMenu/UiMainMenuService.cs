@@ -104,7 +104,6 @@ namespace EchoOfTheTimes.UI.MainMenu
                 // ScrollableViewHorizontalCHAPTERS_NAMES
                 if (child.gameObject == excludeObject1)
                 {
-                    Debug.Log(ChaptersPanel.name);
                     continue;
                 }
 

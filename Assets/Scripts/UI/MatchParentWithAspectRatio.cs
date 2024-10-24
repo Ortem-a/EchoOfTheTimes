@@ -21,7 +21,6 @@ public class AdjustPanelWithAspectRatio : MonoBehaviour
         {
             AdjustLevelPanelSize();
         }
-        
     }
 
     private void AdjustPanelSize()
