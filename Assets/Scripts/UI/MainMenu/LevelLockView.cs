@@ -13,12 +13,12 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         public void Lock()
         {
-            _lockIcon.gameObject.SetActive(true);
+            _lockIcon.SetActive(true);
         }
 
         public void Unlock()
         {
-            _lockIcon.gameObject.SetActive(false);
+            _lockIcon.SetActive(false);
         }
     }
 }

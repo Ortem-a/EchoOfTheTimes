@@ -105,6 +105,16 @@ namespace EchoOfTheTimes.Persistence
                 }
             }
 
+            // Проверить все главы -- одна из них может открыться, так как собрано нужное кол-во коллектаблов
+            for (int i = 1; i < newDataToSave.Data.Count; i++)
+            {
+                if (IsChapterComplete(newDataToSave, i))
+                {
+                    newDataToSave.Data[i + 1].ChapterStatus = StatusType.Unlocked;
+                    newDataToSave.Data[i + 1].Levels[0].LevelStatus = StatusType.Unlocked;
+                }
+            }
+
             // пометить следующий как открытый
             // возможны случаи:
             // ЕСЛИ УРОВЕНЬ В НАЧАЛЕ ИЛИ В СЕРЕДИНЕ ГЛАВЫ
@@ -124,10 +134,13 @@ namespace EchoOfTheTimes.Persistence
                 {
                     newDataToSave.Data[lastLoadedChapterIndex].ChapterStatus = StatusType.Completed;
 
-                    lastLoadedChapterIndex++;
-                    newDataToSave.Data[lastLoadedChapterIndex].ChapterStatus = StatusType.Unlocked;
-                    newDataToSave.Data[lastLoadedChapterIndex].Levels[0].LevelStatus = StatusType.Unlocked;
-                    lastLoadedLevelIndex = 0;
+                    if (IsChapterComplete(newDataToSave, lastLoadedChapterIndex))
+                    {
+                        lastLoadedChapterIndex++;
+                        newDataToSave.Data[lastLoadedChapterIndex].ChapterStatus = StatusType.Unlocked;
+                        newDataToSave.Data[lastLoadedChapterIndex].Levels[0].LevelStatus = StatusType.Unlocked;
+                        lastLoadedLevelIndex = 0;
+                    }
                 }
                 else
                 {
@@ -180,6 +193,28 @@ namespace EchoOfTheTimes.Persistence
                 (level) => level.LevelName == levelName);
 
             return _saveLoadService.DataToSave.Data[chapterIndex].Levels[levelIndex];
+        }
+
+        private bool IsChapterComplete(PlayerData playerData, int chapterIndex)
+        {
+            int requiredSum = 0;
+            int progress = 0;
+
+            for (int i = 0; i < chapterIndex + 1; i++)
+            {
+                for (int j = 0; j < playerData.Data[i].Levels.Count; j++)
+                {
+                    requiredSum += playerData.Data[i].Levels[j].TotalCollectables;
+                    progress += playerData.Data[i].Levels[j].Collected;
+                }
+            }
+
+            if (progress == requiredSum)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

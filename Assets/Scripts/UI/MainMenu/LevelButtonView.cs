@@ -45,6 +45,9 @@ namespace EchoOfTheTimes.UI.MainMenu
                     _image.color = Color.white;
                     _levelLockView.Unlock();
                     break;
+                case StatusType.Completed:
+                    _levelLockView.Unlock();
+                    break;
             }
         }
     }
