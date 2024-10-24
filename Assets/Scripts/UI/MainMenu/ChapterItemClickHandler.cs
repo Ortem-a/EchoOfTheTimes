@@ -11,6 +11,7 @@ namespace EchoOfTheTimes.UI.MainMenu
         public LevelStatusUpdater LevelsPanel { get; private set; }
 
         private UiMainMenuService _mainMenuService;
+        [SerializeField] private UiSwipeSnapChapter progressHolder;
 
         //[Header("Настройки главы")]
         //public string sceneName; // Название сцены для загрузки
@@ -37,6 +38,8 @@ namespace EchoOfTheTimes.UI.MainMenu
         public void OnPointerClick(PointerEventData eventData)
         {
             if (_chapterStatus == StatusType.Locked) return;
+
+            if (Mathf.Abs(progressHolder.change_progress_cf) < 0.999) return;
 
             _mainMenuService.ShowLevelsList(this);
 
