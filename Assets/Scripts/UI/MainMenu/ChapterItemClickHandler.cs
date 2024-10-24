@@ -11,7 +11,11 @@ namespace EchoOfTheTimes.UI.MainMenu
         public LevelStatusUpdater LevelsPanel { get; private set; }
 
         private UiMainMenuService _mainMenuService;
-        [SerializeField] private UiSwipeSnapChapter progressHolder;
+
+        [SerializeField]
+        private UiSwipeSnapChapter progressHolder;
+
+        private ChapterLockView _chapterLockView;
 
         //[Header("Настройки главы")]
         //public string sceneName; // Название сцены для загрузки
@@ -31,9 +35,24 @@ namespace EchoOfTheTimes.UI.MainMenu
         private void Construct(UiMainMenuService mainMenuService)
         {
             _mainMenuService = mainMenuService;
+
+            _chapterLockView = GetComponentInChildren<ChapterLockView>();
         }
 
-        public void SetStatus(StatusType status) => _chapterStatus = status;
+        public void SetStatus(StatusType status)
+        {
+            _chapterStatus = status;
+
+            if (status != StatusType.Locked)
+            {
+                _chapterLockView.Unlock();
+            }
+        }
+
+        public void SetProgress(int progress, int required)
+        {
+            _chapterLockView.UpdateLabel(progress, required);
+        }
 
         public void OnPointerClick(PointerEventData eventData)
         {

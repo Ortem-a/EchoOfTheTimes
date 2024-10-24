@@ -10,31 +10,48 @@ namespace EchoOfTheTimes.UI.MainMenu
     {
         private List<StatusType> _chaptersStatuses = new List<StatusType>();
 
-        ChapterItemClickHandler[] chapterItems;
-        PersistenceService _persistenceService;
+        private ChapterItemClickHandler[] _chapterItems;
+        private PersistenceService _persistenceService;
+
+        private int[] _progressPerChapter;
+        private int[] _requiredPerChapter;
 
         [Inject]
         private void Construct(UiMainMenuService mainMenuService)
         {
             _persistenceService = mainMenuService.PersistenceService;
 
-            var chaptersData = mainMenuService.PersistenceService.GetData();
+            var chaptersData = _persistenceService.GetData();
 
-            foreach (var chapter in chaptersData)
+            _progressPerChapter = new int[chaptersData.Count];
+            _requiredPerChapter = new int[chaptersData.Count];
+
+            for (int i = 0; i < chaptersData.Count; i++)
             {
-                _chaptersStatuses.Add(chapter.ChapterStatus);
+                _chaptersStatuses.Add(chaptersData[i].ChapterStatus);
+
+                foreach (var level in chaptersData[i].Levels)
+                {
+                    _progressPerChapter[i] += level.Collected;
+                    _requiredPerChapter[i] += level.TotalCollectables;
+                }
             }
+
+            //foreach (var chapter in chaptersData)
+            //{
+            //    _chaptersStatuses.Add(chapter.ChapterStatus);
+            //}
         }
 
         private void Start()
         {
-            //var chapterItems = GetComponentsInChildren<ChapterItemClickHandler>();
-            chapterItems = GetComponentsInChildren<ChapterItemClickHandler>();
+            _chapterItems = GetComponentsInChildren<ChapterItemClickHandler>();
 
-            for (int i = 0; i < chapterItems.Length; i++)
+            for (int i = 0; i < _chapterItems.Length; i++)
             {
-                chapterItems[i].SetStatus(_chaptersStatuses[i + 1]);
-                chapterItems[i].GetComponent<ChapterButtonView>().UpdateChapterStatus(_chaptersStatuses[i + 1]);
+                _chapterItems[i].SetStatus(_chaptersStatuses[i + 1]);
+                _chapterItems[i].SetProgress(_progressPerChapter[i], _requiredPerChapter[i]);
+                _chapterItems[i].GetComponent<ChapterButtonView>().UpdateChapterStatus(_chaptersStatuses[i + 1]);
             }
         }
 
@@ -46,7 +63,7 @@ namespace EchoOfTheTimes.UI.MainMenu
 
             var index = data.FindIndex((chapter) => chapter.Title == chapterName);
 
-            return chapterItems[index - 1];
+            return _chapterItems[index - 1];
         }
     }
 }
