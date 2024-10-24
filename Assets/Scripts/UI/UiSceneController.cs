@@ -219,13 +219,7 @@ namespace EchoOfTheTimes.UI
             // Запуск анимации появления стартового экрана
             DOTween.To(() => StartFadeInPanel.alpha, x => StartFadeInPanel.alpha = x, 0f, StartFadeInDuration_sec)
                 .SetDelay(StartDelay_sec)
-                .OnStart(() =>
-                {
-                    HUDCanvas.gameObject.SetActive(false);
-
-                    //_levelAudioManager.PlayAmbientSound(SceneManager.GetActiveScene().name);
-                    //_levelAudioManager.PlayAmbientSound();
-                })
+                .OnStart(() => HUDCanvas.gameObject.SetActive(false))
                 .OnUpdate(() =>
                 {
                     // Плавное появление HUD

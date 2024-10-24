@@ -43,6 +43,7 @@ namespace EchoOfTheTimes.SceneManagement
             Debug.Log($"Level duration: {levelDuration} seconds");
 
 #warning АРТЁМ ПРОКИНЬ ПЛИЗ ЕБУЧИЙ СБОР КОЛЛЕКТАБЛОВ
+#warning Нет (с) Ортём
 
             // AppMetrica - статистика завершения уровня
             string levelData = $@"

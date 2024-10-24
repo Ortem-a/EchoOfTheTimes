@@ -16,7 +16,7 @@ namespace EchoOfTheTimes.Persistence
 
         private SaveLoadService _saveLoadService;
 
-        private string _lastLoadedLevel;
+        public string LastLoadedLevel { get; private set; }
 
         private PresetType _presetType;
 
@@ -72,16 +72,16 @@ namespace EchoOfTheTimes.Persistence
         {
             var newDataToSave = _saveLoadService.DataToSave;
 
-            if (string.IsNullOrEmpty(_lastLoadedLevel))
+            if (string.IsNullOrEmpty(LastLoadedLevel))
             {
-                _lastLoadedLevel = _saveLoadService.DataToSave.Data[1].Levels[0].FullName;
+                LastLoadedLevel = _saveLoadService.DataToSave.Data[1].Levels[0].FullName;
             }
 
             // пометить текущий уровень как пройденный
             //var lastLoadedChapterTitle = _lastLoadedLevel.ChapterName;
             //var lastLoadedLevelName = _lastLoadedLevel.LevelName;
-            var lastLoadedChapterTitle = _lastLoadedLevel.Split('|')[0];
-            var lastLoadedLevelName = _lastLoadedLevel.Split('|')[1];
+            var lastLoadedChapterTitle = LastLoadedLevel.Split('|')[0];
+            var lastLoadedLevelName = LastLoadedLevel.Split('|')[1];
             int lastLoadedChapterIndex = -1;
             int lastLoadedLevelIndex = -1;
             for (int i = 0; i < newDataToSave.Data.Count; i++)
@@ -136,9 +136,9 @@ namespace EchoOfTheTimes.Persistence
             }
 
             //_lastLoadedLevel = newDataToSave.Data[lastLoadedChapterIndex].Levels[lastLoadedLevelIndex];
-            _lastLoadedLevel = newDataToSave.Data[lastLoadedChapterIndex].Levels[lastLoadedLevelIndex].FullName;
+            LastLoadedLevel = newDataToSave.Data[lastLoadedChapterIndex].Levels[lastLoadedLevelIndex].FullName;
 
-            newDataToSave.LastLoadedLevelFullName = _lastLoadedLevel;
+            newDataToSave.LastLoadedLevelFullName = LastLoadedLevel;
 
             // сохранить данные
             if (_presetType == PresetType.SavedFile)
@@ -171,7 +171,7 @@ namespace EchoOfTheTimes.Persistence
             }
         }
 
-        public void UpdateLastLoadedLevel(GameLevel level) => _lastLoadedLevel = level.FullName;
+        public void UpdateLastLoadedLevel(GameLevel level) => LastLoadedLevel = level.FullName;
 
         public GameLevel GetLevel(string chapterTitle, string levelName)
         {

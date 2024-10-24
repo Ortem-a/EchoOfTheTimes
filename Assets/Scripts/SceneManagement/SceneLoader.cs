@@ -1,10 +1,10 @@
+using EchoOfTheTimes.Persistence;
+using EchoOfTheTimes.UI.MainMenu;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
-using Io.AppMetrica;
-using EchoOfTheTimes.Persistence;
 
 namespace EchoOfTheTimes.SceneManagement
 {
@@ -136,6 +136,10 @@ namespace EchoOfTheTimes.SceneManagement
         public async Task LoadMainMenuSceneAsync()
         {
             await LoadSceneGroupAsync(GameChapters[0].Levels[0]);
+
+            FindObjectOfType<ChapterStatusUpdater>()
+                .GetChapterItem(_persistenceService.LastLoadedLevel)
+                .OnPointerClick(null);
         }
 
         private void EnableLoadingCanvas(bool enable = true)
