@@ -15,7 +15,7 @@ namespace EchoOfTheTimes.UI.MainMenu
         {
             _image = GetComponent<Image>();
 
-            _collectablesLabel = transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
+            _collectablesLabel = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         }
 
         public void UpdateData(GameLevel levelData)
