@@ -62,13 +62,22 @@ namespace EchoOfTheTimes.UI.MainMenu
 
             if (Mathf.Abs(progressHolder.change_progress_cf) < 0.999) return;
 
+            // Пуньк главы через дутвин сделал по красоте
             Sequence canvasSequence = DOTween.Sequence();
 
-            canvasSequence.Append(firstCanvas.DOScale(targetScale, scaleDuration / 2))
-                          .Join(secondCanvas.DOScale(targetScale, scaleDuration / 2))
-                          .Append(firstCanvas.DOScale(1f, scaleDuration / 2))
-                          .Join(secondCanvas.DOScale(1f, scaleDuration / 2))
-                          .OnComplete(() => _mainMenuService.ShowLevelsList(this));
+            //canvasSequence.Append(firstCanvas.DOScale(targetScale, scaleDuration / 2))
+            //              .Join(secondCanvas.DOScale(targetScale, scaleDuration / 2))
+            //              .Append(firstCanvas.DOScale(1f, scaleDuration / 2))
+            //              .Join(secondCanvas.DOScale(1f, scaleDuration / 2))
+            //              //.OnComplete(() => _mainMenuService.ShowLevelsList(this));
+            //              .OnComplete(() => _mainMenuService.HideElementsOfChapterMenu(this));
+
+            canvasSequence.OnStart(() => _mainMenuService.HideElementsOfChapterMenu(this))
+              .Append(firstCanvas.DOScale(targetScale, scaleDuration / 2))
+              .Join(secondCanvas.DOScale(targetScale, scaleDuration / 2))
+              .Append(firstCanvas.DOScale(1f, scaleDuration / 2))
+              .Join(secondCanvas.DOScale(1f, scaleDuration / 2));
+
         }
     }
 }

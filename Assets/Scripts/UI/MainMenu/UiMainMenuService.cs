@@ -1,3 +1,4 @@
+using DG.Tweening;
 using EchoOfTheTimes.Persistence;
 using EchoOfTheTimes.SceneManagement;
 using TMPro;
@@ -33,6 +34,13 @@ namespace EchoOfTheTimes.UI.MainMenu
         private Button _toLeftButton;
         [SerializeField]
         private Button _toRightButton;
+
+
+        [Header("Элементы для пропадания")]
+        [SerializeField] private RectTransform headPanel;
+        [SerializeField] private RectTransform chaptersNamesScrollable;
+        [SerializeField] private RectTransform chaptersProgressScrollable;
+        [SerializeField] private RectTransform circlesContainerPanel;
 
         [Inject]
         private void Construct()
@@ -74,45 +82,112 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         public void ShowChaptersList()
         {
-            ShowChaptersUiPanels(true);
+            // ShowChaptersUiPanels(true);
             HeadPanelSuperviser.ShowHeadPanelForChapters();
         }
 
-        public void ShowLevelsList(ChapterItemClickHandler chapterUiItem)
+        public void ShowLevelsList(bool show)
+        {
+            _lastChapterUiItem.LevelsPanel.transform.parent.gameObject.SetActive(show);
+        }
+
+        [SerializeField]
+        private Ease scaleEase = Ease.InOutQuad; // Настройка Ease для анимации
+        [SerializeField]
+        private float scaleDurationN = 0.2f; // Время анимации
+        [SerializeField]
+        private float targetScaleM = 1.1f;
+        [SerializeField]
+        private float targetScale = 0.5f;
+
+        public void HideElementsOfChapterMenu(ChapterItemClickHandler chapterUiItem)
         {
             _lastChapterUiItem = chapterUiItem;
 
-            ShowChaptersUiPanels(false);
-            HeadPanelSuperviser.ShowHeadPanelForLevels();
-        }
+            // Проверяем и добавляем CanvasGroup
+            EnsureCanvasGroup(headPanel.gameObject);
+            EnsureCanvasGroup(chaptersNamesScrollable.gameObject);
+            EnsureCanvasGroup(chaptersProgressScrollable.gameObject);
+            EnsureCanvasGroup(circlesContainerPanel.gameObject);
+            EnsureCanvasGroup(_toLeftButton.gameObject);
+            EnsureCanvasGroup(_toRightButton.gameObject);
 
-        private void ShowChaptersUiPanels(bool show)
-        {
-            // Это чтобы само название главы не пропадало при переходе на меню уровней и назад
-            GameObject excludeObject1 = ChaptersPanel.transform.Find("ScrollableViewHorizontalCHAPTERS_NAMES").gameObject;
+            Sequence hideSequence = DOTween.Sequence();
 
-            foreach (Transform child in ChaptersPanel.transform)
+            // Уменьшаем до определённого размера + уменьшаем прозрачность до 0 за время M
+            hideSequence.Append(headPanel.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
+            .Join(DOTween.To(() => headPanel.GetComponent<CanvasGroup>().alpha,
+                             x => headPanel.GetComponent<CanvasGroup>().alpha = x,
+                             0, scaleDurationN).SetEase(scaleEase))
+            .Join(chaptersNamesScrollable.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
+            .Join(DOTween.To(() => chaptersNamesScrollable.GetComponent<CanvasGroup>().alpha,
+                             x => chaptersNamesScrollable.GetComponent<CanvasGroup>().alpha = x,
+                             0, scaleDurationN).SetEase(scaleEase))
+            .Join(chaptersProgressScrollable.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
+            .Join(DOTween.To(() => chaptersProgressScrollable.GetComponent<CanvasGroup>().alpha,
+                             x => chaptersProgressScrollable.GetComponent<CanvasGroup>().alpha = x,
+                             0, scaleDurationN).SetEase(scaleEase))
+            .Join(circlesContainerPanel.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
+            .Join(DOTween.To(() => circlesContainerPanel.GetComponent<CanvasGroup>().alpha,
+                             x => circlesContainerPanel.GetComponent<CanvasGroup>().alpha = x,
+                             0, scaleDurationN).SetEase(scaleEase))
+            .Join(_toLeftButton.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
+            .Join(DOTween.To(() => _toLeftButton.GetComponent<CanvasGroup>().alpha,
+                             x => _toLeftButton.GetComponent<CanvasGroup>().alpha = x,
+                             0, scaleDurationN).SetEase(scaleEase))
+            .Join(_toRightButton.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
+            .Join(DOTween.To(() => _toRightButton.GetComponent<CanvasGroup>().alpha,
+                             x => _toRightButton.GetComponent<CanvasGroup>().alpha = x,
+                             0, scaleDurationN).SetEase(scaleEase))
+            .OnComplete(() =>
             {
-                // Проверяем наличие скрипта ExcludeFromHide на child
-                ExcludeFromHide excludeScript = child.GetComponent<ExcludeFromHide>();
-
-                if (excludeScript != null && excludeScript.boundaryValue)
-                {
-                    continue;
-                }
-
-                // ScrollableViewHorizontalCHAPTERS_NAMES
-                if (child.gameObject == excludeObject1)
-                {
-                    continue;
-                }
-
-                child.gameObject.SetActive(show);
-            }
-
-            ChaptersFooterPanel.SetActive(show);
-            _lastChapterUiItem.LevelsPanel.transform.parent.gameObject.SetActive(!show);
+                headPanel.gameObject.SetActive(false);
+                chaptersNamesScrollable.gameObject.SetActive(false);
+                chaptersProgressScrollable.gameObject.SetActive(false);
+                circlesContainerPanel.gameObject.SetActive(false);
+                _toLeftButton.gameObject.SetActive(false);
+                _toRightButton.gameObject.SetActive(false);
+                // Запускаем логику показа уровней после завершения логики перехода ОТ главы
+                ShowLevelsList(true);
+                // HeadPanelSuperviser.ShowHeadPanelForLevels();
+                // ShowLevelsList(chapterUiItem);
+            });
         }
+
+        private void EnsureCanvasGroup(GameObject obj)
+        {
+            if (!obj.GetComponent<CanvasGroup>())
+            {
+                obj.AddComponent<CanvasGroup>();
+            }
+        }
+
+        //private void ShowChaptersUiPanels(bool show)
+        //{
+        //    // Это чтобы само название главы не пропадало при переходе на меню уровней и назад
+        //    GameObject excludeObject1 = ChaptersPanel.transform.Find("ScrollableViewHorizontalCHAPTERS_NAMES").gameObject;
+
+        //    foreach (Transform child in ChaptersPanel.transform)
+        //    {
+        //        // Проверяем наличие скрипта ExcludeFromHide на child
+        //        ExcludeFromHide excludeScript = child.GetComponent<ExcludeFromHide>();
+
+        //        //if (excludeScript != null && excludeScript.boundaryValue)
+        //        //{
+        //        //    continue;
+        //        //}
+
+        //        if (child.gameObject == excludeObject1)
+        //        {
+        //            continue;
+        //        }
+
+        //        child.gameObject.SetActive(show);
+        //    }
+
+        //    ChaptersFooterPanel.SetActive(show);
+        //    // _lastChapterUiItem.LevelsPanel.transform.parent.gameObject.SetActive(!show);
+        //}
 
 
         private void CalculateAndShowTotalPlayerProgress()
