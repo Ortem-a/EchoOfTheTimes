@@ -2,6 +2,7 @@ using EchoOfTheTimes.SceneManagement;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Zenject;
+using DG.Tweening;
 
 namespace EchoOfTheTimes.UI.MainMenu
 {
@@ -21,11 +22,12 @@ namespace EchoOfTheTimes.UI.MainMenu
         //public string sceneName; // Название сцены для загрузки
         //public float delay = 1f; // Время задержки перед загрузкой сцены (должно совпадать с fadeDuration в FadeableUI)
 
-        //[Header("Canvas для увеличения")]
-        //public RectTransform firstCanvas; // Первый Canvas для увеличения
-        //public RectTransform secondCanvas; // Второй Canvas для увеличения
-        //public float scaleDuration = 1f; // Общее время увеличения и уменьшения Canvas
-        //public float targetScale = 1.1f; // Максимальное увеличение
+        [Header("Canvas для увеличения")]
+        [SerializeField] private RectTransform firstCanvas; // Первый Canvas для увеличения
+        [SerializeField] private RectTransform secondCanvas; // Второй Canvas для увеличения
+        [SerializeField] private float scaleDuration = 1f; // Общее время увеличения и уменьшения Canvas
+        [SerializeField] private float targetScale = 1.1f; // Максимальное увеличение
+        [SerializeField] private Ease scaleEase = Ease.InOutQuad; // Выбор Ease в инспекторе
 
         //private bool isTransitioning = false;
 
@@ -60,8 +62,16 @@ namespace EchoOfTheTimes.UI.MainMenu
 
             if (Mathf.Abs(progressHolder.change_progress_cf) < 0.999) return;
 
-            _mainMenuService.ShowLevelsList(this);
+            Sequence canvasSequence = DOTween.Sequence();
 
+            canvasSequence.Append(firstCanvas.DOScale(targetScale, scaleDuration / 2))
+                          .Join(secondCanvas.DOScale(targetScale, scaleDuration / 2))
+                          .Append(firstCanvas.DOScale(1f, scaleDuration / 2))
+                          .Join(secondCanvas.DOScale(1f, scaleDuration / 2))
+                          .OnComplete(() => _mainMenuService.ShowLevelsList(this));
+        }
+    }
+}
             //return;
 
             //if (isTransitioning)
@@ -94,7 +104,7 @@ namespace EchoOfTheTimes.UI.MainMenu
             //{
             //    Debug.LogError("Название сцены не указано в ChapterItemClickHandler на объекте " + gameObject.name, this);
             //}
-        }
+        //}
 
         // Коррутина для увеличения, а затем уменьшения Canvas
         //private IEnumerator ScaleCanvasOverTime(RectTransform canvas1, RectTransform canvas2, float targetScale, float duration)
@@ -158,5 +168,5 @@ namespace EchoOfTheTimes.UI.MainMenu
         //        cg.blocksRaycasts = false;
         //    }
         //}
-    }
-}
+//    }
+//}
