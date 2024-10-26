@@ -36,11 +36,20 @@ namespace EchoOfTheTimes.UI.MainMenu
         private Button _toRightButton;
 
 
-        [Header("Элементы для пропадания")]
+        [Header("Элементы для пропадания при тапе в главу")]
         [SerializeField] private RectTransform headPanel;
         [SerializeField] private RectTransform chaptersNamesScrollable;
         [SerializeField] private RectTransform chaptersProgressScrollable;
         [SerializeField] private RectTransform circlesContainerPanel;
+        [SerializeField] private Ease scaleEase = Ease.InOutQuad; // Настройка Ease для анимации
+        [SerializeField] private float scaleDurationN = 0.2f; // Время анимации
+        [SerializeField] private float targetScaleM = 1.1f;
+        [SerializeField] private float targetScale = 0.5f;
+
+        [Header("Панельки - Хаски")]
+        [SerializeField] private RectTransform chaptersPanel;
+        [SerializeField] private RectTransform levelsPanel;
+        [SerializeField] private float durationTransitionBeetweenPanels = 1f;
 
         [Inject]
         private void Construct()
@@ -88,17 +97,27 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         public void ShowLevelsList(bool show)
         {
+            // Включаем нужное меню уровней
             _lastChapterUiItem.LevelsPanel.transform.parent.gameObject.SetActive(show);
+
+            // Сдвигаем панельки
+            MovePanels(true);
         }
 
-        [SerializeField]
-        private Ease scaleEase = Ease.InOutQuad; // Настройка Ease для анимации
-        [SerializeField]
-        private float scaleDurationN = 0.2f; // Время анимации
-        [SerializeField]
-        private float targetScaleM = 1.1f;
-        [SerializeField]
-        private float targetScale = 0.5f;
+        private void MovePanels(bool isToLevels)
+        {
+            if (isToLevels)
+            {
+                RectTransform parentCanvas = chaptersPanel.parent.GetComponent<RectTransform>();
+                float canvasWidth = parentCanvas.rect.width;
+
+                // Анимация для первой панели (уходит влево за экран)
+                chaptersPanel.DOAnchorPosX(-canvasWidth, durationTransitionBeetweenPanels).SetEase(Ease.InOutQuad);
+
+                // Анимация для второй панели (становится на место первой панели)
+                levelsPanel.DOAnchorPosX(0, durationTransitionBeetweenPanels).SetEase(Ease.InOutQuad);
+            }
+        }
 
         public void HideElementsOfChapterMenu(ChapterItemClickHandler chapterUiItem)
         {

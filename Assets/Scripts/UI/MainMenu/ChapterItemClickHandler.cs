@@ -18,18 +18,12 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         private ChapterLockView _chapterLockView;
 
-        //[Header("Настройки главы")]
-        //public string sceneName; // Название сцены для загрузки
-        //public float delay = 1f; // Время задержки перед загрузкой сцены (должно совпадать с fadeDuration в FadeableUI)
-
         [Header("Canvas для увеличения")]
         [SerializeField] private RectTransform firstCanvas; // Первый Canvas для увеличения
         [SerializeField] private RectTransform secondCanvas; // Второй Canvas для увеличения
         [SerializeField] private float scaleDuration = 1f; // Общее время увеличения и уменьшения Canvas
         [SerializeField] private float targetScale = 1.1f; // Максимальное увеличение
         [SerializeField] private Ease scaleEase = Ease.InOutQuad; // Выбор Ease в инспекторе
-
-        //private bool isTransitioning = false;
 
         private StatusType _chapterStatus;
 
@@ -62,120 +56,16 @@ namespace EchoOfTheTimes.UI.MainMenu
 
             if (Mathf.Abs(progressHolder.change_progress_cf) < 0.999) return;
 
-            // Пуньк главы через дутвин сделал по красоте
-            Sequence canvasSequence = DOTween.Sequence();
+#warning ДОБАВИТЬ ОТКЛЮЧЕНИЕ ИНТЕРАКТИВНОСТИ ИНТЕРФЕЙСА В МОМЕНТ ТАПА В ГЛАВУ
+            _mainMenuService.SetActiveUi(false);
 
-            //canvasSequence.Append(firstCanvas.DOScale(targetScale, scaleDuration / 2))
-            //              .Join(secondCanvas.DOScale(targetScale, scaleDuration / 2))
-            //              .Append(firstCanvas.DOScale(1f, scaleDuration / 2))
-            //              .Join(secondCanvas.DOScale(1f, scaleDuration / 2))
-            //              //.OnComplete(() => _mainMenuService.ShowLevelsList(this));
-            //              .OnComplete(() => _mainMenuService.HideElementsOfChapterMenu(this));
+            Sequence canvasSequence = DOTween.Sequence();
 
             canvasSequence.OnStart(() => _mainMenuService.HideElementsOfChapterMenu(this))
               .Append(firstCanvas.DOScale(targetScale, scaleDuration / 2))
               .Join(secondCanvas.DOScale(targetScale, scaleDuration / 2))
               .Append(firstCanvas.DOScale(1f, scaleDuration / 2))
               .Join(secondCanvas.DOScale(1f, scaleDuration / 2));
-
         }
     }
 }
-            //return;
-
-            //if (isTransitioning)
-            //    return;
-
-            //if (!string.IsNullOrEmpty(sceneName))
-            //{
-            //    isTransitioning = true;
-
-            //    // Запускаем увеличение и уменьшение канвасов
-            //    StartCoroutine(ScaleCanvasOverTime(firstCanvas, secondCanvas, targetScale, scaleDuration));
-
-            //    // Находим все объекты с FadeableUI и запускаем их плавное исчезновение
-            //    FadeableUI[] fadeableObjects = FindObjectsOfType<FadeableUI>();
-            //    foreach (FadeableUI fadeable in fadeableObjects)
-            //    {
-            //        if (fadeable != null)
-            //        {
-            //            fadeable.StartFadeOut();
-            //        }
-            //    }
-
-            //    // Блокируем взаимодействие с интерфейсом
-            //    DisableUIInteraction();
-
-            //    // Запускаем корутину для загрузки сцены с задержкой
-            //    StartCoroutine(LoadSceneAfterDelay());
-            //}
-            //else
-            //{
-            //    Debug.LogError("Название сцены не указано в ChapterItemClickHandler на объекте " + gameObject.name, this);
-            //}
-        //}
-
-        // Коррутина для увеличения, а затем уменьшения Canvas
-        //private IEnumerator ScaleCanvasOverTime(RectTransform canvas1, RectTransform canvas2, float targetScale, float duration)
-        //{
-        //    Vector2 originalSize1 = canvas1.sizeDelta;
-        //    Vector2 originalSize2 = canvas2.sizeDelta;
-        //    float halfDuration = duration / 2f; // Половина времени на увеличение и половина на уменьшение
-        //    float elapsedTime = 0f;
-
-        //    // Фаза 1: Увеличение
-        //    while (elapsedTime < halfDuration)
-        //    {
-        //        elapsedTime += Time.deltaTime;
-        //        float t = elapsedTime / halfDuration;
-        //        float scaleFactor = Mathf.Lerp(1f, targetScale, Mathf.SmoothStep(0f, 1f, t));
-
-        //        // Меняем размер канвасов
-        //        canvas1.sizeDelta = originalSize1 * scaleFactor;
-        //        canvas2.sizeDelta = originalSize2 * scaleFactor;
-
-        //        yield return null;
-        //    }
-
-        //    // Фаза 2: Уменьшение до исходного размера
-        //    elapsedTime = 0f;
-        //    while (elapsedTime < halfDuration)
-        //    {
-        //        elapsedTime += Time.deltaTime;
-        //        float t = elapsedTime / halfDuration;
-        //        float scaleFactor = Mathf.Lerp(targetScale, 1f, Mathf.SmoothStep(0f, 1f, t));
-
-        //        // Меняем размер канвасов
-        //        canvas1.sizeDelta = originalSize1 * scaleFactor;
-        //        canvas2.sizeDelta = originalSize2 * scaleFactor;
-
-        //        yield return null;
-        //    }
-
-        //    // Восстанавливаем оригинальный размер канвасов
-        //    canvas1.sizeDelta = originalSize1;
-        //    canvas2.sizeDelta = originalSize2;
-        //}
-
-        //private IEnumerator LoadSceneAfterDelay()
-        //{
-        //    // Ждем заданное время
-        //    yield return new WaitForSeconds(delay);
-
-        //    // Загружаем сцену
-        //    SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
-        //    // SceneManager.UnloadSceneAsync("0_MainMenu_UI_Chapters");
-        //}
-
-        //private void DisableUIInteraction()
-        //{
-        //    // Находим все CanvasGroup на сцене и отключаем взаимодействие
-        //    CanvasGroup[] canvasGroups = FindObjectsOfType<CanvasGroup>();
-        //    foreach (CanvasGroup cg in canvasGroups)
-        //    {
-        //        cg.interactable = false;
-        //        cg.blocksRaycasts = false;
-        //    }
-        //}
-//    }
-//}
