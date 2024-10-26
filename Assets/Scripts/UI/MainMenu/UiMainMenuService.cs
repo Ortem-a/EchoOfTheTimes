@@ -111,13 +111,29 @@ namespace EchoOfTheTimes.UI.MainMenu
                 RectTransform parentCanvas = chaptersPanel.parent.GetComponent<RectTransform>();
                 float canvasWidth = parentCanvas.rect.width;
 
+                float delay = 0.3f; // Задержка в 0.3 секунды
+
                 // Анимация для первой панели (уходит влево за экран)
-                chaptersPanel.DOAnchorPosX(-canvasWidth, durationTransitionBeetweenPanels).SetEase(Ease.InOutQuad);
+                DOTween.To(() => chaptersPanel.offsetMin, x => chaptersPanel.offsetMin = x, new Vector2(-canvasWidth, chaptersPanel.offsetMin.y), durationTransitionBeetweenPanels)
+                    .SetDelay(delay)
+                    .SetEase(Ease.InOutQuad);
+
+                DOTween.To(() => chaptersPanel.offsetMax, x => chaptersPanel.offsetMax = x, new Vector2(-canvasWidth, chaptersPanel.offsetMax.y), durationTransitionBeetweenPanels)
+                    .SetDelay(delay)
+                    .SetEase(Ease.InOutQuad);
 
                 // Анимация для второй панели (становится на место первой панели)
-                levelsPanel.DOAnchorPosX(0, durationTransitionBeetweenPanels).SetEase(Ease.InOutQuad);
+                DOTween.To(() => levelsPanel.offsetMin, x => levelsPanel.offsetMin = x, Vector2.zero, durationTransitionBeetweenPanels)
+                    .SetDelay(delay)
+                    .SetEase(Ease.InOutQuad);
+
+                DOTween.To(() => levelsPanel.offsetMax, x => levelsPanel.offsetMax = x, Vector2.zero, durationTransitionBeetweenPanels)
+                    .SetDelay(delay)
+                    .SetEase(Ease.InOutQuad)
+                    .OnComplete(() => SetActiveUi(true)); // Вызов SetActiveUi(true) после завершения анимации
             }
         }
+
 
         public void HideElementsOfChapterMenu(ChapterItemClickHandler chapterUiItem)
         {
