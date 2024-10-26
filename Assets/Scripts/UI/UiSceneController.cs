@@ -87,8 +87,6 @@ namespace EchoOfTheTimes.UI
             InitializeHUDCanvasGroup();
 
             _loader = FindObjectOfType<SceneLoader>();
-
-            // ToMainMenuButton.onClick.AddListener(ExitToMainMenu);
         }
 
         private void InitializeHUD()
@@ -127,21 +125,34 @@ namespace EchoOfTheTimes.UI
             PersistenceService.OnExitToMainMenu?.Invoke();
 
             CanvasGroup CanvasGroupFadeInOutPanel = rectFadeInOutPanel.GetComponent<CanvasGroup>();
+            CanvasGroup canvasGroupBottomPanel = BottomPanel.GetComponent<CanvasGroup>();
+            CanvasGroup canvasGroupTopPanel = TopPanel.GetComponent<CanvasGroup>();
 
             _eventSystem.enabled = false;
             flgIsStartAnimationEnded = false;
 
             CanvasGroupFadeInOutPanel.gameObject.SetActive(true);
+            canvasGroupBottomPanel.gameObject.SetActive(true);
+            canvasGroupTopPanel.gameObject.SetActive(true);
 
             // Останавливаем эмбиент-звук с затуханием перед началом затемнения
             _levelAudioManager.StopAmbientSound();
 
-            DOTween.To(() => CanvasGroupFadeInOutPanel.alpha, x => CanvasGroupFadeInOutPanel.alpha = x, 1f, FinishFadeOutDuration_sec)
-                .SetDelay(UselessFinishDuration_sec)
-                .OnUpdate(() => {
-                    // Debug.Log("Альфа во время обновления ФИНИША: " + CanvasGroupFadeInOutPanel.alpha);
-                })
-                .OnComplete(() => _loader.LoadMainMenuSceneAsync());
+            // Создаем последовательность для анимации панелей
+            Sequence fadeOutSequence = DOTween.Sequence();
+
+            // Анимация затемнения для FadeInOutPanel, BottomPanel, и TopPanel (BottomPanel и TopPanel в 2 раза быстрее)
+            fadeOutSequence
+                .Append(DOTween.To(() => CanvasGroupFadeInOutPanel.alpha, x => CanvasGroupFadeInOutPanel.alpha = x, 1f, FinishFadeOutDuration_sec)
+                    .SetDelay(UselessFinishDuration_sec)
+                    .SetEase(Ease.InOutQuad))
+                .Join(DOTween.To(() => canvasGroupBottomPanel.alpha, x => canvasGroupBottomPanel.alpha = x, 0f, FinishFadeOutDuration_sec / 2)
+                    .SetDelay(UselessFinishDuration_sec)
+                    .SetEase(Ease.InOutQuad))
+                .Join(DOTween.To(() => canvasGroupTopPanel.alpha, x => canvasGroupTopPanel.alpha = x, 0f, FinishFadeOutDuration_sec / 2)
+                    .SetDelay(UselessFinishDuration_sec)
+                    .SetEase(Ease.InOutQuad))
+                .OnComplete(() => _loader.LoadMainMenuSceneAsync()); // Переход в меню по завершении анимации
         }
 
         // Запускаем при старте уровня
@@ -160,7 +171,7 @@ namespace EchoOfTheTimes.UI
                 .OnStart(() => HUDCanvas.gameObject.SetActive(false))
                 .OnUpdate(() =>
                 {
-                    // Плавное появление HUD
+                    // Плавное растемнение
                     if (CanvasGroupFadeInOutPanel.alpha <= 1)
                     {
                         HUDCanvas.gameObject.SetActive(true);

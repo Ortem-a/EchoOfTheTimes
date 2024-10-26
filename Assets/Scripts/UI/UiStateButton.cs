@@ -20,7 +20,7 @@ namespace EchoOfTheTimes.UI
         private Image[] _shadowsGood;
         private Image[] _shadowsBad;
 
-        private bool _isGoodShadowActive;
+        // private bool _isGoodShadowActive;
 
         public void Init(int stateId, InputMediator inputHandler, UiSceneController uiSceneController,
             HUDController hudController, RuntimeAnimatorController animatorController,
@@ -53,13 +53,13 @@ namespace EchoOfTheTimes.UI
 
             SetFuckingColorToFuckingButton(lineDopColor, eyeColor, backColor, linesColor);
 
-            _isGoodShadowActive = true;  // Изначально активны хорошие тени
+            // _isGoodShadowActive = false;  // Изначально активны хорошие тени
         }
 
         private void ChangeState(int stateId)
         {
             // Проверяем, прошло ли 1 секунда после спавна
-            if (Time.time - _spawnTime < 2f) return;
+            if (Time.time - _spawnTime < 1.7f) return;
 
             Select();
             _uiSceneController.DeselectAllButtons(stateId);
