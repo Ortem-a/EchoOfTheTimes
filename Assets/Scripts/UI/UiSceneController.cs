@@ -42,9 +42,9 @@ namespace EchoOfTheTimes.UI
 
         [Header("Стартовый/финишный UI")]
         [SerializeField] private RectTransform rectFadeInOutPanel;
-        private float StartFadeInDuration_sec = 2f; // Длительность появления
-        private float StartDelay_sec = 0.5f; // Задержка перед началом
-        private float HUDStartBeforeEnd_sec = 1f; // Начало появления HUD за K секунд до конца
+        [SerializeField] private float StartFadeInDuration_sec = 1f; // Длительность появления
+        [SerializeField] private float StartDelay_sec = 0.5f; // Задержка перед началом
+        [SerializeField] private float HUDStartBeforeEnd_sec = 1f; // Начало появления HUD за K секунд до конца
 
         [Header("Финишный UI")]
         [SerializeField] private float UselessFinishDuration_sec;
@@ -162,7 +162,7 @@ namespace EchoOfTheTimes.UI
             CanvasGroup CanvasGroupFadeInOutPanel = rectFadeInOutPanel.GetComponent<CanvasGroup>();
             CanvasGroupFadeInOutPanel.alpha = 1f;
 
-            // Перенёс сюды чтобы не дропался ФПС на глазах у игрока при загрузке музыки
+            // Перенёс сюда, чтобы не дропался ФПС на глазах у игрока при загрузке музыки
             _levelAudioManager.PlayAmbientSound();
 
             // Запуск анимации появления стартового экрана
@@ -171,14 +171,15 @@ namespace EchoOfTheTimes.UI
                 .OnStart(() => HUDCanvas.gameObject.SetActive(false))
                 .OnUpdate(() =>
                 {
-                    // Плавное растемнение
-                    if (CanvasGroupFadeInOutPanel.alpha <= 1)
+                    // Включаем HUDCanvas на половине StartFadeInDuration_sec
+                    float elapsedFadeTime = StartFadeInDuration_sec * (1f - CanvasGroupFadeInOutPanel.alpha); // Прошедшее время анимации
+
+                    if (elapsedFadeTime >= StartFadeInDuration_sec / 2)
                     {
                         HUDCanvas.gameObject.SetActive(true);
-                        hudCanvasGroup.alpha = Mathf.Lerp(0f, 1f, (HUDStartBeforeEnd_sec - CanvasGroupFadeInOutPanel.alpha * StartFadeInDuration_sec) / HUDStartBeforeEnd_sec * 2);
+                        float hudAlphaProgress = (elapsedFadeTime - StartFadeInDuration_sec / 2) / (StartFadeInDuration_sec / 2);
+                        hudCanvasGroup.alpha = Mathf.Lerp(0f, 1f, hudAlphaProgress);
                     }
-
-                    // Debug.Log("Альфа во время обновления: " + StartFadeInPanel.alpha);
                 })
                 .OnComplete(() =>
                 {
@@ -188,6 +189,7 @@ namespace EchoOfTheTimes.UI
                     _eventSystem.enabled = true;
                 });
         }
+
 
         // Запускаем при достижении финишного вертекса
         public void EnableFinishCanvas()
