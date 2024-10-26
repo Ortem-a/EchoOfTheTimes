@@ -139,7 +139,7 @@ namespace EchoOfTheTimes.SceneManagement
 
             FindObjectOfType<ChapterStatusUpdater>()
                 .GetChapterItem(_persistenceService.LastLoadedLevel)
-                .OnPointerClick(null);
+                .OnPointerClickSpecial(null);
         }
 
         private void EnableLoadingCanvas(bool enable = true)

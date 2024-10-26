@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Zenject;
 using DG.Tweening;
+using EchoOfTheTimes.Persistence;
 
 namespace EchoOfTheTimes.UI.MainMenu
 {
@@ -48,6 +49,21 @@ namespace EchoOfTheTimes.UI.MainMenu
         public void SetProgress(int progress, int required)
         {
             _chapterLockView.UpdateLabel(progress, required);
+        }
+
+        public void OnPointerClickSpecial(PointerEventData eventData)
+        {
+            _mainMenuService.SetActiveUi(false);
+
+            _mainMenuService.HideElementsOfChapterMenu(this, true);
+
+            Sequence canvasSequence = DOTween.Sequence();
+
+            canvasSequence
+              .Append(firstCanvas.DOScale(targetScale, scaleDuration / 2))
+              .Join(secondCanvas.DOScale(targetScale, scaleDuration / 2))
+              .Append(firstCanvas.DOScale(1f, scaleDuration / 2))
+              .Join(secondCanvas.DOScale(1f, scaleDuration / 2));
         }
 
         public void OnPointerClick(PointerEventData eventData)

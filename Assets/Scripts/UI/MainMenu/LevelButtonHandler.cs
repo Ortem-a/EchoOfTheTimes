@@ -44,7 +44,7 @@ namespace EchoOfTheTimes.UI.MainMenu
 
             _eventSystem.enabled = false;
 
-            // Анимация "пуньк" для кнопки
+            // punk
             Sequence buttonPunkSequence = DOTween.Sequence();
             buttonPunkSequence
                 .Append(buttonTransform.DOScale(scaleFactor, halfDuration).SetEase(Ease.OutQuad))
@@ -52,18 +52,14 @@ namespace EchoOfTheTimes.UI.MainMenu
 
             // Затемнение экрана
             CanvasGroup fadeCanvasGroup = FadeInOutPanel.GetComponent<CanvasGroup>() ?? FadeInOutPanel.gameObject.AddComponent<CanvasGroup>();
-            fadeCanvasGroup.alpha = 0f; // Начинаем с полной прозрачности
-            fadeCanvasGroup.gameObject.SetActive(true); // Убедимся, что панель активна для анимации
+            fadeCanvasGroup.alpha = 0f; 
+            fadeCanvasGroup.gameObject.SetActive(true);
 
             DOTween.To(() => fadeCanvasGroup.alpha, x => fadeCanvasGroup.alpha = x, 1f, fadeDuration)
                 .OnComplete(() =>
                 {
-                    // Загрузка сцены после завершения анимации затемнения
                     _sceneLoader.LoadSceneGroupAsync(_levelData);
                 });
         }
     }
 }
-
-
-// Пропажа всех элементов за некоторое время

@@ -1021,7 +1021,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 88806860}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -1036,6 +1036,7 @@ GameObject:
   - component: {fileID: 93611645}
   - component: {fileID: 93611647}
   - component: {fileID: 93611646}
+  - component: {fileID: 93611648}
   m_Layer: 5
   m_Name: Collectables_Panel
   m_TagString: Untagged
@@ -1101,6 +1102,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 93611644}
   m_CullTransparentMesh: 1
+--- !u!225 &93611648
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 93611644}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &116561638
 GameObject:
   m_ObjectHideFlags: 0
@@ -10209,6 +10222,7 @@ GameObject:
   - component: {fileID: 784247538}
   - component: {fileID: 784247540}
   - component: {fileID: 784247539}
+  - component: {fileID: 784247541}
   m_Layer: 5
   m_Name: Collectables_Panel
   m_TagString: Untagged
@@ -10274,6 +10288,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 784247537}
   m_CullTransparentMesh: 1
+--- !u!225 &784247541
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784247537}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &790093081
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10735,6 +10761,7 @@ GameObject:
   - component: {fileID: 823136515}
   - component: {fileID: 823136514}
   - component: {fileID: 823136517}
+  - component: {fileID: 823136518}
   m_Layer: 5
   m_Name: ToLeft_Button
   m_TagString: Untagged
@@ -10869,6 +10896,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boundaryValue: 0
+--- !u!225 &823136518
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 823136509}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &849320601
 GameObject:
   m_ObjectHideFlags: 0
@@ -11777,6 +11816,7 @@ GameObject:
   - component: {fileID: 926923139}
   - component: {fileID: 926923138}
   - component: {fileID: 926923141}
+  - component: {fileID: 926923142}
   m_Layer: 5
   m_Name: ToRight_Button
   m_TagString: Untagged
@@ -11911,6 +11951,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boundaryValue: 0
+--- !u!225 &926923142
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926923133}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!224 &931981216 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8839863123745732187, guid: 5ea26949d03dffc44af97b34224d913f,
@@ -13968,6 +14020,7 @@ GameObject:
   - component: {fileID: 1055730910}
   - component: {fileID: 1055730912}
   - component: {fileID: 1055730914}
+  - component: {fileID: 1055730915}
   m_Layer: 5
   m_Name: CirclesContainer_Panel
   m_TagString: Untagged
@@ -14067,6 +14120,18 @@ MonoBehaviour:
   isChapter: 1
   countLevels: 6
   aspectRatio: 0.5589383
+--- !u!225 &1055730915
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055730908}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1065203735
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19720,6 +19785,7 @@ GameObject:
   - component: {fileID: 1514678869}
   - component: {fileID: 1514678868}
   - component: {fileID: 1514678871}
+  - component: {fileID: 1514678872}
   m_Layer: 5
   m_Name: ScrollableViewHorizontalCHAPTERS_PROGRESS
   m_TagString: Untagged
@@ -19829,6 +19895,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetScrollRect: {fileID: 1727289881}
+--- !u!225 &1514678872
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514678864}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1517677413
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20383,8 +20461,8 @@ MonoBehaviour:
   _levelsParentPanel: {fileID: 849320602}
   _toLeftButton: {fileID: 823136514}
   _toRightButton: {fileID: 926923138}
-  soundBotton: {fileID: 1763257684}
-  aboutUsBotton: {fileID: 658635999}
+  soundButton: {fileID: 1763257684}
+  aboutUsButton: {fileID: 658635999}
   counterPanel: {fileID: 93611645}
   chaptersNamesScrollable: {fileID: 2022840314}
   chaptersProgressScrollable: {fileID: 1514678865}
@@ -20396,6 +20474,8 @@ MonoBehaviour:
   toChaptersButton: {fileID: 859955809}
   scaleDuration: 0.37
   scaleMax: 1.17
+  _fadeCanvasGroup: {fileID: 88806864}
+  fadeDuration: 1
   chaptersPanel: {fileID: 68098029}
   levelsPanel: {fileID: 85109253}
   durationTransitionBeetweenPanels: 0.2
@@ -22062,6 +22142,7 @@ GameObject:
   - component: {fileID: 1727289881}
   - component: {fileID: 1727289880}
   - component: {fileID: 1727289879}
+  - component: {fileID: 1727289884}
   m_Layer: 5
   m_Name: ScrollableViewHorizontalCHAPTERS
   m_TagString: Untagged
@@ -22189,6 +22270,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1727289877}
   m_CullTransparentMesh: 1
+--- !u!225 &1727289884
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1727289877}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!224 &1734328862 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 109136320135389395, guid: 217a5c7e5bef00049aba32360bbbb182,
@@ -24784,6 +24877,7 @@ GameObject:
   - component: {fileID: 2022840318}
   - component: {fileID: 2022840317}
   - component: {fileID: 2022840320}
+  - component: {fileID: 2022840321}
   m_Layer: 5
   m_Name: ScrollableViewHorizontalCHAPTERS_NAMES
   m_TagString: Untagged
@@ -24893,6 +24987,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetScrollRect: {fileID: 1727289881}
+--- !u!225 &2022840321
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022840313}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &2037957295
 PrefabInstance:
   m_ObjectHideFlags: 0

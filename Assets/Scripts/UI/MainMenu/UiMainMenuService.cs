@@ -30,8 +30,8 @@ namespace EchoOfTheTimes.UI.MainMenu
 
 
         [Header("Элементы для пропадания при тапе в главу")]
-        [SerializeField] private RectTransform soundBotton;
-        [SerializeField] private RectTransform aboutUsBotton;
+        [SerializeField] private RectTransform soundButton;
+        [SerializeField] private RectTransform aboutUsButton;
         [SerializeField] private RectTransform counterPanel;
         [SerializeField] private RectTransform chaptersNamesScrollable;
         [SerializeField] private RectTransform chaptersProgressScrollable;
@@ -48,6 +48,9 @@ namespace EchoOfTheTimes.UI.MainMenu
         [SerializeField] private float scaleDuration = 0.2f;
         [SerializeField] private float scaleMax = 1.1f;
 
+        [Header("Для стартового растемнения")]
+        [SerializeField] CanvasGroup _fadeCanvasGroup;
+        [SerializeField] private float fadeDuration = 0.6f;
 
         [Header("Панельки - Хаски")]
         [SerializeField] private RectTransform chaptersPanel;
@@ -71,6 +74,10 @@ namespace EchoOfTheTimes.UI.MainMenu
         private void Awake()
         {
             UiSwipeSnapChapter.OnChapterSwiped += ShowOrHideChpaterSwitchButtons;
+
+            _fadeCanvasGroup.alpha = 1f;
+
+            FadeIn();
         }
 
         private void OnDestroy()
@@ -86,6 +93,23 @@ namespace EchoOfTheTimes.UI.MainMenu
         public void SetActiveUi(bool active)
         {
             _eventSystem.enabled = active;
+        }
+
+        public void FadeIn()
+        {
+            Debug.Log("FadeIn started");
+
+            _fadeCanvasGroup.gameObject.SetActive(true);
+
+            _eventSystem.enabled = false;
+
+            DOTween.To(() => _fadeCanvasGroup.alpha, x => _fadeCanvasGroup.alpha = x, 0f, fadeDuration)
+                .OnComplete(() =>
+                {
+                    _fadeCanvasGroup.gameObject.SetActive(false);
+
+                    _eventSystem.enabled = true;
+                });
         }
 
         // Жмакнули кнопку выхода в меню глав
@@ -120,49 +144,49 @@ namespace EchoOfTheTimes.UI.MainMenu
             RectTransform parentCanvas = chaptersPanel.parent.GetComponent<RectTransform>();
             float canvasWidth = parentCanvas.rect.width;
 
+            float durationTrans = durationTransitionBeetweenPanels;
+            float delayToLevels = 0.3f;
+            float delayToChapters = 0f;
+
             if (isLevels)
             {
-                float delay = 0.3f; // Задержка
-
                 // Анимация для первой панели (уходит влево за экран)
-                DOTween.To(() => chaptersPanel.offsetMin, x => chaptersPanel.offsetMin = x, new Vector2(-canvasWidth, chaptersPanel.offsetMin.y), durationTransitionBeetweenPanels)
-                    .SetDelay(delay)
+                DOTween.To(() => chaptersPanel.offsetMin, x => chaptersPanel.offsetMin = x, new Vector2(-canvasWidth, chaptersPanel.offsetMin.y), durationTrans)
+                    .SetDelay(delayToLevels)
                     .SetEase(Ease.InOutQuad);
 
-                DOTween.To(() => chaptersPanel.offsetMax, x => chaptersPanel.offsetMax = x, new Vector2(-canvasWidth, chaptersPanel.offsetMax.y), durationTransitionBeetweenPanels)
-                    .SetDelay(delay)
+                DOTween.To(() => chaptersPanel.offsetMax, x => chaptersPanel.offsetMax = x, new Vector2(-canvasWidth, chaptersPanel.offsetMax.y), durationTrans)
+                    .SetDelay(delayToLevels)
                     .SetEase(Ease.InOutQuad);
 
                 // Анимация для второй панели (вплывает справа на место первой панели)
-                DOTween.To(() => levelsPanel.offsetMin, x => levelsPanel.offsetMin = x, Vector2.zero, durationTransitionBeetweenPanels)
-                    .SetDelay(delay)
+                DOTween.To(() => levelsPanel.offsetMin, x => levelsPanel.offsetMin = x, Vector2.zero, durationTrans)
+                    .SetDelay(delayToLevels)
                     .SetEase(Ease.InOutQuad);
 
-                DOTween.To(() => levelsPanel.offsetMax, x => levelsPanel.offsetMax = x, Vector2.zero, durationTransitionBeetweenPanels)
-                    .SetDelay(delay)
+                DOTween.To(() => levelsPanel.offsetMax, x => levelsPanel.offsetMax = x, Vector2.zero, durationTrans)
+                    .SetDelay(delayToLevels)
                     .SetEase(Ease.InOutQuad)
                     .OnComplete(() => SetActiveUi(true)); // Включаем взаимодействие после завершения анимации
             }
             else
             {
-                float delay = 0.0f; // Задержка
-
                 // Анимация для первой панели (возвращается на место)
-                DOTween.To(() => chaptersPanel.offsetMin, x => chaptersPanel.offsetMin = x, Vector2.zero, durationTransitionBeetweenPanels)
-                    .SetDelay(delay)
+                DOTween.To(() => chaptersPanel.offsetMin, x => chaptersPanel.offsetMin = x, Vector2.zero, durationTrans)
+                    .SetDelay(delayToChapters)
                     .SetEase(Ease.InOutQuad);
 
-                DOTween.To(() => chaptersPanel.offsetMax, x => chaptersPanel.offsetMax = x, Vector2.zero, durationTransitionBeetweenPanels)
-                    .SetDelay(delay)
+                DOTween.To(() => chaptersPanel.offsetMax, x => chaptersPanel.offsetMax = x, Vector2.zero, durationTrans)
+                    .SetDelay(delayToChapters)
                     .SetEase(Ease.InOutQuad);
 
                 // Анимация для второй панели (уходит вправо за экран)
-                DOTween.To(() => levelsPanel.offsetMin, x => levelsPanel.offsetMin = x, new Vector2(canvasWidth, levelsPanel.offsetMin.y), durationTransitionBeetweenPanels)
-                    .SetDelay(delay)
+                DOTween.To(() => levelsPanel.offsetMin, x => levelsPanel.offsetMin = x, new Vector2(canvasWidth, levelsPanel.offsetMin.y), durationTrans)
+                    .SetDelay(delayToChapters)
                     .SetEase(Ease.InOutQuad);
 
-                DOTween.To(() => levelsPanel.offsetMax, x => levelsPanel.offsetMax = x, new Vector2(canvasWidth, levelsPanel.offsetMax.y), durationTransitionBeetweenPanels)
-                    .SetDelay(delay)
+                DOTween.To(() => levelsPanel.offsetMax, x => levelsPanel.offsetMax = x, new Vector2(canvasWidth, levelsPanel.offsetMax.y), durationTrans)
+                    .SetDelay(delayToChapters)
                     .SetEase(Ease.InOutQuad)
                     .OnComplete(() =>
                     {
@@ -179,8 +203,8 @@ namespace EchoOfTheTimes.UI.MainMenu
         public void RestoreElementsOfChapterMenu(float restoreDuration)
         {
             // Активируем все элементы перед восстановлением
-            aboutUsBotton.gameObject.SetActive(true);
-            soundBotton.gameObject.SetActive(true);
+            aboutUsButton.gameObject.SetActive(true);
+            soundButton.gameObject.SetActive(true);
             counterPanel.gameObject.SetActive(true);
             chaptersNamesScrollable.gameObject.SetActive(true);
             chaptersProgressScrollable.gameObject.SetActive(true);
@@ -199,13 +223,13 @@ namespace EchoOfTheTimes.UI.MainMenu
             // Создаем последовательность для восстановления элементов
             Sequence restoreSequence = DOTween.Sequence();
 
-            restoreSequence.Append(aboutUsBotton.transform.DOScale(1f, restoreDuration).SetEase(scaleEase))
-                .Join(DOTween.To(() => aboutUsBotton.GetComponent<CanvasGroup>().alpha,
-                                 x => aboutUsBotton.GetComponent<CanvasGroup>().alpha = x,
+            restoreSequence.Append(aboutUsButton.transform.DOScale(1f, restoreDuration).SetEase(scaleEase))
+                .Join(DOTween.To(() => aboutUsButton.GetComponent<CanvasGroup>().alpha,
+                                 x => aboutUsButton.GetComponent<CanvasGroup>().alpha = x,
                                  1f, restoreDuration).SetEase(scaleEase))
-                .Join(soundBotton.transform.DOScale(1f, restoreDuration).SetEase(scaleEase))
-                .Join(DOTween.To(() => soundBotton.GetComponent<CanvasGroup>().alpha,
-                                 x => soundBotton.GetComponent<CanvasGroup>().alpha = x,
+                .Join(soundButton.transform.DOScale(1f, restoreDuration).SetEase(scaleEase))
+                .Join(DOTween.To(() => soundButton.GetComponent<CanvasGroup>().alpha,
+                                 x => soundButton.GetComponent<CanvasGroup>().alpha = x,
                                  1f, restoreDuration).SetEase(scaleEase))
                 .Join(counterPanel.transform.DOScale(1f, restoreDuration).SetEase(scaleEase))
                 .Join(DOTween.To(() => counterPanel.GetComponent<CanvasGroup>().alpha,
@@ -244,67 +268,94 @@ namespace EchoOfTheTimes.UI.MainMenu
         }
 
 
-        public void HideElementsOfChapterMenu(ChapterItemClickHandler chapterUiItem)
+        public void HideElementsOfChapterMenu(ChapterItemClickHandler chapterUiItem, bool isMomentalSwipe = false)
         {
-            _lastChapterUiItem = chapterUiItem;
-
-            EnsureCanvasGroup(soundBotton.gameObject);
-            EnsureCanvasGroup(aboutUsBotton.gameObject);
-            EnsureCanvasGroup(counterPanel.gameObject);
-            EnsureCanvasGroup(chaptersNamesScrollable.gameObject);
-            EnsureCanvasGroup(chaptersProgressScrollable.gameObject);
-            EnsureCanvasGroup(circlesContainerPanel.gameObject);
-            EnsureCanvasGroup(_toLeftButton.gameObject);
-            EnsureCanvasGroup(_toRightButton.gameObject);
-
-            ExcludeFromHide toLeftExclude = _toLeftButton.GetComponent<ExcludeFromHide>();
-            ExcludeFromHide toRightExclude = _toRightButton.GetComponent<ExcludeFromHide>();
-
-            Sequence hideSequence = DOTween.Sequence();
-
-            // Уменьшение масштаба и прозрачности для всех остальных объектов
-            hideSequence.Append(aboutUsBotton.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
-                .Join(DOTween.To(() => aboutUsBotton.GetComponent<CanvasGroup>().alpha, x => aboutUsBotton.GetComponent<CanvasGroup>().alpha = x, 0, scaleDurationN).SetEase(scaleEase))
-                .Join(soundBotton.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
-                .Join(DOTween.To(() => soundBotton.GetComponent<CanvasGroup>().alpha, x => soundBotton.GetComponent<CanvasGroup>().alpha = x, 0, scaleDurationN).SetEase(scaleEase))
-                .Join(counterPanel.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
-                .Join(DOTween.To(() => counterPanel.GetComponent<CanvasGroup>().alpha, x => counterPanel.GetComponent<CanvasGroup>().alpha = x, 0, scaleDurationN).SetEase(scaleEase))
-                .Join(chaptersNamesScrollable.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
-                .Join(DOTween.To(() => chaptersNamesScrollable.GetComponent<CanvasGroup>().alpha, x => chaptersNamesScrollable.GetComponent<CanvasGroup>().alpha = x, 0, scaleDurationN).SetEase(scaleEase))
-                .Join(chaptersProgressScrollable.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
-                .Join(DOTween.To(() => chaptersProgressScrollable.GetComponent<CanvasGroup>().alpha, x => chaptersProgressScrollable.GetComponent<CanvasGroup>().alpha = x, 0, scaleDurationN).SetEase(scaleEase))
-                .Join(circlesContainerPanel.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
-                .Join(DOTween.To(() => circlesContainerPanel.GetComponent<CanvasGroup>().alpha, x => circlesContainerPanel.GetComponent<CanvasGroup>().alpha = x, 0, scaleDurationN).SetEase(scaleEase));
-
-            // Уменьшение масштаба и прозрачности _toLeftButton, если boundaryValue = false
-            if (toLeftExclude == null || !toLeftExclude.boundaryValue)
+            if (isMomentalSwipe)
             {
-                hideSequence.Join(_toLeftButton.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
-                    .Join(DOTween.To(() => _toLeftButton.GetComponent<CanvasGroup>().alpha, x => _toLeftButton.GetComponent<CanvasGroup>().alpha = x, 0, scaleDurationN).SetEase(scaleEase));
-            }
+                _lastChapterUiItem = chapterUiItem;
 
-            // Уменьшение масштаба и прозрачности _toRightButton, если boundaryValue = false
-            if (toRightExclude == null || !toRightExclude.boundaryValue)
-            {
-                hideSequence.Join(_toRightButton.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
-                    .Join(DOTween.To(() => _toRightButton.GetComponent<CanvasGroup>().alpha, x => _toRightButton.GetComponent<CanvasGroup>().alpha = x, 0, scaleDurationN).SetEase(scaleEase));
-            }
+                ExcludeFromHide toLeftExclude = _toLeftButton.GetComponent<ExcludeFromHide>();
+                ExcludeFromHide toRightExclude = _toRightButton.GetComponent<ExcludeFromHide>();
 
-            hideSequence.OnComplete(() =>
-            {
-                aboutUsBotton.gameObject.SetActive(false);
+                aboutUsButton.gameObject.SetActive(false);
                 chaptersNamesScrollable.gameObject.SetActive(false);
                 chaptersProgressScrollable.gameObject.SetActive(false);
                 circlesContainerPanel.gameObject.SetActive(false);
+                soundButton.gameObject.SetActive(false);
+                counterPanel.gameObject.SetActive(false);
 
                 if (toLeftExclude == null || !toLeftExclude.boundaryValue)
                     _toLeftButton.gameObject.SetActive(false);
 
                 if (toRightExclude == null || !toRightExclude.boundaryValue)
                     _toRightButton.gameObject.SetActive(false);
-
+                
                 ShowLevelsList(true);
-            });
+            }
+            else
+            {
+                _lastChapterUiItem = chapterUiItem;
+
+                EnsureCanvasGroup(soundButton.gameObject);
+                EnsureCanvasGroup(aboutUsButton.gameObject);
+                EnsureCanvasGroup(counterPanel.gameObject);
+                EnsureCanvasGroup(chaptersNamesScrollable.gameObject);
+                EnsureCanvasGroup(chaptersProgressScrollable.gameObject);
+                EnsureCanvasGroup(circlesContainerPanel.gameObject);
+                EnsureCanvasGroup(_toLeftButton.gameObject);
+                EnsureCanvasGroup(_toRightButton.gameObject);
+
+                ExcludeFromHide toLeftExclude = _toLeftButton.GetComponent<ExcludeFromHide>();
+                ExcludeFromHide toRightExclude = _toRightButton.GetComponent<ExcludeFromHide>();
+
+                Sequence hideSequence = DOTween.Sequence();
+
+                // Уменьшение масштаба и прозрачности для всех остальных объектов
+                hideSequence.Append(aboutUsButton.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
+                    .Join(DOTween.To(() => aboutUsButton.GetComponent<CanvasGroup>().alpha, x => aboutUsButton.GetComponent<CanvasGroup>().alpha = x, 0, scaleDurationN).SetEase(scaleEase))
+                    .Join(soundButton.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
+                    .Join(DOTween.To(() => soundButton.GetComponent<CanvasGroup>().alpha, x => soundButton.GetComponent<CanvasGroup>().alpha = x, 0, scaleDurationN).SetEase(scaleEase))
+                    .Join(counterPanel.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
+                    .Join(DOTween.To(() => counterPanel.GetComponent<CanvasGroup>().alpha, x => counterPanel.GetComponent<CanvasGroup>().alpha = x, 0, scaleDurationN).SetEase(scaleEase))
+                    .Join(chaptersNamesScrollable.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
+                    .Join(DOTween.To(() => chaptersNamesScrollable.GetComponent<CanvasGroup>().alpha, x => chaptersNamesScrollable.GetComponent<CanvasGroup>().alpha = x, 0, scaleDurationN).SetEase(scaleEase))
+                    .Join(chaptersProgressScrollable.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
+                    .Join(DOTween.To(() => chaptersProgressScrollable.GetComponent<CanvasGroup>().alpha, x => chaptersProgressScrollable.GetComponent<CanvasGroup>().alpha = x, 0, scaleDurationN).SetEase(scaleEase))
+                    .Join(circlesContainerPanel.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
+                    .Join(DOTween.To(() => circlesContainerPanel.GetComponent<CanvasGroup>().alpha, x => circlesContainerPanel.GetComponent<CanvasGroup>().alpha = x, 0, scaleDurationN).SetEase(scaleEase));
+
+                // Уменьшение масштаба и прозрачности _toLeftButton, если boundaryValue = false
+                if (toLeftExclude == null || !toLeftExclude.boundaryValue)
+                {
+                    hideSequence.Join(_toLeftButton.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
+                        .Join(DOTween.To(() => _toLeftButton.GetComponent<CanvasGroup>().alpha, x => _toLeftButton.GetComponent<CanvasGroup>().alpha = x, 0, scaleDurationN).SetEase(scaleEase));
+                }
+
+                // Уменьшение масштаба и прозрачности _toRightButton, если boundaryValue = false
+                if (toRightExclude == null || !toRightExclude.boundaryValue)
+                {
+                    hideSequence.Join(_toRightButton.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
+                        .Join(DOTween.To(() => _toRightButton.GetComponent<CanvasGroup>().alpha, x => _toRightButton.GetComponent<CanvasGroup>().alpha = x, 0, scaleDurationN).SetEase(scaleEase));
+                }
+
+                hideSequence.OnComplete(() =>
+                {
+                    aboutUsButton.gameObject.SetActive(false);
+                    chaptersNamesScrollable.gameObject.SetActive(false);
+                    chaptersProgressScrollable.gameObject.SetActive(false);
+                    circlesContainerPanel.gameObject.SetActive(false);
+                    soundButton.gameObject.SetActive(false);
+                    counterPanel.gameObject.SetActive(false);
+
+                    if (toLeftExclude == null || !toLeftExclude.boundaryValue)
+                        _toLeftButton.gameObject.SetActive(false);
+
+                    if (toRightExclude == null || !toRightExclude.boundaryValue)
+                        _toRightButton.gameObject.SetActive(false);
+
+                    ShowLevelsList(true);
+                });
+            }  
         }
 
         private void EnsureCanvasGroup(GameObject obj)
