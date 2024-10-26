@@ -4,6 +4,7 @@ using EchoOfTheTimes.Effects;
 using EchoOfTheTimes.LevelStates;
 using EchoOfTheTimes.Persistence;
 using EchoOfTheTimes.SceneManagement;
+using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -15,47 +16,39 @@ namespace EchoOfTheTimes.UI
     {
         public bool flgIsStartAnimationEnded = false;
 
-        [Header("HUD")]
-        public Canvas HUDCanvas;
+        [Header("Event система для отрубания")]
+        [SerializeField] private EventSystem _eventSystem;
+
+        [Header("Основной HUD")]
+        [SerializeField] private Canvas HUDCanvas;
         private CanvasGroup hudCanvasGroup;
 
-        public Button ToMainMenuButton;
-        public Button ToNextLevelButton;
-        public Transform BottomPanel;
-        public Transform TopPanel;
-        public GameObject ButtonPrefab;
+        [SerializeField] private Button ToMainMenuButton;
+        [SerializeField] private Transform BottomPanel;
+        [SerializeField] private Transform TopPanel;
+        [SerializeField] private GameObject ButtonPrefab;
 
-        [Header("Button color settings")]
+        [Header("Для цветов кнопок состояний")]
         public Color DefaultStateButtonColor;
         public Color DisabledStateButtonColor;
-        [SerializeField]
-        private Color _lineDopColor;
-        [SerializeField]
-        private Color _eyeColor;
-        [SerializeField]
-        private Color _backColor;
-        [SerializeField]
-        private Color _linesColor;
-        [SerializeField]
-        private Color _exitButton;
+        [SerializeField] private Color _lineDopColor;
+        [SerializeField] private Color _eyeColor;
+        [SerializeField] private Color _backColor;
+        [SerializeField] private Color _linesColor;
+        [SerializeField] private Color _exitButton;
 
-        [Header("Buttons Animator Controllers")]
-        public RuntimeAnimatorController[] ButtonControllers;
+        [Header("Для аниматоров кнопок состояний")]
+        [SerializeField] private RuntimeAnimatorController[] ButtonControllers;
 
-        [Header("Start Level UI")]
-        public Canvas StartLevelCanvas;
-        public CanvasGroup StartFadeInPanel; // CanvasGroup для плавного появления
+        [Header("Стартовый/финишный UI")]
+        [SerializeField] private RectTransform rectFadeInOutPanel;
         private float StartFadeInDuration_sec = 2f; // Длительность появления
         private float StartDelay_sec = 0.5f; // Задержка перед началом
         private float HUDStartBeforeEnd_sec = 1f; // Начало появления HUD за K секунд до конца
 
-        [Header("Finish UI")]
-        public Canvas FinishCanvas;
-        public Transform FinishPanel;
-        public Button FinishButton;
-        public CanvasGroup FinishFadeOutPanel;
-        public float UselessFinishDuration_sec;
-        public float FinishFadeOutDuration_sec;
+        [Header("Финишный UI")]
+        [SerializeField] private float UselessFinishDuration_sec;
+        [SerializeField] private float FinishFadeOutDuration_sec;
 
         private SceneLoader _loader;
         private LevelStateMachine _stateMachine;
@@ -68,9 +61,16 @@ namespace EchoOfTheTimes.UI
 
         private void Start()
         {
+            // Отключаем считывание нажатий на экран
+            _eventSystem.enabled = false;
+
+            // Прячем HUD
             InitializeHUD();
+
+            // Показываем растемнение + включаем музон на фон
             ShowStartLevelCanvas();
 
+            // Красим кнопку выхода из уровня
             ApplyExitButtonColor();
         }
 
@@ -84,37 +84,22 @@ namespace EchoOfTheTimes.UI
             _hudController = hudController;
 
             CreateStateButtons();
-            InitializeFinishCanvas();
             InitializeHUDCanvasGroup();
 
             _loader = FindObjectOfType<SceneLoader>();
 
-            ToMainMenuButton.onClick.AddListener(ExitToMainMenu);
-            ToNextLevelButton.onClick.AddListener(GoToNextLevel);
-            FinishButton.onClick.AddListener(ExitToMainMenu);
+            // ToMainMenuButton.onClick.AddListener(ExitToMainMenu);
         }
 
         private void InitializeHUD()
         {
             HUDCanvas.gameObject.SetActive(false);
-            StartFadeInPanel.alpha = 1f; // Начальная непрозрачность
+            rectFadeInOutPanel.GetComponent<CanvasGroup>().alpha = 1f; // Начальная непрозрачность
         }
 
         private void InitializeHUDCanvasGroup()
         {
             hudCanvasGroup = HUDCanvas.GetComponent<CanvasGroup>();
-            if (hudCanvasGroup == null)
-            {
-                hudCanvasGroup = HUDCanvas.gameObject.AddComponent<CanvasGroup>();
-            }
-        }
-
-        private void InitializeFinishCanvas()
-        {
-            FinishPanel.localScale = Vector3.zero;
-            FinishCanvas.gameObject.SetActive(false);
-            FinishFadeOutPanel.alpha = 0f;
-            FinishFadeOutPanel.gameObject.SetActive(false);
         }
 
         private void ApplyExitButtonColor()
@@ -136,114 +121,93 @@ namespace EchoOfTheTimes.UI
             _stateButtons[0].Select();
         }
 
-        private async void ExitToMainMenu()
+        // Вызываем при нажатии кнопки выхода с уровня
+        public void ExitToMainMenu()
         {
             PersistenceService.OnExitToMainMenu?.Invoke();
 
-            await _loader.LoadMainMenuSceneAsync();
+            CanvasGroup CanvasGroupFadeInOutPanel = rectFadeInOutPanel.GetComponent<CanvasGroup>();
 
-            //await _loader.LoadSceneGroupAsync(0);
-        }
+            _eventSystem.enabled = false;
+            flgIsStartAnimationEnded = false;
 
-        private async void GoToNextLevel()
-        {
-            await _loader.LoadNextSceneGroupAsync();
-        }
-
-        //public void UpdateLabel()
-        //{
-        //    int stateId = _stateMachine.GetCurrentStateId();
-        //    _sceneView.UpdateProgress(stateId);
-        //}
-
-        public void EnableFinishCanvas()
-        {
-            SetActiveHudImmediate(false);
-            _inputMediator.gameObject.SetActive(false);
-
-            FinishFadeOutPanel.gameObject.SetActive(true);
+            CanvasGroupFadeInOutPanel.gameObject.SetActive(true);
 
             // Останавливаем эмбиент-звук с затуханием перед началом затемнения
-            if (_levelAudioManager != null)
-            {
-                _levelAudioManager.StopAmbientSound();
-            }
+            _levelAudioManager.StopAmbientSound();
 
-            DOTween.To(() => FinishFadeOutPanel.alpha, x => FinishFadeOutPanel.alpha = x, 1f, FinishFadeOutDuration_sec)
+            DOTween.To(() => CanvasGroupFadeInOutPanel.alpha, x => CanvasGroupFadeInOutPanel.alpha = x, 1f, FinishFadeOutDuration_sec)
                 .SetDelay(UselessFinishDuration_sec)
                 .OnUpdate(() => {
-                    Debug.Log("Альфа во время обновления ФИНИША: " + FinishFadeOutPanel.alpha);
+                    // Debug.Log("Альфа во время обновления ФИНИША: " + CanvasGroupFadeInOutPanel.alpha);
                 })
-                .OnComplete(() =>
-                {
-                    if (_loader.HasNextLevel)
-                    {
-                        ToNextLevelButton.onClick?.Invoke();
-                    }
-                    else
-                    {
-                        ToMainMenuButton.onClick?.Invoke();
-                    }
-                });
+                .OnComplete(() => _loader.LoadMainMenuSceneAsync());
         }
 
-        public void SetActiveBottomPanel(bool isActive)
-        {
-            for (int i = 0; i < _stateButtons.Length; i++)
-            {
-                _stateButtons[i].ChangeInteractable(isActive);
-            }
-        }
-
-        public void SetActiveBottomPanelImmediate(bool isActive)
-        {
-            BottomPanel.gameObject.SetActive(isActive);
-        }
-
-        public void SetActiveTopPanelImmediate(bool isActive)
-        {
-            TopPanel.gameObject.SetActive(isActive);
-        }
-
+        // Запускаем при старте уровня
         public void ShowStartLevelCanvas()
         {
-            StartLevelCanvas.gameObject.SetActive(true);
-            StartFadeInPanel.alpha = 1f;
+            // StartLevelCanvas.gameObject.SetActive(true);
+            CanvasGroup CanvasGroupFadeInOutPanel = rectFadeInOutPanel.GetComponent<CanvasGroup>();
+            CanvasGroupFadeInOutPanel.alpha = 1f;
 
             // Перенёс сюды чтобы не дропался ФПС на глазах у игрока при загрузке музыки
             _levelAudioManager.PlayAmbientSound();
 
-            // Активируем BottomPanel сразу с началом анимации спадения темноты
-            SetActiveBottomPanelImmediate(true);
-
             // Запуск анимации появления стартового экрана
-            DOTween.To(() => StartFadeInPanel.alpha, x => StartFadeInPanel.alpha = x, 0f, StartFadeInDuration_sec)
+            DOTween.To(() => CanvasGroupFadeInOutPanel.alpha, x => CanvasGroupFadeInOutPanel.alpha = x, 0f, StartFadeInDuration_sec)
                 .SetDelay(StartDelay_sec)
                 .OnStart(() => HUDCanvas.gameObject.SetActive(false))
                 .OnUpdate(() =>
                 {
                     // Плавное появление HUD
-                    if (StartFadeInPanel.alpha <= 1)
+                    if (CanvasGroupFadeInOutPanel.alpha <= 1)
                     {
                         HUDCanvas.gameObject.SetActive(true);
-                        hudCanvasGroup.alpha = Mathf.Lerp(0f, 1f, (HUDStartBeforeEnd_sec - StartFadeInPanel.alpha * StartFadeInDuration_sec) / HUDStartBeforeEnd_sec * 2);
+                        hudCanvasGroup.alpha = Mathf.Lerp(0f, 1f, (HUDStartBeforeEnd_sec - CanvasGroupFadeInOutPanel.alpha * StartFadeInDuration_sec) / HUDStartBeforeEnd_sec * 2);
                     }
 
                     // Debug.Log("Альфа во время обновления: " + StartFadeInPanel.alpha);
                 })
                 .OnComplete(() =>
                 {
-                    StartLevelCanvas.gameObject.SetActive(false);
+                    CanvasGroupFadeInOutPanel.gameObject.SetActive(false);
                     HUDCanvas.gameObject.SetActive(true);
                     flgIsStartAnimationEnded = true;
-                    hudCanvasGroup.alpha = 1f;
+                    _eventSystem.enabled = true;
                 });
         }
 
-        public void SetActiveHudImmediate(bool isActive)
+        // Запускаем при достижении финишного вертекса
+        public void EnableFinishCanvas()
         {
-            SetActiveBottomPanelImmediate(isActive);
-            SetActiveTopPanelImmediate(isActive);
+            CanvasGroup CanvasGroupFadeInOutPanel = rectFadeInOutPanel.GetComponent<CanvasGroup>();
+
+            _eventSystem.enabled = false;
+            flgIsStartAnimationEnded = false;
+
+            CanvasGroupFadeInOutPanel.gameObject.SetActive(true);
+
+            // Останавливаем эмбиент-звук с затуханием перед началом затемнения
+            _levelAudioManager.StopAmbientSound();
+
+            DOTween.To(() => CanvasGroupFadeInOutPanel.alpha, x => CanvasGroupFadeInOutPanel.alpha = x, 1f, FinishFadeOutDuration_sec)
+                .SetDelay(UselessFinishDuration_sec)
+                .OnUpdate(() => {
+                    // Debug.Log("Альфа во время обновления ФИНИША: " + CanvasGroupFadeInOutPanel.alpha);
+                })
+                .OnComplete(() =>
+                {
+                    if (_loader.HasNextLevel)
+                    {
+                        Debug.Log("ПЕРЕД ВЫЗОВОМ НЕКСТ СЦЕНЫ");
+                        _loader.LoadNextSceneGroupAsync();
+                    }
+                    else
+                    {
+                        ToMainMenuButton.onClick?.Invoke();
+                    }
+                });
         }
 
         public void DeselectAllButtons(int exceptIndex)

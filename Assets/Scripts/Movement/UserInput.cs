@@ -17,14 +17,14 @@ namespace EchoOfTheTimes.Movement
         private void Construct(InputMediator inputMediator)
         {
             _userInputMediator = inputMediator;
-
             _camera = Camera.main;
             _touchPosition = Vector3.forward * _camera.nearClipPlane;
         }
 
-        // никаких свайпов и дабл тачей, я тут главный и лучше знаю как камера должна быть, игрок ничто, игра всё
         private void Update()
         {
+            if (UnityEngine.EventSystems.EventSystem.current == null || !UnityEngine.EventSystems.EventSystem.current.enabled) return;
+
             if (Input.GetMouseButtonDown(0))
             {
                 _startSwipePosition = Input.mousePosition;

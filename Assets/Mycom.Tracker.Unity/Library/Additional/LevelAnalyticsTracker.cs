@@ -102,6 +102,9 @@ namespace EchoOfTheTimes.SceneManagement
             // Обработка данных FPS - отрезаем по 2.5% лучших и худших ибо нехуй
             fpsList.Sort();
             int count = fpsList.Count;
+
+            if (fpsList == null || count == 0) return;
+
             int cutOff = Mathf.FloorToInt(count * 0.025f);
             List<float> trimmedFPSList = fpsList.Skip(cutOff).Take(count - 2 * cutOff).ToList();
 

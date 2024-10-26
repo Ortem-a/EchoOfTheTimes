@@ -15,7 +15,7 @@ namespace EchoOfTheTimes.Core
         public Action OnExit => null;
 
         private Player _player;
-        private InputMediator _inputHandler;
+        // private InputMediator _inputHandler;
         private UiSceneController _sceneController;
         private CollectableService _collectableService;
 
@@ -24,7 +24,7 @@ namespace EchoOfTheTimes.Core
             CollectableService collectableService)
         {
             _player = player;
-            _inputHandler = inputHandler;
+            // _inputHandler = inputHandler;
             _sceneController = sceneController;
             _collectableService = collectableService;
         }
@@ -35,7 +35,7 @@ namespace EchoOfTheTimes.Core
 
             _player.Stop(null);
 
-            _inputHandler.gameObject.SetActive(false);
+            // _inputHandler.gameObject.SetActive(false);
 
             PersistenceService.OnLevelCompleted?.Invoke(_collectableService.CollectedResult);
         }

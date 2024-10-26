@@ -167,6 +167,7 @@ namespace EchoOfTheTimes.UI.MainMenu
                     .OnComplete(() =>
                     {
                         SetActiveUi(true);
+
                         if (_lastChapterUiItem != null && _lastChapterUiItem.LevelsPanel != null)
                         {
                             _lastChapterUiItem.LevelsPanel.transform.parent.gameObject.SetActive(false);

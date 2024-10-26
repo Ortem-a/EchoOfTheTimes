@@ -39,11 +39,11 @@ namespace EchoOfTheTimes.Training
         private void Update()
         {
             if (uiSceneController.flgIsStartAnimationEnded)
-            { 
+            {
                 if (!isInit)
                 {
                     Show();
-                    
+
                     _timer = new DumbTimer(_afkDuration_sec, Show);
 
                     isInit = true;
