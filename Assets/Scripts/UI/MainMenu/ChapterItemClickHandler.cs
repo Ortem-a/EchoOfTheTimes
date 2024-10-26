@@ -56,7 +56,6 @@ namespace EchoOfTheTimes.UI.MainMenu
 
             if (Mathf.Abs(progressHolder.change_progress_cf) < 0.999) return;
 
-#warning ÄÎÁÀÂÈÒÜ ÎÒÊËÞ×ÅÍÈÅ ÈÍÒÅÐÀÊÒÈÂÍÎÑÒÈ ÈÍÒÅÐÔÅÉÑÀ Â ÌÎÌÅÍÒ ÒÀÏÀ Â ÃËÀÂÓ
             _mainMenuService.SetActiveUi(false);
 
             Sequence canvasSequence = DOTween.Sequence();

@@ -26,6 +26,8 @@ namespace EchoOfTheTimes.UI.MainMenu
         private EventSystem _eventSystem;
         [SerializeField]
         private TMP_Text _playerTotalCollectablesLabel;
+        [SerializeField]
+        private TMP_Text _playerTotalCollectablesLabelFromLevels;
         public HeadPanelSuperviser HeadPanelSuperviser { get; private set; }
         [SerializeField]
         private Transform _levelsParentPanel;
@@ -37,12 +39,16 @@ namespace EchoOfTheTimes.UI.MainMenu
 
 
         [Header("Элементы для пропадания при тапе в главу")]
-        [SerializeField] private RectTransform headPanel;
+        [SerializeField] private RectTransform soundBotton;
+        [SerializeField] private RectTransform aboutUsBotton;
+        [SerializeField] private RectTransform counterPanel;
         [SerializeField] private RectTransform chaptersNamesScrollable;
         [SerializeField] private RectTransform chaptersProgressScrollable;
         [SerializeField] private RectTransform circlesContainerPanel;
-        [SerializeField] private Ease scaleEase = Ease.InOutQuad; // Настройка Ease для анимации
-        [SerializeField] private float scaleDurationN = 0.2f; // Время анимации
+
+        [SerializeField] private Ease scaleEase = Ease.InOutQuad;
+
+        [SerializeField] private float scaleDurationN = 0.2f;
         [SerializeField] private float targetScaleM = 1.1f;
         [SerializeField] private float targetScale = 0.5f;
 
@@ -139,8 +145,9 @@ namespace EchoOfTheTimes.UI.MainMenu
         {
             _lastChapterUiItem = chapterUiItem;
 
-            // Проверяем и добавляем CanvasGroup
-            EnsureCanvasGroup(headPanel.gameObject);
+            EnsureCanvasGroup(soundBotton.gameObject);
+            EnsureCanvasGroup(aboutUsBotton.gameObject);
+            EnsureCanvasGroup(counterPanel.gameObject);
             EnsureCanvasGroup(chaptersNamesScrollable.gameObject);
             EnsureCanvasGroup(chaptersProgressScrollable.gameObject);
             EnsureCanvasGroup(circlesContainerPanel.gameObject);
@@ -150,9 +157,17 @@ namespace EchoOfTheTimes.UI.MainMenu
             Sequence hideSequence = DOTween.Sequence();
 
             // Уменьшаем до определённого размера + уменьшаем прозрачность до 0 за время M
-            hideSequence.Append(headPanel.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
-            .Join(DOTween.To(() => headPanel.GetComponent<CanvasGroup>().alpha,
-                             x => headPanel.GetComponent<CanvasGroup>().alpha = x,
+            hideSequence.Append(aboutUsBotton.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
+            .Join(DOTween.To(() => aboutUsBotton.GetComponent<CanvasGroup>().alpha,
+                             x => aboutUsBotton.GetComponent<CanvasGroup>().alpha = x,
+                             0, scaleDurationN).SetEase(scaleEase))
+            .Join(soundBotton.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
+            .Join(DOTween.To(() => soundBotton.GetComponent<CanvasGroup>().alpha,
+                             x => soundBotton.GetComponent<CanvasGroup>().alpha = x,
+                             0, scaleDurationN).SetEase(scaleEase))
+            .Join(counterPanel.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
+            .Join(DOTween.To(() => counterPanel.GetComponent<CanvasGroup>().alpha,
+                             x => counterPanel.GetComponent<CanvasGroup>().alpha = x,
                              0, scaleDurationN).SetEase(scaleEase))
             .Join(chaptersNamesScrollable.transform.DOScale(targetScale, scaleDurationN).SetEase(scaleEase))
             .Join(DOTween.To(() => chaptersNamesScrollable.GetComponent<CanvasGroup>().alpha,
@@ -176,7 +191,7 @@ namespace EchoOfTheTimes.UI.MainMenu
                              0, scaleDurationN).SetEase(scaleEase))
             .OnComplete(() =>
             {
-                headPanel.gameObject.SetActive(false);
+                aboutUsBotton.gameObject.SetActive(false);
                 chaptersNamesScrollable.gameObject.SetActive(false);
                 chaptersProgressScrollable.gameObject.SetActive(false);
                 circlesContainerPanel.gameObject.SetActive(false);
@@ -197,34 +212,6 @@ namespace EchoOfTheTimes.UI.MainMenu
             }
         }
 
-        //private void ShowChaptersUiPanels(bool show)
-        //{
-        //    // Это чтобы само название главы не пропадало при переходе на меню уровней и назад
-        //    GameObject excludeObject1 = ChaptersPanel.transform.Find("ScrollableViewHorizontalCHAPTERS_NAMES").gameObject;
-
-        //    foreach (Transform child in ChaptersPanel.transform)
-        //    {
-        //        // Проверяем наличие скрипта ExcludeFromHide на child
-        //        ExcludeFromHide excludeScript = child.GetComponent<ExcludeFromHide>();
-
-        //        //if (excludeScript != null && excludeScript.boundaryValue)
-        //        //{
-        //        //    continue;
-        //        //}
-
-        //        if (child.gameObject == excludeObject1)
-        //        {
-        //            continue;
-        //        }
-
-        //        child.gameObject.SetActive(show);
-        //    }
-
-        //    ChaptersFooterPanel.SetActive(show);
-        //    // _lastChapterUiItem.LevelsPanel.transform.parent.gameObject.SetActive(!show);
-        //}
-
-
         private void CalculateAndShowTotalPlayerProgress()
         {
             int playerProgress = 0;
@@ -239,6 +226,7 @@ namespace EchoOfTheTimes.UI.MainMenu
             }
 
             _playerTotalCollectablesLabel.text = playerProgress.ToString();
+            _playerTotalCollectablesLabelFromLevels.text = playerProgress.ToString();
         }
 
         private void ShowOrHideChpaterSwitchButtons(int currentChapterIndex)
