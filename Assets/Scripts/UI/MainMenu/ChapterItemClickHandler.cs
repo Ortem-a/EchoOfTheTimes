@@ -51,6 +51,7 @@ namespace EchoOfTheTimes.UI.MainMenu
             _chapterLockView.UpdateLabel(progress, required);
         }
 
+        // Это отдельный путь для жмака в кнопку выхода из игрового уровня, эту хуйню кадо фиксить, это работает криво, так нельзя
         public void OnPointerClickSpecial(PointerEventData eventData)
         {
             _mainMenuService.SetActiveUi(false);
@@ -77,10 +78,10 @@ namespace EchoOfTheTimes.UI.MainMenu
             Sequence canvasSequence = DOTween.Sequence();
 
             canvasSequence.OnStart(() => _mainMenuService.HideElementsOfChapterMenu(this))
-              .Append(firstCanvas.DOScale(targetScale, scaleDuration / 2))
-              .Join(secondCanvas.DOScale(targetScale, scaleDuration / 2))
-              .Append(firstCanvas.DOScale(1f, scaleDuration / 2))
-              .Join(secondCanvas.DOScale(1f, scaleDuration / 2));
+                .Append(firstCanvas.DOScale(new Vector3(targetScale, targetScale * 1.1f, 1f), scaleDuration / 2))
+                .Join(secondCanvas.DOScale(new Vector3(targetScale * 0.9f, targetScale * 0.9f, 1f), scaleDuration / 2))
+                .Append(firstCanvas.DOScale(Vector3.one, scaleDuration / 2))
+                .Join(secondCanvas.DOScale(Vector3.one, scaleDuration / 2));
         }
     }
 }
