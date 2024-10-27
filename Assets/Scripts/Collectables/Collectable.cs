@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace EchoOfTheTimes.Collectables
 {
-    [RequireComponent(typeof(SphereCollider), typeof(CollectableEffectsService))]
+    [RequireComponent(typeof(CapsuleCollider), typeof(CollectableEffectsService))]
     public class Collectable : MonoBehaviour, ICollectable
     {
-        private SphereCollider _collider;
+        private CapsuleCollider _collider;
         private CollectableEffectsService _effectsService;
         private CollectableService _service;
 
         private void Awake()
         {
-            _collider = GetComponent<SphereCollider>();
+            _collider = GetComponent<CapsuleCollider>();
             _collider.isTrigger = true;
 
             _effectsService = GetComponent<CollectableEffectsService>();
