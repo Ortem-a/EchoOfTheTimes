@@ -19,18 +19,6 @@ public class PanelPositionController : MonoBehaviour
     {
         panelCount = panels.Length;
 
-        if (panelCount < 2)
-        {
-            Debug.LogError("Необходимо указать как минимум 2 панели.");
-            return;
-        }
-
-        if (canvasRectTransform == null)
-        {
-            Debug.LogError("Необходимо назначить RectTransform канваса.");
-            return;
-        }
-
         // Получаем высоту канваса для shiftDistance
         shiftDistance = canvasRectTransform.rect.height;
 
@@ -52,13 +40,6 @@ public class PanelPositionController : MonoBehaviour
 
     void Update()
     {
-        // Проверяем наличие Scrollbar
-        if (scrollbar == null)
-        {
-            Debug.LogError("Необходимо назначить Scrollbar.");
-            return;
-        }
-
         // Получаем значение Scrollbar
         float value = scrollbar.value; // Значение от 0 до 1
 
@@ -72,38 +53,18 @@ public class PanelPositionController : MonoBehaviour
         Vector2 inPosition = Vector2.zero;
         Vector2 outPosition = new Vector2(0, -shiftDistance);
 
-        // Перемещаем панели с нелинейным переходом
+        // Перемещаем панели с одновременным движением
         for (int i = 0; i < panelCount; i++)
         {
             if (i == index)
             {
-                // Текущая панель
-                if (t <= 0.5f)
-                {
-                    // Первая фаза: панель поднимается вверх
-                    float phaseT = t / 0.5f; // Нормализуем t от 0 до 0.5 в 0 до 1
-                    panels[i].anchoredPosition = Vector2.Lerp(outPosition, inPosition, phaseT);
-                }
-                else
-                {
-                    // Вторая фаза: панель остается на месте
-                    panels[i].anchoredPosition = inPosition;
-                }
+                // Текущая панель поднимается вверх
+                panels[i].anchoredPosition = Vector2.Lerp(outPosition, inPosition, t);
             }
             else if (i == index + 1)
             {
-                // Следующая панель
-                if (t > 0.5f)
-                {
-                    // Вторая фаза: панель опускается вниз
-                    float phaseT = (t - 0.5f) / 0.5f; // Нормализуем t от 0.5 до 1 в 0 до 1
-                    panels[i].anchoredPosition = Vector2.Lerp(inPosition, outPosition, phaseT);
-                }
-                else
-                {
-                    // Первая фаза: панель остается на месте
-                    panels[i].anchoredPosition = inPosition;
-                }
+                // Следующая панель опускается вниз
+                panels[i].anchoredPosition = Vector2.Lerp(inPosition, outPosition, t);
             }
             else
             {
