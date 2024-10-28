@@ -5,26 +5,27 @@ using UnityEngine.UI;
 
 namespace EchoOfTheTimes.UI.MainMenu
 {
-    [RequireComponent(typeof(Image), typeof(LevelLockView))]
+    [RequireComponent(typeof(LevelLockView))]
     public class LevelButtonView : MonoBehaviour
     {
-        private Image _image;
+        private Image _childImage;
         private TMP_Text _collectablesLabel;
 
         private LevelLockView _levelLockView;
 
         private void Awake()
         {
-            _image = GetComponent<Image>();
+            // Берем Image у нулевого ребенка
+            _childImage = transform.GetChild(0).GetComponent<Image>();
             _levelLockView = GetComponent<LevelLockView>();
 
+            // Берем TMP_Text, который находится в иерархии детей
             _collectablesLabel = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         }
 
         public void UpdateData(GameLevel levelData)
         {
             UpdateLevelStatus(levelData.LevelStatus);
-
             UpdateLabel(levelData.Collected, levelData.TotalCollectables);
         }
 
@@ -38,11 +39,11 @@ namespace EchoOfTheTimes.UI.MainMenu
             switch (status)
             {
                 case StatusType.Locked:
-                    _image.color = new Color(78f, 78f, 78f);
+                    _childImage.color = Color.gray; // Красим нулевого ребенка в серый
                     _levelLockView.Lock();
                     break;
                 case StatusType.Unlocked:
-                    _image.color = Color.white;
+                    _childImage.color = Color.white;
                     _levelLockView.Unlock();
                     break;
                 case StatusType.Completed:
