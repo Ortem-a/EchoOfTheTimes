@@ -135,7 +135,13 @@ namespace EchoOfTheTimes.SceneManagement
 
         public async Task LoadMainMenuSceneAsync()
         {
+            // Загрузить сцену главного меню
             await LoadSceneGroupAsync(GameChapters[0].Levels[0]);
+
+            // Что-то на ней сделать: МОМЕНТАЛЬНО проскроллить до этой главы и сделать нажатие
+            FindObjectOfType<ChapterStatusUpdater>()
+                .GetChapterSelectorItem(_persistenceService.LastLoadedLevel)
+                .SelectChapter();
 
             FindObjectOfType<ChapterStatusUpdater>()
                 .GetChapterItem(_persistenceService.LastLoadedLevel)

@@ -11,6 +11,7 @@ namespace EchoOfTheTimes.UI.MainMenu
         private List<StatusType> _chaptersStatuses = new List<StatusType>();
 
         private ChapterItemClickHandler[] _chapterItems;
+        private ChapterSelector[] _chaptorSelectorItems;
         private PersistenceService _persistenceService;
 
         private int[] _progressPerChapter;
@@ -50,6 +51,7 @@ namespace EchoOfTheTimes.UI.MainMenu
         private void Start()
         {
             _chapterItems = GetComponentsInChildren<ChapterItemClickHandler>();
+            _chaptorSelectorItems = GetComponentsInChildren<ChapterSelector>();
 
             for (int i = 0; i < _chapterItems.Length; i++)
             {
@@ -68,6 +70,17 @@ namespace EchoOfTheTimes.UI.MainMenu
             var index = data.FindIndex((chapter) => chapter.Title == chapterName);
 
             return _chapterItems[index - 1];
+        }
+
+        public ChapterSelector GetChapterSelectorItem(string levelFullName)
+        {
+            var chapterName = levelFullName.Split('|')[0];
+
+            var data = _persistenceService.GetData();
+
+            var index = data.FindIndex((chapter) => chapter.Title == chapterName);
+
+            return _chaptorSelectorItems[index - 1];
         }
     }
 }
