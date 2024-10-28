@@ -8,25 +8,31 @@ namespace EchoOfTheTimes.UI.MainMenu
     {
         private Image _childImage;
 
+        [SerializeField] private GameObject additionalObjectToDisable;
+        [SerializeField] private GameObject anotherObjectToGrayOut;
+
         private void Awake()
         {
-            // Берем Image нулевого дочернего элемента
             _childImage = transform.GetChild(0).GetComponent<Image>();
         }
 
         public void UpdateChapterStatus(StatusType status)
         {
-            // Устанавливаем цвет для нулевого ребенка
             switch (status)
             {
                 case StatusType.Locked:
                     _childImage.color = Color.gray;
+                    additionalObjectToDisable.transform.GetChild(0).gameObject.SetActive(false);
+                    anotherObjectToGrayOut.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
                     break;
                 case StatusType.Unlocked:
                     _childImage.color = Color.white;
+                    additionalObjectToDisable.transform.GetChild(0).gameObject.SetActive(true);
+                    anotherObjectToGrayOut.transform.GetChild(0).GetComponent<Image>().color = Color.white;
                     break;
                 case StatusType.Completed:
-                    // _childImage.color = Color.yellow;
+                    additionalObjectToDisable.transform.GetChild(0).gameObject.SetActive(true);
+                    anotherObjectToGrayOut.transform.GetChild(0).GetComponent<Image>().color = Color.white;
                     break;
             }
         }
