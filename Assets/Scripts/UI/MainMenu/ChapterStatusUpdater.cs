@@ -26,6 +26,9 @@ namespace EchoOfTheTimes.UI.MainMenu
             _progressPerChapter = new int[chaptersData.Count];
             _requiredPerChapter = new int[chaptersData.Count];
 
+            int cumulativeRequired = 0;
+            int cumulativeProgress = 0;
+
             for (int i = 0; i < chaptersData.Count; i++)
             {
                 _chaptersStatuses.Add(chaptersData[i].ChapterStatus);
@@ -35,12 +38,13 @@ namespace EchoOfTheTimes.UI.MainMenu
                     _progressPerChapter[i] += level.Collected;
                     _requiredPerChapter[i] += level.TotalCollectables;
                 }
-            }
 
-            //foreach (var chapter in chaptersData)
-            //{
-            //    _chaptersStatuses.Add(chapter.ChapterStatus);
-            //}
+                _requiredPerChapter[i] += cumulativeRequired;
+                _progressPerChapter[i] += cumulativeProgress;
+
+                cumulativeRequired = _requiredPerChapter[i];
+                cumulativeProgress = _progressPerChapter[i];
+            }
         }
 
         private void Start()

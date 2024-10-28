@@ -14,7 +14,7 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         public void UpdateLabel(int progress, int required)
         {
-            _chapterLockLabel.text = $"{progress} / {required}";
+            _chapterLockLabel.text = $"{progress}/{required}";
         }
 
         public void Unlock()
