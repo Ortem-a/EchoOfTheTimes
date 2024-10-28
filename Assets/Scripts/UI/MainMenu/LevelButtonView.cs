@@ -10,6 +10,7 @@ namespace EchoOfTheTimes.UI.MainMenu
     {
         private Image _childImage;
         private TMP_Text _collectablesLabel;
+        private GameObject _grandChild; // Нулевой ребенок нулевого ребенка
 
         private LevelLockView _levelLockView;
 
@@ -19,8 +20,11 @@ namespace EchoOfTheTimes.UI.MainMenu
             _childImage = transform.GetChild(0).GetComponent<Image>();
             _levelLockView = GetComponent<LevelLockView>();
 
-            // Берем TMP_Text, который находится в иерархии детей
+            // Берем TMP_Text, который находится глубже в иерархии детей
             _collectablesLabel = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
+
+            // Получаем нулевого ребенка у нулевого ребенка
+            _grandChild = transform.GetChild(0).GetChild(0).gameObject;
         }
 
         public void UpdateData(GameLevel levelData)
@@ -39,15 +43,18 @@ namespace EchoOfTheTimes.UI.MainMenu
             switch (status)
             {
                 case StatusType.Locked:
-                    _childImage.color = Color.gray; // Красим нулевого ребенка в серый
+                    _childImage.color = Color.gray;
                     _levelLockView.Lock();
+                    _grandChild.SetActive(false);
                     break;
                 case StatusType.Unlocked:
                     _childImage.color = Color.white;
                     _levelLockView.Unlock();
+                    _grandChild.SetActive(true); 
                     break;
                 case StatusType.Completed:
                     _levelLockView.Unlock();
+                    _grandChild.SetActive(true);
                     break;
             }
         }
