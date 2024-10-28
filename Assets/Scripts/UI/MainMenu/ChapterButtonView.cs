@@ -6,25 +6,27 @@ namespace EchoOfTheTimes.UI.MainMenu
 {
     public class ChapterButtonView : MonoBehaviour
     {
-        private Image _image;
+        private Image _childImage;
 
         private void Awake()
         {
-            _image = GetComponent<Image>();
+            // Берем Image нулевого дочернего элемента
+            _childImage = transform.GetChild(0).GetComponent<Image>();
         }
 
         public void UpdateChapterStatus(StatusType status)
         {
+            // Устанавливаем цвет для нулевого ребенка
             switch (status)
             {
                 case StatusType.Locked:
-                    _image.color = Color.red;
+                    _childImage.color = Color.gray;
                     break;
                 case StatusType.Unlocked:
-                    _image.color = Color.white;
+                    _childImage.color = Color.white;
                     break;
                 case StatusType.Completed:
-                    _image.color = Color.yellow;
+                    // _childImage.color = Color.yellow;
                     break;
             }
         }

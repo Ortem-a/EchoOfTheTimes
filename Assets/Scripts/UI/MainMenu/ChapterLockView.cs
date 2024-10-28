@@ -14,6 +14,7 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         public void UpdateLabel(int progress, int required)
         {
+            // Накопительный прогресс / накопительная сумма 
             _chapterLockLabel.text = $"{progress}/{required}";
         }
 
