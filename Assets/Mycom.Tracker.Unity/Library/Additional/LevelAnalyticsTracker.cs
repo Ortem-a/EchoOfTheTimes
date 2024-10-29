@@ -44,6 +44,7 @@ namespace EchoOfTheTimes.SceneManagement
 
 #warning АРТЁМ ПРОКИНЬ ПЛИЗ ЕБУЧИЙ СБОР КОЛЛЕКТАБЛОВ
 #warning Нет (с) Ортём
+#warning ладно, тогда видимо тоже сам
 
             // AppMetrica - статистика завершения уровня
             string levelData = $@"
