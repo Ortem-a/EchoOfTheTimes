@@ -93,12 +93,12 @@ namespace EchoOfTheTimes.Units
 
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
-                // freezer.OnCancel?.Invoke();
+                freezer.OnCancel?.Invoke();
             }
 
             if (NextPosition.gameObject.TryGetComponent(out StateFreezer nextFreezer))
             {
-                // nextFreezer.OnFreeze?.Invoke();
+                nextFreezer.OnFreeze?.Invoke();
             }
         }
 
@@ -112,7 +112,8 @@ namespace EchoOfTheTimes.Units
             {
                 freezer.OnCancel?.Invoke();
             }
-            else  if (NextPosition.gameObject.TryGetComponent(out StateFreezer nextFreezer))
+            
+            if (NextPosition.gameObject.TryGetComponent(out StateFreezer nextFreezer))
             {
                 nextFreezer.OnFreeze?.Invoke();
             }
@@ -139,7 +140,7 @@ namespace EchoOfTheTimes.Units
 
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
-                // freezer.OnFreeze?.Invoke();
+                freezer.OnFreeze?.Invoke();
             }
         }
 
@@ -210,18 +211,5 @@ namespace EchoOfTheTimes.Units
         public void CutPath() => _playerPath.CutPath();
 
         private void ResetNextPosition() => _movable.ResetDestination();
-
-        //void UpdateButtonShadowColors(bool isGood) // Изменено
-        //{
-        ////    Втянуть HUDController, вызывать метод ChangeAllShadows
-        //    if (isGood)
-        //    {
-        //        _hudController.DisableButtons();
-        //    }
-        //    else
-        //    {
-        //        _hudController.EnableButtons();
-        //    }
-        //}
     }
 }
