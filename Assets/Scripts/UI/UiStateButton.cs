@@ -129,10 +129,10 @@ namespace EchoOfTheTimes.UI
 
         private void SetFuckingColorToFuckingButton(Color lineDopColor, Color eyeColor, Color backColor, Color linesColor)
         {
-            transform.GetChild(8).GetComponent<Image>().color = lineDopColor;
-            transform.GetChild(9).GetComponent<Image>().color = backColor;
-            transform.GetChild(10).GetComponent<Image>().color = eyeColor;
-            transform.GetChild(11).GetComponent<Image>().color = linesColor;
+            transform.GetChild(2).GetComponent<Image>().color = lineDopColor;
+            transform.GetChild(3).GetComponent<Image>().color = backColor;
+            transform.GetChild(4).GetComponent<Image>().color = eyeColor;
+            transform.GetChild(5).GetComponent<Image>().color = linesColor;
         }
     }
 }

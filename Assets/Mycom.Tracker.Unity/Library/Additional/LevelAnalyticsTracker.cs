@@ -46,6 +46,8 @@ namespace EchoOfTheTimes.SceneManagement
 #warning Нет (с) Ортём
 #warning ладно, тогда видимо тоже сам
 
+            // Если длительность меньше 15 секунд или дольше 10 минут то не отправлять статистику
+
             // AppMetrica - статистика завершения уровня
             string levelData = $@"
             {{
