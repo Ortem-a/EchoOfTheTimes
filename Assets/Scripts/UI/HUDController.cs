@@ -6,8 +6,12 @@ namespace EchoOfTheTimes.UI
     public class HUDController : MonoBehaviour
     {
         private readonly List<UiStateButton> _buttons = new List<UiStateButton>();
+
         private bool _enableButtonsPending;
         private float _enableButtonsTime;
+
+        private bool _changeShadowsPending;
+        private float _changeShadowsTime;
 
         public void RegisterButton(UiStateButton button)
         {
@@ -17,6 +21,8 @@ namespace EchoOfTheTimes.UI
         public void DisableButtons()
         {
             _enableButtonsPending = false;
+            _changeShadowsPending = false;
+
             foreach (var button in _buttons)
             {
                 button.ChangeInteractable(false);
@@ -25,15 +31,32 @@ namespace EchoOfTheTimes.UI
             SetShadowsToBad();
         }
 
+        // Восстанавливаем метод EnableButtons
         public void EnableButtons()
         {
-            // _enableButtonsPending = true; перенёс в EnableButtonPending тк запускаем посреди смены состояний
-            _enableButtonsTime = Time.time + 0.05f; // можно ставить задержку чтобы не залагались анимации
+            // Планируем активацию кнопок через 0.05 секунд
+            ScheduleEnableButtons(0.05f);
         }
 
+        // Восстанавливаем метод EnableButtonPending
         public void EnableButtonPending()
         {
+            // Планируем смену тени на хорошую немедленно
+            ScheduleShadowsToGood(0f);
+        }
+
+        // Метод для планирования смены тени на хорошую через заданную задержку
+        public void ScheduleShadowsToGood(float delay)
+        {
+            _changeShadowsPending = true;
+            _changeShadowsTime = Time.time + delay;
+        }
+
+        // Метод для планирования активации кнопок через заданную задержку
+        public void ScheduleEnableButtons(float delay)
+        {
             _enableButtonsPending = true;
+            _enableButtonsTime = Time.time + delay;
         }
 
         private void SetShadowsToGood()
@@ -55,22 +78,32 @@ namespace EchoOfTheTimes.UI
         public void EnableButtonsImmediately()
         {
             _enableButtonsPending = false;
+            _changeShadowsPending = false;
+
             foreach (var button in _buttons)
             {
                 button.ChangeInteractable(true);
+                button.ChangeShadowToGood();
             }
         }
 
         private void Update()
         {
+            // Проверяем, пора ли сменить тень на хорошую
+            if (_changeShadowsPending && Time.time >= _changeShadowsTime)
+            {
+                _changeShadowsPending = false;
+                SetShadowsToGood();
+            }
+
+            // Проверяем, пора ли активировать кнопки
             if (_enableButtonsPending && Time.time >= _enableButtonsTime)
             {
                 _enableButtonsPending = false;
+
                 foreach (var button in _buttons)
                 {
                     button.ChangeInteractable(true);
-
-                    SetShadowsToGood();
                 }
             }
         }

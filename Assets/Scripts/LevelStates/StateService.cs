@@ -15,7 +15,6 @@ namespace EchoOfTheTimes.LevelStates
         private TweenCallback _onCompleteCallback;
 
         private HUDController _hudController;
-        private bool buttonsEnabledPending = false;
 
         [Inject]
         public StateService(LevelSettingsScriptableObject levelSettings, HUDController hudController)
@@ -46,22 +45,16 @@ namespace EchoOfTheTimes.LevelStates
                     AcceptState(stateParameters[i], isDebug: isDebug, onComplete: IncrementCallbackCounter);
                 }
 
-                // Рассчитываем задержку для включения кнопок за 0.25 секунд до окончания изменений состояния
-                float enableButtonsDelay = Mathf.Max(0f, _timeToChangeState_sec - 0.25f);
-
-                // Планируем включение кнопок с рассчитанной задержкой
-                DOVirtual.DelayedCall(enableButtonsDelay, () =>
-                {
-                    _hudController.EnableButtons();
-                });
+                // Планируем смену тени на хорошую за 0.25 секунд до окончания смены состояний
+                float shadowChangeDelay = Mathf.Max(0f, _timeToChangeState_sec - 0.25f);
+                _hudController.ScheduleShadowsToGood(shadowChangeDelay);
             }
             else
             {
-                // Если список stateParameters пуст или null, сразу включаем кнопки
-                _hudController.EnableButtons();
+                // Если список stateParameters пуст или null, сразу включаем кнопки и тень
+                _hudController.EnableButtonsImmediately();
             }
         }
-
 
         private void IncrementCallbackCounter()
         {
@@ -69,7 +62,11 @@ namespace EchoOfTheTimes.LevelStates
 
             if (_completedCallbackCounter == _callbackCounter)
             {
-                _hudController.EnableButtonPending();
+                // Все изменения состояний завершены
+
+                // Планируем активацию кнопок через 0.05 секунд после окончания смены состояний
+                _hudController.ScheduleEnableButtons(0.05f);
+
                 _onCompleteCallback?.Invoke();
             }
         }
@@ -84,7 +81,6 @@ namespace EchoOfTheTimes.LevelStates
 
         public void DisableButtonsImmediately()
         {
-            buttonsEnabledPending = false;
             _hudController.DisableButtons();
         }
     }
