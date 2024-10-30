@@ -65,6 +65,7 @@ namespace EchoOfTheTimes.Movement
             _player.transform.DOScale(1f, _teleportDisappearDuration_sec);
 
             _hudController.EnableButtons();
+            _hudController.EnableButtonPending();
         }
     }
 }

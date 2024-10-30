@@ -14,13 +14,12 @@ namespace EchoOfTheTimes.UI
         private HUDController _hudController;
         private Button _button;
         private Animator _animator;
-        private bool _isSelected;
         private float _spawnTime;
 
-        private Image[] _shadowsGood;
-        private Image[] _shadowsBad;
+        private Image _shadow;
 
-        // private bool _isGoodShadowActive;
+        private Color _goodShadowColor;
+        private Color _badShadowColor;
 
         public void Init(int stateId, InputMediator inputHandler, UiSceneController uiSceneController,
             HUDController hudController, RuntimeAnimatorController animatorController,
@@ -37,28 +36,25 @@ namespace EchoOfTheTimes.UI
             _animator = GetComponent<Animator>();
             _animator.runtimeAnimatorController = animatorController;
 
-            _shadowsGood = GetComponentsInChildren<Image>().Where(image => image.gameObject.name.Contains("Shadow_Good")).ToArray();
-            _shadowsBad = GetComponentsInChildren<Image>().Where(image => image.gameObject.name.Contains("Shadow_Bad")).ToArray();
+            // Используем один объект тени
+            _shadow = GetComponentsInChildren<Image>().FirstOrDefault(image => image.gameObject.name.Contains("Shadow"));
 
-            SetGoodShadowColor(_uiSceneController.DefaultStateButtonColor);
-            SetBadShadowColor(_uiSceneController.DisabledStateButtonColor);
+            // Задаем цвета для хорошей и плохой тени, включая альфа-значение
+            _goodShadowColor = _uiSceneController.DefaultStateButtonColor;
+            _badShadowColor = _uiSceneController.DisabledStateButtonColor;
 
-            // Устанавливаем начальную прозрачность теней
-            SetAlpha(_shadowsGood, 1f);
-            SetAlpha(_shadowsBad, 0f);
+            // Устанавливаем начальный цвет тени
+            SetShadowColor(_goodShadowColor);
 
             _hudController.RegisterButton(this);
 
-            _spawnTime = Time.time;  // Записываем время спавна кнопки
+            _spawnTime = Time.time;
 
-            SetFuckingColorToFuckingButton(lineDopColor, eyeColor, backColor, linesColor);
-
-            // _isGoodShadowActive = false;  // Изначально активны хорошие тени
+            SetButtonColors(lineDopColor, eyeColor, backColor, linesColor);
         }
 
         private void ChangeState(int stateId)
         {
-            // Проверяем, прошло ли 1 секунда после спавна
             if (Time.time - _spawnTime < 1.7f) return;
 
             Select();
@@ -75,64 +71,51 @@ namespace EchoOfTheTimes.UI
             _button.interactable = isInteractable;
         }
 
-        private void SetGoodShadowColor(Color color)
+        private void SetShadowColor(Color color)
         {
-            foreach (var shadow in _shadowsGood)
+            if (_shadow != null)
             {
-                shadow.color = color;
+                _shadow.color = color; // Устанавливаем цвет и альфа-значение тени
             }
         }
 
-        private void SetBadShadowColor(Color color)
+        // Метод для изменения тени на "хорошую"
+        public void ChangeShadowToGood()
         {
-            foreach (var shadow in _shadowsBad)
-            {
-                shadow.color = color;
-            }
+            Debug.Log("!!!!!!!!!!!!!!!!!!!!!");
+            StartCoroutine(InterpolateShadowColor(_shadow.color, _goodShadowColor, 0.25f));
         }
 
-        public void SetGoodShadowActive(bool isActive)
+        // Метод для изменения тени на "плохую"
+        public void ChangeShadowToBad()
         {
-            StartCoroutine(FadeShadow(_shadowsGood, isActive ? 1f : 0f, 0.25f));
+            StartCoroutine(InterpolateShadowColor(_shadow.color, _badShadowColor, 0.25f));
         }
 
-        public void SetBadShadowActive(bool isActive)
+        // Корутина для плавного перехода цвета и альфа-канала тени
+        private IEnumerator InterpolateShadowColor(Color fromColor, Color toColor, float duration)
         {
-            StartCoroutine(FadeShadow(_shadowsBad, isActive ? 1f : 0f, 0.25f));
-        }
+            if (_shadow == null) yield break;
 
-        private void SetAlpha(Image[] images, float alpha)
-        {
-            foreach (var image in images)
-            {
-                var color = image.color;
-                color.a = alpha;
-                image.color = color;
-            }
-        }
-
-        private IEnumerator FadeShadow(Image[] images, float targetAlpha, float duration)
-        {
-            float startAlpha = images[0].color.a;
             float elapsed = 0f;
 
             while (elapsed < duration)
             {
                 elapsed += Time.deltaTime;
-                float newAlpha = Mathf.Lerp(startAlpha, targetAlpha, elapsed / duration);
-                SetAlpha(images, newAlpha);
+                Color newColor = Color.Lerp(fromColor, toColor, elapsed / duration); // Линейная интерполяция всех компонент
+                SetShadowColor(newColor); // Устанавливаем новый цвет вместе с альфа
                 yield return null;
             }
 
-            SetAlpha(images, targetAlpha);
+            SetShadowColor(toColor); // Устанавливаем конечный цвет с заданной альфа
         }
 
-        private void SetFuckingColorToFuckingButton(Color lineDopColor, Color eyeColor, Color backColor, Color linesColor)
+        private void SetButtonColors(Color lineDopColor, Color eyeColor, Color backColor, Color linesColor)
         {
-            transform.GetChild(2).GetComponent<Image>().color = lineDopColor;
-            transform.GetChild(3).GetComponent<Image>().color = backColor;
-            transform.GetChild(4).GetComponent<Image>().color = eyeColor;
-            transform.GetChild(5).GetComponent<Image>().color = linesColor;
+            transform.GetChild(1).GetComponent<Image>().color = lineDopColor;
+            transform.GetChild(2).GetComponent<Image>().color = backColor;
+            transform.GetChild(3).GetComponent<Image>().color = eyeColor;
+            transform.GetChild(4).GetComponent<Image>().color = linesColor;
         }
     }
 }

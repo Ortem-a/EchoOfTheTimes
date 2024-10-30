@@ -3,6 +3,7 @@ using EchoOfTheTimes.ScriptableObjects.Level;
 using EchoOfTheTimes.UI;
 using System.Collections.Generic;
 using Zenject;
+using UnityEngine;
 
 namespace EchoOfTheTimes.LevelStates
 {
@@ -30,17 +31,13 @@ namespace EchoOfTheTimes.LevelStates
 
         public void SwitchState(List<StateParameter> stateParameters, bool isDebug = false, TweenCallback onComplete = null)
         {
-            if (_hudController != null)
-            {
-                _hudController.DisableButtons();
-                buttonsEnabledPending = false;
-            }
+            _hudController.DisableButtons();
 
             _onCompleteCallback = onComplete;
             _completedCallbackCounter = 0;
             _callbackCounter = 0;
 
-            if (stateParameters != null)
+            if (stateParameters != null && stateParameters.Count > 0)
             {
                 _callbackCounter += stateParameters.Count;
 
@@ -48,8 +45,23 @@ namespace EchoOfTheTimes.LevelStates
                 {
                     AcceptState(stateParameters[i], isDebug: isDebug, onComplete: IncrementCallbackCounter);
                 }
+
+                // Рассчитываем задержку для включения кнопок за 0.25 секунд до окончания изменений состояния
+                float enableButtonsDelay = Mathf.Max(0f, _timeToChangeState_sec - 0.25f);
+
+                // Планируем включение кнопок с рассчитанной задержкой
+                DOVirtual.DelayedCall(enableButtonsDelay, () =>
+                {
+                    _hudController.EnableButtons();
+                });
+            }
+            else
+            {
+                // Если список stateParameters пуст или null, сразу включаем кнопки
+                _hudController.EnableButtons();
             }
         }
+
 
         private void IncrementCallbackCounter()
         {
@@ -57,15 +69,7 @@ namespace EchoOfTheTimes.LevelStates
 
             if (_completedCallbackCounter == _callbackCounter)
             {
-                // Можно добавить задержку активации HUD после смены состояния из состояниеуправлятора
-                buttonsEnabledPending = true;
-                DOVirtual.DelayedCall(0.0f, () => //ВЫРЕЗАТЬ, ЗАДЕРЖКА ЕСТЬ ПРИ ОБРАБОТКЕ ВКЛЮЧЕНИЯ ВОЗМОЖНОСТИ ТЫКАТЬ В HUDCONTROLLERS
-                {
-                    if (buttonsEnabledPending)
-                    {
-                        _hudController.EnableButtons();
-                    }
-                });
+                _hudController.EnableButtonPending();
                 _onCompleteCallback?.Invoke();
             }
         }

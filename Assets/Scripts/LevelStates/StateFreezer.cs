@@ -30,6 +30,7 @@ namespace EchoOfTheTimes.LevelStates
             Debug.Log($"[StateFreezer] Cancel");
 
             _hudController.EnableButtons();
+            _hudController.EnableButtonPending();
         }
     }
 }

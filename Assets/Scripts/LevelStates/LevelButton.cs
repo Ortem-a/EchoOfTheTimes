@@ -122,6 +122,7 @@ namespace EchoOfTheTimes.LevelStates
                 _graph.Load();
                 _player.ForceUnlink();
                 _hudController.EnableButtons();
+                _hudController.EnableButtonPending();
             }
         }
     }

@@ -27,16 +27,20 @@ namespace EchoOfTheTimes.UI
 
         public void EnableButtons()
         {
-            _enableButtonsPending = true;
+            // _enableButtonsPending = true; перенёс в EnableButtonPending тк запускаем посреди смены состояний
             _enableButtonsTime = Time.time + 0.05f; // можно ставить задержку чтобы не залагались анимации
+        }
+
+        public void EnableButtonPending()
+        {
+            _enableButtonsPending = true;
         }
 
         private void SetShadowsToGood()
         {
             foreach (var button in _buttons)
             {
-                button.SetGoodShadowActive(true);
-                button.SetBadShadowActive(false);
+                button.ChangeShadowToGood();
             }
         }
 
@@ -44,8 +48,7 @@ namespace EchoOfTheTimes.UI
         {
             foreach (var button in _buttons)
             {
-                button.SetGoodShadowActive(false);
-                button.SetBadShadowActive(true);
+                button.ChangeShadowToBad();
             }
         }
 

@@ -93,12 +93,12 @@ namespace EchoOfTheTimes.Units
 
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
-                freezer.OnCancel?.Invoke();
+                // freezer.OnCancel?.Invoke();
             }
 
             if (NextPosition.gameObject.TryGetComponent(out StateFreezer nextFreezer))
             {
-                nextFreezer.OnFreeze?.Invoke();
+                // nextFreezer.OnFreeze?.Invoke();
             }
         }
 
@@ -112,8 +112,7 @@ namespace EchoOfTheTimes.Units
             {
                 freezer.OnCancel?.Invoke();
             }
-
-            if (NextPosition.gameObject.TryGetComponent(out StateFreezer nextFreezer))
+            else  if (NextPosition.gameObject.TryGetComponent(out StateFreezer nextFreezer))
             {
                 nextFreezer.OnFreeze?.Invoke();
             }
@@ -140,7 +139,7 @@ namespace EchoOfTheTimes.Units
 
             if (Position.gameObject.TryGetComponent(out StateFreezer freezer))
             {
-                freezer.OnFreeze?.Invoke();
+                // freezer.OnFreeze?.Invoke();
             }
         }
 
