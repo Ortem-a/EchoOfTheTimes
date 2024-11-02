@@ -106,12 +106,13 @@ namespace EchoOfTheTimes.Persistence
             }
 
             // Проверить все главы -- одна из них может открыться, так как собрано нужное кол-во коллектаблов
-            for (int i = 1; i < newDataToSave.Data.Count; i++)
+            // for (int i = 1; i < newDataToSave.Data.Count; i++) -- закомментил по гайду Артёма
+            for (int i = 2; i < newDataToSave.Data.Count; i++)
             {
-                if (IsChapterComplete(newDataToSave, i))
+                if (IsChapterComplete(newDataToSave, i - 1))
                 {
-                    newDataToSave.Data[i + 1].ChapterStatus = StatusType.Unlocked;
-                    newDataToSave.Data[i + 1].Levels[0].LevelStatus = StatusType.Unlocked;
+                    newDataToSave.Data[i].ChapterStatus = StatusType.Unlocked;
+                    newDataToSave.Data[i].Levels[0].LevelStatus = StatusType.Unlocked;
                 }
             }
 
