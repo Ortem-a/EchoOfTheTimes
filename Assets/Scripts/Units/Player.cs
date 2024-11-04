@@ -123,6 +123,12 @@ namespace EchoOfTheTimes.Units
                 _hudController.DisableButtons();
             }
 
+            if (NextPosition.gameObject.TryGetComponent(out ISpecialVertex nextSpecialVertex))
+            {
+                _hudController.DisableButtons();
+                // nextSpecialVertex.OnEnter?.Invoke();
+            }
+
             if (Position.gameObject.TryGetComponent(out ISpecialVertex specialVertex))
             {
                 specialVertex.OnExit?.Invoke();
