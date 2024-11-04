@@ -152,7 +152,7 @@ namespace EchoOfTheTimes.UI.MainMenu
             float distance = scrollPos - currentItemPos;
 
             // Порог для смены страницы: процент от ширины элемента (например, 25%)
-            float swipeThreshold = _itemWidth * 0.1f; // Настраиваемое значение
+            float swipeThreshold = _itemWidth * 0.037f; // Настраиваемое значение
 
             // change_progress_cf = distance / _itemWidth; // Это считается только в момент конца свайпа, а надо в риаотайме как-то
 

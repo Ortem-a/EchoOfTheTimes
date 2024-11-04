@@ -53,7 +53,16 @@ namespace EchoOfTheTimes.UI.MainMenu
             _chapterItems = GetComponentsInChildren<ChapterItemClickHandler>();
             _chaptorSelectorItems = GetComponentsInChildren<ChapterSelector>();
 
-            for (int i = 0; i < _chapterItems.Length; i++)
+            //for (int i = 0; i < _chapterItems.Length; i++)
+            //{
+            //    _chapterItems[i].SetStatus(_chaptersStatuses[i + 1]);
+            //    _chapterItems[i].SetProgress(_progressPerChapter[i], _requiredPerChapter[i]);
+            //    _chapterItems[i].GetComponent<ChapterButtonView>().UpdateChapterStatus(_chaptersStatuses[i + 1]);
+            //}
+
+            Debug.LogWarning("«аглушка на всего 4 главы дл€ главного меню");
+
+            for (int i = 0; i < 4; i++)
             {
                 _chapterItems[i].SetStatus(_chaptersStatuses[i + 1]);
                 _chapterItems[i].SetProgress(_progressPerChapter[i], _requiredPerChapter[i]);
