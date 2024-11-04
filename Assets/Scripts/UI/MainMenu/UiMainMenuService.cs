@@ -28,7 +28,6 @@ namespace EchoOfTheTimes.UI.MainMenu
         [SerializeField] private Button _toLeftButton;
         [SerializeField] private Button _toRightButton;
 
-
         [Header("Элементы для пропадания при тапе в главу")]
         [SerializeField] private RectTransform soundButton;
         [SerializeField] private RectTransform aboutUsButton;
