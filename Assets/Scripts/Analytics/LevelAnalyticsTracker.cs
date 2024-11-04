@@ -1,6 +1,5 @@
 using UnityEngine;
 using Io.AppMetrica;
-using Mycom.Tracker.Unity;
 using System.Collections.Generic;
 using System;
 using System.Linq;
@@ -44,7 +43,7 @@ namespace EchoOfTheTimes.SceneManagement
 
 #warning АРТЁМ ПРОКИНЬ ПЛИЗ ЕБУЧИЙ СБОР КОЛЛЕКТАБЛОВ
 #warning Нет (с) Ортём
-#warning ладно, тогда видимо тоже сам
+#warning ладно (
 
             // Если длительность меньше 15 секунд или дольше 10 минут то не отправлять статистику
 
@@ -61,21 +60,6 @@ namespace EchoOfTheTimes.SceneManagement
             }}";
 
             AppMetrica.ReportEvent("level_completed", levelData);
-
-            // MyTracker - статистики уровня
-            if (Application.platform == RuntimePlatform.Android)
-            {
-                var eventCustomParams = new Dictionary<string, string>
-                {
-                    ["level_name"] = levelName,
-                    ["chapter_name"] = chapterName,
-                    ["duration"] = levelDuration.ToString(),
-                    ["num_collectables"] = num_collectables.ToString(),
-                    ["status"] = status
-                };
-
-                MyTracker.TrackEvent("level_completed", eventCustomParams);
-            }
         }
 
         private void StartFPSTracking()
@@ -131,22 +115,6 @@ namespace EchoOfTheTimes.SceneManagement
             }}";
 
             AppMetrica.ReportEvent("level_fps_stats", jsonData);
-
-            // MyTracker - статистика производительности
-            if (Application.platform == RuntimePlatform.Android)
-            {
-                var eventCustomParams = new Dictionary<string, string>
-                {
-                    ["level_name"] = levelName,
-                    ["chapter_name"] = chapterName,
-                    ["average_fps"] = averageFPS.ToString(),
-                    ["median_fps"] = medianFPS.ToString(),
-                    ["max_fps"] = maxFPS.ToString(),
-                    ["min_fps"] = minFPS.ToString()
-                };
-
-                MyTracker.TrackEvent("level_fps_stats", eventCustomParams);
-            }
         }
 
         // Надо как-то прокинуть сюда данные
