@@ -51,7 +51,7 @@ namespace EchoOfTheTimes.UI.MainMenu
                 .Append(buttonTransform.DOScale(1f, halfDuration).SetEase(Ease.InQuad));
 
             // Затемнение экрана
-            CanvasGroup fadeCanvasGroup = FadeInOutPanel.GetComponent<CanvasGroup>() ?? FadeInOutPanel.gameObject.AddComponent<CanvasGroup>();
+            CanvasGroup fadeCanvasGroup = FadeInOutPanel.GetComponent<CanvasGroup>();
             fadeCanvasGroup.alpha = 0f; 
             fadeCanvasGroup.gameObject.SetActive(true);
 

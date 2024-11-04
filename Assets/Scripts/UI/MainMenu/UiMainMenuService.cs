@@ -50,7 +50,7 @@ namespace EchoOfTheTimes.UI.MainMenu
 
         [Header("Для стартового растемнения")]
         [SerializeField] CanvasGroup _fadeCanvasGroup;
-        [SerializeField] private float fadeDuration = 0.6f;
+        [SerializeField] private float fadeDuration = 0.5f;
 
         [Header("Панельки - Хаски")]
         [SerializeField] private RectTransform chaptersPanel;
@@ -101,14 +101,14 @@ namespace EchoOfTheTimes.UI.MainMenu
 
             _fadeCanvasGroup.gameObject.SetActive(true);
 
-            _eventSystem.enabled = false;
+            SetActiveUi(false);
 
             DOTween.To(() => _fadeCanvasGroup.alpha, x => _fadeCanvasGroup.alpha = x, 0f, fadeDuration)
                 .OnComplete(() =>
                 {
                     _fadeCanvasGroup.gameObject.SetActive(false);
 
-                    _eventSystem.enabled = true;
+                    SetActiveUi(true);
                 });
         }
 
@@ -190,7 +190,7 @@ namespace EchoOfTheTimes.UI.MainMenu
                     .SetEase(Ease.InOutQuad)
                     .OnComplete(() =>
                     {
-                        SetActiveUi(true);
+                        SetActiveUi(true); // включается раньше окончания растемнения?
 
                         if (_lastChapterUiItem != null && _lastChapterUiItem.LevelsPanel != null)
                         {
