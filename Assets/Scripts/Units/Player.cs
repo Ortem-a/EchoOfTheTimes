@@ -125,8 +125,15 @@ namespace EchoOfTheTimes.Units
 
             if (NextPosition.gameObject.TryGetComponent(out ISpecialVertex nextSpecialVertex))
             {
-                _hudController.DisableButtons();
-                // nextSpecialVertex.OnEnter?.Invoke();
+                if (NextPosition.gameObject.TryGetComponent(out LevelButton levelButton))
+                {
+                    bool isPressed = levelButton.IsPressed;
+
+                    if (!isPressed)
+                    {
+                        _hudController.DisableButtons();
+                    }
+                }
             }
 
             if (Position.gameObject.TryGetComponent(out ISpecialVertex specialVertex))

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Effects;
 using EchoOfTheTimes.Interfaces;
@@ -100,6 +101,14 @@ namespace EchoOfTheTimes.LevelStates
 
             _graph.ResetVertices();
 
+            DOTween.Sequence()
+                    .AppendInterval(0.75f)
+                    .AppendCallback(() =>
+                    {
+                        _hudController.EnableButtons();
+                        _hudController.EnableButtonPending();
+                    });
+
             _player.StopAndLink(onComplete: () =>
             {
                 foreach (var movableState in MovableStates)
@@ -121,8 +130,8 @@ namespace EchoOfTheTimes.LevelStates
             {
                 _graph.Load();
                 _player.ForceUnlink();
-                _hudController.EnableButtons();
-                _hudController.EnableButtonPending();
+                // _hudController.EnableButtons();
+                // _hudController.EnableButtonPending();
             }
         }
     }
