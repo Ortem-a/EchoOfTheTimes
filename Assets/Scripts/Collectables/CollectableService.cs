@@ -36,6 +36,11 @@ namespace EchoOfTheTimes.Collectables
             _playerProgressHudView = FindObjectOfType<PlayerProgressHudView>();
         }
 
+        public int GetTotalCollectables()
+        {
+            return _totalCollectables;
+        }
+
         public void OnCollected()
         {
             _collectedCollectables++;

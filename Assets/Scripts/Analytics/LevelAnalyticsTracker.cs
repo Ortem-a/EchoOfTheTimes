@@ -47,6 +47,28 @@ namespace EchoOfTheTimes.SceneManagement
             }
         }
 
+        // Метод для начала сбора аналитики
+        public void StartLevelAnalytics()
+        {
+            StartLevelTimer();
+            StartFPSTracking();
+            SendLevelStartedEvent(levelName); // Отправляем событие level_started для текущего уровня
+        }
+
+        // Публичный метод для отправки события level_started с указанным именем уровня
+        private void SendLevelStartedEvent(string levelName)
+        {
+            string levelData = $@"
+            {{
+                ""level_started"": {{
+                    ""{levelName}"": {{}}
+                }}
+            }}";
+
+            AppMetrica.ReportEvent("level_started", levelData);
+            Debug.Log($"Level started event sent for {levelName}");
+        }
+
         // Методы для управления таймером уровня
         private void StartLevelTimer()
         {
@@ -62,19 +84,6 @@ namespace EchoOfTheTimes.SceneManagement
         {
             EndLevelTimer();
             EndFPSTracking();
-        }
-
-        private void SendLevelStartedEvent()
-        {
-            string levelData = $@"
-    {{
-        ""level_started"": {{
-            ""{levelName}"": {{}}
-        }}
-    }}";
-
-            AppMetrica.ReportEvent("level_started", levelData);
-            Debug.Log($"Level started event sent for {levelName}");
         }
 
         private void EndLevelTimer()
@@ -95,15 +104,15 @@ namespace EchoOfTheTimes.SceneManagement
 
             // Формируем JSON-данные для события level_completed_stats
             string levelData = $@"
-    {{
-        ""level_completed_stats"": {{
-            ""{levelName}"": {{
-                ""duration"": {levelDuration},
-                ""num_collectables"": {num_collectables},
-                ""status"": ""{status}""
-            }}
-        }}
-    }}";
+            {{
+                ""level_completed_stats"": {{
+                    ""{levelName}"": {{
+                        ""duration"": {levelDuration},
+                        ""num_collectables"": {num_collectables},
+                        ""status"": ""{status}""
+                    }}
+                }}
+            }}";
 
             AppMetrica.ReportEvent("level_completed_stats", levelData);
             Debug.Log($"Level completed stats event sent for {levelName}");
@@ -212,16 +221,16 @@ namespace EchoOfTheTimes.SceneManagement
 
             // Формируем JSON-данные для события level_fps_stats
             string jsonData = $@"
-    {{
-        ""level_fps_stats"": {{
-            ""{levelName}"": {{
-                ""average_fps"": ""{averageFPS:F2}"",
-                ""median_fps"": ""{medianFPS:F2}"",
-                ""max_fps"": ""{maxFPS:F2}"",
-                ""min_fps"": ""{minFPS:F2}""
-            }}
-        }}
-    }}";
+            {{
+                ""level_fps_stats"": {{
+                    ""{levelName}"": {{
+                        ""average_fps"": ""{averageFPS:F2}"",
+                        ""median_fps"": ""{medianFPS:F2}"",
+                        ""max_fps"": ""{maxFPS:F2}"",
+                        ""min_fps"": ""{minFPS:F2}""
+                    }}
+                }}
+            }}";
 
             AppMetrica.ReportEvent("level_fps_stats", jsonData);
             Debug.Log($"FPS stats event sent for {levelName}");
@@ -238,14 +247,6 @@ namespace EchoOfTheTimes.SceneManagement
         public void UpdateCollectables(int collected)
         {
             num_collectables = collected;
-        }
-
-        // Метод для начала сбора аналитики
-        public void StartLevelAnalytics()
-        {
-            StartLevelTimer();
-            StartFPSTracking();
-            SendLevelStartedEvent(); // Отправляем событие level_started
         }
     }
 }
