@@ -167,7 +167,7 @@ namespace EchoOfTheTimes.UI
 
             // Запуск анимации появления стартового экрана
             DOTween.To(() => CanvasGroupFadeInOutPanel.alpha, x => CanvasGroupFadeInOutPanel.alpha = x, 0f, StartFadeInDuration_sec)
-                .SetDelay(StartDelay_sec)
+                //.SetDelay(StartDelay_sec)
                 .OnStart(() => HUDCanvas.gameObject.SetActive(false))
                 .OnUpdate(() =>
                 {
@@ -187,6 +187,10 @@ namespace EchoOfTheTimes.UI
                     HUDCanvas.gameObject.SetActive(true);
                     flgIsStartAnimationEnded = true;
                     _eventSystem.enabled = true;
+
+                    //DOTween.Sequence()
+                    //       .AppendInterval(0.03f)
+                    //       .AppendCallback(() => _eventSystem.enabled = true);
                 });
         }
 

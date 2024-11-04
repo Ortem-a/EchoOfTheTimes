@@ -44,7 +44,7 @@ namespace EchoOfTheTimes.UI
             _badShadowColor = _uiSceneController.DisabledStateButtonColor;
 
             // Устанавливаем начальный цвет тени
-            SetShadowColor(_goodShadowColor);
+            SetShadowColor(_badShadowColor);
 
             _hudController.RegisterButton(this);
 
@@ -82,7 +82,6 @@ namespace EchoOfTheTimes.UI
         // Метод для изменения тени на "хорошую"
         public void ChangeShadowToGood()
         {
-            Debug.Log("!!!!!!!!!!!!!!!!!!!!!");
             StartCoroutine(InterpolateShadowColor(_shadow.color, _goodShadowColor, 0.25f));
         }
 

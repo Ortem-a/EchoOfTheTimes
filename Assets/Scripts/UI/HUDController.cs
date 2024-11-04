@@ -31,14 +31,12 @@ namespace EchoOfTheTimes.UI
             SetShadowsToBad();
         }
 
-        // Восстанавливаем метод EnableButtons
         public void EnableButtons()
         {
             // Планируем активацию кнопок через 0.05 секунд
             ScheduleEnableButtons(0.05f);
         }
 
-        // Восстанавливаем метод EnableButtonPending
         public void EnableButtonPending()
         {
             // Планируем смену тени на хорошую немедленно
