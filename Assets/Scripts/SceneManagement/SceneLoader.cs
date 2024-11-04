@@ -139,11 +139,13 @@ namespace EchoOfTheTimes.SceneManagement
             await LoadSceneGroupAsync(GameChapters[0].Levels[0]);
 
             // „то-то на ней сделать: ћќћ≈Ќ“јЋ№Ќќ проскроллить до этой главы и сделать нажатие
-            FindObjectOfType<ChapterStatusUpdater>()
+            var statusUpdater = FindObjectOfType<ChapterStatusUpdater>();
+
+            statusUpdater
                 .GetChapterSelectorItem(_persistenceService.LastLoadedLevel)
                 .SelectChapter();
 
-            FindObjectOfType<ChapterStatusUpdater>()
+            statusUpdater
                 .GetChapterItem(_persistenceService.LastLoadedLevel)
                 .OnPointerClickSpecial(null);
         }

@@ -45,7 +45,7 @@ namespace EchoOfTheTimes.Core
             // Обновляем данные аналитики перед отправкой
             int collected = _collectableService.CollectedResult;
             int maxCollectables = -1; // _collectableService.MaxCollectablesInLevel;
-            
+
             _levelAnalyticsTracker.UpdateCollectables(collected);
             _levelAnalyticsTracker.SetStatus(collected, maxCollectables);
 

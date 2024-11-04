@@ -78,43 +78,10 @@ namespace EchoOfTheTimes.Persistence
             }
 
             // пометить текущий уровень как пройденный
-            //var lastLoadedChapterTitle = _lastLoadedLevel.ChapterName;
-            //var lastLoadedLevelName = _lastLoadedLevel.LevelName;
-            var lastLoadedChapterTitle = LastLoadedLevel.Split('|')[0];
-            var lastLoadedLevelName = LastLoadedLevel.Split('|')[1];
-            int lastLoadedChapterIndex = -1;
-            int lastLoadedLevelIndex = -1;
-            for (int i = 0; i < newDataToSave.Data.Count; i++)
-            {
-                if (newDataToSave.Data[i].Title == lastLoadedChapterTitle)
-                {
-                    var lastLoadedChapter = newDataToSave.Data[i];
-                    lastLoadedChapterIndex = i;
-                    for (int j = 0; j < lastLoadedChapter.Levels.Count; j++)
-                    {
-                        if (lastLoadedChapter.Levels[j].LevelName == lastLoadedLevelName)
-                        {
-                            lastLoadedChapter.Levels[j].LevelStatus = StatusType.Completed;
-                            lastLoadedChapter.Levels[j].Collected = collected;
-                            lastLoadedLevelIndex = j;
-                            break;
-                        }
-                    }
+            newDataToSave = MarkThisLevelAsCompleted(newDataToSave, collected,
+                out int lastLoadedChapterIndex, out int lastLoadedLevelIndex);
 
-                    break;
-                }
-            }
-
-            // Проверить все главы -- одна из них может открыться, так как собрано нужное кол-во коллектаблов
-            // for (int i = 1; i < newDataToSave.Data.Count; i++) -- закомментил по гайду Артёма
-            for (int i = 2; i < newDataToSave.Data.Count; i++)
-            {
-                if (IsChapterComplete(newDataToSave, i - 1))
-                {
-                    newDataToSave.Data[i].ChapterStatus = StatusType.Unlocked;
-                    newDataToSave.Data[i].Levels[0].LevelStatus = StatusType.Unlocked;
-                }
-            }
+            newDataToSave = CheckAllChapters(newDataToSave, out string levelFullName);
 
             // пометить следующий как открытый
             // возможны случаи:
@@ -149,8 +116,14 @@ namespace EchoOfTheTimes.Persistence
                 }
             }
 
-            //_lastLoadedLevel = newDataToSave.Data[lastLoadedChapterIndex].Levels[lastLoadedLevelIndex];
-            LastLoadedLevel = newDataToSave.Data[lastLoadedChapterIndex].Levels[lastLoadedLevelIndex].FullName;
+            if (LastLoadedLevel != levelFullName)
+            {
+                LastLoadedLevel = levelFullName;
+            }
+            else
+            {
+                LastLoadedLevel = newDataToSave.Data[lastLoadedChapterIndex].Levels[lastLoadedLevelIndex].FullName;
+            }
 
             newDataToSave.LastLoadedLevelFullName = LastLoadedLevel;
 
@@ -169,6 +142,56 @@ namespace EchoOfTheTimes.Persistence
             {
                 _saveLoadService.Save();
             }
+        }
+
+        private PlayerData MarkThisLevelAsCompleted(PlayerData newDataToSave, int collected,
+            out int lastLoadedChapterIndex, out int lastLoadedLevelIndex)
+        {
+            var lastLoadedChapterTitle = LastLoadedLevel.Split('|')[0];
+            var lastLoadedLevelName = LastLoadedLevel.Split('|')[1];
+            lastLoadedChapterIndex = -1;
+            lastLoadedLevelIndex = -1;
+            for (int i = 0; i < newDataToSave.Data.Count; i++)
+            {
+                if (newDataToSave.Data[i].Title == lastLoadedChapterTitle)
+                {
+                    var lastLoadedChapter = newDataToSave.Data[i];
+                    lastLoadedChapterIndex = i;
+                    for (int j = 0; j < lastLoadedChapter.Levels.Count; j++)
+                    {
+                        if (lastLoadedChapter.Levels[j].LevelName == lastLoadedLevelName)
+                        {
+                            lastLoadedChapter.Levels[j].LevelStatus = StatusType.Completed;
+                            lastLoadedChapter.Levels[j].Collected = collected;
+                            lastLoadedLevelIndex = j;
+                            break;
+                        }
+                    }
+
+                    break;
+                }
+            }
+
+            return newDataToSave;
+        }
+
+        private PlayerData CheckAllChapters(PlayerData newDataToSave, out string levelFullName)
+        {
+            levelFullName = string.Empty;
+
+            // Проверить все главы -- одна из них может открыться, так как собрано нужное кол-во коллектаблов
+            for (int i = 2; i < newDataToSave.Data.Count; i++)
+            {
+                if (IsChapterComplete(newDataToSave, i - 1))
+                {
+                    newDataToSave.Data[i].ChapterStatus = StatusType.Unlocked;
+                    newDataToSave.Data[i].Levels[0].LevelStatus = StatusType.Unlocked;
+
+                    levelFullName = newDataToSave.Data[i].Levels[0].FullName;
+                }
+            }
+
+            return newDataToSave;
         }
 
         public List<GameChapter> GetData() => _saveLoadService.DataToSave.Data;
