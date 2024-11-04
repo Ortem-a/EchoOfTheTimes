@@ -669,7 +669,7 @@ GameObject:
   - component: {fileID: 68098031}
   - component: {fileID: 68098030}
   m_Layer: 5
-  m_Name: ChapterPanel
+  m_Name: Chapter_Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1086,8 +1086,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 543716848}
   m_HandleRect: {fileID: 543716847}
   m_Direction: 0
-  m_Value: 0.000000054013412
-  m_Size: 0.19285715
+  m_Value: 0.000000040633743
+  m_Size: 0.195314
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1149,7 +1149,7 @@ GameObject:
   - component: {fileID: 85109254}
   - component: {fileID: 85109256}
   m_Layer: 5
-  m_Name: LevelPanel
+  m_Name: Level_Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3671,7 +3671,7 @@ GameObject:
   - component: {fileID: 242231507}
   - component: {fileID: 242231510}
   m_Layer: 5
-  m_Name: DecorPanel
+  m_Name: Decor_Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8878,8 +8878,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -10160,8 +10160,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1616963073}
   m_HandleRect: {fileID: 1616963072}
   m_Direction: 0
-  m_Value: 0.000000054013412
-  m_Size: 0.19285715
+  m_Value: 0.000000040633743
+  m_Size: 0.195314
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -10606,7 +10606,7 @@ GameObject:
   m_Component:
   - component: {fileID: 849320602}
   m_Layer: 5
-  m_Name: LevelPanels
+  m_Name: Level_Panels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12136,8 +12136,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1055128603}
   m_HandleRect: {fileID: 1055128602}
   m_Direction: 0
-  m_Value: 0.000000054013412
-  m_Size: 0.19285715
+  m_Value: 0.000000040633743
+  m_Size: 0.195314
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -17515,8 +17515,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1547776951}
   m_HandleRect: {fileID: 1547776950}
   m_Direction: 0
-  m_Value: 0.000000054013412
-  m_Size: 0.19285715
+  m_Value: 0.000000040633743
+  m_Size: 0.195314
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -21039,8 +21039,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -21076,8 +21076,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efc17f567f1c7a3448ce07c32488b8e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mutedIcon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  _soundEnableIcon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  _mutedIcon: {fileID: 21300000, guid: 61e394ba6e2a6a14089419be935b5784, type: 3}
+  _soundEnableIcon: {fileID: 21300000, guid: 169174abe880ae340b880b98f8f8f7f8, type: 3}
 --- !u!1 &1775095231
 GameObject:
   m_ObjectHideFlags: 0
@@ -23275,10 +23275,11 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
+    m_HighlightedSprite: {fileID: 21300000, guid: 61e394ba6e2a6a14089419be935b5784,
+      type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: 61e394ba6e2a6a14089419be935b5784, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: 169174abe880ae340b880b98f8f8f7f8, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: 61e394ba6e2a6a14089419be935b5784, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -23316,7 +23317,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
