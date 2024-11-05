@@ -44,12 +44,12 @@ namespace EchoOfTheTimes.Editor
 
 
             // ++++++++++++++++++++++++++++++++++++++++++++++
-            for (int i =0; i< playerData.Data[1].Levels.Count; i++)
-            {
-                playerData.Data[1].Levels[i].LevelStatus = StatusType.Completed;
-                playerData.Data[1].Levels[i].Collected = playerData.Data[1].Levels[i].TotalCollectables;
-            }
-            playerData.Data[1].Levels[0].Collected = 0;
+            //for (int i =0; i< playerData.Data[1].Levels.Count; i++)
+            //{
+            //    playerData.Data[1].Levels[i].LevelStatus = StatusType.Completed;
+            //    playerData.Data[1].Levels[i].Collected = playerData.Data[1].Levels[i].TotalCollectables;
+            //}
+            //playerData.Data[1].Levels[0].Collected = 0;
             // ++++++++++++++++++++++++++++++++++++++++++++++
 
 
