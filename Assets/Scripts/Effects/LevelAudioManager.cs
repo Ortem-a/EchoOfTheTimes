@@ -1,11 +1,8 @@
 using EchoOfTheTimes.Persistence;
 using EchoOfTheTimes.ScriptableObjects.Level;
 using EchoOfTheTimes.Units;
-using System;
 using System.Collections;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace EchoOfTheTimes.Effects
@@ -34,9 +31,6 @@ namespace EchoOfTheTimes.Effects
 
             _isMuted = FindObjectOfType<PersistenceService>().GetSettings();
             _ambientAudioSource.mute = _isMuted;
-
-            _sfx = Instantiate(_sfxPrefab, _player.transform);
-            _sfx.mute = _isMuted;
         }
 
         private void Start()
@@ -120,7 +114,7 @@ namespace EchoOfTheTimes.Effects
         public void PlayTeleportSound()
         {
             PlayLevelSound(
-                _levelSoundsSceneContainer.TeleportSound, 
+                _levelSoundsSceneContainer.TeleportSound,
                 _levelSoundsSceneContainer.TeleportSoundVolume
                 );
         }
@@ -140,11 +134,17 @@ namespace EchoOfTheTimes.Effects
 
         private void PlaySound(AudioClip clip, float volume)
         {
-            _sfx.clip = clip;
-            _sfx.mute = _isMuted;
-            _sfx.volume = volume;
-            _sfx.spatialBlend = 1f;
-            _sfx.Play();
+            if (_isMuted) return;
+
+            var sfx = Instantiate(_sfxPrefab, _player.transform);
+
+            sfx.clip = clip;
+            sfx.mute = _isMuted;
+            sfx.volume = volume;
+            sfx.spatialBlend = 1f;
+            sfx.Play();
+
+            Destroy(sfx, sfx.clip.length);
         }
     }
 }
