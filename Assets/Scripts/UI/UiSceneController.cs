@@ -40,6 +40,9 @@ namespace EchoOfTheTimes.UI
         [Header("Для аниматоров кнопок состояний")]
         [SerializeField] private RuntimeAnimatorController[] ButtonControllers;
 
+        [Header("Обучающий UI")]
+        [SerializeField] private RectTransform trainingPanel; // Обучающая панель, только на первом уровне первой главы
+
         [Header("Стартовый/финишный UI")]
         [SerializeField] private RectTransform rectFadeInOutPanel;
         [SerializeField] private float StartFadeInDuration_sec = 1f; // Длительность появления
@@ -93,6 +96,11 @@ namespace EchoOfTheTimes.UI
         {
             HUDCanvas.gameObject.SetActive(false);
             rectFadeInOutPanel.GetComponent<CanvasGroup>().alpha = 1f; // Начальная непрозрачность
+
+            if (trainingPanel != null)
+            {
+                trainingPanel.GetComponent<CanvasGroup>().alpha = 0f;
+            }
         }
 
         private void InitializeHUDCanvasGroup()
@@ -127,6 +135,7 @@ namespace EchoOfTheTimes.UI
             CanvasGroup CanvasGroupFadeInOutPanel = rectFadeInOutPanel.GetComponent<CanvasGroup>();
             CanvasGroup canvasGroupBottomPanel = BottomPanel.GetComponent<CanvasGroup>();
             CanvasGroup canvasGroupTopPanel = TopPanel.GetComponent<CanvasGroup>();
+            CanvasGroup CanvasGroupTrainingPanel = trainingPanel != null ? trainingPanel.GetComponent<CanvasGroup>() : null;
 
             _eventSystem.enabled = false;
             flgIsStartAnimationEnded = false;
@@ -141,7 +150,7 @@ namespace EchoOfTheTimes.UI
             // Создаем последовательность для анимации панелей
             Sequence fadeOutSequence = DOTween.Sequence();
 
-            // Анимация затемнения для FadeInOutPanel, BottomPanel, и TopPanel (BottomPanel и TopPanel в 2 раза быстрее)
+            // Анимация затемнения для FadeInOutPanel, BottomPanel, TopPanel и (опционально) TrainingPanel
             fadeOutSequence
                 .Append(DOTween.To(() => CanvasGroupFadeInOutPanel.alpha, x => CanvasGroupFadeInOutPanel.alpha = x, 1f, FinishFadeOutDuration_sec)
                     .SetDelay(UselessFinishDuration_sec)
@@ -151,16 +160,32 @@ namespace EchoOfTheTimes.UI
                     .SetEase(Ease.InOutQuad))
                 .Join(DOTween.To(() => canvasGroupTopPanel.alpha, x => canvasGroupTopPanel.alpha = x, 0f, FinishFadeOutDuration_sec / 2)
                     .SetDelay(UselessFinishDuration_sec)
-                    .SetEase(Ease.InOutQuad))
-                .OnComplete(() => _loader.LoadMainMenuSceneAsync()); // Переход в меню по завершении анимации
+                    .SetEase(Ease.InOutQuad));
+
+            // Проверка на наличие CanvasGroupTrainingPanel и добавление её анимации исчезновения
+            if (CanvasGroupTrainingPanel != null)
+            {
+                fadeOutSequence.Join(DOTween.To(() => CanvasGroupTrainingPanel.alpha, x => CanvasGroupTrainingPanel.alpha = x, 0f, FinishFadeOutDuration_sec)
+                    .SetDelay(UselessFinishDuration_sec)
+                    .SetEase(Ease.InOutQuad));
+            }
+
+            fadeOutSequence.OnComplete(() => _loader.LoadMainMenuSceneAsync()); // Переход в меню по завершении анимации
         }
+
 
         // Запускаем при старте уровня
         public void ShowStartLevelCanvas()
         {
             // StartLevelCanvas.gameObject.SetActive(true);
             CanvasGroup CanvasGroupFadeInOutPanel = rectFadeInOutPanel.GetComponent<CanvasGroup>();
+            CanvasGroup CanvasGroupTrainingPanel = trainingPanel != null ? trainingPanel.GetComponent<CanvasGroup>() : null;
+
             CanvasGroupFadeInOutPanel.alpha = 1f;
+            if (CanvasGroupTrainingPanel != null)
+            {
+                CanvasGroupTrainingPanel.alpha = 0f;
+            }
 
             // Перенёс сюда, чтобы не дропался ФПС на глазах у игрока при загрузке музыки
             _levelAudioManager.PlayAmbientSound();
@@ -171,7 +196,7 @@ namespace EchoOfTheTimes.UI
                 .OnStart(() => HUDCanvas.gameObject.SetActive(false))
                 .OnUpdate(() =>
                 {
-                    // Включаем HUDCanvas на половине StartFadeInDuration_sec
+                    // Синхронизация появления HUDCanvas и исчезновения CanvasGroupFadeInOutPanel
                     float elapsedFadeTime = StartFadeInDuration_sec * (1f - CanvasGroupFadeInOutPanel.alpha); // Прошедшее время анимации
 
                     if (elapsedFadeTime >= StartFadeInDuration_sec / 2)
@@ -179,6 +204,12 @@ namespace EchoOfTheTimes.UI
                         HUDCanvas.gameObject.SetActive(true);
                         float hudAlphaProgress = (elapsedFadeTime - StartFadeInDuration_sec / 2) / (StartFadeInDuration_sec / 2);
                         hudCanvasGroup.alpha = Mathf.Lerp(0f, 1f, hudAlphaProgress);
+                    }
+
+                    // Синхронное появление CanvasGroupTrainingPanel и исчезновение CanvasGroupFadeInOutPanel (если TrainingPanel существует)
+                    if (CanvasGroupTrainingPanel != null)
+                    {
+                        CanvasGroupTrainingPanel.alpha = 1f - CanvasGroupFadeInOutPanel.alpha;
                     }
                 })
                 .OnComplete(() =>
@@ -194,13 +225,13 @@ namespace EchoOfTheTimes.UI
                 });
         }
 
-
         // Запускаем при достижении финишного вертекса
         public void EnableFinishCanvas()
         {
             CanvasGroup CanvasGroupFadeInOutPanel = rectFadeInOutPanel.GetComponent<CanvasGroup>();
             CanvasGroup canvasGroupBottomPanel = BottomPanel.GetComponent<CanvasGroup>();
             CanvasGroup canvasGroupTopPanel = TopPanel.GetComponent<CanvasGroup>();
+            CanvasGroup CanvasGroupTrainingPanel = trainingPanel != null ? trainingPanel.GetComponent<CanvasGroup>() : null;
 
             _eventSystem.enabled = false;
             flgIsStartAnimationEnded = false;
@@ -215,7 +246,7 @@ namespace EchoOfTheTimes.UI
             // Создаем последовательность для анимации панелей
             Sequence fadeOutSequence = DOTween.Sequence();
 
-            // Анимация затемнения для FadeInOutPanel, BottomPanel, и TopPanel (BottomPanel и TopPanel в 2 раза быстрее)
+            // Анимация затемнения для FadeInOutPanel, BottomPanel, TopPanel и (опционально) TrainingPanel
             fadeOutSequence
                 .Append(DOTween.To(() => CanvasGroupFadeInOutPanel.alpha, x => CanvasGroupFadeInOutPanel.alpha = x, 1f, FinishFadeOutDuration_sec)
                     .SetDelay(UselessFinishDuration_sec)
@@ -225,19 +256,28 @@ namespace EchoOfTheTimes.UI
                     .SetEase(Ease.InOutQuad))
                 .Join(DOTween.To(() => canvasGroupTopPanel.alpha, x => canvasGroupTopPanel.alpha = x, 0f, FinishFadeOutDuration_sec / 2)
                     .SetDelay(UselessFinishDuration_sec)
-                    .SetEase(Ease.InOutQuad))
-                .OnComplete(() =>
+                    .SetEase(Ease.InOutQuad));
+
+            // Проверка на наличие CanvasGroupTrainingPanel и добавление её анимации исчезновения
+            if (CanvasGroupTrainingPanel != null)
+            {
+                fadeOutSequence.Join(DOTween.To(() => CanvasGroupTrainingPanel.alpha, x => CanvasGroupTrainingPanel.alpha = x, 0f, FinishFadeOutDuration_sec)
+                    .SetDelay(UselessFinishDuration_sec)
+                    .SetEase(Ease.InOutQuad));
+            }
+
+            fadeOutSequence.OnComplete(() =>
+            {
+                if (_loader.HasNextLevel)
                 {
-                    if (_loader.HasNextLevel)
-                    {
-                        Debug.Log("ПЕРЕД ВЫЗОВОМ НЕКСТ СЦЕНЫ");
-                        _loader.LoadNextSceneGroupAsync();
-                    }
-                    else
-                    {
-                        ToMainMenuButton.onClick?.Invoke();
-                    }
-                });
+                    Debug.Log("ПЕРЕД ВЫЗОВОМ НЕКСТ СЦЕНЫ");
+                    _loader.LoadNextSceneGroupAsync();
+                }
+                else
+                {
+                    ToMainMenuButton.onClick?.Invoke();
+                }
+            });
         }
 
         public void DeselectAllButtons(int exceptIndex)
