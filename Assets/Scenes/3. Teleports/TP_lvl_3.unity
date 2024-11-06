@@ -22196,6 +22196,7 @@ Transform:
   - {fileID: 2131533444}
   - {fileID: 579498508}
   - {fileID: 895153488}
+  - {fileID: 1723275168}
   - {fileID: 2009161512}
   - {fileID: 537293611}
   m_Father: {fileID: 1681321834}
@@ -28810,12 +28811,12 @@ PrefabInstance:
         type: 3}
       propertyPath: _placeholders.Array.data[0]
       value: 
-      objectReference: {fileID: 2110733597}
+      objectReference: {fileID: 1723275169}
     - target: {fileID: 8382678822989999956, guid: 4cc1c8bfd0ecb754390d30d1713aaa45,
         type: 3}
       propertyPath: _placeholders.Array.data[1]
       value: 
-      objectReference: {fileID: 2009161514}
+      objectReference: {fileID: 2110733597}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -40946,6 +40947,52 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1715646720}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1723275167
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1723275168}
+  - component: {fileID: 1723275169}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1723275168
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1723275167}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -3.4709258, y: -8.025461, z: 5.2063885}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 921791140}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1723275169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1723275167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ea5b796c65562a48b140bb1ecde4079, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gizmoColor: {r: 1, g: 0, b: 1, a: 1}
+  _radius: 0.5
 --- !u!1 &1727030425
 GameObject:
   m_ObjectHideFlags: 0
@@ -47222,11 +47269,7 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 204266109}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6604054100313254947, guid: 538d9981847865c4aa37463ddd17177a,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2009161514}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 538d9981847865c4aa37463ddd17177a, type: 3}
 --- !u!4 &2009161512 stripped
 Transform:
@@ -47234,26 +47277,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2009161511}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2009161513 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6604054100313254947, guid: 538d9981847865c4aa37463ddd17177a,
-    type: 3}
-  m_PrefabInstance: {fileID: 2009161511}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2009161514
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2009161513}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ea5b796c65562a48b140bb1ecde4079, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gizmoColor: {r: 1, g: 0, b: 1, a: 1}
-  _radius: 0.5
 --- !u!1 &2034591129
 GameObject:
   m_ObjectHideFlags: 0
@@ -48966,7 +48989,7 @@ PrefabInstance:
     - target: {fileID: 8334798731864179377, guid: af3fe06a64e9ab74fb17b1f62568a463,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 8334798731864179377, guid: af3fe06a64e9ab74fb17b1f62568a463,
         type: 3}
@@ -49075,7 +49098,7 @@ MonoBehaviour:
     Target: {fileID: 2110733593}
     Position: {x: 0, y: 0, z: 0}
     Rotation: {x: -0, y: 0, z: 0}
-    LocalScale: {x: 1, y: 1, z: 1}
+    LocalScale: {x: 1, y: 1.25, z: 1}
     IsLocalSpace: 1
   _currentStateIndex: 0
 --- !u!114 &2110733596
