@@ -30,40 +30,60 @@ namespace EchoOfTheTimes.LevelStates
 
         public void SwitchState(List<StateParameter> stateParameters, bool isDebug = false, TweenCallback onComplete = null)
         {
-            if (!isDebug) _hudController.DisableButtons();
+            // if (!isDebug) _hudController.DisableButtons();
+            _hudController.DisableButtons();
 
             _onCompleteCallback = onComplete;
             _completedCallbackCounter = 0;
             _callbackCounter = 0;
 
-            if (isDebug)
+            if (stateParameters != null && stateParameters.Count > 0)
             {
+                _callbackCounter += stateParameters.Count;
+
                 for (int i = 0; i < stateParameters.Count; i++)
                 {
                     AcceptState(stateParameters[i], isDebug: isDebug, onComplete: IncrementCallbackCounter);
                 }
+
+                // Планируем смену тени на хорошую за 0.25 секунд до окончания смены состояний
+                float shadowChangeDelay = Mathf.Max(0f, _timeToChangeState_sec - 0.25f);
+                _hudController.ScheduleShadowsToGood(shadowChangeDelay);
             }
             else
             {
-                if (stateParameters != null && stateParameters.Count > 0)
-                {
-                    _callbackCounter += stateParameters.Count;
+                // Если список stateParameters пуст или null, сразу включаем кнопки и тень
+                _hudController.EnableButtonsImmediately();
+            }
 
-                    for (int i = 0; i < stateParameters.Count; i++)
-                    {
-                        AcceptState(stateParameters[i], isDebug: isDebug, onComplete: IncrementCallbackCounter);
-                    }
+            //if (isDebug)
+            //{
+            //    for (int i = 0; i < stateParameters.Count; i++)
+            //    {
+            //        AcceptState(stateParameters[i], isDebug: isDebug, onComplete: IncrementCallbackCounter);
+            //    }
+            //}
+            //else
+            //{
+            //    if (stateParameters != null && stateParameters.Count > 0)
+            //    {
+            //        _callbackCounter += stateParameters.Count;
 
-                    // Планируем смену тени на хорошую за 0.25 секунд до окончания смены состояний
-                    float shadowChangeDelay = Mathf.Max(0f, _timeToChangeState_sec - 0.25f);
-                    _hudController.ScheduleShadowsToGood(shadowChangeDelay);
-                }
-                else
-                {
-                    // Если список stateParameters пуст или null, сразу включаем кнопки и тень
-                    _hudController.EnableButtonsImmediately();
-                }
-            }   
+            //        for (int i = 0; i < stateParameters.Count; i++)
+            //        {
+            //            AcceptState(stateParameters[i], isDebug: isDebug, onComplete: IncrementCallbackCounter);
+            //        }
+
+            //        // Планируем смену тени на хорошую за 0.25 секунд до окончания смены состояний
+            //        float shadowChangeDelay = Mathf.Max(0f, _timeToChangeState_sec - 0.25f);
+            //        _hudController.ScheduleShadowsToGood(shadowChangeDelay);
+            //    }
+            //    else
+            //    {
+            //        // Если список stateParameters пуст или null, сразу включаем кнопки и тень
+            //        _hudController.EnableButtonsImmediately();
+            //    }
+            //}   
         }
 
         private void IncrementCallbackCounter()
