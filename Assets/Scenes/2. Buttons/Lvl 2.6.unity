@@ -6492,7 +6492,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _uiSceneView
       value: 
-      objectReference: {fileID: 888547170}
+      objectReference: {fileID: 0}
     - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
         type: 3}
       propertyPath: _soundManager
@@ -6558,6 +6558,11 @@ PrefabInstance:
       propertyPath: _uiSceneController
       value: 
       objectReference: {fileID: 888547171}
+    - target: {fileID: 5500882740861208431, guid: a9c60713822757a4081c49ea835c9662,
+        type: 3}
+      propertyPath: _collectableService
+      value: 
+      objectReference: {fileID: 1736699297}
     - target: {fileID: 6349020405650060447, guid: a9c60713822757a4081c49ea835c9662,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7304,31 +7309,31 @@ MonoBehaviour:
   - Id: 0
     StatesParameters:
     - StateId: 0
-      Target: {fileID: 1285381600}
-      Position: {x: 0, y: 0, z: 0}
-      Rotation: {x: -0, y: 0, z: 0}
-      LocalScale: {x: 1, y: 1, z: 1}
-      IsLocalSpace: 1
-    - StateId: 0
       Target: {fileID: 18121408}
       Position: {x: 9.111193, y: -14.64, z: 5.640255}
       Rotation: {x: -0, y: 90, z: -0}
       LocalScale: {x: 4, y: 4, z: 4}
       IsLocalSpace: 0
-  - Id: 1
-    StatesParameters:
-    - StateId: 1
+    - StateId: 0
       Target: {fileID: 1285381600}
       Position: {x: 0, y: 0, z: 0}
-      Rotation: {x: 0, y: 270, z: 0}
+      Rotation: {x: -0, y: 0, z: 0}
       LocalScale: {x: 1, y: 1, z: 1}
       IsLocalSpace: 1
+  - Id: 1
+    StatesParameters:
     - StateId: 1
       Target: {fileID: 18121408}
       Position: {x: 9.111193, y: -14.64, z: 5.640255}
       Rotation: {x: -0, y: 0, z: -0}
       LocalScale: {x: 4, y: 4, z: 4}
       IsLocalSpace: 0
+    - StateId: 1
+      Target: {fileID: 1285381600}
+      Position: {x: 0, y: 0, z: 0}
+      Rotation: {x: 0, y: 270, z: 0}
+      LocalScale: {x: 1, y: 1, z: 1}
+      IsLocalSpace: 1
   Transitions:
   - StateFromId: 0
     StateToId: 1
@@ -9717,7 +9722,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6621d6db202eff84d8e88f8e131779e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sfxPrefab: {fileID: 0}
+  _sfxPrefab: {fileID: 8055510967699759338, guid: 241393fdb41ffef44a091b3288ff034a,
+    type: 3}
 --- !u!82 &346736323
 AudioSource:
   m_ObjectHideFlags: 0
@@ -26608,18 +26614,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e865d93e2d788c409cd9b2ba418f63c, type: 3}
---- !u!114 &888547170 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6995391740450600390, guid: 8e865d93e2d788c409cd9b2ba418f63c,
-    type: 3}
-  m_PrefabInstance: {fileID: 888547169}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b8b66eca2cb93d45a62d500cc532f8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &888547171 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2616508095073705835, guid: 8e865d93e2d788c409cd9b2ba418f63c,
@@ -41626,12 +41620,12 @@ PrefabInstance:
     - target: {fileID: 8116038399558073578, guid: c95b8c52268328946805ca94c60b4ae5,
         type: 3}
       propertyPath: levelName
-      value: Chapter_5|2
+      value: Chapter_2|6
       objectReference: {fileID: 0}
     - target: {fileID: 8116038399558073578, guid: c95b8c52268328946805ca94c60b4ae5,
         type: 3}
       propertyPath: chapterName
-      value: Chapter_5
+      value: Chapter_2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -47412,6 +47406,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Radius: 0.1
+--- !u!114 &1736699297 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 96102423304862146, guid: 4cc1c8bfd0ecb754390d30d1713aaa45,
+    type: 3}
+  m_PrefabInstance: {fileID: 1046420267}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e98460fea488fb4bb12aeb4113af4da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1737343391
 GameObject:
   m_ObjectHideFlags: 0

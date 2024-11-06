@@ -105,17 +105,55 @@ namespace EchoOfTheTimes.SceneManagement
 
         public async Task LoadNextSceneGroupAsync()
         {
-            var chapter = GameChapters.Find((chapter) => chapter.Title == _currentLevel.ChapterName);
+            var chapter = GameChapters.Find((ch) => ch.Title == _currentLevel.ChapterName);
             if (chapter == null) return;
 
-            var currentLevelIndex = chapter.Levels.FindIndex((level) => level.LevelName == _currentLevel.LevelName);
+            var currentLevelIndex = chapter.Levels.FindIndex((lvl) => lvl.LevelName == _currentLevel.LevelName);
+            if (currentLevelIndex == -1) return;
 
-            await LoadSceneGroupAsync(chapter.Levels[currentLevelIndex + 1]);
+            bool isLastLevelInChapter = currentLevelIndex == chapter.Levels.Count - 1;
 
-            //await LoadSceneGroupAsync(_lastLoadedGroupIndex + 1);
+            if (_persistenceService.IsLevelReplayed)
+            {
+                // ≈сли это перепрохождение уровн€, загружаем следующий уровень в текущей главе
+                if (isLastLevelInChapter)
+                {
+                    var nextChapterIndex = GameChapters.IndexOf(chapter) + 1;
+                    if (nextChapterIndex < GameChapters.Count)
+                    {
+                        await LoadSceneGroupAsync(GameChapters[nextChapterIndex].Levels[0]);
+                    }
+                }
+                else
+                {
+                    await LoadSceneGroupAsync(chapter.Levels[currentLevelIndex + 1]);
+                }
+            }
+            else
+            {
+                // ќригинальна€ логика
+                bool allCollectablesCollected = _persistenceService.CheckAllCollectablesCollected(chapter);
+
+                if (isLastLevelInChapter && !allCollectablesCollected)
+                {
+                    await LoadSceneGroupAsync(chapter.Levels[0]);
+                }
+                else if (_persistenceService.IsNextChapterUnlocked)
+                {
+                    var nextChapterIndex = GameChapters.IndexOf(chapter) + 1;
+                    if (nextChapterIndex < GameChapters.Count)
+                    {
+                        await LoadSceneGroupAsync(GameChapters[nextChapterIndex].Levels[0]);
+                    }
+                }
+                else
+                {
+                    await LoadSceneGroupAsync(isLastLevelInChapter ? chapter.Levels[0] : chapter.Levels[currentLevelIndex + 1]);
+                }
+            }
         }
 
-        ///public bool HasNextLevel => _lastLoadedGroupIndex + 1 < GameChapters.Length;
+
         public bool HasNextLevel
         {
             get
