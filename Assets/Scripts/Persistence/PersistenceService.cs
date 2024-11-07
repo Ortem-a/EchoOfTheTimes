@@ -107,7 +107,17 @@ namespace EchoOfTheTimes.Persistence
             {
                 newDataToSave.Data[lastLoadedChapterIndex].ChapterStatus = StatusType.Completed;
                 UnlockNextChapter(newDataToSave, lastLoadedChapterIndex + 1); // Òîëüêî ïåğâàÿ ãëàâà è óğîâåíü
-                LastLoadedLevel = newDataToSave.Data[lastLoadedChapterIndex + 1].Levels[0].FullName;
+
+                // ÇÀÃËÓØÊÀ ÍÀ ÍÀËÈ×ÈÅ ÃËÀÂ, ×ÒÎÁÛ ÄÀÆÅ ÅÑËÈ ÍÅÒ ÍÎÂÎÉ ÃËÀÂÛ, ÒÎ Â ÑÎÕĞÀÍÅÍÈÈ ÎÍÀ ÁÛËÀ ÎÒÊĞÛÒÀ È Å¨ ÏÅĞÂÛÉ ÓĞÎÂÅÍÜ ÒÎÆÅ, ÍÎ ÍÅ ÃĞÓÇÈËÀÑÜ
+                if (lastLoadedChapterIndex + 1 == 5)
+                {
+                    LastLoadedLevel = newDataToSave.Data[lastLoadedChapterIndex].Levels[0].FullName;
+                }
+                else
+                {
+                    LastLoadedLevel = newDataToSave.Data[lastLoadedChapterIndex + 1].Levels[0].FullName;
+                }
+
                 _isNextChapterUnlocked = true;
                 _isLevelReplayed = false;
             }
@@ -149,7 +159,6 @@ namespace EchoOfTheTimes.Persistence
             }
         }
 
-
         // Ìåòîä äëÿ ğàçáëîêèğîâêè ñëåäóşùåãî óğîâíÿ, åñëè îí çàáëîêèğîâàí
         private void UnlockNextLevelIfLocked(PlayerData data, int chapterIndex, int levelIndex)
         {
@@ -169,7 +178,15 @@ namespace EchoOfTheTimes.Persistence
             }
             else if (chapterIndex < newDataToSave.Data.Count - 1)
             {
-                return newDataToSave.Data[chapterIndex + 1].Levels[0].FullName;
+                // ÇÀÃËÓØÊÀ ÍÀ ÍÀËÈ×ÈÅ ÃËÀÂ, ×ÒÎÁÛ ÄÀÆÅ ÅÑËÈ ÍÅÒ ÍÎÂÎÉ ÃËÀÂÛ, ÒÎ Â ÑÎÕĞÀÍÅÍÈÈ ÎÍÀ ÁÛËÀ ÎÒÊĞÛÒÀ È Å¨ ÏÅĞÂÛÉ ÓĞÎÂÅÍÜ ÒÎÆÅ, ÍÎ ÍÅ ÃĞÓÇÈËÀÑÜ
+                if (chapterIndex == 4)
+                {
+                    return newDataToSave.Data[chapterIndex].Levels[0].FullName;
+                }
+                else
+                {
+                    return newDataToSave.Data[chapterIndex + 1].Levels[0].FullName;
+                }
             }
             else
             {
