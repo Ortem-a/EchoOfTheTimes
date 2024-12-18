@@ -12,6 +12,7 @@ namespace Systems.Movement
 
         public Vertex NextWaypoint;
 
+        private bool _needStop = false;
         private float _speed = 0.01f;
 
         private Coroutine _moveCoroutine;
@@ -29,6 +30,11 @@ namespace Systems.Movement
             _moveCoroutine = StartCoroutine(Move());
         }
 
+        public void Stop()
+        {
+            _needStop = true;
+        }
+
         private IEnumerator Move()
         {
             do
@@ -41,18 +47,39 @@ namespace Systems.Movement
                 }
                 else
                 {
-                    NextWaypoint = _path.Dequeue();
+                    if (_needStop)
+                    {
+                        _needStop = false;
+
+                        _path.Clear();
+                    }
+                    else
+                    {
+                        NextWaypoint = _path.Dequeue();
+                    }
                 }
 
-                yield return null;
+                yield return _path;
             }
             while (_path.Count > 0);
         }
 
         private void OnDrawGizmos()
         {
-            if (_direction == default) return;
-            DrawArrow(transform.position, _direction, Color.magenta);
+            if (_direction != default)
+            {
+                DrawArrow(transform.position, _direction, Color.magenta);
+            }
+
+            if (_path != null)
+            {
+                Gizmos.color = Color.blue;
+
+                foreach (Vertex v in _path)
+                {
+                    Gizmos.DrawSphere(v.transform.position, .15f);
+                }
+            }
         }
 
         private void DrawArrow(Vector3 position, Vector3 direction, Color color,

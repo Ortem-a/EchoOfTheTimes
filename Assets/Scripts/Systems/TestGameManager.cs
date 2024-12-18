@@ -57,25 +57,17 @@ namespace Systems
             {
                 SetPath(_movable.NextWaypoint, _verts[4]);
             }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                _movable.Stop();
+            }
         }
 
         private void SetPath(Vertex start, Vertex finish)
         {
             _path = _graph.GetPathBFS(start, finish);
             _movable.MoveBy(_path);
-        }
-
-        private void OnDrawGizmos()
-        {
-            if (_path != null)
-            {
-                Gizmos.color = Color.blue;
-
-                foreach (Vertex v in _path)
-                {
-                    Gizmos.DrawSphere(v.transform.position, .15f);
-                }
-            }
         }
     }
 }
