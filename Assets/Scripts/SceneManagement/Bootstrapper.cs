@@ -11,8 +11,8 @@ namespace EchoOfTheTimes.SceneManagement
         {
             Application.targetFrameRate = 120;
 
-            Debug.Log("Bootstrapper...");
-            SceneManager.LoadSceneAsync("Bootstrapper", LoadSceneMode.Single);
+            //Debug.Log("Bootstrapper...");
+            //SceneManager.LoadSceneAsync("Bootstrapper", LoadSceneMode.Single);
         }
     }
 }

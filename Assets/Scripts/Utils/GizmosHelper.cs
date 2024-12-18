@@ -46,5 +46,26 @@ namespace EchoOfTheTimes.Utils
                 parent.localRotation,
                 parent.localScale);
         }
+
+        public static void DrawWireMeshesByTRS(List<(Mesh mesh, Transform t)> meshes,
+            Vector3 position, Quaternion rotation, Vector3 localScale)
+        {
+            foreach (var mesh in meshes)
+            {
+                DrawWireMeshByTRS(mesh.mesh, mesh.t, position, rotation, localScale);
+            }
+        }
+
+        public static void DrawWireMeshByTRS(Mesh mesh, Transform parent, 
+            Vector3 position, Quaternion rotation, Vector3 localScale)
+        {
+            Matrix4x4 rotationMatrix = Matrix4x4.TRS(position, rotation, localScale);
+            Gizmos.matrix = rotationMatrix;
+
+            Gizmos.DrawWireMesh(mesh,
+                parent.localPosition,
+                parent.localRotation,
+                parent.localScale);
+        }
     }
 }
