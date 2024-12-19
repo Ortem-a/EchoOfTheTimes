@@ -26,36 +26,36 @@ namespace Systems
 
             _verts = _graph.GetVertices();
 
-            _movable.NextWaypoint = StartVertex;
+            _movable.CurrentWaypoint = StartVertex;
 
-            SetPath(StartVertex, FinishVertex);
+            SetPath(FinishVertex);
         }
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                SetPath(_movable.NextWaypoint, _verts[0]);
+                SetPath(_verts[0]);
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                SetPath(_movable.NextWaypoint, _verts[1]);
+                SetPath(_verts[1]);
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                SetPath(_movable.NextWaypoint, _verts[2]);
+                SetPath(_verts[2]);
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha4))
             {
-                SetPath(_movable.NextWaypoint, _verts[3]);
+                SetPath(_verts[3]);
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha5))
             {
-                SetPath(_movable.NextWaypoint, _verts[4]);
+                SetPath(_verts[4]);
             }
 
             if (Input.GetKeyDown(KeyCode.Space))
@@ -64,9 +64,11 @@ namespace Systems
             }
         }
 
-        private void SetPath(Vertex start, Vertex finish)
+        private void SetPath(Vertex to)
         {
-            _path = _graph.GetPathBFS(start, finish);
+            Vertex start = _movable.NextWaypoint != null ? _movable.NextWaypoint : _movable.CurrentWaypoint;
+
+            _path = _graph.GetPathBFS(start, to);
             _movable.MoveBy(_path);
         }
     }

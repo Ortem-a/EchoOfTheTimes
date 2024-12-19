@@ -10,6 +10,7 @@ namespace Systems.Movement
 
         private Vector3 _direction;
 
+        public Vertex CurrentWaypoint;
         public Vertex NextWaypoint;
 
         private bool _needStop = false;
@@ -17,13 +18,17 @@ namespace Systems.Movement
 
         private Coroutine _moveCoroutine;
 
+        [SerializeField]
+        private DummyParent _tempParent;
+
         public void MoveBy(List<Vertex> path)
         {
             if (_moveCoroutine != null)
                 StopCoroutine(_moveCoroutine);
 
             path.Reverse();
-            path.Add(NextWaypoint);
+
+            NextWaypoint = path[0];
 
             _path = new Queue<Vertex>(path);
 
@@ -43,25 +48,56 @@ namespace Systems.Movement
 
                 if (Vector3.Distance(transform.position, NextWaypoint.transform.position) > _speed / 2f)
                 {
-                    transform.position += _direction * _speed;
+                    transform.localPosition += _direction * _speed;
                 }
                 else
                 {
+                    CurrentWaypoint = NextWaypoint;
+                    SetParent(CurrentWaypoint);
+
                     if (_needStop)
                     {
                         _needStop = false;
-
-                        _path.Clear();
+   
+                        NextWaypoint = null;
                     }
                     else
                     {
-                        NextWaypoint = _path.Dequeue();
+                        _path.TryDequeue(out NextWaypoint);
                     }
                 }
 
                 yield return _path;
             }
-            while (_path.Count > 0);
+            while (NextWaypoint != null);
+        }
+
+        private void SetParent(Vertex vertex)
+        {
+            var newDummy = GetParentRecursively(vertex.transform);
+
+            if (newDummy == null)
+            {
+                _tempParent = null;
+                transform.SetParent(null);
+            }
+            else if (!ReferenceEquals(_tempParent, newDummy))
+            {
+                _tempParent = newDummy;
+                transform.SetParent(_tempParent.transform);
+            }
+        }
+
+        private DummyParent GetParentRecursively(Transform t)
+        {
+            if (t == null) return null;
+
+            if (t.TryGetComponent<DummyParent>(out var dummy))
+            {
+                return dummy;
+            }
+
+            return GetParentRecursively(t.parent);
         }
 
         private void OnDrawGizmos()
