@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,13 +8,17 @@ namespace Systems.Movement
     public class Movable : MonoBehaviour
     {
         private Queue<Vertex> _path;
+        private Queue<Vertex> _bufferPath;
 
         private Vector3 _direction;
 
         public Vertex CurrentWaypoint;
         public Vertex NextWaypoint;
 
+        [SerializeField]
         private bool _needStop = false;
+        [SerializeField]
+        private bool _isMoving = false;
         private float _speed = 0.01f;
 
         private Coroutine _moveCoroutine;
@@ -21,16 +26,39 @@ namespace Systems.Movement
         [SerializeField]
         private DummyParent _tempParent;
 
+        private Action _onNewPathGot;
+
         public void MoveBy(List<Vertex> path)
         {
+            if (path.Count != 0)
+            {
+                path.Reverse();
+                _bufferPath = new Queue<Vertex>(path);
+
+                _onNewPathGot = HandleNewPath;
+
+                if (_isMoving)
+                {
+                    Stop();
+                }
+                else
+                {
+                    _onNewPathGot?.Invoke();
+                }
+            }
+        }
+
+        private void HandleNewPath()
+        {
+            _onNewPathGot = null;
+
+            _path = new Queue<Vertex>(_bufferPath);
+            NextWaypoint = _bufferPath.Dequeue();
+
+            _bufferPath.Clear();
+
             if (_moveCoroutine != null)
                 StopCoroutine(_moveCoroutine);
-
-            path.Reverse();
-
-            NextWaypoint = path[0];
-
-            _path = new Queue<Vertex>(path);
 
             _moveCoroutine = StartCoroutine(Move());
         }
@@ -49,6 +77,8 @@ namespace Systems.Movement
                 if (Vector3.Distance(transform.position, NextWaypoint.transform.position) > _speed / 2f)
                 {
                     transform.localPosition += _direction * _speed;
+
+                    _isMoving = true;
                 }
                 else
                 {
@@ -57,9 +87,12 @@ namespace Systems.Movement
 
                     if (_needStop)
                     {
+                        _isMoving = false;
                         _needStop = false;
-   
+
                         NextWaypoint = null;
+
+                        _onNewPathGot?.Invoke();
                     }
                     else
                     {
@@ -67,9 +100,11 @@ namespace Systems.Movement
                     }
                 }
 
-                yield return _path;
+                yield return null;
             }
             while (NextWaypoint != null);
+
+            _isMoving = false;
         }
 
         private void SetParent(Vertex vertex)

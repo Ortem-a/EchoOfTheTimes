@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Systems.Movement;
 using UnityEngine;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace Systems
 {
@@ -27,7 +28,10 @@ namespace Systems
             _verts = _graph.GetVertices();
 
             _movable.CurrentWaypoint = StartVertex;
+        }
 
+        private void Start()
+        {
             SetPath(FinishVertex);
         }
 
@@ -35,33 +39,39 @@ namespace Systems
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                SetPath(_verts[0]);
+                HandleInputToVertex((int)KeyCode.Alpha1);
             }
-
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                SetPath(_verts[1]);
+                HandleInputToVertex((int)KeyCode.Alpha2);
             }
-
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                SetPath(_verts[2]);
+                HandleInputToVertex((int)KeyCode.Alpha3);
             }
-
             if (Input.GetKeyDown(KeyCode.Alpha4))
             {
-                SetPath(_verts[3]);
+                HandleInputToVertex((int)KeyCode.Alpha4);
             }
-
             if (Input.GetKeyDown(KeyCode.Alpha5))
             {
-                SetPath(_verts[4]);
+                HandleInputToVertex((int)KeyCode.Alpha5);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha6))
+            {
+                HandleInputToVertex((int)KeyCode.Alpha6);
             }
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 _movable.Stop();
             }
+        }
+
+        private void HandleInputToVertex(int keyCode)
+        {
+            int vertexIndex = keyCode - (int)KeyCode.Alpha0 - 1;
+            SetPath(_verts[vertexIndex]);
         }
 
         private void SetPath(Vertex to)
