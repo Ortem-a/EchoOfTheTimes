@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Systems.Movement;
 using UnityEngine;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace Systems
 {
@@ -37,41 +36,15 @@ namespace Systems
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                HandleInputToVertex((int)KeyCode.Alpha1);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                HandleInputToVertex((int)KeyCode.Alpha2);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                HandleInputToVertex((int)KeyCode.Alpha3);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                HandleInputToVertex((int)KeyCode.Alpha4);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha5))
-            {
-                HandleInputToVertex((int)KeyCode.Alpha5);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha6))
-            {
-                HandleInputToVertex((int)KeyCode.Alpha6);
-            }
-
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 _movable.Stop();
             }
         }
 
-        private void HandleInputToVertex(int keyCode)
+        public void HandleTouch(Vertex to)
         {
-            int vertexIndex = keyCode - (int)KeyCode.Alpha0 - 1;
-            SetPath(_verts[vertexIndex]);
+            SetPath(to);
         }
 
         private void SetPath(Vertex to)
