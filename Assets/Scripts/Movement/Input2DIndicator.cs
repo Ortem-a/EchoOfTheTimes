@@ -47,7 +47,19 @@ namespace EchoOfTheTimes.Movement
             _isFollow = true;
             _target = at.GetComponentInChildren<IndicationPlaceholder>().transform;
 
-            _timer.Run(inputIndicatorSettings.IndicatorDuration2D_sec, () =>
+            float animationDuration = 0f;
+            var animator = spawnedIndicator.GetComponent<Animator>();
+            if (animator != null)
+            {
+                var clipInfo = animator.GetCurrentAnimatorClipInfo(0);
+                if (clipInfo.Length > 0)
+                {
+                    animationDuration = clipInfo[0].clip.length; // Длительность первого клипа
+                    animator.Play(clipInfo[0].clip.name); // Запуск анимации
+                }
+            }
+
+            _timer.Run(animationDuration, () =>
             {
                 spawnedIndicator.SetActive(false);
                 _isFollow = false;
