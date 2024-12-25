@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Systems.Movement;
 using UnityEngine;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace Systems
 {
