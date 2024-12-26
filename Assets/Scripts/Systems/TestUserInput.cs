@@ -1,22 +1,24 @@
 using Systems.Movement;
 using UnityEngine;
+using Zenject;
 
 namespace Systems
 {
-    public class UserInput : MonoBehaviour
+    public class TestUserInput : MonoBehaviour
     {
         private Camera _camera;
-        [SerializeField]
-        private TestGameManager _testGameManager;
+        private TestInputAdapter _inputAdapter;
         private Vector2 _startSwipePosition;
         private float _touchStartTime;
         private const float _maxTapTime = 0.2f;
         private Vector3 _touchPosition;
 
-        private void Construct()
+        [Inject]
+        private void Construct(TestInputAdapter inputAdapter)
         {
             _camera = Camera.main;
             _touchPosition = Vector3.forward * _camera.nearClipPlane;
+            _inputAdapter = inputAdapter;
         }
 
         private void Update()
@@ -41,7 +43,7 @@ namespace Systems
                     {
                         if (hit.transform.TryGetComponent(out Vertex vertex))
                         {
-                            _testGameManager.HandleTouch(vertex);
+                            _inputAdapter.HandleTouch(vertex);
                         }
                     }
                 }
@@ -49,20 +51,20 @@ namespace Systems
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                _testGameManager.StopPlayer();
+                _inputAdapter.StopPlayer();
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                _testGameManager.SwitchState(0);
+                _inputAdapter.SwitchState(0);
             }
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                _testGameManager.SwitchState(1);
+                _inputAdapter.SwitchState(1);
             }
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                _testGameManager.SwitchState(2);
+                _inputAdapter.SwitchState(2);
             }
         }
     }

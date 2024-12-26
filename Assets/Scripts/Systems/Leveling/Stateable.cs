@@ -13,9 +13,8 @@ namespace Systems.Leveling
 
         public Dictionary<int, StateOption> Options => _options;
 
-        private void Construct()
+        public void Initialize()
         {
-            // simulate entry point
             _options = SerializableDictionary.ToDictionary();
         }
 
@@ -28,7 +27,7 @@ namespace Systems.Leveling
 
         public void SetOptionsFrom(int stateId, Transform target)
         {
-            _options ??= SerializableDictionary.ToDictionary();//new Dictionary<int, StateOption>();
+            _options ??= SerializableDictionary.ToDictionary();
 
             var newOption = new StateOption()
             {

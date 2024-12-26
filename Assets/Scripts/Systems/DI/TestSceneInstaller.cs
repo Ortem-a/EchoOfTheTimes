@@ -1,0 +1,31 @@
+using Systems.Leveling;
+using Systems.Movement;
+using UnityEngine;
+using Zenject;
+
+namespace Systems.DI
+{
+    public class TestSceneInstaller : MonoInstaller
+    {
+        [SerializeField]
+        private EntryPointService _entryPointService;
+        [SerializeField]
+        private TestUserInput _userInput;
+        [SerializeField]
+        private Movable _movable;
+        [SerializeField]
+        private GraphVisibility _graph;
+
+        public override void InstallBindings()
+        {
+            Container.Bind<TestUserInput>().FromInstance(_userInput).AsSingle();
+
+            Container.Bind<Movable>().FromInstance(_movable).AsSingle();
+            Container.Bind<GraphVisibility>().FromInstance(_graph).AsSingle();
+            Container.Bind<TestInputAdapter>().FromNew().AsSingle();
+            Container.Bind<StateMachine>().FromNew().AsSingle();
+
+            Container.Bind<EntryPointService>().FromInstance(_entryPointService).AsSingle().NonLazy();
+        }
+    }
+}

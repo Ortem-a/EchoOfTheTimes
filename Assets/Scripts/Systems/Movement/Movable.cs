@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace Systems.Movement
 {
@@ -12,8 +13,10 @@ namespace Systems.Movement
 
         private Vector3 _direction;
 
-        public Vertex CurrentWaypoint;
-        public Vertex NextWaypoint;
+        [field: SerializeField]
+        public Vertex CurrentWaypoint { get; set; }
+        [field: SerializeField]
+        public Vertex NextWaypoint { get; private set; }
 
         [SerializeField]
         private bool _needStop = false;
@@ -96,7 +99,8 @@ namespace Systems.Movement
                     }
                     else
                     {
-                        _path.TryDequeue(out NextWaypoint);
+                        _path.TryDequeue(out var nextWaypoint);
+                        NextWaypoint = nextWaypoint;
                     }
                 }
 
@@ -148,7 +152,7 @@ namespace Systems.Movement
 
                 foreach (Vertex v in _path)
                 {
-                    Gizmos.DrawSphere(v.transform.position, .15f);
+                    Gizmos.DrawSphere(v.transform.position, 0.15f);
                 }
             }
         }
