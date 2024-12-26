@@ -24,7 +24,7 @@ namespace Systems.Movement
         private Coroutine _moveCoroutine;
 
         [SerializeField]
-        private DummyParent _tempParent;
+        private MarkerParent _tempParent;
 
         private Action _onNewPathGot;
 
@@ -123,11 +123,11 @@ namespace Systems.Movement
             }
         }
 
-        private DummyParent GetParentRecursively(Transform t)
+        private MarkerParent GetParentRecursively(Transform t)
         {
             if (t == null) return null;
 
-            if (t.TryGetComponent<DummyParent>(out var dummy))
+            if (t.TryGetComponent<MarkerParent>(out var dummy))
             {
                 return dummy;
             }

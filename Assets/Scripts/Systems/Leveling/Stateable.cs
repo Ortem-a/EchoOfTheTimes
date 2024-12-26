@@ -1,15 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using Systems.Tools;
 using UnityEngine;
 
 namespace Systems.Leveling
 {
     public class Stateable : MonoBehaviour, IStateable
     {
-        [SerializeField]
-        private Dictionary<int, StateOption> _options = new Dictionary<int, StateOption>();
+        public StateableSerializableDictionary SerializableDictionary;
+
+        private Dictionary<int, StateOption> _options;
 
         public Dictionary<int, StateOption> Options => _options;
+
+        private void Awake()
+        {
+            // simulate entry point
+            _options = SerializableDictionary.ToDictionary();
+        }
 
         public void AcceptState(int stateId)
         {
@@ -20,6 +28,8 @@ namespace Systems.Leveling
 
         public void SetOptionsFrom(int stateId, Transform target)
         {
+            _options ??= SerializableDictionary.ToDictionary();//new Dictionary<int, StateOption>();
+
             var newOption = new StateOption()
             {
                 Target = target,

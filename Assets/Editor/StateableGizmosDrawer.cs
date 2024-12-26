@@ -1,4 +1,3 @@
-using EchoOfTheTimes.Utils;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,13 +8,16 @@ public class StateableGizmosDrawer
     {
         var mesh = target.GetComponent<MeshFilter>().sharedMesh;
 
-        foreach (var option in target.Options)
+        if (target != null && target.Options != null)
         {
-            Gizmos.DrawWireMesh(mesh,
-                option.Value.LocalPosition,
-                option.Value.LocalRotation,
-                option.Value.LocalScale
-            );
+            foreach (var option in target.Options)
+            {
+                Gizmos.DrawWireMesh(mesh,
+                    option.Value.LocalPosition,
+                    option.Value.LocalRotation,
+                    option.Value.LocalScale
+                );
+            }
         }
     }
 }
