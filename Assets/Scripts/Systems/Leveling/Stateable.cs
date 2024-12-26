@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Systems.Tools;
 using UnityEngine;
 
 namespace Systems.Leveling
 {
+    [RequireComponent(typeof(MarkerParent))]
     public class Stateable : MonoBehaviour, IStateable
     {
         public StateableSerializableDictionary SerializableDictionary;
@@ -13,7 +13,7 @@ namespace Systems.Leveling
 
         public Dictionary<int, StateOption> Options => _options;
 
-        private void Awake()
+        private void Construct()
         {
             // simulate entry point
             _options = SerializableDictionary.ToDictionary();
@@ -23,7 +23,7 @@ namespace Systems.Leveling
         {
             var option = Options[stateId];
 
-            throw new NotImplementedException();
+            AcceptState(option);
         }
 
         public void SetOptionsFrom(int stateId, Transform target)
@@ -60,6 +60,14 @@ namespace Systems.Leveling
 
             option = null;
             return false;
+        }
+
+        private void AcceptState(StateOption option)
+        {
+            option.Target.SetLocalPositionAndRotation(
+                option.LocalPosition, option.LocalRotation
+                );
+            option.Target.localScale = option.LocalScale;
         }
     }
 }

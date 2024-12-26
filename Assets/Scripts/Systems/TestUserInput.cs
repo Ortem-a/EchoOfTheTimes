@@ -10,10 +10,10 @@ namespace Systems
         private TestGameManager _testGameManager;
         private Vector2 _startSwipePosition;
         private float _touchStartTime;
-        private const float _maxTapTime = 0.2f; // ћаксимальное врем€ дл€ регистрации тапа
+        private const float _maxTapTime = 0.2f;
         private Vector3 _touchPosition;
 
-        private void Awake()
+        private void Construct()
         {
             _camera = Camera.main;
             _touchPosition = Vector3.forward * _camera.nearClipPlane;
@@ -29,10 +29,7 @@ namespace Systems
 
             if (Input.GetMouseButtonUp(0))
             {
-                Vector3 mousePosition = Input.mousePosition;
-
                 float touchDuration = Time.time - _touchStartTime;
-                float touchDistance = Vector2.Distance(_startSwipePosition, mousePosition);
 
                 if (touchDuration <= _maxTapTime)
                 {
@@ -48,6 +45,24 @@ namespace Systems
                         }
                     }
                 }
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                _testGameManager.StopPlayer();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                _testGameManager.SwitchState(0);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                _testGameManager.SwitchState(1);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                _testGameManager.SwitchState(2);
             }
         }
     }
