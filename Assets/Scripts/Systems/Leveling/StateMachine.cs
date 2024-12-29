@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Systems.Leveling
@@ -30,7 +31,7 @@ namespace Systems.Leveling
             {
                 for (int j = 0; j < StatesNumber; j++)
                 {
-                    if (j < stateables[i].Options.Length)
+                    if (stateables[i].Options.ContainsKey(j))
                     {
                         _states[j].Add(stateables[i]);
                     }
@@ -43,7 +44,7 @@ namespace Systems.Leveling
             int maxStateId = int.MinValue;
             foreach (var stateable in stateables)
             {
-                var max = stateable.Options.Length - 1;
+                var max = stateable.Options.Keys.Max();
 
                 if (max > maxStateId)
                 {

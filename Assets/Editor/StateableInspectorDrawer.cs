@@ -22,7 +22,8 @@ public class StateableInspectorDrawer : Editor
 
         if (GUILayout.Button("Set Or Update Params To State"))
         {
-            stateable.SetOptionsFrom(_stateIdToSet, Selection.activeTransform);
+            stateableObject.SerializableDictionary.AddOrUpdate(_stateIdToSet, Selection.activeTransform);
+            //stateable.SetOptionsFrom(_stateIdToSet, Selection.activeTransform);
 
             EditorUtility.SetDirty(stateableObject);
         }
@@ -33,7 +34,8 @@ public class StateableInspectorDrawer : Editor
 
         if (GUILayout.Button("Transform Object By State"))
         {
-            if (stateable.TryGetOption(_stateIdToTransform, out var option))
+            if (stateableObject.SerializableDictionary.TryGetValue(_stateIdToTransform, out var option))
+            //if (stateable.TryGetOption(_stateIdToTransform, out var option))
             {
                 var selectedObject = Selection.activeTransform;
 

@@ -8,14 +8,14 @@ public class StateableGizmosDrawer
     {
         var mesh = target.GetComponent<MeshFilter>().sharedMesh;
 
-        if (target != null && target.Options != null)
+        if (target != null)
         {
-            foreach (var option in target.Options)
+            foreach (var option in target.SerializableDictionary.Items)
             {
                 Gizmos.DrawWireMesh(mesh,
-                    option.LocalPosition,
-                    option.LocalRotation,
-                    option.LocalScale
+                    option.Value.LocalPosition,
+                    option.Value.LocalRotation,
+                    option.Value.LocalScale
                 );
             }
         }

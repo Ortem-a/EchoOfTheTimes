@@ -31,11 +31,11 @@ namespace Systems
 
         private void InitializeStateables()
         {
-            //var stateables = FindObjectsOfType<Stateable>();
-            //for (int i = 0; i < stateables.Length; i++)
-            //{
-            //    stateables[i].Initialize();
-            //}
+            var stateables = FindObjectsOfType<Stateable>();
+            for (int i = 0; i < stateables.Length; i++)
+            {
+                stateables[i].Initialize();
+            }
         }
 
         private void InitializePlayer()

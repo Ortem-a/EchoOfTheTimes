@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using Systems.Tools;
 using UnityEngine;
 
 namespace Systems.Leveling
@@ -6,9 +7,16 @@ namespace Systems.Leveling
     [RequireComponent(typeof(MarkerParent))]
     public class Stateable : MonoBehaviour, IStateable
     {
-        [SerializeField]
-        private StateOption[] _options = Array.Empty<StateOption>();
-        public StateOption[] Options => _options;
+        public StateableSerializableDictionary SerializableDictionary;
+
+        private Dictionary<int, StateOption> _options;
+
+        public Dictionary<int, StateOption> Options => _options;
+
+        public void Initialize()
+        {
+            _options = SerializableDictionary.ToDictionary();
+        }
 
         public void AcceptState(int stateId)
         {
@@ -19,6 +27,8 @@ namespace Systems.Leveling
 
         public void SetOptionsFrom(int stateId, Transform target)
         {
+            _options ??= SerializableDictionary.ToDictionary();
+
             var newOption = new StateOption()
             {
                 Target = target,
@@ -27,29 +37,25 @@ namespace Systems.Leveling
                 LocalScale = target.localScale,
             };
 
-            if (stateId < Options.Length)
+            if (Options.ContainsKey(stateId))
             {
                 Options[stateId] = newOption;
             }
             else
             {
-                // add new element
-                var newOptions = new StateOption[Options.Length + 1];
-                Array.Copy(Options, newOptions, Options.Length);
-                newOptions[^1] = newOption;
-                _options = newOptions;
+                Options.Add(stateId, newOption);
             }
         }
 
         public bool TryGetOption(int stateId, out StateOption option)
         {
-            if (Options.Length != 0 && stateId < Options.Length)
+            if (Options.TryGetValue(stateId, out var opt))
             {
-                option = Options[stateId];
+                option = opt;
                 return true;
             }
 
-            Debug.LogError($"There is no option with ID: <{stateId}>");
+            Debug.LogError($"There is no option with key: <{stateId}>");
 
             option = null;
             return false;
