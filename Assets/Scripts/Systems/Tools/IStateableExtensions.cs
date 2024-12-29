@@ -14,9 +14,9 @@ namespace Systems.Tools
 
             StringBuilder sb = new StringBuilder();
 
-            foreach (var keyValuePair in stateable.Options)
+            for (int i = 0; i < stateable.Options.Length; i++)
             {
-                sb.Append($"[{keyValuePair.Key}]\n{keyValuePair.Value}");
+                sb.Append($"[{i}]\n{stateable.Options[i]}");
             }
 
             return sb.ToString();
