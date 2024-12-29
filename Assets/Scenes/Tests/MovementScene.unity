@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731704, g: 0.13414727, b: 0.121078536, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -208,7 +208,7 @@ Transform:
   m_Children:
   - {fileID: 239288659}
   m_Father: {fileID: 737137537}
-  m_LocalEulerAnglesHint: {x: -47.55, y: 35.01, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
 --- !u!114 &4424056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,20 +221,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f26ff3f05f10ca14488d1f803af1ce72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SerializableDictionary:
-    Items:
-    - Key: 0
-      Value:
-        Target: {fileID: 4424055}
-        LocalPosition: {x: 0, y: 0, z: 0}
-        LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-        LocalScale: {x: 1, y: 1, z: 1}
-    - Key: 1
-      Value:
-        Target: {fileID: 4424055}
-        LocalPosition: {x: 0, y: -1, z: 0}
-        LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-        LocalScale: {x: 1, y: 1, z: 1}
+  _options:
+  - Target: {fileID: 4424055}
+    LocalPosition: {x: 0, y: 0, z: 0}
+    LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+    LocalScale: {x: 1, y: 1, z: 1}
+  - Target: {fileID: 4424055}
+    LocalPosition: {x: 0, y: 0, z: 0}
+    LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+    LocalScale: {x: 1, y: 1, z: 1}
+  - Target: {fileID: 4424055}
+    LocalPosition: {x: 0, y: 0, z: 0}
+    LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+    LocalScale: {x: 1, y: 1, z: 1}
+  - Target: {fileID: 4424055}
+    LocalPosition: {x: 0, y: 1, z: 0}
+    LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
+    LocalScale: {x: 1, y: 1, z: 1}
 --- !u!114 &4424057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,20 +352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f26ff3f05f10ca14488d1f803af1ce72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SerializableDictionary:
-    Items:
-    - Key: 0
-      Value:
-        Target: {fileID: 239683566}
-        LocalPosition: {x: 2, y: 0, z: 0}
-        LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-        LocalScale: {x: 1, y: 1, z: 1}
-    - Key: 1
-      Value:
-        Target: {fileID: 239683566}
-        LocalPosition: {x: 2, y: 0, z: 2}
-        LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-        LocalScale: {x: 1, y: 1, z: 1}
+  _options: []
 --- !u!23 &239683564
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -707,20 +697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f26ff3f05f10ca14488d1f803af1ce72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SerializableDictionary:
-    Items:
-    - Key: 0
-      Value:
-        Target: {fileID: 299904942}
-        LocalPosition: {x: 4, y: 0, z: 2}
-        LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-        LocalScale: {x: 1, y: 1, z: 1}
-    - Key: 1
-      Value:
-        Target: {fileID: 299904942}
-        LocalPosition: {x: 4, y: 0, z: 4}
-        LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-        LocalScale: {x: 1, y: 1, z: 1}
+  _options: []
 --- !u!23 &299904940
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1300,20 +1277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f26ff3f05f10ca14488d1f803af1ce72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SerializableDictionary:
-    Items:
-    - Key: 0
-      Value:
-        Target: {fileID: 880775689}
-        LocalPosition: {x: 4, y: 0, z: 0}
-        LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-        LocalScale: {x: 1, y: 1, z: 1}
-    - Key: 1
-      Value:
-        Target: {fileID: 880775689}
-        LocalPosition: {x: 4, y: 0, z: 2}
-        LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-        LocalScale: {x: 1, y: 1, z: 1}
+  _options: []
 --- !u!23 &880775687
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2567,20 +2531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f26ff3f05f10ca14488d1f803af1ce72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SerializableDictionary:
-    Items:
-    - Key: 0
-      Value:
-        Target: {fileID: 1708119602}
-        LocalPosition: {x: 4, y: 0, z: 4}
-        LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-        LocalScale: {x: 1, y: 1, z: 1}
-    - Key: 1
-      Value:
-        Target: {fileID: 1708119602}
-        LocalPosition: {x: 4, y: 0, z: 6}
-        LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-        LocalScale: {x: 1, y: 1, z: 1}
+  _options: []
 --- !u!23 &1708119604
 MeshRenderer:
   m_ObjectHideFlags: 0

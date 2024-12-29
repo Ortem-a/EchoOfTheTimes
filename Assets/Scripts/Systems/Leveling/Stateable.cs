@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Systems.Tools;
+﻿using System;
 using UnityEngine;
 
 namespace Systems.Leveling
@@ -7,16 +6,10 @@ namespace Systems.Leveling
     [RequireComponent(typeof(MarkerParent))]
     public class Stateable : MonoBehaviour, IStateable
     {
-        public StateableSerializableDictionary SerializableDictionary;
+        [SerializeField]
+        private StateOption[] _options = Array.Empty<StateOption>();
 
-        private Dictionary<int, StateOption> _options;
-
-        public Dictionary<int, StateOption> Options => _options;
-
-        public void Initialize()
-        {
-            _options = SerializableDictionary.ToDictionary();
-        }
+        public StateOption[] Options => _options;
 
         public void AcceptState(int stateId)
         {
@@ -27,8 +20,6 @@ namespace Systems.Leveling
 
         public void SetOptionsFrom(int stateId, Transform target)
         {
-            _options ??= SerializableDictionary.ToDictionary();
-
             var newOption = new StateOption()
             {
                 Target = target,
@@ -37,21 +28,49 @@ namespace Systems.Leveling
                 LocalScale = target.localScale,
             };
 
-            if (Options.ContainsKey(stateId))
+            //if (Options.ContainsKey(stateId))
+            //{
+            //    Options[stateId] = newOption;
+            //}
+            //else
+            //{
+            //    Options.Add(stateId, newOption);
+            //}
+
+            if (Options.Length != 0 && stateId < Options.Length)
             {
                 Options[stateId] = newOption;
             }
             else
             {
-                Options.Add(stateId, newOption);
+                int newSize = Options.Length + (stateId - Options.Length + 1);
+                var newOptions = new StateOption[newSize];
+                Array.Copy(Options, newOptions, Options.Length);
+
+                // fill with defaults
+                int fromIndex = Options.Length;
+                int length = stateId - Options.Length;
+                for (int i = 0; i < length; i++)
+                {
+                    newOptions[fromIndex + i] = new StateOption()
+                    {
+                        Target = target,
+                        LocalPosition = Vector3.zero,
+                        LocalRotation = Quaternion.identity,
+                        LocalScale = Vector3.one
+                    };
+                }
+
+                newOptions[stateId] = newOption;
+                _options = newOptions;
             }
         }
 
         public bool TryGetOption(int stateId, out StateOption option)
         {
-            if (Options.TryGetValue(stateId, out var opt))
+            if (Options.Length != 0 && stateId < Options.Length)
             {
-                option = opt;
+                option = Options[stateId];
                 return true;
             }
 
