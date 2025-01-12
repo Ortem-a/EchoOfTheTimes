@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Systems.Leveling;
 using Systems.Movement;
 using UnityEngine;
@@ -31,11 +29,11 @@ namespace Systems
 
         private void InitializeStateables()
         {
-            //var stateables = FindObjectsOfType<Stateable>();
-            //for (int i = 0; i < stateables.Length; i++)
-            //{
-            //    stateables[i].Initialize();
-            //}
+            var stateables = FindObjectsOfType<Stateable>();
+            for (int i = 0; i < stateables.Length; i++)
+            {
+                stateables[i].Initialize();
+            }
         }
 
         private void InitializePlayer()

@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
 
 namespace Systems.Movement
 {
@@ -18,10 +17,11 @@ namespace Systems.Movement
         [field: SerializeField]
         public Vertex NextWaypoint { get; private set; }
 
-        [SerializeField]
-        private bool _needStop = false;
-        [SerializeField]
-        private bool _isMoving = false;
+        [field: SerializeField]
+        public bool NeedStop { get; private set; } = false;
+        [field: SerializeField]
+        public bool IsMoving { get; private set; } = false;
+
         private float _speed = 0.01f;
 
         private Coroutine _moveCoroutine;
@@ -40,7 +40,7 @@ namespace Systems.Movement
 
                 _onNewPathGot = HandleNewPath;
 
-                if (_isMoving)
+                if (IsMoving)
                 {
                     Stop();
                 }
@@ -68,7 +68,7 @@ namespace Systems.Movement
 
         public void Stop()
         {
-            _needStop = true;
+            NeedStop = true;
         }
 
         private IEnumerator Move()
@@ -81,17 +81,17 @@ namespace Systems.Movement
                 {
                     transform.localPosition += _direction * _speed;
 
-                    _isMoving = true;
+                    IsMoving = true;
                 }
                 else
                 {
                     CurrentWaypoint = NextWaypoint;
                     SetParent(CurrentWaypoint);
 
-                    if (_needStop)
+                    if (NeedStop)
                     {
-                        _isMoving = false;
-                        _needStop = false;
+                        IsMoving = false;
+                        NeedStop = false;
 
                         NextWaypoint = null;
 
@@ -108,21 +108,21 @@ namespace Systems.Movement
             }
             while (NextWaypoint != null);
 
-            _isMoving = false;
+            IsMoving = false;
         }
 
         private void SetParent(Vertex vertex)
         {
-            var newDummy = GetParentRecursively(vertex.transform);
+            var newMarker = GetParentRecursively(vertex.transform);
 
-            if (newDummy == null)
+            if (newMarker == null)
             {
                 _tempParent = null;
                 transform.SetParent(null);
             }
-            else if (!ReferenceEquals(_tempParent, newDummy))
+            else if (!ReferenceEquals(_tempParent, newMarker))
             {
-                _tempParent = newDummy;
+                _tempParent = newMarker;
                 transform.SetParent(_tempParent.transform);
             }
         }
@@ -131,9 +131,9 @@ namespace Systems.Movement
         {
             if (t == null) return null;
 
-            if (t.TryGetComponent<MarkerParent>(out var dummy))
+            if (t.TryGetComponent<MarkerParent>(out var marker))
             {
-                return dummy;
+                return marker;
             }
 
             return GetParentRecursively(t.parent);
@@ -169,5 +169,7 @@ namespace Systems.Movement
             Gizmos.DrawRay(position + direction, right * arrowHeadLength);
             Gizmos.DrawRay(position + direction, left * arrowHeadLength);
         }
+
+        public MarkerParent GetMarkerParent() => _tempParent;
     }
 }

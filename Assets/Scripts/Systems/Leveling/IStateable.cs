@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Systems.Leveling
 {
     public interface IStateable
     {
-        public StateOption[] Options { get; }
+        public Dictionary<int, StateOption> Options { get; }
+
+        //public StateOption[] Options { get; }
 
         public void AcceptState(int stateId);
 

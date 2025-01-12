@@ -30,7 +30,8 @@ namespace Systems.Leveling
             {
                 for (int j = 0; j < StatesNumber; j++)
                 {
-                    if (j < stateables[i].Options.Length)
+                    if (j < stateables[i].Options.Count)
+                    //if (j < stateables[i].Options.Length)
                     {
                         _states[j].Add(stateables[i]);
                     }
@@ -43,7 +44,8 @@ namespace Systems.Leveling
             int maxStateId = int.MinValue;
             foreach (var stateable in stateables)
             {
-                var max = stateable.Options.Length - 1;
+                var max = stateable.Options.Count - 1;
+                //var max = stateable.Options.Length - 1;
 
                 if (max > maxStateId)
                 {
