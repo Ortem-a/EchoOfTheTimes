@@ -9,8 +9,6 @@ namespace Systems
         private readonly GraphVisibility _graph;
         private readonly StateMachine _stateMachine;
 
-        private Vertex _lastTouch;
-
         public TestInputAdapter(Movable movable, GraphVisibility graph, StateMachine stateMachine)
         {
             _movable = movable;
@@ -25,26 +23,24 @@ namespace Systems
 
         public void HandleTouch(Vertex to)
         {
-            _lastTouch = to;
             SetPath(to);
-        }
-
-        public void RepeatLastTouch()
-        {
-            if (_lastTouch = null) return;
-            SetPath(_lastTouch);
         }
 
         private void SetPath(Vertex to)
         {
-            Vertex start = _movable.NextWaypoint != null ? _movable.NextWaypoint : _movable.CurrentWaypoint;
+            if (_movable.CurrentWaypoint.Id != to.Id)
+            {
+                Vertex start = _movable.NextWaypoint != null ? _movable.NextWaypoint : _movable.CurrentWaypoint;
 
-            var path = _graph.GetPathBFS(start, to);
-            _movable.MoveBy(path);
+                var path = _graph.GetPathBFS(start, to);
+                _movable.MoveBy(path);
+            }
         }
 
         public void SwitchState(int stateId)
         {
+            if (_movable.OnBridge) return;
+            
             _stateMachine.ChangeState(stateId);
         }
     }

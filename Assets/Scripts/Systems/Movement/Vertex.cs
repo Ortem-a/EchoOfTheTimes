@@ -9,6 +9,8 @@ namespace Systems.Movement
         public int Id;
         public List<Edge> Neighbours;
 
+        public bool IsBridge = false;
+
         public bool ContainsNeighbour(Vertex v)
         {
             if (Neighbours != null)

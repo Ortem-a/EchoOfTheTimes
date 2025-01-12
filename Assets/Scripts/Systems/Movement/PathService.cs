@@ -37,7 +37,7 @@ namespace Systems.Movement
         private void CheckPath()
         {
             // перестроить путь в новом графе
-            _testInputAdapter.RepeatLastTouch();
+            
         }
 
         public void SetPath(List<Vertex> path)

@@ -21,6 +21,8 @@ namespace Systems.Movement
         public bool NeedStop { get; private set; } = false;
         [field: SerializeField]
         public bool IsMoving { get; private set; } = false;
+        [field: SerializeField]
+        public bool OnBridge { get; private set; } = false;
 
         private float _speed = 0.01f;
 
@@ -30,6 +32,43 @@ namespace Systems.Movement
         private MarkerParent _tempParent;
 
         private Action _onNewPathGot;
+
+        public Action<Vertex> OnWaypointChanged;
+        public Action OnEnterToBridge;
+
+        private void Awake()
+        {
+            OnEnterToBridge += HandleEnteringToBridge;
+            OnWaypointChanged += HandleNewWaypoint;
+        }
+
+        private void OnDestroy()
+        {
+            OnEnterToBridge -= HandleEnteringToBridge;
+            OnWaypointChanged -= HandleNewWaypoint;
+        }
+
+        private void HandleEnteringToBridge()
+        {
+            OnBridge = true;
+        }
+
+        private void HandleNewWaypoint(Vertex newVertex)
+        {
+            OnBridge = false;
+
+            if (NextWaypoint != null)
+            {
+                if (Vector3.Distance(CurrentWaypoint.transform.position, NextWaypoint.transform.position) > 2f)
+                {
+                    ForceStop();
+                }
+                else if (CurrentWaypoint.IsBridge && NextWaypoint.IsBridge)
+                {
+                    OnEnterToBridge?.Invoke();
+                }
+            }
+        }
 
         public void MoveBy(List<Vertex> path)
         {
@@ -56,9 +95,17 @@ namespace Systems.Movement
             _onNewPathGot = null;
 
             _path = new Queue<Vertex>(_bufferPath);
-            NextWaypoint = _bufferPath.Dequeue();
+            NextWaypoint = _path.Dequeue();
 
             _bufferPath.Clear();
+
+            OnWaypointChanged?.Invoke(CurrentWaypoint);
+
+            if (NextWaypoint == null)
+            {
+                Debug.Log("NEXT WP IS NULL!!!!");
+                return;
+            }
 
             if (_moveCoroutine != null)
                 StopCoroutine(_moveCoroutine);
@@ -103,13 +150,7 @@ namespace Systems.Movement
                         NextWaypoint = nextWaypoint;
                     }
 
-                    if (NextWaypoint != null)
-                    {
-                        if (Vector3.Distance(CurrentWaypoint.transform.position, NextWaypoint.transform.position) > 2f)
-                        {
-                            ForceStop();
-                        }
-                    }
+                    OnWaypointChanged?.Invoke(CurrentWaypoint);
                 }
 
                 yield return null;
@@ -185,7 +226,5 @@ namespace Systems.Movement
             Gizmos.DrawRay(position + direction, right * arrowHeadLength);
             Gizmos.DrawRay(position + direction, left * arrowHeadLength);
         }
-
-        public MarkerParent GetMarkerParent() => _tempParent;
     }
 }
