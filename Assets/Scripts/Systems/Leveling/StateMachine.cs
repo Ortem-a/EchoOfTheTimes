@@ -5,12 +5,16 @@ namespace Systems.Leveling
 {
     public class StateMachine
     {
-        private readonly Dictionary<int, List<IStateable>> _states;
+        private Dictionary<int, List<IStateable>> _states;
+
+        private StateService _stateService;
 
         public int StatesNumber { get; private set; }
 
-        public StateMachine()
+        public StateMachine(StateService stateService)
         {
+            _stateService = stateService;
+
             var stateables = new List<IStateable>();
             foreach (var item in Object.FindObjectsOfType<Stateable>())
             {
@@ -63,10 +67,12 @@ namespace Systems.Leveling
 
             var options = _states[stateId];
 
-            for (int i = 0; i < options.Count; i++)
-            {
-                options[i].AcceptState(stateId);
-            }
+            _stateService.AcceptState(stateId, options);
+
+            //for (int i = 0; i < options.Count; i++)
+            //{
+            //    options[i].AcceptState(stateId);
+            //}
         }
     }
 }

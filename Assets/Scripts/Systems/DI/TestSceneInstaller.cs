@@ -15,6 +15,10 @@ namespace Systems.DI
         private Movable _movable;
         [SerializeField]
         private GraphVisibility _graph;
+        [SerializeField]
+        private StateService _stateService;
+        [SerializeField]
+        private PathService _pathService;
 
         public override void InstallBindings()
         {
@@ -24,6 +28,8 @@ namespace Systems.DI
             Container.Bind<GraphVisibility>().FromInstance(_graph).AsSingle();
             Container.Bind<TestInputAdapter>().FromNew().AsSingle();
             Container.Bind<StateMachine>().FromNew().AsSingle();
+            Container.Bind<StateService>().FromInstance(_stateService).AsSingle();
+            Container.Bind<PathService>().FromInstance(_pathService).AsSingle();
 
             Container.Bind<EntryPointService>().FromInstance(_entryPointService).AsSingle().NonLazy();
         }

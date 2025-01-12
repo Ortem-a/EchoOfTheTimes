@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using DG.Tweening;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using Systems.Tools;
 using UnityEngine;
-using Zenject;
 
 namespace Systems.Leveling
 {
@@ -14,6 +16,8 @@ namespace Systems.Leveling
 
         public StateableSerializableDictionary States;
 
+        private BridgeService _bridgeService;
+
         //[SerializeField]
         //private StateOption[] _options = Array.Empty<StateOption>();
 
@@ -22,13 +26,26 @@ namespace Systems.Leveling
         public void Initialize()
         {
             _options = States.ToDictionary();
+
+            _bridgeService = GetComponent<BridgeService>();
         }
 
-        public void AcceptState(int stateId)
+        private Coroutine _coroutine;
+
+        public void AcceptState(int stateId, Action onComplete)
         {
             if (Options.TryGetValue(stateId, out var option))
             {
-                AcceptState(option);
+                //if (_bridgeService != null)
+                //{
+                //    _bridgeService.Disconnect();
+                //}
+
+                if (_coroutine != null) StopCoroutine(_coroutine);
+
+                _coroutine = StartCoroutine(AcceptState(option, onComplete));
+
+                //AcceptState(option);
             }
 
             //var option = Options[stateId];
@@ -106,12 +123,26 @@ namespace Systems.Leveling
             return false;
         }
 
-        private void AcceptState(StateOption option)
+        private Sequence sequence;
+
+        private IEnumerator AcceptState(StateOption option, Action onComplete)
         {
-            option.Target.SetLocalPositionAndRotation(
-                option.LocalPosition, option.LocalRotation
-                );
-            option.Target.localScale = option.LocalScale;
+            float duration = 2f;
+
+            sequence = DOTween.Sequence();
+
+            sequence.Join(option.Target.DOLocalMove(option.LocalPosition, duration));
+            sequence.Join(option.Target.DOLocalRotateQuaternion(option.LocalRotation, duration));
+            sequence.Join(option.Target.DOScale(option.LocalScale, duration));
+
+            yield return sequence.WaitForCompletion();
+
+            onComplete?.Invoke();
+
+            //option.Target.SetLocalPositionAndRotation(
+            //    option.LocalPosition, option.LocalRotation
+            //    );
+            //option.Target.localScale = option.LocalScale;
         }
     }
 }

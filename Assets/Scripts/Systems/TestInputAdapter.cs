@@ -9,6 +9,8 @@ namespace Systems
         private readonly GraphVisibility _graph;
         private readonly StateMachine _stateMachine;
 
+        private Vertex _lastTouch;
+
         public TestInputAdapter(Movable movable, GraphVisibility graph, StateMachine stateMachine)
         {
             _movable = movable;
@@ -23,7 +25,14 @@ namespace Systems
 
         public void HandleTouch(Vertex to)
         {
+            _lastTouch = to;
             SetPath(to);
+        }
+
+        public void RepeatLastTouch()
+        {
+            if (_lastTouch = null) return;
+            SetPath(_lastTouch);
         }
 
         private void SetPath(Vertex to)

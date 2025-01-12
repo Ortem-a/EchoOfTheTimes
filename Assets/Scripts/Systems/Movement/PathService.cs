@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Systems.Leveling;
 using UnityEngine;
+using Zenject;
 
 namespace Systems.Movement
 {
@@ -13,24 +15,29 @@ namespace Systems.Movement
 
         public Action OnStateChanged;
 
-        private void Awake()
+        private StateService _stateService;
+        private TestInputAdapter _testInputAdapter;
+
+        [Inject]
+        private void Construct(StateService stateService, TestInputAdapter testInputAdapter)
         {
-            OnStateChanged += CheckPath;
+            _stateService = stateService;
+            _testInputAdapter = testInputAdapter;
+
+            _stateService.OnStartChangingState += CheckPath;
+            //OnStateChanged += CheckPath;
         }
 
         private void OnDestroy()
         {
-            OnStateChanged -= CheckPath;
+            _stateService.OnStartChangingState -= CheckPath;
+            //OnStateChanged -= CheckPath;
         }
 
         private void CheckPath()
         {
-            // посмотреть оставшийся путь
-            // если надо, то обрезать путь
-
-            var currentParent = _target.GetMarkerParent();
-
-            
+            // перестроить путь в новом графе
+            _testInputAdapter.RepeatLastTouch();
         }
 
         public void SetPath(List<Vertex> path)

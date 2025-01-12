@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Systems.Leveling
@@ -9,7 +10,7 @@ namespace Systems.Leveling
 
         //public StateOption[] Options { get; }
 
-        public void AcceptState(int stateId);
+        public void AcceptState(int stateId, Action onComplete);
 
         public void SetOptionsFrom(int stateId, Transform target);
         public bool TryGetOption(int stateId, out StateOption option);

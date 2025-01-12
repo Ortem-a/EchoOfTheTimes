@@ -13,11 +13,13 @@ namespace Systems
         private GraphVisibility _graph;
 
         private StateMachine _stateMachine;
+        private StateService _stateService;
 
         [Inject]
-        private void Construct(Movable movable)
+        private void Construct(Movable movable, StateService stateService)
         {
             _movable = movable;
+            _stateService = stateService;
 
             InitializeStateables();
 
@@ -51,7 +53,7 @@ namespace Systems
 
         private void InitializeStateMachine()
         {
-            _stateMachine = new StateMachine();
+            _stateMachine = new StateMachine(_stateService);
         }
     }
 }

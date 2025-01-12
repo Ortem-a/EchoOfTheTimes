@@ -102,6 +102,14 @@ namespace Systems.Movement
                         _path.TryDequeue(out var nextWaypoint);
                         NextWaypoint = nextWaypoint;
                     }
+
+                    if (NextWaypoint != null)
+                    {
+                        if (Vector3.Distance(CurrentWaypoint.transform.position, NextWaypoint.transform.position) > 2f)
+                        {
+                            ForceStop();
+                        }
+                    }
                 }
 
                 yield return null;
@@ -109,6 +117,14 @@ namespace Systems.Movement
             while (NextWaypoint != null);
 
             IsMoving = false;
+        }
+
+        private void ForceStop()
+        {
+            IsMoving = false;
+            NeedStop = false;
+
+            NextWaypoint = null;
         }
 
         private void SetParent(Vertex vertex)

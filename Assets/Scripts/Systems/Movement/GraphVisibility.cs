@@ -1,10 +1,31 @@
 using System.Collections.Generic;
+using Systems.Leveling;
 using UnityEngine;
+using Zenject;
 
 namespace Systems.Movement
 {
     public class GraphVisibility : Graph
     {
+        private StateService _stateService;
+
+        [Inject]
+        private void Construct(StateService stateService)
+        {
+            _stateService = stateService;
+
+            //_stateService.OnStartChangingState += ResetVertices;
+            //_stateService.OnCompleteChangingState += Load;
+            _stateService.OnCompleteChangingState += ResetAndLoad;
+        }
+
+        private void OnDestroy()
+        {
+            //_stateService.OnStartChangingState -= ResetVertices;
+            //_stateService.OnCompleteChangingState -= Load;
+            _stateService.OnCompleteChangingState -= ResetAndLoad;
+        }
+
         public List<Vertex> GetVertices()
         {
             return vertices;
