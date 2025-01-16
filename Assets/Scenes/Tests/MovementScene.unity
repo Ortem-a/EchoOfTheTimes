@@ -291,6 +291,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5757b5e72de7784994826a03ee1f727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _target: {fileID: 0}
+  _stateService: {fileID: 0}
 --- !u!1 &239288658
 GameObject:
   m_ObjectHideFlags: 0
@@ -497,8 +499,9 @@ GameObject:
   - component: {fileID: 253288924}
   - component: {fileID: 253288926}
   - component: {fileID: 253288925}
+  - component: {fileID: 253288927}
   m_Layer: 0
-  m_Name: TEST MOVABLE BY POINTS 2
+  m_Name: TEST MOVABLE BY RULES 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -546,13 +549,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf1e11057e31cf4f92e8e1e052000f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _delay_sec: 2
-  _points:
-  - {x: 2, y: 0, z: 0}
-  - {x: 2, y: 2, z: 0}
-  - {x: 2, y: 0, z: 0}
-  - {x: -2, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
+  _moveDuration_sec: 2
+  Rules:
+  - Option:
+      Target: {fileID: 253288924}
+      LocalPosition: {x: 0, y: 0, z: -2}
+      LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+      LocalScale: {x: 1, y: 1, z: 1}
+    StayInDuration_sec: 1
+  - Option:
+      Target: {fileID: 253288924}
+      LocalPosition: {x: 2, y: 0, z: -2}
+      LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+      LocalScale: {x: 1, y: 1, z: 1}
+    StayInDuration_sec: 1
+  - Option:
+      Target: {fileID: 253288924}
+      LocalPosition: {x: 2, y: 2, z: 0}
+      LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+      LocalScale: {x: 1, y: 1, z: 1}
+    StayInDuration_sec: 1
+  - Option:
+      Target: {fileID: 253288924}
+      LocalPosition: {x: 0, y: 0, z: 0}
+      LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+      LocalScale: {x: 1, y: 1, z: 1}
+    StayInDuration_sec: 2
+--- !u!114 &253288927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253288923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6394a03c351cbed4aa12fc46c8444666, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Bridges:
+  - Inner: {fileID: 1086165502}
+    Outer: {fileID: 2009448103}
+  AllConnected: 1
 --- !u!1 &253378871
 GameObject:
   m_ObjectHideFlags: 0
@@ -1203,7 +1241,6 @@ MonoBehaviour:
   _movable: {fileID: 2046793077}
   _graph: {fileID: 737137538}
   _stateService: {fileID: 696095711}
-  _pathService: {fileID: 118424272}
 --- !u!114 &610303550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1406,51 +1443,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2969f95335b4c99459296873d8beb3c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &837334463
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 837334464}
-  - component: {fileID: 837334465}
-  m_Layer: 0
-  m_Name: TEST INPUT
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &837334464
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 837334463}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &837334465
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 837334463}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd50387f69d70254faf067ba6aa57b23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BridgeService: {fileID: 2112640563}
 --- !u!1 &880775685
 GameObject:
   m_ObjectHideFlags: 0
@@ -1546,8 +1538,9 @@ GameObject:
   - component: {fileID: 946056451}
   - component: {fileID: 946056452}
   - component: {fileID: 946056453}
+  - component: {fileID: 946056454}
   m_Layer: 0
-  m_Name: TEST MOVABLE BY POINTS
+  m_Name: TEST MOVABLE BY RULES
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1584,12 +1577,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf1e11057e31cf4f92e8e1e052000f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _delay_sec: 4
-  _points:
-  - {x: 2, y: 0, z: 0}
-  - {x: 2, y: 0, z: 2}
-  - {x: 0, y: 0, z: 2}
-  - {x: 0, y: 0, z: 0}
+  _moveDuration_sec: 2
+  Rules: []
 --- !u!114 &946056453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1602,6 +1591,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53ed72aac142cc74bb6d0d678ff2b19a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &946056454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946056450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6394a03c351cbed4aa12fc46c8444666, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Bridges: []
+  AllConnected: 1
 --- !u!1 &1086165501
 GameObject:
   m_ObjectHideFlags: 0
@@ -1638,7 +1641,7 @@ MonoBehaviour:
     Vertex: {fileID: 2009448103}
   - Cost: 2
     Vertex: {fileID: 1724046108}
-  IsBridge: 0
+  IsBridge: 1
 --- !u!4 &1086165503
 Transform:
   m_ObjectHideFlags: 0
@@ -3483,7 +3486,6 @@ GameObject:
   - component: {fileID: 2112640560}
   - component: {fileID: 2112640562}
   - component: {fileID: 2112640561}
-  - component: {fileID: 2112640563}
   m_Layer: 0
   m_Name: STATEABLE_cubes
   m_TagString: Untagged
@@ -3547,26 +3549,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53ed72aac142cc74bb6d0d678ff2b19a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2112640563
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2112640559}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6394a03c351cbed4aa12fc46c8444666, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Bridges:
-  - Inner: {fileID: 2009448103}
-    Outer: {fileID: 1330207944}
-  - Inner: {fileID: 2009448103}
-    Outer: {fileID: 1775375171}
-  - Inner: {fileID: 644170586}
-    Outer: {fileID: 1159740089}
-  AllConnected: 1
 --- !u!1 &2138236717
 GameObject:
   m_ObjectHideFlags: 0
@@ -3659,4 +3641,3 @@ SceneRoots:
   - {fileID: 737137537}
   - {fileID: 2046793076}
   - {fileID: 1750156050}
-  - {fileID: 837334464}

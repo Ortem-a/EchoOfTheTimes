@@ -20,7 +20,16 @@ public static class VertexGizmosDrawer
             if (n.Vertex == null) continue;
 
             GizmosHelper.DrawArrowBetween(vertex.transform.position, n.Vertex.transform.position, Color.yellow);
-            Gizmos.color = Color.red;
+
+            if (vertex.IsBridge && n.Vertex.IsBridge)
+            {
+                Gizmos.color = Color.blue;
+            }
+            else
+            {
+                Gizmos.color = Color.red;
+            }
+
             Gizmos.DrawLine(vertex.transform.position, n.Vertex.transform.position);
         }
     }

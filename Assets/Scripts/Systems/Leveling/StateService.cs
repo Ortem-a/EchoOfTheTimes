@@ -54,12 +54,12 @@ namespace Systems.Leveling
 
         private void HandleStart()
         {
-            Debug.Log("START");
+            Debug.Log("Switching state: START");
         }
 
         private void HandleComplete()
         {
-            Debug.Log("COMPLETE");
+            Debug.Log("Switching state: COMPLETE");
         }
     }
 }

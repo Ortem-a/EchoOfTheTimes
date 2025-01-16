@@ -36,21 +36,10 @@ namespace Systems.Leveling
         {
             if (Options.TryGetValue(stateId, out var option))
             {
-                //if (_bridgeService != null)
-                //{
-                //    _bridgeService.Disconnect();
-                //}
-
                 if (_coroutine != null) StopCoroutine(_coroutine);
 
                 _coroutine = StartCoroutine(AcceptState(option, onComplete));
-
-                //AcceptState(option);
             }
-
-            //var option = Options[stateId];
-
-            //AcceptState(option);
         }
 
         public void SetOptionsFrom(int stateId, Transform target)
@@ -123,19 +112,19 @@ namespace Systems.Leveling
             return false;
         }
 
-        private Sequence sequence;
+        private Sequence _sequence;
 
         private IEnumerator AcceptState(StateOption option, Action onComplete)
         {
             float duration = 2f;
 
-            sequence = DOTween.Sequence();
+            _sequence = DOTween.Sequence();
 
-            sequence.Join(option.Target.DOLocalMove(option.LocalPosition, duration));
-            sequence.Join(option.Target.DOLocalRotateQuaternion(option.LocalRotation, duration));
-            sequence.Join(option.Target.DOScale(option.LocalScale, duration));
+            _sequence.Join(option.Target.DOLocalMove(option.LocalPosition, duration));
+            _sequence.Join(option.Target.DOLocalRotateQuaternion(option.LocalRotation, duration));
+            _sequence.Join(option.Target.DOScale(option.LocalScale, duration));
 
-            yield return sequence.WaitForCompletion();
+            yield return _sequence.WaitForCompletion();
 
             onComplete?.Invoke();
 

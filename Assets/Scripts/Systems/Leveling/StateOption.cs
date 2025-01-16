@@ -23,5 +23,16 @@ namespace Systems.Leveling
 
             return sb.ToString();
         }
+
+        public static explicit operator StateOption(Transform target)
+        {
+            return new StateOption()
+            {
+                Target = target,
+                LocalPosition = target.localPosition,
+                LocalRotation = target.localRotation,
+                LocalScale = target.localScale
+            };
+        }
     }
 }

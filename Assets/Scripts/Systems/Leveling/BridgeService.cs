@@ -32,7 +32,7 @@ namespace Systems.Leveling
         {
             if (AllConnected)
             {
-                Gizmos.color = Color.blue;
+                Gizmos.color = Color.green;
             }
             else
             {
@@ -42,9 +42,6 @@ namespace Systems.Leveling
             for (int i = 0; i < Bridges.Length; i++)
             {
                 if (Bridges[i].Inner == null || Bridges[i].Outer == null) continue;
-
-                //Gizmos.DrawSphere(Bridges[i].Inner.transform.position, 0.1f);
-                //Gizmos.DrawSphere(Bridges[i].Outer.transform.position, 0.1f);
 
                 Gizmos.DrawWireCube(
                     (Bridges[i].Inner.transform.position + Bridges[i].Outer.transform.position) / 2f,
