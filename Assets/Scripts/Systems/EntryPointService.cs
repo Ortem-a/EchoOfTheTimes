@@ -9,16 +9,16 @@ namespace Systems
     {
         public Vertex StartVertex;
 
-        private Movable _movable;
+        private IUnit _unit;
         private GraphVisibility _graph;
 
         private StateMachine _stateMachine;
         private StateService _stateService;
 
         [Inject]
-        private void Construct(Movable movable, StateService stateService)
+        private void Construct(IUnit unit, StateService stateService)
         {
-            _movable = movable;
+            _unit = unit;
             _stateService = stateService;
 
             InitializeStateables();
@@ -40,9 +40,10 @@ namespace Systems
 
         private void InitializePlayer()
         {
-            _movable.transform.position = StartVertex.transform.position;
+            _unit.Spawn(StartVertex);
 
-            _movable.CurrentWaypoint = StartVertex;
+            //_unit.transform.position = StartVertex.transform.position;
+            //_unit.CurrentWaypoint = StartVertex;
         }
 
         private void InitializeGraph()

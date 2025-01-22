@@ -12,7 +12,7 @@ namespace Systems.DI
         [SerializeField]
         private TestUserInput _userInput;
         [SerializeField]
-        private Movable _movable;
+        private Player _player;
         [SerializeField]
         private GraphVisibility _graph;
         [SerializeField]
@@ -22,7 +22,7 @@ namespace Systems.DI
         {
             Container.Bind<TestUserInput>().FromInstance(_userInput).AsSingle();
 
-            Container.Bind<Movable>().FromInstance(_movable).AsSingle();
+            Container.Bind<IUnit>().FromInstance(_player).AsSingle();
             Container.Bind<GraphVisibility>().FromInstance(_graph).AsSingle();
             Container.Bind<TestInputAdapter>().FromNew().AsSingle();
             Container.Bind<StateMachine>().FromNew().AsSingle();

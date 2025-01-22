@@ -1,7 +1,12 @@
-﻿namespace Systems.Movement
+﻿using System;
+
+namespace Systems.Movement
 {
     public interface ITeleportable
     {
-        public void Teleportate(Vertex to);
+        public float TeleportDisappearDuration_sec { get; }
+        public float TeleportDuration_sec { get; }
+
+        public void Teleportate(Vertex to, Action onComplete);
     }
 }

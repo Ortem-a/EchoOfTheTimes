@@ -1,12 +1,39 @@
+using DG.Tweening;
+using System;
 using UnityEngine;
 
 namespace Systems.Movement
 {
     public class Teleportable : MonoBehaviour, ITeleportable
     {
-        public void Teleportate(Vertex to)
+        public float TeleportDisappearDuration_sec { get; private set; } = 0.2f;
+        public float TeleportDuration_sec { get; private set; } = 0.1f;
+
+        public void Teleportate(Vertex to, Action onComplete)
         {
-            throw new System.NotImplementedException();
+            OnStartTeleportation(() =>
+            {
+                transform.DOMove(to.transform.position, TeleportDuration_sec)
+                    .OnComplete(() =>
+                    {
+                        OnCompleteTeleportation();
+                        onComplete?.Invoke();
+
+                        // корректировка положения при телепортации на движущийся объект
+                        transform.position = to.transform.position;
+                    });
+            });
+        }
+
+        private void OnStartTeleportation(TweenCallback onComplete)
+        {
+            transform.DOScale(0f, TeleportDisappearDuration_sec)
+                .OnComplete(onComplete);
+        }
+
+        private void OnCompleteTeleportation()
+        {
+            transform.DOScale(1f, TeleportDisappearDuration_sec);
         }
     }
 }

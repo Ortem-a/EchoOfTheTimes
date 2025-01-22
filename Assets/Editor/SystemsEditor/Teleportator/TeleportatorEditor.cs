@@ -35,7 +35,7 @@ namespace SystemsEditor
 
             for (int i = 0; i < contents.Length; i++)
             {
-                contents[i] = new GUIContent(_avaliableTeleports[i].name);
+                contents[i] = new GUIContent($"{_avaliableTeleports[i].name}_{_avaliableTeleports[i].Vertex.Id}");
             }
 
             GUILayout.Label("Connect with:");
@@ -48,6 +48,8 @@ namespace SystemsEditor
             {
                 teleportator.Destination = _avaliableTeleports[_teleportIndex];
                 _avaliableTeleports[_teleportIndex].Destination = teleportator;
+
+                Debug.Log($"{teleportator.Destination.Vertex} and {_avaliableTeleports[_teleportIndex].Destination.Vertex} are connected!");
             }
 
             EditorGUILayout.Space();

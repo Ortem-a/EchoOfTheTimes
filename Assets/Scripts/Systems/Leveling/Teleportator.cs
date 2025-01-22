@@ -1,4 +1,3 @@
-using System;
 using Systems.Movement;
 using UnityEngine;
 
@@ -8,34 +7,61 @@ namespace Systems.Leveling
     {
         [field: SerializeField]
         public Teleportator Destination { get; set; }
+        public SpecialVertexType Type { get; private set; } = SpecialVertexType.Teleportator;
 
-        public Action OnStartEnter { get; private set; } = null;
-
-        public Action OnCompleteEnter { get; private set; } = null;
-
-        public Action OnStartExit { get; private set; } = null;
-
-        public Action OnCompleteExit { get; private set; } = null;
-
-        public Vertex Vertex => GetComponentInParent<Vertex>();
-
-        public void OnEnter()
+        public Vertex Vertex
         {
-            OnStartEnter?.Invoke();
+            get
+            {
+                if (_vertex == null)
+                {
+                    _vertex = GetComponent<Vertex>();
+                }
 
-            Teleportate();
+                return _vertex;
+            }
         }
 
-        public void OnExit()
+        private Vertex _vertex;
+
+        public void OnEnter(IUnit unit)
+        {
+            Teleportate(unit);
+        }
+
+        public void OnExit(IUnit unit)
         {
             throw new System.NotImplementedException();
         }
 
-        private void Teleportate()
+        private void Teleportate(IUnit unit)
         {
-            //OnCompleteEnter?.Invoke(); !!!!!!!
+            Debug.Log($"[Teleportator] Teleport to {Destination}");
 
-            throw new System.NotImplementedException();
+            unit.Movable.StopImmediate();
+
+            OnStartTeleportation();
+
+            unit.Movable.CurrentWaypoint = Destination.Vertex;
+
+            unit.Teleportable.Teleportate(Destination.Vertex,
+                () =>
+                {
+                    OnCompleteTeleportation();
+                    unit.Movable.SetParent(Destination.Vertex);
+                });
+        }
+
+        private void OnStartTeleportation()
+        {
+            // sound management
+            // ui management
+        }
+
+        private void OnCompleteTeleportation()
+        {
+            // sound management
+            // ui management
         }
     }
 }

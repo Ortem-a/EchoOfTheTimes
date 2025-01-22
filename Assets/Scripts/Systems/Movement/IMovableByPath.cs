@@ -18,5 +18,8 @@ namespace Systems.Movement
         public float Speed { get; }
         public MarkerParent TempParent { get; }
         public void MoveBy(List<Vertex> path);
+        public void Stop(Action onStopped = null);
+        public void StopImmediate();
+        public void SetParent(Vertex vertex);
     }
 }

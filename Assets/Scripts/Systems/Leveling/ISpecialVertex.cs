@@ -1,15 +1,19 @@
 using System;
+using Systems.Movement;
 
 namespace Systems.Leveling
 {
+    public enum SpecialVertexType
+    {
+        Button,
+        Teleportator,
+    }
+
     public interface ISpecialVertex
     {
-        public Action OnStartEnter { get; }
-        public Action OnCompleteEnter { get; }
-        public Action OnStartExit{ get; }
-        public Action OnCompleteExit { get; }
+        public SpecialVertexType Type { get; }
 
-        public void OnEnter();
-        public void OnExit();
+        public void OnEnter(IUnit unit);
+        public void OnExit(IUnit unit);
     }
 }

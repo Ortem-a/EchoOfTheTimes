@@ -31,7 +31,8 @@ namespace Systems.Movement
         [field: SerializeField]
         public MarkerParent TempParent { get; private set; }
 
-        private Action _onNewPathGot;
+        private Action _onNewPathGot = null;
+        private Action _onPlayerStop = null;
 
         public Action<Vertex> OnWaypointChanged { get; set; } = null;
         public Action OnEnterToBridge { get; private set; } = null;
@@ -113,9 +114,11 @@ namespace Systems.Movement
             _moveCoroutine = StartCoroutine(Move());
         }
 
-        public void Stop()
+        public void Stop(Action onStopped = null)
         {
             NeedStop = true;
+
+            _onPlayerStop = onStopped;
         }
 
         private IEnumerator Move()
@@ -141,6 +144,9 @@ namespace Systems.Movement
                         NeedStop = false;
 
                         NextWaypoint = null;
+
+                        _onPlayerStop?.Invoke();
+                        _onPlayerStop = null;
 
                         _onNewPathGot?.Invoke();
                     }
@@ -168,7 +174,12 @@ namespace Systems.Movement
             NextWaypoint = null;
         }
 
-        private void SetParent(Vertex vertex)
+        public void StopImmediate()
+        {
+            ForceStop();
+        }
+
+        public void SetParent(Vertex vertex)
         {
             var newMarker = GetParentRecursively(vertex.transform);
 

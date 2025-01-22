@@ -1010,7 +1010,7 @@ PrefabInstance:
         type: 3}
       propertyPath: <Destination>k__BackingField
       value: 
-      objectReference: {fileID: 388586343}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1022,18 +1022,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 371388756}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &371388758 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5576950980877913752, guid: d646a44a36a1ff748bc7fb77889791d7,
-    type: 3}
-  m_PrefabInstance: {fileID: 371388756}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c2d83d5a33e3904ea2e20fc07153622, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &388586341
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1111,7 +1099,7 @@ PrefabInstance:
         type: 3}
       propertyPath: <Destination>k__BackingField
       value: 
-      objectReference: {fileID: 371388758}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1123,18 +1111,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 388586341}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &388586343 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5576950980877913752, guid: d646a44a36a1ff748bc7fb77889791d7,
-    type: 3}
-  m_PrefabInstance: {fileID: 388586341}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c2d83d5a33e3904ea2e20fc07153622, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &453821370
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1212,7 +1188,7 @@ PrefabInstance:
         type: 3}
       propertyPath: <Destination>k__BackingField
       value: 
-      objectReference: {fileID: 371388758}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1483,7 +1459,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _entryPointService: {fileID: 2056787910}
   _userInput: {fileID: 501100712}
-  _movable: {fileID: 2046793077}
+  _player: {fileID: 2046793079}
   _graph: {fileID: 737137538}
   _stateService: {fileID: 696095711}
 --- !u!114 &610303550
@@ -2007,6 +1983,7 @@ GameObject:
   - component: {fileID: 1159740087}
   - component: {fileID: 1159740089}
   - component: {fileID: 1159740088}
+  - component: {fileID: 1159740090}
   m_Layer: 0
   m_Name: VERTEX_5
   m_TagString: Untagged
@@ -2068,6 +2045,19 @@ MonoBehaviour:
   - Cost: 2
     Vertex: {fileID: 644170586}
   IsBridge: 1
+--- !u!114 &1159740090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1159740086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c2d83d5a33e3904ea2e20fc07153622, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Destination>k__BackingField: {fileID: 1538124747}
 --- !u!1 &1178362993
 GameObject:
   m_ObjectHideFlags: 0
@@ -2225,7 +2215,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1269013587
 Transform:
   m_ObjectHideFlags: 0
@@ -2303,6 +2293,7 @@ GameObject:
   - component: {fileID: 1330207943}
   - component: {fileID: 1330207944}
   - component: {fileID: 1330207945}
+  - component: {fileID: 1330207946}
   m_Layer: 0
   m_Name: VERTEX_2
   m_TagString: Untagged
@@ -2366,6 +2357,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: -1, z: 0}
+--- !u!114 &1330207946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1330207942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c2d83d5a33e3904ea2e20fc07153622, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Destination>k__BackingField: {fileID: 1775375172}
 --- !u!1001 &1343790451
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2443,7 +2447,7 @@ PrefabInstance:
         type: 3}
       propertyPath: <Destination>k__BackingField
       value: 
-      objectReference: {fileID: 371388758}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2707,6 +2711,7 @@ GameObject:
   - component: {fileID: 1538124744}
   - component: {fileID: 1538124745}
   - component: {fileID: 1538124746}
+  - component: {fileID: 1538124747}
   m_Layer: 0
   m_Name: VERTEX_5
   m_TagString: Untagged
@@ -2768,6 +2773,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: -1, z: 0}
+--- !u!114 &1538124747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538124743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c2d83d5a33e3904ea2e20fc07153622, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Destination>k__BackingField: {fileID: 1159740090}
 --- !u!1 &1571162695
 GameObject:
   m_ObjectHideFlags: 0
@@ -3453,6 +3471,7 @@ GameObject:
   - component: {fileID: 1775375169}
   - component: {fileID: 1775375171}
   - component: {fileID: 1775375170}
+  - component: {fileID: 1775375172}
   m_Layer: 0
   m_Name: VERTEX_3
   m_TagString: Untagged
@@ -3514,6 +3533,19 @@ MonoBehaviour:
   - Cost: 2
     Vertex: {fileID: 2009448103}
   IsBridge: 1
+--- !u!114 &1775375172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775375168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c2d83d5a33e3904ea2e20fc07153622, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Destination>k__BackingField: {fileID: 1330207946}
 --- !u!1 &1913067707
 GameObject:
   m_ObjectHideFlags: 0
@@ -3676,8 +3708,10 @@ GameObject:
   - component: {fileID: 2046793075}
   - component: {fileID: 2046793074}
   - component: {fileID: 2046793077}
+  - component: {fileID: 2046793079}
+  - component: {fileID: 2046793078}
   m_Layer: 0
-  m_Name: MOVABLE_OBJECT
+  m_Name: === PLAYER_OBJECT ===
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3767,6 +3801,30 @@ MonoBehaviour:
   <IsMoving>k__BackingField: 0
   <OnBridge>k__BackingField: 0
   <TempParent>k__BackingField: {fileID: 0}
+--- !u!114 &2046793078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2046793073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a68541dc1622d0149b86d08550ea9120, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2046793079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2046793073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1861d1355ad8b345b92701c52a075a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2056787908
 GameObject:
   m_ObjectHideFlags: 0
