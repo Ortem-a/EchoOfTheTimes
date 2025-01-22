@@ -5,12 +5,12 @@ using UnityEngine;
 
 namespace Systems.Movement
 {
-    public class Movable : MonoBehaviour
+    public class Movable : MonoBehaviour, IMovableByPath
     {
-        private Queue<Vertex> _path;
+        public Queue<Vertex> Path { get; private set; }
         private Queue<Vertex> _bufferPath;
 
-        private Vector3 _direction;
+        public Vector3 Direction { get; private set; }
 
         [field: SerializeField]
         public Vertex CurrentWaypoint { get; set; }
@@ -24,17 +24,17 @@ namespace Systems.Movement
         [field: SerializeField]
         public bool OnBridge { get; private set; } = false;
 
-        private float _speed = 0.01f;
+        public float Speed { get; private set; } = 0.01f;
 
         private Coroutine _moveCoroutine;
 
-        [SerializeField]
-        private MarkerParent _tempParent;
+        [field: SerializeField]
+        public MarkerParent TempParent { get; private set; }
 
         private Action _onNewPathGot;
 
-        public Action<Vertex> OnWaypointChanged;
-        public Action OnEnterToBridge;
+        public Action<Vertex> OnWaypointChanged { get; set; } = null;
+        public Action OnEnterToBridge { get; private set; } = null;
 
         private void Awake()
         {
@@ -94,8 +94,8 @@ namespace Systems.Movement
         {
             _onNewPathGot = null;
 
-            _path = new Queue<Vertex>(_bufferPath);
-            NextWaypoint = _path.Dequeue();
+            Path = new Queue<Vertex>(_bufferPath);
+            NextWaypoint = Path.Dequeue();
 
             _bufferPath.Clear();
 
@@ -122,11 +122,11 @@ namespace Systems.Movement
         {
             do
             {
-                _direction = (NextWaypoint.transform.position - transform.position).normalized;
+                Direction = (NextWaypoint.transform.position - transform.position).normalized;
 
-                if (Vector3.Distance(transform.position, NextWaypoint.transform.position) > _speed / 2f)
+                if (Vector3.Distance(transform.position, NextWaypoint.transform.position) > Speed / 2f)
                 {
-                    transform.localPosition += _direction * _speed;
+                    transform.localPosition += Direction * Speed;
 
                     IsMoving = true;
                 }
@@ -146,7 +146,7 @@ namespace Systems.Movement
                     }
                     else
                     {
-                        _path.TryDequeue(out var nextWaypoint);
+                        Path.TryDequeue(out var nextWaypoint);
                         NextWaypoint = nextWaypoint;
                     }
 
@@ -174,13 +174,13 @@ namespace Systems.Movement
 
             if (newMarker == null)
             {
-                _tempParent = null;
+                TempParent = null;
                 transform.SetParent(null);
             }
-            else if (!ReferenceEquals(_tempParent, newMarker))
+            else if (!ReferenceEquals(TempParent, newMarker))
             {
-                _tempParent = newMarker;
-                transform.SetParent(_tempParent.transform);
+                TempParent = newMarker;
+                transform.SetParent(TempParent.transform);
             }
         }
 
@@ -194,37 +194,6 @@ namespace Systems.Movement
             }
 
             return GetParentRecursively(t.parent);
-        }
-
-        private void OnDrawGizmos()
-        {
-            if (_direction != default)
-            {
-                DrawArrow(transform.position, _direction, Color.magenta);
-            }
-
-            if (_path != null)
-            {
-                Gizmos.color = Color.blue;
-
-                foreach (Vertex v in _path)
-                {
-                    Gizmos.DrawSphere(v.transform.position, 0.15f);
-                }
-            }
-        }
-
-        private void DrawArrow(Vector3 position, Vector3 direction, Color color,
-            float arrowHeadLength = 0.25f, float arrowHeadAngle = 20.0f)
-        {
-            Gizmos.color = color;
-
-            Gizmos.DrawRay(position, direction);
-
-            Vector3 right = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180 + arrowHeadAngle, 0) * Vector3.forward;
-            Vector3 left = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180 - arrowHeadAngle, 0) * Vector3.forward;
-            Gizmos.DrawRay(position + direction, right * arrowHeadLength);
-            Gizmos.DrawRay(position + direction, left * arrowHeadLength);
         }
     }
 }
