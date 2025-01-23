@@ -25,26 +25,38 @@ namespace SystemsEditor
             DrawArrow((from + to) / 2f, (to - from).normalized, color, arrowHeadLength, arrowHeadAngle);
         }
 
-        public static void DrawWireMeshesByTRS(List<(Mesh mesh, Transform t)> meshes, StateOption option)
+        public static void DrawWireMeshesByTRS(MeshFilter[] meshFilters, Transform parent, StateOption option)
         {
-            foreach (var mesh in meshes)
+            foreach (var filter in meshFilters)
             {
-                DrawWireMeshByTRS(mesh.mesh, mesh.t, option);
+                DrawWireMeshByTRS(filter.sharedMesh, filter.transform, parent, option);
             }
         }
 
-        public static void DrawWireMeshByTRS(Mesh mesh, Transform parent, StateOption option)
+        public static void DrawWireMeshByTRS(Mesh mesh, Transform t, Transform parent, StateOption option)
         {
+            var oldMatrix = Gizmos.matrix;
+
             Matrix4x4 rotationMatrix = Matrix4x4.TRS(
+                //parent.TransformPoint(option.LocalPosition),
                 option.LocalPosition,
                 option.LocalRotation,
                 option.LocalScale);
+
             Gizmos.matrix = rotationMatrix;
 
+            var pos = rotationMatrix.GetPosition();
+            var rot = rotationMatrix.rotation.eulerAngles;
+            var scale = rotationMatrix.lossyScale;
+
+            //Gizmos.DrawWireMesh(mesh);
+
             Gizmos.DrawWireMesh(mesh,
-                parent.localPosition,
-                parent.localRotation,
-                parent.localScale);
+                t.localPosition,
+                t.localRotation,
+                t.localScale);
+
+            Gizmos.matrix = oldMatrix;
         }
 
         public static void DrawWireMeshesByTRS(List<(Mesh mesh, Transform t)> meshes,

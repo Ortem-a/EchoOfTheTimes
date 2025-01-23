@@ -1,3 +1,4 @@
+using Systems.Leveling;
 using UnityEditor;
 using UnityEngine;
 
@@ -5,32 +6,32 @@ namespace SystemsEditor
 {
     public class StateableGizmosDrawer
     {
-        [DrawGizmo(GizmoType.Pickable | GizmoType.Selected | GizmoType.InSelectionHierarchy)]
-        private static void DrawGizmos(Systems.Leveling.Stateable target, GizmoType gizmoType)
+        private static Color[] _stateColors = new Color[4]
         {
-            var meshFilter = target.GetComponent<MeshFilter>();
-            if (meshFilter == null) return;
+            Color.red,
+            Color.green,
+            Color.blue,
+            Color.magenta
+        };
 
-            var mesh = meshFilter.sharedMesh;
+        [DrawGizmo(GizmoType.Pickable | GizmoType.Selected | GizmoType.InSelectionHierarchy | GizmoType.InSelectionHierarchy)]
+        private static void DrawGizmos(Stateable target, GizmoType gizmoType)
+        {
+            var filters = target.GetComponentsInChildren<MeshFilter>();
 
-            //foreach (var option in target.Options)
-            //{
-            //Gizmos.DrawWireMesh(mesh,
-            //    option.LocalPosition,
-            //    option.LocalRotation,
-            //    option.LocalScale
-            //);
-            //}
+            if (filters == null || filters.Length == 0) return;
 
             if (target.States != null)
             {
-                foreach (var option in target.States.Items)
+                foreach (var item in target.States.Items)
                 {
-                    Gizmos.DrawWireMesh(mesh,
-                        option.Value.LocalPosition,
-                        option.Value.LocalRotation,
-                        option.Value.LocalScale
-                        );
+                    Gizmos.color = _stateColors[item.Key];
+
+                    var option = item.Value;
+
+#warning нрдекэмн ярнъыхе нрдекэмн ялнрперэ, ю ху дереи блеяре...бхдхлн...
+
+                    GizmosDrawerHelper.DrawWireMeshesByTRS(filters, target.transform, option);
                 }
             }
         }
