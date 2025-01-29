@@ -2,6 +2,6 @@ namespace Systems.Movement
 {
     public interface ISpawnable
     {
-        public void Spawn(Vertex at);
+        public IUnit Spawn(Vertex at);
     }
 }

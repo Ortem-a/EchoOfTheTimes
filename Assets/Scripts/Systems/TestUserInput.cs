@@ -14,10 +14,14 @@ namespace Systems
         private Vector3 _touchPosition;
 
         [Inject]
-        private void Construct(TestInputAdapter inputAdapter)
+        private void Construct()
         {
             _camera = Camera.main;
             _touchPosition = Vector3.forward * _camera.nearClipPlane;
+        }
+
+        public void SetAdapter(TestInputAdapter inputAdapter)
+        {
             _inputAdapter = inputAdapter;
         }
 
@@ -51,7 +55,7 @@ namespace Systems
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                _inputAdapter.StopPlayer();
+                _inputAdapter.StopUnit();
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha1))

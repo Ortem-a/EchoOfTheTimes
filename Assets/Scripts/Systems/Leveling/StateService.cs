@@ -10,6 +10,9 @@ namespace Systems.Leveling
         public Action OnStartChangingState;
         public Action OnCompleteChangingState;
 
+        private int _optionsCount;
+        private int _completedOptions = 0;
+
         [Inject]
         private void Construct()
         {
@@ -37,9 +40,6 @@ namespace Systems.Leveling
 
             //OnCompleteChangingState?.Invoke();
         }
-
-        private int _optionsCount;
-        private int _completedOptions = 0;
 
         private void HandleStepCompleted()
         {

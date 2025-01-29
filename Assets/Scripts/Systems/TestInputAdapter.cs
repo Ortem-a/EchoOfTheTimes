@@ -9,13 +9,13 @@ namespace Systems
 
         private readonly StateMachine _stateMachine;
 
-        public TestInputAdapter(IUnit movable, StateMachine stateMachine)
+        public TestInputAdapter(IUnit unit, StateMachine stateMachine)
         {
-            _unit = movable;
+            _unit = unit;
             _stateMachine = stateMachine;
         }
 
-        public void StopPlayer()
+        public void StopUnit()
         {
             _unit.Movable.Stop();
         }

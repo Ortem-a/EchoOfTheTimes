@@ -7,19 +7,22 @@ namespace Systems
 {
     public class EntryPointService : MonoBehaviour
     {
-        public Vertex StartVertex;
+        //[SerializeField]
+        //private UnitFactory[] _spawners;
 
-        private IUnit _unit;
         private GraphVisibility _graph;
 
         private StateMachine _stateMachine;
         private StateService _stateService;
 
+        private TestInputAdapter _inputAdapter;
+        private TestUserInput _userInput;
+
         [Inject]
-        private void Construct(IUnit unit, StateService stateService)
+        private void Construct(StateService stateService, TestUserInput userInput)
         {
-            _unit = unit;
             _stateService = stateService;
+            _userInput = userInput;
 
             InitializeStateables();
             InitializeStateableByButton();
@@ -27,7 +30,7 @@ namespace Systems
             InitializeGraph();
             InitializeStateMachine();
 
-            InitializePlayer();
+            //RunSpawners();
         }
         
         private void InitializeStateables()
@@ -48,13 +51,16 @@ namespace Systems
             }
         }
 
-        private void InitializePlayer()
-        {
-            _unit.Spawn(StartVertex);
+        //private void RunSpawners()
+        //{
+        //    for (int i = 0; i < _spawners.Length; i++)
+        //    {
+        //        var spawnedUnit = _spawners[i].Create();
 
-            //_unit.transform.position = StartVertex.transform.position;
-            //_unit.CurrentWaypoint = StartVertex;
-        }
+        //        _inputAdapter = new TestInputAdapter(spawnedUnit, _stateMachine);
+        //        _userInput.SetAdapter(_inputAdapter);
+        //    }
+        //}
 
         private void InitializeGraph()
         {

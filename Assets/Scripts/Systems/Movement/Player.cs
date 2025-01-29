@@ -30,12 +30,14 @@ namespace Systems.Movement
             Movable.OnWaypointChanged -= HandleNewWaypoint;
         }
 
-        public void Spawn(Vertex at)
+        public IUnit Spawn(Vertex at)
         {
             transform.position = at.transform.position;
             Movable.CurrentWaypoint = at;
 
             Move(at);
+
+            return this;
         }
 
         public void Move(Vertex to)
