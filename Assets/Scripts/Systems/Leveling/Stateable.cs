@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Systems.Movement;
 using Systems.Tools;
 using UnityEngine;
 
@@ -16,7 +17,12 @@ namespace Systems.Leveling
 
         public StateableSerializableDictionary States;
 
-        private BridgeService _bridgeService;
+        //private BridgeService _bridgeService;
+
+        private Sequence _sequence;
+        private Coroutine _coroutine;
+
+        private Vertex[] _vertices;
 
         //[SerializeField]
         //private StateOption[] _options = Array.Empty<StateOption>();
@@ -27,10 +33,9 @@ namespace Systems.Leveling
         {
             _options = States.ToDictionary();
 
-            _bridgeService = GetComponent<BridgeService>();
+            _vertices = GetComponentsInChildren<Vertex>(includeInactive: true);
+            //_bridgeService = GetComponent<BridgeService>();
         }
-
-        private Coroutine _coroutine;
 
         public void AcceptState(int stateId, Action onComplete)
         {
@@ -38,7 +43,7 @@ namespace Systems.Leveling
             {
                 if (_coroutine != null) StopCoroutine(_coroutine);
 
-                _coroutine = StartCoroutine(AcceptState(option, onComplete));
+                _coroutine = StartCoroutine(AcceptStateCoroutine(option, onComplete));
             }
         }
 
@@ -112,11 +117,11 @@ namespace Systems.Leveling
             return false;
         }
 
-        private Sequence _sequence;
-
-        private IEnumerator AcceptState(StateOption option, Action onComplete)
+        private IEnumerator AcceptStateCoroutine(StateOption option, Action onComplete)
         {
             float duration = 2f;
+
+            MarkVerticesAs(true);
 
             _sequence = DOTween.Sequence();
 
@@ -126,12 +131,17 @@ namespace Systems.Leveling
 
             yield return _sequence.WaitForCompletion();
 
-            onComplete?.Invoke();
+            MarkVerticesAs(false);
 
-            //option.Target.SetLocalPositionAndRotation(
-            //    option.LocalPosition, option.LocalRotation
-            //    );
-            //option.Target.localScale = option.LocalScale;
+            onComplete?.Invoke();
+        }
+
+        private void MarkVerticesAs(bool isMoving)
+        {
+            for (int i = 0; i < _vertices.Length; i++)
+            {
+                _vertices[i].IsMoving = isMoving;
+            }
         }
     }
 }

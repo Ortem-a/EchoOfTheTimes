@@ -14,15 +14,11 @@ namespace Systems.Movement
         {
             _stateService = stateService;
 
-            //_stateService.OnStartChangingState += ResetVertices;
-            //_stateService.OnCompleteChangingState += Load;
             _stateService.OnCompleteChangingState += ResetAndLoad;
         }
 
         private void OnDestroy()
         {
-            //_stateService.OnStartChangingState -= ResetVertices;
-            //_stateService.OnCompleteChangingState -= Load;
             _stateService.OnCompleteChangingState -= ResetAndLoad;
         }
 

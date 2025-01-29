@@ -27,8 +27,6 @@ namespace Systems
 
         public void SwitchState(int stateId)
         {
-            if (_unit.Movable.OnBridge) return;
-            
             _stateMachine.ChangeState(stateId);
         }
     }

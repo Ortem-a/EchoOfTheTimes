@@ -6,13 +6,28 @@ namespace SystemsEditor
 {
     public class StateableGizmosDrawer
     {
-        private static Color[] _stateColors = new Color[4]
+        private const string _pathToSettingsAsset = @"Assets/Editor/SystemsEditor/StateGizmosColorSettings.asset";
+
+        public static StateGizmosColorSettingsScriptableObject StateGizmosColorSettings
         {
-            Color.red,
-            Color.green,
-            Color.blue,
-            Color.magenta
-        };
+            get
+            {
+                if (_stateGizmosColorSettings == null)
+                {
+                    _stateGizmosColorSettings = AssetDatabase.LoadAssetAtPath<StateGizmosColorSettingsScriptableObject>
+                        (_pathToSettingsAsset);
+
+                    if (_stateGizmosColorSettings == null)
+                    {
+                        Debug.LogError($"There is no setttings .asset file by '{_pathToSettingsAsset}'!");
+                    }
+                }
+
+                return _stateGizmosColorSettings;
+            }
+        }
+
+        private static StateGizmosColorSettingsScriptableObject _stateGizmosColorSettings;
 
         [DrawGizmo(GizmoType.Pickable | GizmoType.Selected | GizmoType.InSelectionHierarchy | GizmoType.InSelectionHierarchy)]
         private static void DrawGizmos(Stateable target, GizmoType gizmoType)
@@ -25,7 +40,7 @@ namespace SystemsEditor
             {
                 foreach (var item in target.States.Items)
                 {
-                    Gizmos.color = _stateColors[item.Key];
+                    Gizmos.color = StateGizmosColorSettings.GetColor(item.Key);
 
                     var option = item.Value;
 

@@ -1,7 +1,7 @@
 using DG.Tweening;
-using System;
 using System.Collections.Generic;
 using Systems.Leveling;
+using Systems.Movement;
 using UnityEngine;
 
 namespace Systems
@@ -16,9 +16,13 @@ namespace Systems
 
         public List<Rule> Rules;
 
+        private Vertex[] _vertices;
+
         private void Awake()
         {
             _bridgeService = GetComponent<BridgeService>();
+
+            _vertices = GetComponentsInChildren<Vertex>(includeInactive: true);
 
             Configure();
         }
@@ -48,6 +52,8 @@ namespace Systems
         {
             Debug.Log("INCOME IN RULE");
 
+            MarkVerticesAs(false);
+
             _bridgeService.Connect();
         }
 
@@ -55,17 +61,17 @@ namespace Systems
         {
             Debug.Log("LEAVE RULE");
 
+            MarkVerticesAs(true);
+
             _bridgeService.Disconnect();
         }
 
-        private void Freeze()
+        private void MarkVerticesAs(bool isMoving)
         {
-            throw new NotImplementedException();
-        }
-
-        private void Unfreeze()
-        {
-            throw new NotImplementedException();
+            for (int i = 0; i < _vertices.Length; i++)
+            {
+                _vertices[i].IsMoving = isMoving;
+            }
         }
     }
 }

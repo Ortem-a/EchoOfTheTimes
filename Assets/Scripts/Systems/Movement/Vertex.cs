@@ -10,6 +10,7 @@ namespace Systems.Movement
         public List<Edge> Neighbours;
 
         public bool IsBridge = false;
+        public bool IsMoving = false;
 
         public bool ContainsNeighbour(Vertex v)
         {

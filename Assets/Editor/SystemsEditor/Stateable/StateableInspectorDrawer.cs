@@ -46,8 +46,6 @@ namespace SystemsEditor
             }
 
             EditorGUILayout.Space();
-
-            GUILayout.TextArea(stateable.OptionsToString());
         }
     }
 }

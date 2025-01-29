@@ -10,7 +10,14 @@ namespace SystemsEditor
             GizmoType.NotInSelectionHierarchy | GizmoType.NonSelected)]
         private static void DrawGizmos(Vertex vertex, GizmoType gizmoType)
         {
-            Gizmos.color = Color.green;
+            if (vertex.IsMoving)
+            {
+                Gizmos.color = Color.yellow;
+            }
+            else
+            {
+                Gizmos.color = Color.green;
+            }
 
             Gizmos.DrawWireSphere(vertex.transform.position, 0.15f);
 

@@ -125,6 +125,8 @@ namespace Systems.Movement
         {
             do
             {
+                SkipBridgeIfNeed();
+
                 Direction = (NextWaypoint.transform.position - transform.position).normalized;
 
                 if (Vector3.Distance(transform.position, NextWaypoint.transform.position) > Speed / 2f)
@@ -157,6 +159,8 @@ namespace Systems.Movement
                     }
 
                     OnWaypointChanged?.Invoke(CurrentWaypoint);
+
+                    CheckForDoubleBridge();
                 }
 
                 yield return null;
@@ -170,6 +174,7 @@ namespace Systems.Movement
         {
             IsMoving = false;
             NeedStop = false;
+            OnBridge = false;
 
             NextWaypoint = null;
         }
@@ -205,6 +210,26 @@ namespace Systems.Movement
             }
 
             return GetParentRecursively(t.parent);
+        }
+
+        bool _wasOnBridge = false;
+        private void SkipBridgeIfNeed()
+        {
+            if (OnBridge && (NextWaypoint.IsMoving || CurrentWaypoint.IsMoving))
+            {
+                _wasOnBridge = true;
+                transform.position = NextWaypoint.transform.position;
+            }
+        }
+
+        private void CheckForDoubleBridge()
+        {
+            if (OnBridge && _wasOnBridge)
+            {
+                ForceStop();
+            }
+
+            _wasOnBridge = false;
         }
     }
 }
