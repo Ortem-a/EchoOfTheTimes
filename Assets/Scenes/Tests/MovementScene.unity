@@ -548,6 +548,7 @@ MonoBehaviour:
   - Cost: 2
     Vertex: {fileID: 1330207944}
   IsBridge: 0
+  IsMoving: 0
 --- !u!65 &239288661
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -762,24 +763,28 @@ MonoBehaviour:
       LocalRotation: {x: 0, y: 0, z: 0, w: 1}
       LocalScale: {x: 1, y: 1, z: 1}
     StayInDuration_sec: 1
+    NeedToConnect: 0
   - Option:
       Target: {fileID: 253288924}
       LocalPosition: {x: 2, y: 0, z: -2}
       LocalRotation: {x: 0, y: 0, z: 0, w: 1}
       LocalScale: {x: 1, y: 1, z: 1}
     StayInDuration_sec: 1
+    NeedToConnect: 0
   - Option:
       Target: {fileID: 253288924}
       LocalPosition: {x: 2, y: 2, z: 0}
       LocalRotation: {x: 0, y: 0, z: 0, w: 1}
       LocalScale: {x: 1, y: 1, z: 1}
     StayInDuration_sec: 1
+    NeedToConnect: 0
   - Option:
       Target: {fileID: 253288924}
       LocalPosition: {x: 0, y: 0, z: 0}
       LocalRotation: {x: 0, y: 0, z: 0, w: 1}
       LocalScale: {x: 1, y: 1, z: 1}
     StayInDuration_sec: 2
+    NeedToConnect: 0
 --- !u!114 &253288927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -793,9 +798,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Bridges:
+  - Inner: {fileID: 1538124745}
+    Outer: {fileID: 331207792}
   - Inner: {fileID: 1086165502}
     Outer: {fileID: 2009448103}
-  AllConnected: 1
 --- !u!1 &253378871
 GameObject:
   m_ObjectHideFlags: 0
@@ -1184,6 +1190,78 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!1 &331207788
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 331207789}
+  - component: {fileID: 331207792}
+  - component: {fileID: 331207791}
+  m_Layer: 0
+  m_Name: VERTEX_5
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &331207789
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331207788}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 924639748}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &331207791
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331207788}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: -1, z: 0}
+--- !u!114 &331207792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331207788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a68af9d8b6df534ca2b3ff9fbc41592, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Id: 11
+  Neighbours:
+  - Cost: 2
+    Vertex: {fileID: 1538124745}
+  IsBridge: 1
+  IsMoving: 0
 --- !u!43 &383858311
 Mesh:
   m_ObjectHideFlags: 0
@@ -2504,6 +2582,7 @@ MonoBehaviour:
   - Cost: 2
     Vertex: {fileID: 1159740089}
   IsBridge: 1
+  IsMoving: 0
 --- !u!65 &644170587
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2608,6 +2687,7 @@ Transform:
   - {fileID: 946056451}
   - {fileID: 253288924}
   - {fileID: 603868677}
+  - {fileID: 924639748}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &737137538
@@ -2706,6 +2786,90 @@ Transform:
   - {fileID: 2009448102}
   m_Father: {fileID: 2112640560}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &924639747
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 924639748}
+  - component: {fileID: 924639750}
+  - component: {fileID: 924639749}
+  m_Layer: 0
+  m_Name: Cube_fake_bridge
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &924639748
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 924639747}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2, y: 0, z: -6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 331207789}
+  m_Father: {fileID: 737137537}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &924639749
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 924639747}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &924639750
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 924639747}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &946056450
 GameObject:
   m_ObjectHideFlags: 0
@@ -2783,7 +2947,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Bridges: []
-  AllConnected: 1
 --- !u!1 &964732885
 GameObject:
   m_ObjectHideFlags: 0
@@ -3172,6 +3335,7 @@ MonoBehaviour:
   - Cost: 2
     Vertex: {fileID: 1724046108}
   IsBridge: 1
+  IsMoving: 0
 --- !u!4 &1086165503
 Transform:
   m_ObjectHideFlags: 0
@@ -3245,6 +3409,7 @@ MonoBehaviour:
   - Cost: 2
     Vertex: {fileID: 1178362995}
   IsBridge: 0
+  IsMoving: 0
 --- !u!4 &1088408600
 Transform:
   m_ObjectHideFlags: 0
@@ -3519,6 +3684,7 @@ MonoBehaviour:
   - Cost: 2
     Vertex: {fileID: 644170586}
   IsBridge: 1
+  IsMoving: 0
 --- !u!114 &1159740090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3582,6 +3748,7 @@ MonoBehaviour:
   - Cost: 2
     Vertex: {fileID: 1088408599}
   IsBridge: 0
+  IsMoving: 0
 --- !u!65 &1178362996
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3651,6 +3818,7 @@ MonoBehaviour:
   Id: 10
   Neighbours: []
   IsBridge: 0
+  IsMoving: 0
 --- !u!65 &1230279076
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4118,6 +4286,7 @@ MonoBehaviour:
   - Cost: 2
     Vertex: {fileID: 2009448103}
   IsBridge: 1
+  IsMoving: 0
 --- !u!65 &1330207945
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4364,6 +4533,7 @@ MonoBehaviour:
   - Cost: 2
     Vertex: {fileID: 644170586}
   IsBridge: 0
+  IsMoving: 0
 --- !u!65 &1457830002
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4520,7 +4690,10 @@ MonoBehaviour:
   Neighbours:
   - Cost: 2
     Vertex: {fileID: 1724046108}
-  IsBridge: 0
+  - Cost: 2
+    Vertex: {fileID: 331207792}
+  IsBridge: 1
+  IsMoving: 0
 --- !u!65 &1538124746
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4846,6 +5019,7 @@ MonoBehaviour:
   - Cost: 2
     Vertex: {fileID: 1086165502}
   IsBridge: 0
+  IsMoving: 0
 --- !u!4 &1701126953
 Transform:
   m_ObjectHideFlags: 0
@@ -4917,6 +5091,7 @@ MonoBehaviour:
   - Cost: 2
     Vertex: {fileID: 1913067708}
   IsBridge: 0
+  IsMoving: 0
 --- !u!4 &1704974502
 Transform:
   m_ObjectHideFlags: 0
@@ -5074,6 +5249,7 @@ MonoBehaviour:
   - Cost: 2
     Vertex: {fileID: 1538124745}
   IsBridge: 0
+  IsMoving: 0
 --- !u!4 &1724046109
 Transform:
   m_ObjectHideFlags: 0
@@ -5300,6 +5476,7 @@ MonoBehaviour:
   - Cost: 2
     Vertex: {fileID: 2009448103}
   IsBridge: 1
+  IsMoving: 0
 --- !u!1 &1834875704
 GameObject:
   m_ObjectHideFlags: 0
@@ -5548,6 +5725,7 @@ MonoBehaviour:
   - Cost: 2
     Vertex: {fileID: 1701126952}
   IsBridge: 0
+  IsMoving: 0
 --- !u!4 &1913067709
 Transform:
   m_ObjectHideFlags: 0
@@ -5805,6 +5983,7 @@ MonoBehaviour:
   - Cost: 2
     Vertex: {fileID: 1086165502}
   IsBridge: 1
+  IsMoving: 0
 --- !u!65 &2009448104
 BoxCollider:
   m_ObjectHideFlags: 0

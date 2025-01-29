@@ -31,15 +31,15 @@ namespace Systems
         {
             var sequence = DOTween.Sequence(transform);
 
-            foreach (var rule in Rules)
+            for (int i = 0; i < Rules.Count; i++)
             {
-                sequence.Join(rule.Option.Target.DOLocalMove(rule.Option.LocalPosition, _moveDuration_sec));
-                sequence.Join(rule.Option.Target.DOLocalRotateQuaternion(rule.Option.LocalRotation, _moveDuration_sec));
-                sequence.Join(rule.Option.Target.DOScale(rule.Option.LocalScale, _moveDuration_sec));
+                sequence.Join(Rules[i].Option.Target.DOLocalMove(Rules[i].Option.LocalPosition, _moveDuration_sec));
+                sequence.Join(Rules[i].Option.Target.DOLocalRotateQuaternion(Rules[i].Option.LocalRotation, _moveDuration_sec));
+                sequence.Join(Rules[i].Option.Target.DOScale(Rules[i].Option.LocalScale, _moveDuration_sec));
 
-                sequence.AppendCallback(HandleIncomeInRule);
+                sequence.AppendCallback(() => HandleIncomeInRule(i));
 
-                sequence.AppendInterval(rule.StayInDuration_sec);
+                sequence.AppendInterval(Rules[i].StayInDuration_sec);
 
                 sequence.AppendCallback(HandleLeaveFromRule);
             }
@@ -48,19 +48,15 @@ namespace Systems
             sequence.SetEase(Ease.Linear);
         }
 
-        private void HandleIncomeInRule()
+        private void HandleIncomeInRule(int ruleIndex)
         {
-            Debug.Log("INCOME IN RULE");
-
             MarkVerticesAs(false);
 
-            _bridgeService.Connect();
+            _bridgeService.Connect(ruleIndex);
         }
 
         private void HandleLeaveFromRule()
         {
-            Debug.Log("LEAVE RULE");
-
             MarkVerticesAs(true);
 
             _bridgeService.Disconnect();
