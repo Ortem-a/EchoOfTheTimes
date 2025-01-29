@@ -8,8 +8,6 @@ namespace Systems.Leveling
     {
         public Dictionary<int, StateOption> Options { get; }
 
-        //public StateOption[] Options { get; }
-
         public void AcceptState(int stateId, Action onComplete);
 
         public void SetOptionsFrom(int stateId, Transform target);

@@ -16,9 +16,9 @@ namespace Systems.Leveling
                 return false;
             }
 
-            return b1.Inner.Id == b2.Outer.Id ||
-                b1.Outer.Id == b2.Inner.Id ||
-                b1.Inner.Id == b2.Inner.Id && b1.Outer.Id == b2.Outer.Id;
+            return b1.Inner.Equals(b2.Inner) && b1.Outer.Equals(b2.Outer) ||
+                b1.Inner.Equals(b2.Outer) ||
+                b1.Outer.Equals(b2.Inner);
         }
 
         public int GetHashCode(Bridge obj)

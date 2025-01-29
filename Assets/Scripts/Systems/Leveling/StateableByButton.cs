@@ -1,4 +1,4 @@
-﻿using DG.Tweening;
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Systems.Leveling
 {
     [RequireComponent(typeof(MarkerParent))]
-    public class Stateable : MonoBehaviour, IStateable
+    public class StateableByButton : MonoBehaviour, IStateable
     {
         private Dictionary<int, StateOption> _options;
 

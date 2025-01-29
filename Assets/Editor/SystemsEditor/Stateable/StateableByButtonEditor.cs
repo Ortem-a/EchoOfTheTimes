@@ -1,12 +1,13 @@
+using System.Collections;
+using System.Collections.Generic;
 using Systems.Leveling;
-using Systems.Tools;
 using UnityEditor;
 using UnityEngine;
 
 namespace SystemsEditor
 {
-    [CustomEditor(typeof(Systems.Leveling.Stateable))]
-    public class StateableInspectorDrawer : Editor
+    [CustomEditor(typeof(StateableByButton))]
+    public class StateableByButtonEditor : Editor
     {
         private int _stateIdToSet;
         private int _stateIdToTransform;
@@ -14,7 +15,7 @@ namespace SystemsEditor
         public override void OnInspectorGUI()
         {
             IStateable stateable = (IStateable)target;
-            Stateable stateableObject = (Stateable)target;
+            StateableByButton stateableObject = (StateableByButton)target;
 
             DrawDefaultInspector();
 

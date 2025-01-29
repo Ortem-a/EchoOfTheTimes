@@ -9,6 +9,8 @@ namespace Systems.Leveling
 
         private StateService _stateService;
 
+        private int _currentState = 0;
+
         public int StatesNumber { get; private set; }
 
         public StateMachine(StateService stateService)
@@ -35,7 +37,6 @@ namespace Systems.Leveling
                 for (int j = 0; j < StatesNumber; j++)
                 {
                     if (j < stateables[i].Options.Count)
-                    //if (j < stateables[i].Options.Length)
                     {
                         _states[j].Add(stateables[i]);
                     }
@@ -49,7 +50,6 @@ namespace Systems.Leveling
             foreach (var stateable in stateables)
             {
                 var max = stateable.Options.Count - 1;
-                //var max = stateable.Options.Length - 1;
 
                 if (max > maxStateId)
                 {
@@ -63,16 +63,15 @@ namespace Systems.Leveling
 
         public void ChangeState(int stateId)
         {
-            Debug.Log($"New State: {stateId}");
+            Debug.Log($"[State Machine] {_currentState} -> {stateId}");
+
+            if (stateId == _currentState) return;
+
+            _currentState = stateId;
 
             var options = _states[stateId];
 
             _stateService.AcceptState(stateId, options);
-
-            //for (int i = 0; i < options.Count; i++)
-            //{
-            //    options[i].AcceptState(stateId);
-            //}
         }
     }
 }
