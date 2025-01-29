@@ -7,22 +7,24 @@ namespace Systems
 {
     public class EntryPointService : MonoBehaviour
     {
-        //[SerializeField]
-        //private UnitFactory[] _spawners;
-
         private GraphVisibility _graph;
 
         private StateMachine _stateMachine;
         private StateService _stateService;
 
         private TestInputAdapter _inputAdapter;
-        private TestUserInput _userInput;
+
+        private DiContainer _container;
 
         [Inject]
-        private void Construct(StateService stateService, TestUserInput userInput)
+        private void Construct(DiContainer container,
+            StateService stateService, Spawner spawner, 
+            GraphVisibility graph)
         {
+            _container = container;
+
             _stateService = stateService;
-            _userInput = userInput;
+            _graph = graph;
 
             InitializeStateables();
             InitializeStateableByButton();
@@ -30,7 +32,13 @@ namespace Systems
             InitializeGraph();
             InitializeStateMachine();
 
-            //RunSpawners();
+            _inputAdapter = new TestInputAdapter(_stateMachine);
+            _container.Bind<TestInputAdapter>().FromInstance(_inputAdapter).AsSingle();
+
+            var player = spawner.RunSpawner();
+            _inputAdapter.SetTarget(player);
+
+            _container.Bind<TestUserInput>().AsSingle();
         }
         
         private void InitializeStateables()
@@ -51,26 +59,17 @@ namespace Systems
             }
         }
 
-        //private void RunSpawners()
-        //{
-        //    for (int i = 0; i < _spawners.Length; i++)
-        //    {
-        //        var spawnedUnit = _spawners[i].Create();
-
-        //        _inputAdapter = new TestInputAdapter(spawnedUnit, _stateMachine);
-        //        _userInput.SetAdapter(_inputAdapter);
-        //    }
-        //}
-
         private void InitializeGraph()
         {
-            _graph = FindObjectOfType<GraphVisibility>();
+            //_graph = FindObjectOfType<GraphVisibility>();
             _graph.ResetAndLoad();
         }
 
         private void InitializeStateMachine()
         {
             _stateMachine = new StateMachine(_stateService);
+
+            _container.Bind<StateMachine>().FromInstance(_stateMachine).AsSingle();
         }
     }
 }

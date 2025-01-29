@@ -14,8 +14,23 @@ namespace Systems.Movement
 
         private GraphVisibility _graph;
 
-        [Inject]
-        private void Construct(GraphVisibility graph)
+        //[Inject]
+        //private void Construct(GraphVisibility graph)
+        //{
+        //    Movable = GetComponent<Movable>();
+        //    Teleportable = GetComponent<Teleportable>();
+
+        //    _graph = graph;
+
+        //    Movable.OnWaypointChanged += HandleNewWaypoint;
+        //}
+
+        private void OnDestroy()
+        {
+            Movable.OnWaypointChanged -= HandleNewWaypoint;
+        }
+
+        public IUnit Spawn(Vertex at, GraphVisibility graph)
         {
             Movable = GetComponent<Movable>();
             Teleportable = GetComponent<Teleportable>();
@@ -23,15 +38,7 @@ namespace Systems.Movement
             _graph = graph;
 
             Movable.OnWaypointChanged += HandleNewWaypoint;
-        }
 
-        private void OnDestroy()
-        {
-            Movable.OnWaypointChanged -= HandleNewWaypoint;
-        }
-
-        public IUnit Spawn(Vertex at)
-        {
             transform.position = at.transform.position;
             Movable.CurrentWaypoint = at;
 

@@ -5,14 +5,20 @@ namespace Systems
 {
     public class TestInputAdapter
     {
-        private readonly IUnit _unit;
+        private IUnit _unit;
 
         private readonly StateMachine _stateMachine;
 
-        public TestInputAdapter(IUnit unit, StateMachine stateMachine)
+        //public TestInputAdapter(IUnit unit, StateMachine stateMachine)
+        public TestInputAdapter(StateMachine stateMachine)
+        {
+            //_unit = unit;
+            _stateMachine = stateMachine;
+        }
+
+        public void SetTarget(IUnit unit)
         {
             _unit = unit;
-            _stateMachine = stateMachine;
         }
 
         public void StopUnit()

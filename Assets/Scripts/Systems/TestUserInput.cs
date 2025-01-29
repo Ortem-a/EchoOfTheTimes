@@ -1,3 +1,4 @@
+using Systems.Leveling;
 using Systems.Movement;
 using UnityEngine;
 using Zenject;
@@ -13,16 +14,16 @@ namespace Systems
         private const float _maxTapTime = 0.2f;
         private Vector3 _touchPosition;
 
+        private Spawner _spawner;
+
         [Inject]
-        private void Construct()
+        private void Construct(TestInputAdapter inputAdapter, Spawner spawner)
         {
             _camera = Camera.main;
             _touchPosition = Vector3.forward * _camera.nearClipPlane;
-        }
 
-        public void SetAdapter(TestInputAdapter inputAdapter)
-        {
             _inputAdapter = inputAdapter;
+            _spawner = spawner;
         }
 
         private void Update()
@@ -69,6 +70,28 @@ namespace Systems
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 _inputAdapter.SwitchState(2);
+            }
+
+
+            if (Input.GetKeyDown(KeyCode.F1))
+            {
+                _inputAdapter.SetTarget(_spawner.SpawnedUnits[1]);
+            }
+            if (Input.GetKeyDown(KeyCode.F2))
+            {
+                _inputAdapter.SetTarget(_spawner.SpawnedUnits[2]);
+            }
+            if (Input.GetKeyDown(KeyCode.F3))
+            {
+                _inputAdapter.SetTarget(_spawner.SpawnedUnits[3]);
+            }
+            if (Input.GetKeyDown(KeyCode.F4))
+            {
+                _inputAdapter.SetTarget(_spawner.SpawnedUnits[4]);
+            }
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                _inputAdapter.SetTarget(_spawner.SpawnedUnits[0]);
             }
         }
     }

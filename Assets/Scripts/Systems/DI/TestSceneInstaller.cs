@@ -21,18 +21,19 @@ namespace Systems.DI
 
         public override void InstallBindings()
         {
-            Container.Bind<TestUserInput>().FromInstance(_userInput).AsSingle();
+            Container.Bind<StateService>().FromInstance(_stateService).AsSingle();
+
+            //Container.Bind<StateMachine>().FromNew().AsSingle();
+
+            //Container.Bind<TestUserInput>().FromInstance(_userInput).AsSingle();
 
             Container.Bind<GraphVisibility>().FromInstance(_graph).AsSingle();
-            
-            Container.Bind<StateMachine>().FromNew().AsSingle();
 
-            Container.Bind<StateService>().FromInstance(_stateService).AsSingle();
+            //Container.Bind<TestInputAdapter>().FromNew().AsSingle();
 
             Container.Bind<EntryPointService>().FromInstance(_entryPointService).AsSingle().NonLazy();
 
-            Container.BindInterfacesTo<Spawner>().AsSingle();
-            Container.BindFactory<GameObject, IUnit, IUnit.Factory>().FromFactory<UnitFactory>();
+            Container.Bind<Spawner>().FromInstance(_spawner).AsSingle();
         }
     }
 }

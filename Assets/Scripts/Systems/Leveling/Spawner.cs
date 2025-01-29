@@ -1,32 +1,43 @@
-﻿using Systems.Movement;
+﻿using System.Collections.Generic;
+using Systems.Movement;
 using UnityEngine;
 using Zenject;
 
 namespace Systems.Leveling
 {
-    public class Spawner : IInitializable
+    [System.Serializable]
+    public class Spawnable
     {
-        private IUnit.Factory _factory;
-        private TestInputAdapter _inputAdapter;
-        private TestUserInput _userInput;
-
         public GameObject Prefab;
         public Vertex At;
+    }
 
-        public Spawner(IUnit.Factory factory, TestUserInput userInput)
+    public class Spawner : MonoBehaviour
+    {
+        private IUnit.Factory _factory;
+        private GraphVisibility _graph;
+
+        [SerializeField]
+        private List<Spawnable> _spawnables;
+        public List<IUnit> SpawnedUnits = new List<IUnit>();
+
+        [Inject]
+        private void Construct(GraphVisibility graph)
         {
-            _factory = factory;
-            _userInput = userInput;
+            _graph = graph;
 
+            _factory = new IUnit.Factory();
         }
 
-        public void Initialize()
+        public IUnit RunSpawner()
         {
-            var unit = _factory.Create(Prefab);
-            unit.Spawn(At);
+            for (int i = 0; i < _spawnables.Count; i++)
+            {
+                var unit = _factory.Create(_spawnables[i].Prefab, _spawnables[i].At, _graph);
+                SpawnedUnits.Add(unit);
+            }
 
-            //_inputAdapter = new TestInputAdapter(unit, _stateMachine);
-            //_userInput.SetAdapter(_inputAdapter);
+            return SpawnedUnits[0];
         }
     }
 }
