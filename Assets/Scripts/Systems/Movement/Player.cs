@@ -1,7 +1,6 @@
 using Systems.Leveling;
 using UnityEngine;
 using Zenject;
-using static UnityEngine.UI.CanvasScaler;
 
 namespace Systems.Movement
 {
@@ -35,17 +34,16 @@ namespace Systems.Movement
         {
             transform.position = at.transform.position;
             Movable.CurrentWaypoint = at;
+
+            Move(at);
         }
 
         public void Move(Vertex to)
         {
-            if (Movable.CurrentWaypoint.Id != to.Id)
-            {
-                Vertex start = Movable.NextWaypoint != null ? Movable.NextWaypoint : Movable.CurrentWaypoint;
+            Vertex start = Movable.NextWaypoint != null ? Movable.NextWaypoint : Movable.CurrentWaypoint;
 
-                var path = _graph.GetPathBFS(start, to);
-                Movable.MoveBy(path);
-            }
+            var path = _graph.GetPathBFS(start, to);
+            Movable.MoveBy(path);
         }
 
         private void HandleNewWaypoint(Vertex waypoint)

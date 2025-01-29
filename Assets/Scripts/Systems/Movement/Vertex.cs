@@ -1,10 +1,11 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Systems.Movement
 {
     [System.Serializable]
-    public class Vertex : MonoBehaviour
+    public class Vertex : MonoBehaviour, IEquatable<Vertex>
     {
         public int Id;
         public List<Edge> Neighbours;
@@ -24,6 +25,16 @@ namespace Systems.Movement
             }
 
             return false;
+        }
+
+        public bool Equals(Vertex other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            return Id == other.Id;
         }
 
         public override string ToString()

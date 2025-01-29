@@ -37,7 +37,7 @@ namespace Systems
                 sequence.Join(Rules[i].Option.Target.DOLocalRotateQuaternion(Rules[i].Option.LocalRotation, _moveDuration_sec));
                 sequence.Join(Rules[i].Option.Target.DOScale(Rules[i].Option.LocalScale, _moveDuration_sec));
 
-                sequence.AppendCallback(() => HandleIncomeInRule(i));
+                sequence.AppendCallback(HandleIncomeInRule);
 
                 sequence.AppendInterval(Rules[i].StayInDuration_sec);
 
@@ -48,11 +48,11 @@ namespace Systems
             sequence.SetEase(Ease.Linear);
         }
 
-        private void HandleIncomeInRule(int ruleIndex)
+        private void HandleIncomeInRule()
         {
             MarkVerticesAs(false);
 
-            _bridgeService.Connect(ruleIndex);
+            _bridgeService.Connect();
         }
 
         private void HandleLeaveFromRule()

@@ -6,7 +6,7 @@ namespace Systems.Leveling
     {
         public Bridge[] Bridges;
 
-        public void Connect(int ruleIndex)
+        public void Connect()
         {
             for (int i = 0; i < Bridges.Length; i++)
             {

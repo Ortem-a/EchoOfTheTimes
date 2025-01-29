@@ -7,6 +7,5 @@ namespace Systems
     {
         public StateOption Option;
         public float StayInDuration_sec;
-        public bool NeedToConnect;
     }
 }
