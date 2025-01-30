@@ -7,16 +7,16 @@ namespace Systems.DI
 {
     public class TestSceneInstaller : MonoInstaller
     {
-        [SerializeField]
+        [SerializeField, RequiredField]
         private EntryPointService _entryPointService;
-        [SerializeField]
+        [SerializeField, RequiredField]
         private TestUserInput _userInput;
-        [SerializeField]
+        [SerializeField, RequiredField]
         private GraphVisibility _graph;
-        [SerializeField]
+        [SerializeField, RequiredField]
         private StateService _stateService;
 
-        [SerializeField]
+        [SerializeField, RequiredField]
         private Spawner _spawner;
 
         public override void InstallBindings()
