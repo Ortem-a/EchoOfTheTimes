@@ -25,6 +25,11 @@ namespace Systems.Leveling
 
             StatesNumber = GetStatesNumber(stateables);
 
+            InitializeStates(stateables);
+        }
+
+        private void InitializeStates(List<IStateable> stateables)
+        {
             _states = new Dictionary<int, List<IStateable>>();
 
             for (int i = 0; i < StatesNumber; i++)

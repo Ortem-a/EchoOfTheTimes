@@ -9,10 +9,8 @@ namespace Systems
 
         private readonly StateMachine _stateMachine;
 
-        //public TestInputAdapter(IUnit unit, StateMachine stateMachine)
         public TestInputAdapter(StateMachine stateMachine)
         {
-            //_unit = unit;
             _stateMachine = stateMachine;
         }
 

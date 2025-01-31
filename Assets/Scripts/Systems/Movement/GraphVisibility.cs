@@ -15,6 +15,8 @@ namespace Systems.Movement
             _stateService = stateService;
 
             _stateService.OnCompleteChangingState += ResetAndLoad;
+
+            ResetAndLoad();
         }
 
         private void OnDestroy()

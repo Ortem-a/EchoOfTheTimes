@@ -12,7 +12,7 @@ namespace Systems.Leveling
         public Vertex At;
     }
 
-    public class Spawner : MonoBehaviour
+    public class SpawnService : MonoBehaviour
     {
         private IUnit.Factory _factory;
         private GraphVisibility _graph;
@@ -23,7 +23,7 @@ namespace Systems.Leveling
 
         [Inject]
         private void Construct(GraphVisibility graph)
-        {
+        { 
             _graph = graph;
 
             _factory = new IUnit.Factory();

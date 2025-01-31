@@ -14,10 +14,10 @@ namespace Systems
         private const float _maxTapTime = 0.2f;
         private Vector3 _touchPosition;
 
-        private Spawner _spawner;
+        private SpawnService _spawner;
 
         [Inject]
-        private void Construct(TestInputAdapter inputAdapter, Spawner spawner)
+        private void Construct(TestInputAdapter inputAdapter, SpawnService spawner)
         {
             _camera = Camera.main;
             _touchPosition = Vector3.forward * _camera.nearClipPlane;

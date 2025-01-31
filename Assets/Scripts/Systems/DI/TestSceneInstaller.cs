@@ -1,39 +1,45 @@
 using Systems.Leveling;
 using Systems.Movement;
-using UnityEngine;
 using Zenject;
 
 namespace Systems.DI
 {
     public class TestSceneInstaller : MonoInstaller
     {
-        [SerializeField, RequiredField]
-        private EntryPointService _entryPointService;
-        [SerializeField, RequiredField]
-        private TestUserInput _userInput;
-        [SerializeField, RequiredField]
-        private GraphVisibility _graph;
-        [SerializeField, RequiredField]
-        private StateService _stateService;
-
-        [SerializeField, RequiredField]
-        private Spawner _spawner;
-
         public override void InstallBindings()
         {
-            Container.Bind<StateService>().FromInstance(_stateService).AsSingle();
+            this.Container
+                .BindInterfacesAndSelfTo<StateService>()
+                .AsSingle();
 
-            //Container.Bind<StateMachine>().FromNew().AsSingle();
+            this.Container
+                .Bind<StateMachine>()
+                .FromNew()
+                .AsSingle();
 
-            //Container.Bind<TestUserInput>().FromInstance(_userInput).AsSingle();
+            this.Container
+                .Bind<TestInputAdapter>()
+                .FromNew()
+                .AsSingle();
 
-            Container.Bind<GraphVisibility>().FromInstance(_graph).AsSingle();
+            this.Container
+                .Bind<TestUserInput>()
+                .FromComponentInHierarchy()
+                .AsSingle();
 
-            //Container.Bind<TestInputAdapter>().FromNew().AsSingle();
+            this.Container
+                .Bind<GraphVisibility>()
+                .FromComponentInHierarchy()
+                .AsSingle();
 
-            Container.Bind<EntryPointService>().FromInstance(_entryPointService).AsSingle().NonLazy();
+            this.Container
+                .Bind<SpawnService>()
+                .FromComponentInHierarchy()
+                .AsSingle();
 
-            Container.Bind<Spawner>().FromInstance(_spawner).AsSingle();
+            this.Container
+                .BindInterfacesAndSelfTo<EntryPointService>()
+                .AsSingle();
         }
     }
 }

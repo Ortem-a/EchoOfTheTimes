@@ -13,7 +13,15 @@ namespace Systems.Leveling
     {
         private Dictionary<int, StateOption> _options;
 
-        public Dictionary<int, StateOption> Options => _options;
+        public Dictionary<int, StateOption> Options
+        {
+            get
+            {
+                _options ??= States.ToDictionary();
+
+                return _options;
+            }
+        }
 
         public StateableSerializableDictionary States;
 
@@ -22,10 +30,8 @@ namespace Systems.Leveling
 
         private Vertex[] _vertices;
 
-        public void Initialize()
+        private void Awake()
         {
-            _options = States.ToDictionary();
-
             _vertices = GetComponentsInChildren<Vertex>(includeInactive: true);
         }
 

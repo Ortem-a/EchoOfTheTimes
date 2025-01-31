@@ -1,75 +1,23 @@
 using Systems.Leveling;
-using Systems.Movement;
-using UnityEngine;
 using Zenject;
 
 namespace Systems
 {
-    public class EntryPointService : MonoBehaviour
+    public class EntryPointService : IInitializable
     {
-        private GraphVisibility _graph;
+        private readonly SpawnService _spawner;
+        private readonly TestInputAdapter _inputAdapter;
 
-        private StateMachine _stateMachine;
-        private StateService _stateService;
-
-        private TestInputAdapter _inputAdapter;
-
-        private DiContainer _container;
-
-        [Inject]
-        private void Construct(DiContainer container,
-            StateService stateService, Spawner spawner, 
-            GraphVisibility graph)
+        public EntryPointService(SpawnService spawner, TestInputAdapter inputAdapter)
         {
-            _container = container;
+            _spawner = spawner;
+            _inputAdapter = inputAdapter;
+        }
 
-            _stateService = stateService;
-            _graph = graph;
-
-            InitializeStateables();
-            InitializeStateableByButton();
-
-            InitializeGraph();
-            InitializeStateMachine();
-
-            _inputAdapter = new TestInputAdapter(_stateMachine);
-            _container.Bind<TestInputAdapter>().FromInstance(_inputAdapter).AsSingle();
-
-            var player = spawner.RunSpawner();
+        public void Initialize()
+        {
+            var player = _spawner.RunSpawner();
             _inputAdapter.SetTarget(player);
-
-            _container.Bind<TestUserInput>().AsSingle();
-        }
-        
-        private void InitializeStateables()
-        {
-            var stateables = FindObjectsOfType<Stateable>();
-            for (int i = 0; i < stateables.Length; i++)
-            {
-                stateables[i].Initialize();
-            }
-        }
-
-        private void InitializeStateableByButton()
-        {
-            var stateables = FindObjectsOfType<StateableByButton>();
-            for (int i = 0; i < stateables.Length; i++)
-            {
-                stateables[i].Initialize();
-            }
-        }
-
-        private void InitializeGraph()
-        {
-            //_graph = FindObjectOfType<GraphVisibility>();
-            _graph.ResetAndLoad();
-        }
-
-        private void InitializeStateMachine()
-        {
-            _stateMachine = new StateMachine(_stateService);
-
-            _container.Bind<StateMachine>().FromInstance(_stateMachine).AsSingle();
         }
     }
 }

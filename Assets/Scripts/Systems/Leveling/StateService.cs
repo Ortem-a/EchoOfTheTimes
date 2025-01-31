@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
 
 namespace Systems.Leveling
 {
-    public class StateService : MonoBehaviour
+    public class StateService : IDisposable
     {
         public Action OnStartChangingState;
         public Action OnCompleteChangingState;
@@ -13,14 +12,13 @@ namespace Systems.Leveling
         private int _optionsCount;
         private int _completedOptions = 0;
 
-        [Inject]
-        private void Construct()
+        public StateService()
         {
             OnStartChangingState += HandleStart;
             OnCompleteChangingState += HandleComplete;
         }
 
-        private void OnDestroy()
+        public void Dispose()
         {
             OnStartChangingState -= HandleStart;
             OnCompleteChangingState -= HandleComplete;
