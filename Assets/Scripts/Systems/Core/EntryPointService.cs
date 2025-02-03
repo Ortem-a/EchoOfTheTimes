@@ -1,7 +1,8 @@
+using Systems.Inputs;
 using Systems.Leveling;
 using Zenject;
 
-namespace Systems
+namespace Systems.Core
 {
     public class EntryPointService : IInitializable
     {

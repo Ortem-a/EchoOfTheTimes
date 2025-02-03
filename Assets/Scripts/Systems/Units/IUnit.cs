@@ -1,12 +1,13 @@
+using Systems.Movement;
 using UnityEngine;
-using Zenject;
 
-namespace Systems.Movement
+namespace Systems.Units
 {
     public interface IUnit : ISpawnable
     {
         public IMovableByPath Movable { get; }
         public ITeleportable Teleportable { get; }
+        
         public void Move(Vertex to);
 
         public class Factory

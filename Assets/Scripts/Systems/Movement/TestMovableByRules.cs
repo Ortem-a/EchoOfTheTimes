@@ -1,10 +1,9 @@
 using DG.Tweening;
 using System.Collections.Generic;
 using Systems.Leveling;
-using Systems.Movement;
 using UnityEngine;
 
-namespace Systems
+namespace Systems.Movement
 {
     [RequireComponent(typeof(MarkerParent), typeof(BridgeService))]
     public class TestMovableByRules : MonoBehaviour

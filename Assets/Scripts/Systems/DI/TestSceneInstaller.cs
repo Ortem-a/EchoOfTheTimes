@@ -1,3 +1,5 @@
+using Systems.Core;
+using Systems.Inputs;
 using Systems.Leveling;
 using Systems.Movement;
 using Zenject;
@@ -13,7 +15,7 @@ namespace Systems.DI
                 .AsSingle();
 
             this.Container
-                .Bind<StateMachine>()
+                .Bind<LevelStateMachine>()
                 .FromNew()
                 .AsSingle();
 
@@ -40,6 +42,15 @@ namespace Systems.DI
             this.Container
                 .BindInterfacesAndSelfTo<EntryPointService>()
                 .AsSingle();
+
+            this.Container
+                .Bind<GameLoopService>()
+                .FromNew()
+                .AsSingle();
+
+            this.Container
+                .BindInterfacesAndSelfTo<FinishButton>()
+                .AsCached();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
+using Systems.Movement;
 
-namespace Systems.Movement
+namespace Systems.Units
 {
     public interface ITeleportable
     {

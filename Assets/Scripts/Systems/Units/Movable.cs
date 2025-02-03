@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Systems.Movement;
 using UnityEngine;
 
-namespace Systems.Movement
+namespace Systems.Units
 {
     public class Movable : MonoBehaviour, IMovableByPath
     {

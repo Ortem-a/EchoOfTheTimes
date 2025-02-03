@@ -19,6 +19,9 @@ namespace SystemsEditor
 
                 GizmosDrawerHelper.DrawBezierCurveBetween(point1, point2, Vector3.up * 2f, 20, color);
             }
+
+            GizmosDrawerHelper.DrawText(teleportator.Vertex.transform.position, nameof(Teleportator),
+                textColor: Color.white, anchor: TextAnchor.MiddleCenter);
         }
     }
 }

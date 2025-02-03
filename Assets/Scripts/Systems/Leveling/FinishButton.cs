@@ -1,5 +1,7 @@
-using Systems.Movement;
+using Systems.Core;
+using Systems.Units;
 using UnityEngine;
+using Zenject;
 
 namespace Systems.Leveling
 {
@@ -7,9 +9,19 @@ namespace Systems.Leveling
     {
         public SpecialVertexType Type => SpecialVertexType.Button;
 
+        private GameLoopService _gameLoop;
+
+        [Inject]
+        private void Construct(GameLoopService gameLoop)
+        {
+            _gameLoop = gameLoop;
+        }
+
         public void OnEnter(IUnit unit)
         {
             Debug.Log($"[FINISH BUTTON] {unit} enter");
+
+            _gameLoop.FinishLevel();
         }
 
         public void OnExit(IUnit unit)

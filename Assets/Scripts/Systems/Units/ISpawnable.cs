@@ -1,4 +1,6 @@
-namespace Systems.Movement
+using Systems.Movement;
+
+namespace Systems.Units
 {
     public interface ISpawnable
     {

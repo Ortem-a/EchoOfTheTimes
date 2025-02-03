@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Systems.Leveling;
+using UnityEditor;
 using UnityEngine;
 
 namespace SystemsEditor
@@ -108,6 +109,23 @@ namespace SystemsEditor
             p2 += curvature;
 
             DrawBezierCurve(p0, p1, p2, p3, segmentNumber, color);
+        }
+
+        public static void DrawText(Vector3 position, string text, GUIStyle style)
+        {
+            Handles.Label(position, text, style);
+        }
+
+        public static void DrawText(Vector3 position, string text, 
+            Color textColor, TextAnchor anchor = TextAnchor.MiddleCenter)
+        {
+            var style = new GUIStyle
+            {
+                alignment = anchor
+            };
+            style.normal.textColor = textColor;
+
+            DrawText(position, text, style);
         }
     }
 }

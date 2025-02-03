@@ -1,8 +1,9 @@
 using DG.Tweening;
 using System;
+using Systems.Movement;
 using UnityEngine;
 
-namespace Systems.Movement
+namespace Systems.Units
 {
     public class Teleportable : MonoBehaviour, ITeleportable
     {

@@ -23,6 +23,9 @@ namespace SystemsEditor
                     Gizmos.DrawSphere(point2, 0.5f);
                 }
             }
+
+            GizmosDrawerHelper.DrawText(button.transform.position, nameof(LevelButton),
+                textColor: Color.white, anchor: TextAnchor.MiddleCenter);
         }
     }
 }

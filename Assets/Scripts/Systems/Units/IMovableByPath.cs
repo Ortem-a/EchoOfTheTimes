@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Systems.Movement;
 using UnityEngine;
 
-namespace Systems.Movement
+namespace Systems.Units
 {
     public interface IMovableByPath
     {

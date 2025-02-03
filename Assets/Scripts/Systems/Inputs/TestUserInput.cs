@@ -3,7 +3,7 @@ using Systems.Movement;
 using UnityEngine;
 using Zenject;
 
-namespace Systems
+namespace Systems.Inputs
 {
     public class TestUserInput : MonoBehaviour
     {

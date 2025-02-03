@@ -1,8 +1,8 @@
 using Systems.Leveling;
+using Systems.Movement;
 using UnityEngine;
-using Zenject;
 
-namespace Systems.Movement
+namespace Systems.Units
 {
     public class Player : MonoBehaviour, IUnit
     {
@@ -13,17 +13,6 @@ namespace Systems.Movement
         private bool _canTeleportate = false;
 
         private GraphVisibility _graph;
-
-        //[Inject]
-        //private void Construct(GraphVisibility graph)
-        //{
-        //    Movable = GetComponent<Movable>();
-        //    Teleportable = GetComponent<Teleportable>();
-
-        //    _graph = graph;
-
-        //    Movable.OnWaypointChanged += HandleNewWaypoint;
-        //}
 
         private void OnDestroy()
         {

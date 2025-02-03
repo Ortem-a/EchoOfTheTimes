@@ -1,15 +1,16 @@
 using Systems.Leveling;
 using Systems.Movement;
+using Systems.Units;
 
-namespace Systems
+namespace Systems.Inputs
 {
     public class TestInputAdapter
     {
         private IUnit _unit;
 
-        private readonly StateMachine _stateMachine;
+        private readonly LevelStateMachine _stateMachine;
 
-        public TestInputAdapter(StateMachine stateMachine)
+        public TestInputAdapter(LevelStateMachine stateMachine)
         {
             _stateMachine = stateMachine;
         }

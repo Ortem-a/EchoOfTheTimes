@@ -1,6 +1,6 @@
 ﻿using Systems.Leveling;
 
-namespace Systems
+namespace Systems.Movement
 {
     [System.Serializable]
     public class Rule

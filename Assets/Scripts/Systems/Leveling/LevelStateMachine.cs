@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Systems.Leveling
 {
-    public class StateMachine
+    public class LevelStateMachine
     {
         private Dictionary<int, List<IStateable>> _states;
 
@@ -13,7 +13,7 @@ namespace Systems.Leveling
 
         public int StatesNumber { get; private set; }
 
-        public StateMachine(StateService stateService)
+        public LevelStateMachine(StateService stateService)
         {
             _stateService = stateService;
 
