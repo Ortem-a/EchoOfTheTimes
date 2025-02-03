@@ -4,13 +4,13 @@ using Systems.Units;
 
 namespace Systems.Inputs
 {
-    public class TestInputAdapter
+    public class UserInputAdapter
     {
         private IUnit _unit;
 
         private readonly LevelStateMachine _stateMachine;
 
-        public TestInputAdapter(LevelStateMachine stateMachine)
+        public UserInputAdapter(LevelStateMachine stateMachine)
         {
             _stateMachine = stateMachine;
         }

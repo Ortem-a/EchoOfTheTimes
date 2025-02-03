@@ -8,7 +8,7 @@ namespace Systems.Inputs
     public class TestUserInput : MonoBehaviour
     {
         private Camera _camera;
-        private TestInputAdapter _inputAdapter;
+        private UserInputAdapter _inputAdapter;
         private Vector2 _startSwipePosition;
         private float _touchStartTime;
         private const float _maxTapTime = 0.2f;
@@ -17,7 +17,7 @@ namespace Systems.Inputs
         private SpawnService _spawner;
 
         [Inject]
-        private void Construct(TestInputAdapter inputAdapter, SpawnService spawner)
+        private void Construct(UserInputAdapter inputAdapter, SpawnService spawner)
         {
             _camera = Camera.main;
             _touchPosition = Vector3.forward * _camera.nearClipPlane;
@@ -58,20 +58,6 @@ namespace Systems.Inputs
             {
                 _inputAdapter.StopUnit();
             }
-
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                _inputAdapter.SwitchState(0);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                _inputAdapter.SwitchState(1);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                _inputAdapter.SwitchState(2);
-            }
-
 
             if (Input.GetKeyDown(KeyCode.F1))
             {

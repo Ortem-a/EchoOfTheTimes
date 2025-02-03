@@ -2,6 +2,8 @@ using Systems.Core;
 using Systems.Inputs;
 using Systems.Leveling;
 using Systems.Movement;
+using Systems.UI.Level;
+using Systems.Units;
 using Zenject;
 
 namespace Systems.DI
@@ -20,7 +22,7 @@ namespace Systems.DI
                 .AsSingle();
 
             this.Container
-                .Bind<TestInputAdapter>()
+                .Bind<UserInputAdapter>()
                 .FromNew()
                 .AsSingle();
 
@@ -40,7 +42,7 @@ namespace Systems.DI
                 .AsSingle();
 
             this.Container
-                .BindInterfacesAndSelfTo<EntryPointService>()
+                .BindInterfacesAndSelfTo<UnitManagementService>()
                 .AsSingle();
 
             this.Container
@@ -50,6 +52,18 @@ namespace Systems.DI
 
             this.Container
                 .BindInterfacesAndSelfTo<FinishButton>()
+                .AsCached();
+
+            this.Container
+                .BindInterfacesAndSelfTo<LevelButton>()
+                .AsCached();
+
+            this.Container
+                .BindInterfacesAndSelfTo<LevelStateUiButton>()
+                .AsCached();
+
+            this.Container
+                .BindInterfacesAndSelfTo<SwitchUnitUiButton>()
                 .AsCached();
         }
     }

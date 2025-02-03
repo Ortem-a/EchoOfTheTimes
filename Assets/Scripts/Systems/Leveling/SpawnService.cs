@@ -24,14 +24,15 @@ namespace Systems.Leveling
 
         [Inject]
         private void Construct(GraphVisibility graph)
-        { 
+        {
             _graph = graph;
 
             _factory = new IUnit.Factory();
         }
 
-        public IUnit RunSpawner()
+        public IUnit RunSpawning()
         {
+#warning NEED TO ASYNC SPAWN
             for (int i = 0; i < _spawnables.Count; i++)
             {
                 var unit = _factory.Create(_spawnables[i].Prefab, _spawnables[i].At, _graph);

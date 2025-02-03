@@ -1,6 +1,7 @@
 using Systems.Movement;
 using Systems.Units;
 using UnityEngine;
+using Zenject;
 
 namespace Systems.Leveling
 {
@@ -11,6 +12,14 @@ namespace Systems.Leveling
         public StateableByButton[] Stateables;
 
         private bool _isActivated = false;
+
+        private GraphVisibility _graph;
+
+        [Inject]
+        private void Construct(GraphVisibility graph)
+        {
+            _graph = graph;
+        }
 
         public void OnEnter(IUnit unit)
         {
@@ -24,7 +33,7 @@ namespace Systems.Leveling
 
                 for (int i = 0; i < Stateables.Length; i++)
                 {
-                    Stateables[i].AcceptState(1, null);
+                    Stateables[i].AcceptState(1, _graph.ResetAndLoad);
                 }
             }
         }
