@@ -1,4 +1,3 @@
-using EchoOfTheTimes.Collectables;
 using EchoOfTheTimes.Core;
 using EchoOfTheTimes.Effects;
 using EchoOfTheTimes.LevelStates;
@@ -23,8 +22,7 @@ namespace EchoOfTheTimes.DI
         private VerticesBlocker _verticesBlocker;
         [SerializeField]
         private LevelAudioManager _levelAudioManager;
-        [SerializeField]
-        private CollectableService _collectableService;
+        // Удалённое поле: private CollectableService _collectableService;
 
         [Header("Player")]
         [SerializeField]
@@ -64,7 +62,6 @@ namespace EchoOfTheTimes.DI
             BindSystems();
             BindPlayer();
             BindUi();
-
             SubscribeEvents();
         }
 
@@ -76,7 +73,6 @@ namespace EchoOfTheTimes.DI
         private void BindSystems()
         {
             Container.Bind<StateService>().AsSingle();
-
             Container.Bind<LevelStateMachine>().FromInstance(_stateMachine).AsSingle();
             Container.Bind<GraphVisibility>().FromInstance(_graph).AsSingle();
             Container.Bind<CheckpointManager>().FromInstance(_checkpointManager).AsSingle();
@@ -85,7 +81,7 @@ namespace EchoOfTheTimes.DI
             Container.Bind<Input2DIndicator>().FromInstance(_input2DIndicator).AsSingle();
             Container.Bind<LevelAudioManager>().FromInstance(_levelAudioManager).AsSingle();
 
-            Container.Bind<CollectableService>().FromInstance(_collectableService).AsSingle();
+            // Удалён биндинг CollectableService
         }
 
         private void BindPlayer()
@@ -95,10 +91,8 @@ namespace EchoOfTheTimes.DI
             Container.Bind<UserInput>().FromInstance(_userInput).AsSingle();
             Container.Bind<InputMediator>().FromInstance(_inputMediator).AsSingle();
             Container.Bind<Player>().FromInstance(_player).AsSingle();
-
             Container.Bind<Movable>().FromInstance(_movable).AsSingle();
             Container.Bind<PlayerPath>().FromInstance(_playerPath).AsSingle();
-
             Container.Bind<SoundManager>().FromInstance(_soundManager).AsSingle();
         }
 
@@ -119,8 +113,7 @@ namespace EchoOfTheTimes.DI
             _stateMachine.OnTransitionComplete += _graph.Load;
             _stateMachine.OnTransitionComplete += _vertexFollower.Unlink;
             _stateMachine.OnTransitionComplete += _stateMachine.CompleteTransition;
-
-            //_stateMachine.OnTransitionComplete += _uiSceneController.UpdateLabel;
+            // Ранее здесь могла быть ссылка на UI обновление, которая теперь остаётся без изменений или удаляется
         }
 
         private void UnsubscribeEvents()
@@ -133,8 +126,6 @@ namespace EchoOfTheTimes.DI
             _stateMachine.OnTransitionComplete -= _graph.Load;
             _stateMachine.OnTransitionComplete -= _vertexFollower.Unlink;
             _stateMachine.OnTransitionComplete -= _stateMachine.CompleteTransition;
-
-            //_stateMachine.OnTransitionComplete -= _uiSceneController.UpdateLabel;
         }
     }
 }

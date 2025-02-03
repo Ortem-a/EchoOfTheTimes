@@ -1,4 +1,3 @@
-using EchoOfTheTimes.Collectables;
 using TMPro;
 using UnityEngine;
 
@@ -13,7 +12,7 @@ namespace EchoOfTheTimes.UI
 
         private void Awake()
         {
-            _totalCollectables = FindObjectOfType<CollectableSpawner>().NumberOfPlaceholders;
+            _totalCollectables = 2;
 
             UpdateProgress(0);
         }

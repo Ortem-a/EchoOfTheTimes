@@ -1,4 +1,3 @@
-using EchoOfTheTimes.Collectables;
 using EchoOfTheTimes.Interfaces;
 using EchoOfTheTimes.Persistence;
 using EchoOfTheTimes.SceneManagement;
@@ -18,17 +17,15 @@ namespace EchoOfTheTimes.Core
         private Player _player;
         private InputMediator _inputHandler;
         private UiSceneController _sceneController;
-        private CollectableService _collectableService;
-        private LevelAnalyticsTracker _levelAnalyticsTracker; // ƒобавлено поле дл€ трекера аналитики
+        private LevelAnalyticsTracker _levelAnalyticsTracker;
 
+        // ”бираем ссылку на CollectableService
         [Inject]
-        public void Construct(Player player, InputMediator inputHandler, UiSceneController sceneController,
-            CollectableService collectableService)
+        public void Construct(Player player, InputMediator inputHandler, UiSceneController sceneController)
         {
             _player = player;
             _inputHandler = inputHandler;
             _sceneController = sceneController;
-            _collectableService = collectableService;
         }
 
         private void Start()
@@ -39,19 +36,19 @@ namespace EchoOfTheTimes.Core
         private void Enter()
         {
             _sceneController.EnableFinishCanvas();
-
             _player.Stop(null);
 
-            // ќбновл€ем данные аналитики перед отправкой
-            int collected = _collectableService.CollectedResult;
-            int maxCollectables = _collectableService.GetTotalCollectables();
-
+            // «десь можно либо удалить обновление аналитики коллектаблов,
+            // либо передать фиксированные значени€ (например, 0)
+            int collected = 0;
+            int maxCollectables = 0;
             _levelAnalyticsTracker.UpdateCollectables(collected);
             _levelAnalyticsTracker.SetStatus(collected, maxCollectables);
-
             _levelAnalyticsTracker.EndLevelAnalytics();
 
-            PersistenceService.OnLevelCompleted?.Invoke(_collectableService.CollectedResult);
+            // ≈сли событие OnLevelCompleted больше не нужно, его можно убрать,
+            // либо вызывать с фиксированным значением.
+            PersistenceService.OnLevelCompleted?.Invoke(collected);
         }
     }
 }

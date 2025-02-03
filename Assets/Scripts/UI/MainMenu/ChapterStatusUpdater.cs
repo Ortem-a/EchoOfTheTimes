@@ -14,37 +14,16 @@ namespace EchoOfTheTimes.UI.MainMenu
         private ChapterSelector[] _chaptorSelectorItems;
         private PersistenceService _persistenceService;
 
-        private int[] _progressPerChapter;
-        private int[] _requiredPerChapter;
-
         [Inject]
         private void Construct(UiMainMenuService mainMenuService)
         {
             _persistenceService = mainMenuService.PersistenceService;
-
             var chaptersData = _persistenceService.GetData();
 
-            _progressPerChapter = new int[chaptersData.Count];
-            _requiredPerChapter = new int[chaptersData.Count];
-
-            int cumulativeRequired = 0;
-            int cumulativeProgress = 0;
-
+            // «аполн€ем список статусов глав
             for (int i = 0; i < chaptersData.Count; i++)
             {
                 _chaptersStatuses.Add(chaptersData[i].ChapterStatus);
-
-                foreach (var level in chaptersData[i].Levels)
-                {
-                    _progressPerChapter[i] += level.Collected;
-                    _requiredPerChapter[i] += level.TotalCollectables;
-                }
-
-                _requiredPerChapter[i] += cumulativeRequired;
-                _progressPerChapter[i] += cumulativeProgress;
-
-                cumulativeRequired = _requiredPerChapter[i];
-                cumulativeProgress = _progressPerChapter[i];
             }
         }
 
@@ -53,19 +32,14 @@ namespace EchoOfTheTimes.UI.MainMenu
             _chapterItems = GetComponentsInChildren<ChapterItemClickHandler>();
             _chaptorSelectorItems = GetComponentsInChildren<ChapterSelector>();
 
-            //for (int i = 0; i < _chapterItems.Length; i++)
-            //{
-            //    _chapterItems[i].SetStatus(_chaptersStatuses[i + 1]);
-            //    _chapterItems[i].SetProgress(_progressPerChapter[i], _requiredPerChapter[i]);
-            //    _chapterItems[i].GetComponent<ChapterButtonView>().UpdateChapterStatus(_chaptersStatuses[i + 1]);
-            //}
-
             Debug.LogWarning("«аглушка на всего 4 главы дл€ главного меню");
 
+            // ќбновл€ем только статус главы, без учета прогресса коллектаблов
             for (int i = 0; i < 4; i++)
             {
                 _chapterItems[i].SetStatus(_chaptersStatuses[i + 1]);
-                _chapterItems[i].SetProgress(_progressPerChapter[i], _requiredPerChapter[i]);
+                // ѕередаем 0, так как прогресс коллектаблов более не отслеживаетс€
+                _chapterItems[i].SetProgress(0, 0);
                 _chapterItems[i].GetComponent<ChapterButtonView>().UpdateChapterStatus(_chaptersStatuses[i + 1]);
             }
         }
@@ -73,22 +47,16 @@ namespace EchoOfTheTimes.UI.MainMenu
         public ChapterItemClickHandler GetChapterItem(string levelFullName)
         {
             var chapterName = levelFullName.Split('|')[0];
-
             var data = _persistenceService.GetData();
-
             var index = data.FindIndex((chapter) => chapter.Title == chapterName);
-
             return _chapterItems[index - 1];
         }
 
         public ChapterSelector GetChapterSelectorItem(string levelFullName)
         {
             var chapterName = levelFullName.Split('|')[0];
-
             var data = _persistenceService.GetData();
-
             var index = data.FindIndex((chapter) => chapter.Title == chapterName);
-
             return _chaptorSelectorItems[index - 1];
         }
     }

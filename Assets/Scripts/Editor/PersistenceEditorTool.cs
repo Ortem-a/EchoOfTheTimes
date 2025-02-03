@@ -29,7 +29,7 @@ namespace EchoOfTheTimes.Editor
                 for (int j = 0; j < playerData.Data[i].Levels.Count; j++)
                 {
                     playerData.Data[i].Levels[j].LevelStatus = StatusType.Locked;
-                    playerData.Data[i].Levels[j].Collected = 0;
+                    // Удалено: playerData.Data[i].Levels[j].Collected = 0;
                 }
             }
 
@@ -41,18 +41,15 @@ namespace EchoOfTheTimes.Editor
 
             playerData.LastLoadedLevelFullName = string.Empty;
 
-
-
-            // ++++++++++++++++++++++++++++++++++++++++++++++
-            //for (int i =0; i< playerData.Data[1].Levels.Count; i++)
-            //{
-            //    playerData.Data[1].Levels[i].LevelStatus = StatusType.Completed;
-            //    playerData.Data[1].Levels[i].Collected = playerData.Data[1].Levels[i].TotalCollectables;
-            //}
-            //playerData.Data[1].Levels[0].Collected = 0;
-            // ++++++++++++++++++++++++++++++++++++++++++++++
-
-
+            /*
+            // Удалён блок установки статуса уровня как завершённого с выставлением Collected
+            for (int i = 0; i < playerData.Data[1].Levels.Count; i++)
+            {
+                playerData.Data[1].Levels[i].LevelStatus = StatusType.Completed;
+                playerData.Data[1].Levels[i].Collected = playerData.Data[1].Levels[i].TotalCollectables;
+            }
+            playerData.Data[1].Levels[0].Collected = 0;
+            */
 
             preset.Data = playerData;
 
@@ -80,7 +77,7 @@ namespace EchoOfTheTimes.Editor
                 for (int j = 0; j < playerData.Data[i].Levels.Count; j++)
                 {
                     playerData.Data[i].Levels[j].LevelStatus = StatusType.Unlocked;
-                    playerData.Data[i].Levels[j].Collected = playerData.Data[i].Levels[j].TotalCollectables;
+                    // Удалено: playerData.Data[i].Levels[j].Collected = playerData.Data[i].Levels[j].TotalCollectables;
                 }
             }
 

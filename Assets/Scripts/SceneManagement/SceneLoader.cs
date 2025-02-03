@@ -22,16 +22,11 @@ namespace EchoOfTheTimes.SceneManagement
         [SerializeField]
         private Camera _loadingCamera;
 
-        //public SceneGroup[] SceneGroups;
         public List<GameChapter> GameChapters;
-
-        private float levelStartTime;
-        private float levelDuration;
 
         private float _targetProgress;
         private bool _isLoading;
         private GameLevel _currentLevel;
-        //private int _lastLoadedGroupIndex = -1;
 
         public readonly SceneGroupManager Manager = new SceneGroupManager();
 
@@ -95,6 +90,7 @@ namespace EchoOfTheTimes.SceneManagement
 
             Debug.Log($"Calling OnSceneLoaded for scene: {level.LevelName}");
 
+            // Обновляем последний загруженный уровень, если это не главное меню
             if (level.FullName != "MainMenu|0")
             {
                 _persistenceService.UpdateLastLoadedLevel(level);
@@ -105,78 +101,53 @@ namespace EchoOfTheTimes.SceneManagement
 
         public async Task LoadNextSceneGroupAsync()
         {
-            var chapter = GameChapters.Find((ch) => ch.Title == _currentLevel.ChapterName);
+            var chapter = GameChapters.Find(ch => ch.Title == _currentLevel.ChapterName);
             if (chapter == null) return;
 
-            var currentLevelIndex = chapter.Levels.FindIndex((lvl) => lvl.LevelName == _currentLevel.LevelName);
+            var currentLevelIndex = chapter.Levels.FindIndex(lvl => lvl.LevelName == _currentLevel.LevelName);
             if (currentLevelIndex == -1) return;
 
-            bool isLastLevelInChapter = currentLevelIndex == chapter.Levels.Count - 1;
-
-            if (_persistenceService.IsLevelReplayed)
+            // Если в текущей главе есть следующий уровень – загружаем его
+            if (currentLevelIndex < chapter.Levels.Count - 1)
             {
-                // Если это перепрохождение уровня, загружаем следующий уровень в текущей главе
-                if (isLastLevelInChapter)
-                {
-                    var nextChapterIndex = GameChapters.IndexOf(chapter) + 1;
-                    if (nextChapterIndex < GameChapters.Count)
-                    {
-                        await LoadSceneGroupAsync(GameChapters[nextChapterIndex].Levels[0]);
-                    }
-                }
-                else
-                {
-                    await LoadSceneGroupAsync(chapter.Levels[currentLevelIndex + 1]);
-                }
+                await LoadSceneGroupAsync(chapter.Levels[currentLevelIndex + 1]);
             }
             else
             {
-                // Оригинальная логика
-                bool allCollectablesCollected = _persistenceService.CheckAllCollectablesCollected(chapter);
-
-                if (isLastLevelInChapter && !allCollectablesCollected)
+                // Если уровень последний, пробуем загрузить первый уровень следующей главы
+                int nextChapterIndex = GameChapters.IndexOf(chapter) + 1;
+                if (nextChapterIndex < GameChapters.Count)
                 {
-                    await LoadSceneGroupAsync(chapter.Levels[0]);
-                }
-                else if (_persistenceService.IsNextChapterUnlocked)
-                {
-                    var nextChapterIndex = GameChapters.IndexOf(chapter) + 1;
-                    if (nextChapterIndex < GameChapters.Count)
-                    {
-                        await LoadSceneGroupAsync(GameChapters[nextChapterIndex].Levels[0]);
-                    }
+                    await LoadSceneGroupAsync(GameChapters[nextChapterIndex].Levels[0]);
                 }
                 else
                 {
-                    await LoadSceneGroupAsync(isLastLevelInChapter ? chapter.Levels[0] : chapter.Levels[currentLevelIndex + 1]);
+                    // Если глав больше нет, можно, например, перезагрузить текущую главу (или выполнить иную логику)
+                    await LoadSceneGroupAsync(chapter.Levels[0]);
                 }
             }
         }
-
 
         public bool HasNextLevel
         {
             get
             {
-                var chapter = GameChapters.Find((chapter) => chapter.Title == _currentLevel.ChapterName);
+                var chapter = GameChapters.Find(chapter => chapter.Title == _currentLevel.ChapterName);
                 if (chapter == null) return false;
 
-                var currentLevelIndex = chapter.Levels.FindIndex((level) => level.LevelName == _currentLevel.LevelName);
-
+                var currentLevelIndex = chapter.Levels.FindIndex(level => level.LevelName == _currentLevel.LevelName);
                 if (currentLevelIndex == -1) return false;
 
                 if (currentLevelIndex < chapter.Levels.Count - 1) return true;
-
-                return false;
+                return GameChapters.IndexOf(chapter) < GameChapters.Count - 1;
             }
         }
 
         public async Task LoadMainMenuSceneAsync()
         {
-            // Загрузить сцену главного меню
             await LoadSceneGroupAsync(GameChapters[0].Levels[0]);
 
-            // Что-то на ней сделать: МОМЕНТАЛЬНО проскроллить до этой главы и сделать нажатие
+            // На главном меню можно выполнить дополнительные действия (например, установить выбранную главу)
             var statusUpdater = FindObjectOfType<ChapterStatusUpdater>();
 
             statusUpdater
