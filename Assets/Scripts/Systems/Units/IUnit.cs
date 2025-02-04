@@ -7,7 +7,8 @@ namespace Systems.Units
     {
         public IMovableByPath Movable { get; }
         public ITeleportable Teleportable { get; }
-        
+        public Transform Transform { get; }
+
         public void Move(Vertex to);
 
         public class Factory

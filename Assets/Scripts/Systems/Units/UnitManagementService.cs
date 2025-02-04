@@ -9,23 +9,26 @@ namespace Systems.Units
     {
         private readonly UserInputAdapter _inputAdapter;
         private readonly SpawnService _spawnService;
+        private readonly RefinedOrbitCamera _orbitCamera;
 
         private Queue<IUnit> _units;
         private Queue<IUnit> _unitsBuffer;
 
-        public UnitManagementService(UserInputAdapter inputAdapter, SpawnService spawnService)
+        public UnitManagementService(UserInputAdapter inputAdapter, SpawnService spawnService, RefinedOrbitCamera orbitCamera)
         {
             _inputAdapter = inputAdapter;
             _spawnService = spawnService;
+            _orbitCamera = orbitCamera;
         }
 
         public void Initialize()
         {
-            var firstSpawnedUnit = _spawnService.RunSpawning();
-            _inputAdapter.SetTarget(firstSpawnedUnit);
+            _spawnService.RunSpawning();
 
             _units = new Queue<IUnit>(_spawnService.SpawnedUnits);
             _unitsBuffer = new Queue<IUnit>(_units);
+
+            SwitchToNextUnit();
         }
 
         public void SwitchToNextUnit()
@@ -38,6 +41,7 @@ namespace Systems.Units
             }
 
             _inputAdapter.SetTarget(nextUnit);
+            _orbitCamera.SetTarget(nextUnit);
         }
     }
 }

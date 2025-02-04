@@ -10,6 +10,8 @@ namespace Systems.Units
 
         public ITeleportable Teleportable { get; private set; }
 
+        public Transform Transform => transform;
+
         private bool _canTeleportate = false;
 
         private GraphVisibility _graph;

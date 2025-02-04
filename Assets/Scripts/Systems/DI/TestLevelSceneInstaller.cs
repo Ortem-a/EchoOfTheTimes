@@ -8,7 +8,7 @@ using Zenject;
 
 namespace Systems.DI
 {
-    public class TestSceneInstaller : MonoInstaller
+    public class TestLevelSceneInstaller : MonoInstaller
     {
         public override void InstallBindings()
         {
@@ -65,6 +65,11 @@ namespace Systems.DI
             this.Container
                 .BindInterfacesAndSelfTo<SwitchUnitUiButton>()
                 .AsCached();
+
+            this.Container
+                .Bind<RefinedOrbitCamera>()
+                .FromComponentInHierarchy()
+                .AsSingle();
         }
     }
 }

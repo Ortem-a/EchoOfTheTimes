@@ -30,7 +30,7 @@ namespace Systems.Leveling
             _factory = new IUnit.Factory();
         }
 
-        public IUnit RunSpawning()
+        public void RunSpawning()
         {
 #warning NEED TO ASYNC SPAWN
             for (int i = 0; i < _spawnables.Count; i++)
@@ -38,8 +38,6 @@ namespace Systems.Leveling
                 var unit = _factory.Create(_spawnables[i].Prefab, _spawnables[i].At, _graph);
                 SpawnedUnits.Add(unit);
             }
-
-            return SpawnedUnits[0];
         }
     }
 }
