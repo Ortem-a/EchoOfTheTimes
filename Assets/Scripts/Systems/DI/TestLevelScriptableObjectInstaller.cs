@@ -12,6 +12,12 @@ namespace Systems.DI
         [SerializeField]
         private InputIndicatorSettingsScriptableObject _inputIndicatorSettings;
 
+        [Header("SFX")]
+        [SerializeField]
+        private LevelSoundsContainerScriptableObject _levelSoundsContainer;
+        [SerializeField]
+        private UnitSoundsContainerScriptableObject _unitSoundsContainer;
+
         public override void InstallBindings()
         {
             this.Container
@@ -22,6 +28,16 @@ namespace Systems.DI
             this.Container
                 .Bind<InputIndicatorSettingsScriptableObject>()
                 .FromScriptableObject(_inputIndicatorSettings)
+                .AsSingle();
+
+            this.Container
+                .Bind<LevelSoundsContainerScriptableObject>()
+                .FromScriptableObject(_levelSoundsContainer)
+                .AsSingle();
+
+            this.Container
+                .Bind<UnitSoundsContainerScriptableObject>()
+                .FromScriptableObject(_unitSoundsContainer)
                 .AsSingle();
         }
     }

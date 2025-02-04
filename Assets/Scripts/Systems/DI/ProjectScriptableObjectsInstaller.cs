@@ -14,11 +14,19 @@ namespace Systems.DI
         [SerializeField]
         private InputIndicatorSettingsScriptableObject _inputIndicatorSettings;
 
+        [SerializeField]
+        private LevelSettingsScriptableObject _levelSettings;
+
         public override void InstallBindings()
         {
             this.Container
                 .Bind<InputIndicatorSettingsScriptableObject>()
                 .FromScriptableObject(_inputIndicatorSettings)
+                .AsSingle();
+
+            this.Container
+                .Bind<LevelSettingsScriptableObject>()
+                .FromScriptableObject(_levelSettings)
                 .AsSingle();
         }
     }
