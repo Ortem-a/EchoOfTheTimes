@@ -80,8 +80,6 @@ namespace EchoOfTheTimes.DI
             Container.Bind<Input3DIndicator>().FromInstance(_input3DIndicator).AsSingle();
             Container.Bind<Input2DIndicator>().FromInstance(_input2DIndicator).AsSingle();
             Container.Bind<LevelAudioManager>().FromInstance(_levelAudioManager).AsSingle();
-
-            // Удалён биндинг CollectableService
         }
 
         private void BindPlayer()
@@ -113,7 +111,6 @@ namespace EchoOfTheTimes.DI
             _stateMachine.OnTransitionComplete += _graph.Load;
             _stateMachine.OnTransitionComplete += _vertexFollower.Unlink;
             _stateMachine.OnTransitionComplete += _stateMachine.CompleteTransition;
-            // Ранее здесь могла быть ссылка на UI обновление, которая теперь остаётся без изменений или удаляется
         }
 
         private void UnsubscribeEvents()
