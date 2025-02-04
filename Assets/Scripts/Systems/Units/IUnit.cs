@@ -1,4 +1,5 @@
 using Systems.Movement;
+using Systems.Settings;
 using UnityEngine;
 
 namespace Systems.Units
@@ -13,13 +14,13 @@ namespace Systems.Units
 
         public class Factory
         {
-            public IUnit Create(GameObject prefab, Vertex at, GraphVisibility graph)
+            public IUnit Create(UnitSettingsScriptableObject unitSettings, Vertex at, GraphVisibility graph)
             {
-                var obj = MonoBehaviour.Instantiate(prefab);
+                var obj = MonoBehaviour.Instantiate(unitSettings.Prefab);
 
                 var unit = obj.GetComponent<IUnit>();
 
-                return unit.Spawn(at, graph);
+                return unit.Spawn(unitSettings, at, graph);
             }
         }
     }

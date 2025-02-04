@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Systems.Settings
 {
-    [CreateAssetMenu(menuName = "Settings/New CameraSettings", order = 5)]
+    [CreateAssetMenu(menuName = "Settings/New Camera Settings", order = 5)]
     public class CameraSettingsScriptableObject : ScriptableObject
     {
         [field: SerializeField]

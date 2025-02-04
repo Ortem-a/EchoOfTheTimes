@@ -1,6 +1,8 @@
 using Systems.Leveling;
 using Systems.Movement;
+using Systems.Settings;
 using UnityEngine;
+using Zenject;
 
 namespace Systems.Units
 {
@@ -21,12 +23,14 @@ namespace Systems.Units
             Movable.OnWaypointChanged -= HandleNewWaypoint;
         }
 
-        public IUnit Spawn(Vertex at, GraphVisibility graph)
+        public IUnit Spawn(UnitSettingsScriptableObject unitSettings, Vertex at, GraphVisibility graph)
         {
             Movable = GetComponent<Movable>();
             Teleportable = GetComponent<Teleportable>();
 
             _graph = graph;
+
+            Movable.Initialize(unitSettings.Speed);
 
             Movable.OnWaypointChanged += HandleNewWaypoint;
 

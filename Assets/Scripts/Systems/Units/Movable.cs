@@ -24,8 +24,9 @@ namespace Systems.Units
         public bool IsMoving { get; private set; } = false;
         [field: SerializeField]
         public bool OnBridge { get; private set; } = false;
+        bool _wasOnBridge = false;
 
-        public float Speed { get; private set; } = 0.01f;
+        public float Speed { get; private set; }
 
         private Coroutine _moveCoroutine;
 
@@ -38,8 +39,10 @@ namespace Systems.Units
         public Action<Vertex> OnWaypointChanged { get; set; } = null;
         public Action OnEnterToBridge { get; private set; } = null;
 
-        private void Awake()
+        public void Initialize(float speed)
         {
+            Speed = speed;
+
             OnEnterToBridge += HandleEnteringToBridge;
             OnWaypointChanged += HandleNewWaypoint;
         }
@@ -213,7 +216,6 @@ namespace Systems.Units
             return GetParentRecursively(t.parent);
         }
 
-        bool _wasOnBridge = false;
         private void SkipBridgeIfNeed()
         {
             if (OnBridge && (NextWaypoint.IsMoving || CurrentWaypoint.IsMoving))

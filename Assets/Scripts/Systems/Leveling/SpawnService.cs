@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Systems.Movement;
+using Systems.Settings;
 using Systems.Units;
 using UnityEngine;
 using Zenject;
@@ -9,7 +10,7 @@ namespace Systems.Leveling
     [System.Serializable]
     public class Spawnable
     {
-        public GameObject Prefab;
+        public UnitSettingsScriptableObject UnitSettings;
         public Vertex At;
     }
 
@@ -35,7 +36,7 @@ namespace Systems.Leveling
 #warning NEED TO ASYNC SPAWN
             for (int i = 0; i < _spawnables.Count; i++)
             {
-                var unit = _factory.Create(_spawnables[i].Prefab, _spawnables[i].At, _graph);
+                var unit = _factory.Create(_spawnables[i].UnitSettings, _spawnables[i].At, _graph);
                 SpawnedUnits.Add(unit);
             }
         }

@@ -12,15 +12,47 @@ namespace Systems.DI
     {
         public override void InstallBindings()
         {
+            InstallLeveling();
+
+            InstallInputs();
+
+            InstallMovement();
+
+            InstallUnits();
+
+            InstallCore();
+
+            InstallUi();
+        }
+
+        private void InstallUi()
+        {
             this.Container
-                .BindInterfacesAndSelfTo<StateService>()
-                .AsSingle();
+                .BindInterfacesAndSelfTo<LevelStateUiButton>()
+                .AsCached();
 
             this.Container
-                .Bind<LevelStateMachine>()
+                .BindInterfacesAndSelfTo<SwitchUnitUiButton>()
+                .AsCached();
+        }
+
+        private void InstallCore()
+        {
+            this.Container
+                .Bind<GameLoopService>()
                 .FromNew()
                 .AsSingle();
+        }
 
+        private void InstallUnits()
+        {
+            this.Container
+                .BindInterfacesAndSelfTo<UnitManagementService>()
+                .AsSingle();
+        }
+
+        private void InstallInputs()
+        {
             this.Container
                 .Bind<UserInputAdapter>()
                 .FromNew()
@@ -32,22 +64,33 @@ namespace Systems.DI
                 .AsSingle();
 
             this.Container
+                .Bind<RefinedOrbitCamera>()
+                .FromComponentInHierarchy()
+                .AsSingle();
+        }
+
+        private void InstallMovement()
+        {
+            this.Container
                 .Bind<GraphVisibility>()
                 .FromComponentInHierarchy()
+                .AsSingle();
+        }
+
+        private void InstallLeveling()
+        {
+            this.Container
+                .BindInterfacesAndSelfTo<StateService>()
+                .AsSingle();
+
+            this.Container
+                .Bind<LevelStateMachine>()
+                .FromNew()
                 .AsSingle();
 
             this.Container
                 .Bind<SpawnService>()
                 .FromComponentInHierarchy()
-                .AsSingle();
-
-            this.Container
-                .BindInterfacesAndSelfTo<UnitManagementService>()
-                .AsSingle();
-
-            this.Container
-                .Bind<GameLoopService>()
-                .FromNew()
                 .AsSingle();
 
             this.Container
@@ -57,19 +100,6 @@ namespace Systems.DI
             this.Container
                 .BindInterfacesAndSelfTo<LevelButton>()
                 .AsCached();
-
-            this.Container
-                .BindInterfacesAndSelfTo<LevelStateUiButton>()
-                .AsCached();
-
-            this.Container
-                .BindInterfacesAndSelfTo<SwitchUnitUiButton>()
-                .AsCached();
-
-            this.Container
-                .Bind<RefinedOrbitCamera>()
-                .FromComponentInHierarchy()
-                .AsSingle();
         }
     }
 }

@@ -18,6 +18,8 @@ namespace Systems.Units
         public bool OnBridge { get; }
         public float Speed { get; }
         public MarkerParent TempParent { get; }
+
+        public void Initialize(float speed);
         public void MoveBy(List<Vertex> path);
         public void Stop(Action onStopped = null);
         public void StopImmediate();
