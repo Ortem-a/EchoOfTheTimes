@@ -10,7 +10,7 @@ namespace Systems.Units
         public ITeleportable Teleportable { get; }
         public Transform Transform { get; }
 
-        public void Move(Vertex to);
+        public bool TryMove(Vertex to);
 
         public class Factory
         {

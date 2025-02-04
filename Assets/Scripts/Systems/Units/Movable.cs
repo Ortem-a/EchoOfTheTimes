@@ -77,8 +77,8 @@ namespace Systems.Units
 
         public void MoveBy(List<Vertex> path)
         {
-            if (path.Count != 0)
-            {
+            //if (path.Count != 0)
+            //{
                 path.Reverse();
                 _bufferPath = new Queue<Vertex>(path);
 
@@ -92,7 +92,7 @@ namespace Systems.Units
                 {
                     _onNewPathGot?.Invoke();
                 }
-            }
+            //}
         }
 
         private void HandleNewPath()

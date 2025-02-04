@@ -9,12 +9,19 @@ namespace Systems.DI
     {
         [SerializeField]
         private CameraSettingsScriptableObject _cameraSettings;
+        [SerializeField]
+        private InputIndicatorSettingsScriptableObject _inputIndicatorSettings;
 
         public override void InstallBindings()
         {
             this.Container
                 .Bind<CameraSettingsScriptableObject>()
                 .FromScriptableObject(_cameraSettings)
+                .AsSingle();
+
+            this.Container
+                .Bind<InputIndicatorSettingsScriptableObject>()
+                .FromScriptableObject(_inputIndicatorSettings)
                 .AsSingle();
         }
     }

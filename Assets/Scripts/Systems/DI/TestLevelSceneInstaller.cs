@@ -67,6 +67,16 @@ namespace Systems.DI
                 .Bind<RefinedOrbitCamera>()
                 .FromComponentInHierarchy()
                 .AsSingle();
+
+            this.Container
+                .Bind<Input3DIndicator>()
+                .FromComponentInHierarchy()
+                .AsSingle();
+
+            this.Container
+                .Bind<Input2DIndicator>()
+                .FromComponentInHierarchy()
+                .AsSingle();
         }
 
         private void InstallMovement()

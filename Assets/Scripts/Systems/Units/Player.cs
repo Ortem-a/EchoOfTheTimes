@@ -2,7 +2,6 @@ using Systems.Leveling;
 using Systems.Movement;
 using Systems.Settings;
 using UnityEngine;
-using Zenject;
 
 namespace Systems.Units
 {
@@ -37,17 +36,24 @@ namespace Systems.Units
             transform.position = at.transform.position;
             Movable.CurrentWaypoint = at;
 
-            Move(at);
+            TryMove(at);
 
             return this;
         }
 
-        public void Move(Vertex to)
+        public bool TryMove(Vertex to)
         {
             Vertex start = Movable.NextWaypoint != null ? Movable.NextWaypoint : Movable.CurrentWaypoint;
 
             var path = _graph.GetPathBFS(start, to);
+
+            if (path.Count == 0)
+            {
+                return false;
+            }
+
             Movable.MoveBy(path);
+            return true;
         }
 
         private void HandleNewWaypoint(Vertex waypoint)
