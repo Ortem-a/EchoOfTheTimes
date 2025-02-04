@@ -42,7 +42,6 @@ namespace EchoOfTheTimes.Core
             // либо передать фиксированные значения (например, 0)
             int collected = 0;
             int maxCollectables = 0;
-            _levelAnalyticsTracker.UpdateCollectables(collected);
             _levelAnalyticsTracker.SetStatus(collected, maxCollectables);
             _levelAnalyticsTracker.EndLevelAnalytics();
 

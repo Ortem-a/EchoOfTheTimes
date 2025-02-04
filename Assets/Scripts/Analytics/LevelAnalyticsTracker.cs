@@ -242,11 +242,5 @@ namespace EchoOfTheTimes.SceneManagement
             // Если за прохождение уровня собрал всё, то статус "full", иначе "default"
             status = collected == max_collectables_on_lvl ? "full" : "default";
         }
-
-        // Обновление количества собранных коллектаблов
-        public void UpdateCollectables(int collected)
-        {
-            num_collectables = collected;
-        }
     }
 }
