@@ -13,16 +13,15 @@ namespace EchoOfTheTimes.SceneManagement
         private bool isLevelTimerRunning = false;
         private bool isFPSTracking = false;
 
-        public string levelName = "Default Level"; // Название уровня
-        public string chapterName = "Default Chapter"; // Название главы
-        private string status = "default"; // "default" - прошёл без сбора всех коллектаблов, "full" - собрал всё
-        private int num_collectables = 0; // Количество собранных коллектаблов за это прохождение уровня
+        public string levelName = "Default Level";
+        public string chapterName = "Default Chapter";
+        private string status = "full"; // Теперь всегда "full"
+        private int num_collectables = -1; // Всегда отправляем -1
 
-        private List<float> fpsList = new List<float>(); // Храним FPS
+        private List<float> fpsList = new List<float>();
 
         private void Start()
         {
-            // Автоматически начинаем сбор аналитики при запуске сцены
             StartLevelAnalytics();
         }
 
@@ -31,31 +30,23 @@ namespace EchoOfTheTimes.SceneManagement
             isPaused = pauseStatus;
             if (isPaused)
             {
-                // Приложение свернуто
-                if (isLevelTimerRunning)
-                    PauseLevelTimer();
-                if (isFPSTracking)
-                    PauseFPSTracking();
+                if (isLevelTimerRunning) PauseLevelTimer();
+                if (isFPSTracking) PauseFPSTracking();
             }
             else
             {
-                // Приложение восстановлено
-                if (isLevelTimerRunning)
-                    ResumeLevelTimer();
-                if (isFPSTracking)
-                    ResumeFPSTracking();
+                if (isLevelTimerRunning) ResumeLevelTimer();
+                if (isFPSTracking) ResumeFPSTracking();
             }
         }
 
-        // Метод для начала сбора аналитики
         public void StartLevelAnalytics()
         {
             StartLevelTimer();
             StartFPSTracking();
-            SendLevelStartedEvent(levelName); // Отправляем событие level_started для текущего уровня
+            SendLevelStartedEvent(levelName);
         }
 
-        // Публичный метод для отправки события level_started с указанным именем уровня
         private void SendLevelStartedEvent(string levelName)
         {
             string levelData = $@"
@@ -69,11 +60,9 @@ namespace EchoOfTheTimes.SceneManagement
             Debug.Log($"Level started event sent for {levelName}");
         }
 
-        // Методы для управления таймером уровня
         private void StartLevelTimer()
         {
-            if (isLevelTimerRunning)
-                return;
+            if (isLevelTimerRunning) return;
 
             levelStartTime = Time.time;
             isLevelTimerRunning = true;
@@ -88,21 +77,18 @@ namespace EchoOfTheTimes.SceneManagement
 
         private void EndLevelTimer()
         {
-            if (!isLevelTimerRunning)
-                return;
+            if (!isLevelTimerRunning) return;
 
             float levelDuration = Time.time - levelStartTime;
             isLevelTimerRunning = false;
             Debug.Log($"Level duration: {levelDuration} seconds");
 
-            // Если длительность меньше 15 секунд или дольше 15 минут, не отправлять статистику
             if (levelDuration < 15f || levelDuration > 900f)
             {
                 Debug.Log("Level duration out of bounds, analytics not sent.");
                 return;
             }
 
-            // Формируем JSON-данные для события level_completed_stats
             string levelData = $@"
             {{
                 ""level_completed_stats"": {{
@@ -120,8 +106,7 @@ namespace EchoOfTheTimes.SceneManagement
 
         private void PauseLevelTimer()
         {
-            if (!isLevelTimerRunning)
-                return;
+            if (!isLevelTimerRunning) return;
 
             pausedTime = Time.time;
             Debug.Log("Level timer paused");
@@ -129,29 +114,25 @@ namespace EchoOfTheTimes.SceneManagement
 
         private void ResumeLevelTimer()
         {
-            if (!isLevelTimerRunning)
-                return;
+            if (!isLevelTimerRunning) return;
 
             float pauseDuration = Time.time - pausedTime;
             levelStartTime += pauseDuration;
             Debug.Log("Level timer resumed");
         }
 
-        // Методы для управления сбором FPS
         private void StartFPSTracking()
         {
-            if (isFPSTracking)
-                return;
+            if (isFPSTracking) return;
 
-            InvokeRepeating(nameof(CaptureFPS), 0f, 1f); // Сбор FPS каждую секунду
+            InvokeRepeating(nameof(CaptureFPS), 0f, 1f);
             isFPSTracking = true;
             Debug.Log("FPS tracking started");
         }
 
         private void EndFPSTracking()
         {
-            if (!isFPSTracking)
-                return;
+            if (!isFPSTracking) return;
 
             StopFPSTracking();
             SendFPSData();
@@ -161,8 +142,7 @@ namespace EchoOfTheTimes.SceneManagement
 
         private void PauseFPSTracking()
         {
-            if (!isFPSTracking)
-                return;
+            if (!isFPSTracking) return;
 
             CancelInvoke(nameof(CaptureFPS));
             Debug.Log("FPS tracking paused");
@@ -170,8 +150,7 @@ namespace EchoOfTheTimes.SceneManagement
 
         private void ResumeFPSTracking()
         {
-            if (!isFPSTracking)
-                return;
+            if (!isFPSTracking) return;
 
             InvokeRepeating(nameof(CaptureFPS), 0f, 1f);
             Debug.Log("FPS tracking resumed");
@@ -190,17 +169,14 @@ namespace EchoOfTheTimes.SceneManagement
 
         private void SendFPSData()
         {
-            // Проверяем длительность уровня
             float levelDuration = Time.time - levelStartTime;
 
-            // Если длительность меньше 15 секунд или дольше 15 минут, не отправлять статистику
             if (levelDuration < 15f || levelDuration > 900f)
             {
                 Debug.Log("Level duration out of bounds, FPS analytics not sent.");
                 return;
             }
 
-            // Обработка данных FPS - отрезаем по 2.5% лучших и худших значений
             fpsList.Sort();
             int count = fpsList.Count;
 
@@ -213,13 +189,11 @@ namespace EchoOfTheTimes.SceneManagement
             int cutOff = Mathf.FloorToInt(count * 0.025f);
             List<float> trimmedFPSList = fpsList.Skip(cutOff).Take(count - 2 * cutOff).ToList();
 
-            // Вычисление среднего/медианного/минимального/максимального FPS
             float averageFPS = trimmedFPSList.Average();
             float medianFPS = trimmedFPSList[trimmedFPSList.Count / 2];
             float minFPS = trimmedFPSList.Min();
             float maxFPS = trimmedFPSList.Max();
 
-            // Формируем JSON-данные для события level_fps_stats
             string jsonData = $@"
             {{
                 ""level_fps_stats"": {{
@@ -236,11 +210,10 @@ namespace EchoOfTheTimes.SceneManagement
             Debug.Log($"FPS stats event sent for {levelName}");
         }
 
-        // Обновление статуса уровня
-        public void SetStatus(int collected = 0, int max_collectables_on_lvl = 2)
+        // Убрали проверку коллектаблов, теперь просто задаём "full"
+        public void SetStatus()
         {
-            // Если за прохождение уровня собрал всё, то статус "full", иначе "default"
-            status = collected == max_collectables_on_lvl ? "full" : "default";
+            status = "full";
         }
     }
 }

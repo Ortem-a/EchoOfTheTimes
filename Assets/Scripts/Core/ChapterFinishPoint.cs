@@ -19,7 +19,6 @@ namespace EchoOfTheTimes.Core
         private UiSceneController _sceneController;
         private LevelAnalyticsTracker _levelAnalyticsTracker;
 
-        // Убираем ссылку на CollectableService
         [Inject]
         public void Construct(Player player, InputMediator inputHandler, UiSceneController sceneController)
         {
@@ -38,16 +37,10 @@ namespace EchoOfTheTimes.Core
             _sceneController.EnableFinishCanvas();
             _player.Stop(null);
 
-            // Здесь можно либо удалить обновление аналитики коллектаблов,
-            // либо передать фиксированные значения (например, 0)
-            int collected = 0;
-            int maxCollectables = 0;
-            _levelAnalyticsTracker.SetStatus(collected, maxCollectables);
+            _levelAnalyticsTracker.SetStatus();
             _levelAnalyticsTracker.EndLevelAnalytics();
 
-            // Если событие OnLevelCompleted больше не нужно, его можно убрать,
-            // либо вызывать с фиксированным значением.
-            PersistenceService.OnLevelCompleted?.Invoke(collected);
+            PersistenceService.OnLevelCompleted?.Invoke(-1);
         }
     }
 }
