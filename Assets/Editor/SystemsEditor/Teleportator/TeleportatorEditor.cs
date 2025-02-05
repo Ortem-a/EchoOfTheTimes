@@ -6,7 +6,7 @@ using UnityEngine;
 namespace SystemsEditor
 {
     [CustomEditor(typeof(Teleportator))]
-    public class TeleportatorEditor : UnityEditor.Editor
+    public class TeleportatorEditor : Editor
     {
         private static int _teleportIndex;
         private static List<Teleportator> _avaliableTeleports;
