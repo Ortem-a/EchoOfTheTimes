@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Systems.Tools;
 using UnityEngine;
 
 namespace Systems.Leveling
@@ -7,7 +8,10 @@ namespace Systems.Leveling
     {
         private float _stairHeight;
 
-        public Stair[] Stairs { get; private set; }
+        public List<StairsStates> StairsStates;
+
+        //[HideInInspector]
+        public Stair[] Stairs;
 
         private List<Vector3> _flatBottomPositions;
 

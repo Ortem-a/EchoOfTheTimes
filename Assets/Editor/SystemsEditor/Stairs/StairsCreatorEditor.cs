@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Systems.Leveling;
 using Systems.Movement;
+using Systems.Tools;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,20 +15,13 @@ namespace SystemsEditor
         private Vector3 _realScale;
         private List<Vector3> _flatBottomPositions;
 
-        private int _stairsNumber;
-        private float _stairHeight;
-        private float _vertexElevationUponStair;
+        private int _stairsNumber = 6;
+        private float _stairHeight = 2;
+        private float _vertexElevationUponStair = 0.5f;
         private Stair _stairPrefab;
         private Vertex _vertexPrefab;
 
-        private bool _flatBottom;
-        private List<int> _flatBottomIds;
-        private bool _flatTop;
-        private List<int> _flatTopIds;
-        private bool _startBottom;
-        private List<int> _startBottomIds;
-        private bool _startTop;
-        private List<int> _startTopIds;
+        private bool _prefabsAvailable;
 
         private int _debugStateId;
 
@@ -35,9 +29,16 @@ namespace SystemsEditor
         {
             StairsCreator stairsCreator = (StairsCreator)target;
 
+            if (stairsCreator.Stairs != null)
+            {
+                _stairs = stairsCreator.Stairs.ToList();
+            }
+
             DrawDefaultInspector();
 
             EditorGUILayout.Space();
+
+            _prefabsAvailable = true;
 
             var headerStyle = new GUIStyle();
             headerStyle.fontStyle = FontStyle.Bold;
@@ -49,54 +50,63 @@ namespace SystemsEditor
             _stairHeight = EditorGUILayout.FloatField("Stair Height", _stairHeight);
             _vertexElevationUponStair = EditorGUILayout.FloatField("Vertex Elevation Upon Stair", _vertexElevationUponStair);
 
-            EditorGUILayout.BeginHorizontal();
-            GUILayout.Label("Stair Prefab");
-            _stairPrefab = (Stair)EditorGUILayout.ObjectField(_stairPrefab, typeof(Stair), false);
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginHorizontal();
-            GUILayout.Label("Stair Vertex Prefab");
-            _vertexPrefab = (VertexVisibility)EditorGUILayout.ObjectField(_vertexPrefab, typeof(VertexVisibility), false);
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.Space();
-
-            GUILayout.Label("Add States For", headerStyle);
-
-            _flatBottom = EditorGUILayout.Toggle("Flat Bottom", _flatBottom);
-            _flatTop = EditorGUILayout.Toggle("Flat Top", _flatTop);
-            _startBottom = EditorGUILayout.Toggle("Start Bottom", _startBottom);
-            _startTop = EditorGUILayout.Toggle("Start Top", _startTop);
-
-            EditorGUILayout.Space();
-
-            GUILayout.Label("DEBUG", headerStyle);
-
-            _debugStateId = EditorGUILayout.IntField("Debug State Id", _debugStateId);
-
-            // TODO: need to add IDs
-
-            EditorGUILayout.Space();
-            if (GUILayout.Button("Create"))
+            _stairPrefab = AssetDatabase.LoadAssetAtPath<Stair>(@"Assets/_MEGAGIGAREFACTOR/Stairs/Step 1 by 6.prefab");
+            if (_stairPrefab == null)
             {
-                Create(stairsCreator);
+                EditorGUILayout.HelpBox("Stair prefab not found at 'Assets/_MEGAGIGAREFACTOR/Stairs/Step 1 by 6.prefab'!",
+                    MessageType.Error);
+
+                _prefabsAvailable = false;
             }
-            EditorGUILayout.Space();
-            if (GUILayout.Button("Add States To Stairs"))
+            else
             {
-                AddStatesToStairs();
+                EditorGUILayout.BeginHorizontal();
+                GUILayout.Label("Stair Prefab");
+                _stairPrefab = (Stair)EditorGUILayout.ObjectField(_stairPrefab, typeof(Stair), false);
+                EditorGUILayout.EndHorizontal();
             }
-            EditorGUILayout.Space();
-            if (GUILayout.Button("Despawn"))
+
+            _vertexPrefab = AssetDatabase.LoadAssetAtPath<Vertex>(@"Assets/_MEGAGIGAREFACTOR/Stairs/StairVertex.prefab");
+            if (_vertexPrefab == null)
             {
-                Despawn(stairsCreator);
+                EditorGUILayout.HelpBox("Stair vertex prefab not found at 'Assets/_MEGAGIGAREFACTOR/Stairs/StairVertex.prefab'!",
+                    MessageType.Error);
+
+                _prefabsAvailable = false;
             }
-            EditorGUILayout.Space();
-            if (GUILayout.Button("Transform To State"))
+            else
             {
-                TransformToState();
+                EditorGUILayout.BeginHorizontal();
+                GUILayout.Label("Stair Vertex Prefab");
+                _vertexPrefab = (VertexVisibility)EditorGUILayout.ObjectField(_vertexPrefab, typeof(VertexVisibility), false);
+                EditorGUILayout.EndHorizontal();
             }
+
             EditorGUILayout.Space();
+
+            if (_prefabsAvailable)
+            {
+                if (GUILayout.Button("Create"))
+                {
+                    Create(stairsCreator);
+                }
+                EditorGUILayout.Space();
+                if (GUILayout.Button("Despawn"))
+                {
+                    Despawn(stairsCreator);
+                }
+                EditorGUILayout.Space();
+
+                GUILayout.Label("DEBUG", headerStyle);
+
+                _debugStateId = EditorGUILayout.IntField("Debug State Id", _debugStateId);
+
+                if (GUILayout.Button("Transform To State"))
+                {
+                    TransformToState(stairsCreator);
+                }
+                EditorGUILayout.Space();
+            }
         }
 
         [DrawGizmo(GizmoType.Selected)]
@@ -105,7 +115,7 @@ namespace SystemsEditor
 
         }
 
-        public void Create(StairsCreator stairsCreator)
+        private void Create(StairsCreator stairsCreator)
         {
             Despawn(stairsCreator);
 
@@ -114,6 +124,10 @@ namespace SystemsEditor
             MoveStairsToPlaces();
 
             AddVerteticesToStairs();
+
+            AddStatesToStairs(stairsCreator);
+
+            stairsCreator.Stairs = _stairs.ToArray();
         }
 
         private void SpawnStairs(StairsCreator stairsCreator)
@@ -150,59 +164,79 @@ namespace SystemsEditor
             }
         }
 
-        public void AddStatesToStairs()
+        private void AddStatesToStairs(StairsCreator stairsCreator)
         {
             for (int i = 0; i < _stairs.Count; i++)
             {
                 _stairs[i].Initialize();
             }
 
-            if (_flatBottom) AddStatesForFlatBottom();
-            if (_flatTop) AddStatesForFlatTop();
-            if (_startBottom) AddStatesForStartBottom();
-            if (_startTop) AddStatesForStartTop();
+            AddStatesForFlatBottom(stairsCreator.StairsStates);
+            AddStatesForFlatTop(stairsCreator.StairsStates);
+            AddStatesForStartBottom(stairsCreator.StairsStates);
+            AddStatesForStartTop(stairsCreator.StairsStates);
         }
 
-        private void AddStatesForFlatBottom()
+        private void AddStatesForFlatBottom(List<StairsStates> stairsStates)
         {
-            SetOrUpdateState(_flatBottomIds);
-            ResetPositions();
-        }
+            var flatBottomIds = stairsStates.Find(x => x.StairState == StairStateType.FlatBottom);
 
-        private void AddStatesForFlatTop()
-        {
-            for (int i = 0; i < _stairs.Count; i++)
+            if (flatBottomIds != null)
             {
-                _stairs[i].transform.localPosition += (_stairsNumber - 1) * _stairHeight * Vector3.up;
+                SetOrUpdateState(flatBottomIds.StateIds);
+                ResetPositions();
             }
-
-            SetOrUpdateState(_flatTopIds);
-            ResetPositions();
         }
 
-        private void AddStatesForStartBottom()
+        private void AddStatesForFlatTop(List<StairsStates> stairsStates)
         {
-            for (int i = 0; i < _stairs.Count; i++)
-            {
-                _stairs[i].transform.localPosition += (i + 1) * _stairHeight * Vector3.up;
-            }
+            var flatTopIds = stairsStates.Find(x => x.StairState == StairStateType.FlatTop);
 
-            SetOrUpdateState(_startBottomIds);
-            ResetPositions();
+            if (flatTopIds != null)
+            {
+                for (int i = 0; i < _stairs.Count; i++)
+                {
+                    _stairs[i].transform.localPosition += (_stairsNumber - 1) * _stairHeight * Vector3.up;
+                }
+
+                SetOrUpdateState(flatTopIds.StateIds);
+                ResetPositions();
+            }
         }
 
-        private void AddStatesForStartTop()
+        private void AddStatesForStartBottom(List<StairsStates> stairsStates)
         {
-            for (int i = 0; i < _stairs.Count; i++)
-            {
-                _stairs[i].transform.localPosition += (_stairs.Count - i) * _stairHeight * Vector3.up;
-            }
+            var startBottomIds = stairsStates.Find(x => x.StairState == StairStateType.StartBottom);
 
-            SetOrUpdateState(_startTopIds);
-            ResetPositions();
+            if (startBottomIds != null)
+            {
+                for (int i = 0; i < _stairs.Count; i++)
+                {
+                    _stairs[i].transform.localPosition += (i + 1) * _stairHeight * Vector3.up;
+                }
+
+                SetOrUpdateState(startBottomIds.StateIds);
+                ResetPositions();
+            }
         }
 
-        private void SetOrUpdateState(List<int> ids)
+        private void AddStatesForStartTop(List<StairsStates> stairsStates)
+        {
+            var startTopIds = stairsStates.Find(x => x.StairState == StairStateType.StartTop);
+
+            if (startTopIds != null)
+            {
+                for (int i = 0; i < _stairs.Count; i++)
+                {
+                    _stairs[i].transform.localPosition += (_stairs.Count - i) * _stairHeight * Vector3.up;
+                }
+
+                SetOrUpdateState(startTopIds.StateIds);
+                ResetPositions();
+            }
+        }
+
+        private void SetOrUpdateState(int[] ids)
         {
             foreach (int id in ids)
             {
@@ -230,7 +264,7 @@ namespace SystemsEditor
             vertex.transform.localPosition = Vector3.up * _vertexElevationUponStair;
         }
 
-        public void Despawn(StairsCreator stairsCreator)
+        private void Despawn(StairsCreator stairsCreator)
         {
             _stairs = GetOrFindStairs(stairsCreator);
 
@@ -243,11 +277,16 @@ namespace SystemsEditor
 
                 _stairs.Clear();
                 _stairs = null;
+
             }
+
+            stairsCreator.Stairs = null;
         }
 
-        public void TransformToState()
+        private void TransformToState(StairsCreator stairsCreator)
         {
+            _stairs = stairsCreator.Stairs.ToList();
+
             foreach (var stair in _stairs)
             {
                 stair.TransformStairsToState(_debugStateId);
