@@ -10,7 +10,7 @@ namespace Systems.Leveling
 
         public List<StairsStates> StairsStates;
 
-        //[HideInInspector]
+        [HideInInspector]
         public Stair[] Stairs;
 
         private List<Vector3> _flatBottomPositions;

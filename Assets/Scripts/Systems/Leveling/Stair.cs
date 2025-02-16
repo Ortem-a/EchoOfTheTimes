@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
+using static Google.DialogWindow;
 
 namespace Systems.Leveling
 {
@@ -21,24 +23,29 @@ namespace Systems.Leveling
             private set => _stateable = value;
         }
 
+#if UNITY_EDITOR
         public void Initialize()
         {
-            //Stateable.States = new System.Collections.Generic.List<StateOption>();
+            Stateable.States = new Tools.StateableSerializableDictionary();
         }
 
-#if UNITY_EDITOR
         public void SetOrUpdateState(int stateId)
         {
-            //Stateable.CurrentStateId = stateId;
-
-            //Stateable.SetOrUpdateParamsToState();
+            Stateable.States.AddOrUpdate(stateId, transform);
         }
 
         public void TransformStairsToState(int stateId)
         {
-            //Stateable.CurrentStateId = stateId;
-
-            //Stateable.TransformObjectByState();
+            if (Stateable.States.TryGetValue(stateId, out var stateOption))
+            {
+                stateOption.Target.SetLocalPositionAndRotation(
+                    stateOption.LocalPosition, stateOption.LocalRotation);
+                stateOption.Target.localScale = stateOption.LocalScale;
+            }
+            else
+            {
+                Debug.LogWarning($"[STAIR - {name}] There is no state with id: {stateId}!");
+            }
         }
 #endif
     }

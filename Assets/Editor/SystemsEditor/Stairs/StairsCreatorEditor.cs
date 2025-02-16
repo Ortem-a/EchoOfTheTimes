@@ -91,6 +91,7 @@ namespace SystemsEditor
                     Create(stairsCreator);
                 }
                 EditorGUILayout.Space();
+
                 if (GUILayout.Button("Despawn"))
                 {
                     Despawn(stairsCreator);

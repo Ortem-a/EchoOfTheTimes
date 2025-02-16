@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Systems.Tools
@@ -6,6 +7,11 @@ namespace Systems.Tools
     public class DummySerializableDictionary<TKey, TValue>
     {
         public DummySerializableDictionaryItem<TKey, TValue>[] Items;
+
+        public DummySerializableDictionary()
+        {
+            Items = Array.Empty<DummySerializableDictionaryItem<TKey, TValue>>();
+        }
 
         public virtual Dictionary<TKey, TValue> ToDictionary()
         {
