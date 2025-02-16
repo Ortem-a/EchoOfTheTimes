@@ -6,11 +6,13 @@ using UnityEngine;
 
 namespace Systems.Units
 {
+    [RequireComponent(typeof(UnitAnimator))]
     public class Movable : MonoBehaviour, IMovableByPath
     {
         public Queue<Vertex> Path { get; private set; }
         private Queue<Vertex> _bufferPath;
 
+        [field: SerializeField]
         public Vector3 Direction { get; private set; }
 
         [field: SerializeField]
@@ -20,8 +22,17 @@ namespace Systems.Units
 
         [field: SerializeField]
         public bool NeedStop { get; private set; } = false;
-        [field: SerializeField]
-        public bool IsMoving { get; private set; } = false;
+        [SerializeField]
+        private bool _isMoving;
+        public bool IsMoving
+        {
+            get => _isMoving;
+            private set
+            {
+                _isMoving = value;
+                _animator.OnMovingStateChanched?.Invoke(_isMoving, Direction);
+            }
+        }
         [field: SerializeField]
         public bool OnBridge { get; private set; } = false;
         bool _wasOnBridge = false;
@@ -39,9 +50,13 @@ namespace Systems.Units
         public Action<Vertex> OnWaypointChanged { get; set; } = null;
         public Action OnEnterToBridge { get; private set; } = null;
 
+        private UnitAnimator _animator;
+
         public void Initialize(float speed)
         {
+            _isMoving = false;
             Speed = speed;
+            _animator = GetComponent<UnitAnimator>();
 
             OnEnterToBridge += HandleEnteringToBridge;
             OnWaypointChanged += HandleNewWaypoint;
@@ -77,22 +92,19 @@ namespace Systems.Units
 
         public void MoveBy(List<Vertex> path)
         {
-            //if (path.Count != 0)
-            //{
-                path.Reverse();
-                _bufferPath = new Queue<Vertex>(path);
+            path.Reverse();
+            _bufferPath = new Queue<Vertex>(path);
 
-                _onNewPathGot = HandleNewPath;
+            _onNewPathGot = HandleNewPath;
 
-                if (IsMoving)
-                {
-                    Stop();
-                }
-                else
-                {
-                    _onNewPathGot?.Invoke();
-                }
-            //}
+            if (IsMoving)
+            {
+                Stop();
+            }
+            else
+            {
+                _onNewPathGot?.Invoke();
+            }
         }
 
         private void HandleNewPath()
@@ -132,6 +144,9 @@ namespace Systems.Units
                 SkipBridgeIfNeed();
 
                 Direction = (NextWaypoint.transform.position - transform.position).normalized;
+
+                // rotate character transform
+                transform.localRotation = Quaternion.LookRotation(Direction);
 
                 if (Vector3.Distance(transform.position, NextWaypoint.transform.position) > Speed / 2f)
                 {

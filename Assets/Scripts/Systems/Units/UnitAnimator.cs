@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 namespace Systems.Units
@@ -6,43 +6,68 @@ namespace Systems.Units
     [RequireComponent(typeof(Animator))]
     public class UnitAnimator : MonoBehaviour
     {
-        private Animator _animator;
-
-        private static readonly int _idleHash = Animator.StringToHash("Idle");
-        private static readonly int _moveHash = Animator.StringToHash("Jogging");
-        private static readonly int _climbingHash = Animator.StringToHash("Climbing Ladder");
-        private static readonly int _finishClimbingHash = Animator.StringToHash("Finish Climbing");
-        private static readonly int _startClimbingHash = Animator.StringToHash("Start Climbing");
-        private static readonly int _runnigUpHash = Animator.StringToHash("Running Up Stairs");
-        private static readonly int _walkingUpHash = Animator.StringToHash("Walking UP");
-
-        private const float _crossFadeDuration = 0.1f;
-
-        private readonly Dictionary<int, float> _animationsDuration = new Dictionary<int, float>()
+        private enum UnitState
         {
-            { _idleHash, 0.1f },
-            { _moveHash, 0.1f },
-            { _climbingHash, 0.1f },
-            { _finishClimbingHash, 0.1f },
-            { _startClimbingHash, 0.1f },
-            { _runnigUpHash, 0.1f },
-            { _walkingUpHash, 0.1f },
-        };
+            Idle,
+            Moving,
+        }
 
-        private void Awake() => _animator = GetComponent<Animator>();
+        public Action<bool, Vector3> OnMovingStateChanched;
 
-        public float Idle() => PlayAnimation(_idleHash);
-        public float Move() => PlayAnimation(_moveHash);
-        public float Climb() => PlayAnimation(_climbingHash);
-        public float FinishClimb() => PlayAnimation(_finishClimbingHash);
-        public float StartClimb() => PlayAnimation(_startClimbingHash);
-        public float RunUp() => PlayAnimation(_runnigUpHash);
-        public float WalkUp() => PlayAnimation(_walkingUpHash);
+        private AnimationService _animationService;
 
-        private float PlayAnimation(int animationHash)
+        [SerializeField]
+        private UnitState _unitState = UnitState.Idle;
+
+        private void Awake()
         {
-            _animator.CrossFade(animationHash, _crossFadeDuration);
-            return _animationsDuration[animationHash];
+            var animator = GetComponent<Animator>();
+            _animationService = new AnimationService(animator);
+
+            OnMovingStateChanched += HandleMovingStateChanched;
+        }
+
+        private void OnDestroy()
+        {
+            OnMovingStateChanched -= HandleMovingStateChanched;
+        }
+
+        private void HandleMovingStateChanched(bool isMoving, Vector3 direction)
+        {
+            var newState = GetState(isMoving, direction);
+
+            if (newState == _unitState) return;
+
+            _unitState = newState;
+
+            PlayAnimation();
+        }
+
+        private UnitState GetState(bool isMoving, Vector3 direction)
+        {
+            if (isMoving)
+            {
+                return UnitState.Moving;
+            }
+            else
+            {
+                return UnitState.Idle;
+            }
+        }
+
+        private void PlayAnimation()
+        {
+            switch (_unitState)
+            {
+                case UnitState.Idle:
+                    _animationService.Idle();
+                    break;
+                case UnitState.Moving:
+                    _animationService.Move();
+                    break;
+                default:
+                    throw new ArgumentException($"Unexpected {nameof(UnitState)} for {_unitState}!");
+            }
         }
     }
 }
