@@ -34,11 +34,7 @@ namespace Systems.Units
 
         private void HandleMovingStateChanched(bool isMoving, Vector3 direction)
         {
-            var newState = GetState(isMoving, direction);
-
-            if (newState == _unitState) return;
-
-            _unitState = newState;
+            _unitState = GetState(isMoving, direction);
 
             PlayAnimation();
         }

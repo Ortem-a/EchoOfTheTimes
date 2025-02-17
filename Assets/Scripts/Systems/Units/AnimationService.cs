@@ -45,6 +45,7 @@ namespace Systems.Units
         private float PlayAnimation(int animationHash)
         {
             _animator.CrossFade(animationHash, _crossFadeDuration);
+            _animator.Play(animationHash);
             return _animationsDuration[animationHash];
         }
     }

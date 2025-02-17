@@ -145,8 +145,11 @@ namespace Systems.Units
 
                 Direction = (NextWaypoint.transform.position - transform.position).normalized;
 
-                // rotate character transform
-                transform.localRotation = Quaternion.LookRotation(Direction);
+                // rotate character transform smoothly
+                transform.localRotation = Quaternion.Slerp(transform.localRotation,
+                    Quaternion.LookRotation(Direction), Time.deltaTime * 5f);
+                // rotate character transform immediatly
+                //transform.localRotation = Quaternion.LookRotation(Direction);
 
                 if (Vector3.Distance(transform.position, NextWaypoint.transform.position) > Speed / 2f)
                 {
