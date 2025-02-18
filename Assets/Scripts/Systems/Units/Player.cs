@@ -13,7 +13,7 @@ namespace Systems.Units
 
         public Transform Transform => transform;
 
-        private bool _canTeleportate = false;
+        private bool _canTeleportate = true;
 
         private GraphVisibility _graph;
 
@@ -66,11 +66,11 @@ namespace Systems.Units
                         specialVertex.OnEnter(this);
                         break;
                     case SpecialVertexType.Teleportator:
-                        _canTeleportate = !_canTeleportate;
                         if (_canTeleportate)
                         {
                             specialVertex.OnEnter(this);
                         }
+                        _canTeleportate = !_canTeleportate;
                         break;
                     default:
                         throw new System.NotImplementedException(specialVertex.Type.ToString());

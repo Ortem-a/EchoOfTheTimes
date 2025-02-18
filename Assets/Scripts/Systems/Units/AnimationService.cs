@@ -8,7 +8,7 @@ namespace Systems.Units
         private readonly Animator _animator;
         private readonly Dictionary<int, float> _animationsDuration;
 
-        private const float _crossFadeDuration = 0.01f;
+        private const float _crossFadeDuration = 0.1f;
 
         private readonly int _idleHash = Animator.StringToHash("Idle");
         private readonly int _moveHash = Animator.StringToHash("Walking");

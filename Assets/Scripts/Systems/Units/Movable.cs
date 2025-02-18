@@ -79,6 +79,8 @@ namespace Systems.Units
 
             if (NextWaypoint != null)
             {
+                IsMoving = true;
+
                 if (Vector3.Distance(CurrentWaypoint.transform.position, NextWaypoint.transform.position) > 2f)
                 {
                     ForceStop();
@@ -155,7 +157,7 @@ namespace Systems.Units
                 {
                     transform.localPosition += Direction * Speed;
 
-                    IsMoving = true;
+                    //IsMoving = true;
                 }
                 else
                 {
@@ -165,6 +167,8 @@ namespace Systems.Units
                     if (NeedStop)
                     {
                         IsMoving = false;
+                        //yield return null;
+
                         NeedStop = false;
 
                         NextWaypoint = null;

@@ -40,6 +40,11 @@ namespace SystemsEditor
 
                 Gizmos.DrawLine(vertex.transform.position, n.Vertex.transform.position);
             }
+
+            GizmosDrawerHelper.DrawText(
+                vertex.transform.position + Vector3.up * 0.4f,
+                vertex.Id.ToString(),
+                textColor: Color.white, anchor: TextAnchor.MiddleCenter);
         }
     }
 }

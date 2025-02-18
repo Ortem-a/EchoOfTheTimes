@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Systems.Units
@@ -34,9 +35,13 @@ namespace Systems.Units
 
         private void HandleMovingStateChanched(bool isMoving, Vector3 direction)
         {
-            _unitState = GetState(isMoving, direction);
+            var unitState = GetState(isMoving, direction);
 
-            PlayAnimation();
+            if (unitState == _unitState) return;
+
+            _unitState = unitState;
+
+            StartCoroutine(PlayAnimation());
         }
 
         private UnitState GetState(bool isMoving, Vector3 direction)
@@ -51,8 +56,10 @@ namespace Systems.Units
             }
         }
 
-        private void PlayAnimation()
+        private IEnumerator PlayAnimation()
         {
+            yield return null;
+
             switch (_unitState)
             {
                 case UnitState.Idle:
