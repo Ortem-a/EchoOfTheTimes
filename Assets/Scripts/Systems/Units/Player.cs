@@ -8,7 +8,6 @@ namespace Systems.Units
     public class Player : MonoBehaviour, IUnit
     {
         public IMovableByPath Movable { get; private set; }
-
         public ITeleportable Teleportable { get; private set; }
 
         public Transform Transform => transform;
@@ -29,7 +28,7 @@ namespace Systems.Units
 
             _graph = graph;
 
-            Movable.Initialize(unitSettings.Speed);
+            Movable.Initialize(unitSettings.MoveSpeed, unitSettings.RotationSpeed, _graph.MaxDistanceToNeighbourVertex);
 
             Movable.OnWaypointChanged += HandleNewWaypoint;
 

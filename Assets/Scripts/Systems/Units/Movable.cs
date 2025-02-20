@@ -37,7 +37,9 @@ namespace Systems.Units
         public bool OnBridge { get; private set; } = false;
         bool _wasOnBridge = false;
 
-        public float Speed { get; private set; }
+        public float MoveSpeed { get; private set; }
+        public float RotationSpeed { get; private set; }
+        public float MaxDistanceToWaypoint { get; private set; }
 
         private Coroutine _moveCoroutine;
 
@@ -52,10 +54,13 @@ namespace Systems.Units
 
         private UnitAnimator _animator;
 
-        public void Initialize(float speed)
+        public void Initialize(float moveSpeed, float rotationSpeed, float maxDistanceToWaypoint)
         {
             _isMoving = false;
-            Speed = speed;
+            MoveSpeed = moveSpeed;
+            RotationSpeed = rotationSpeed;
+            MaxDistanceToWaypoint = maxDistanceToWaypoint;
+
             _animator = GetComponent<UnitAnimator>();
 
             OnEnterToBridge += HandleEnteringToBridge;
@@ -81,7 +86,7 @@ namespace Systems.Units
             {
                 IsMoving = true;
 
-                if (Vector3.Distance(CurrentWaypoint.transform.position, NextWaypoint.transform.position) > 2f)
+                if (Vector3.Distance(CurrentWaypoint.transform.position, NextWaypoint.transform.position) > MaxDistanceToWaypoint)
                 {
                     ForceStop();
                 }
@@ -149,13 +154,13 @@ namespace Systems.Units
 
                 // rotate character transform smoothly
                 transform.localRotation = Quaternion.Slerp(transform.localRotation,
-                    Quaternion.LookRotation(Direction), Time.deltaTime * 5f);
+                    Quaternion.LookRotation(Direction), Time.deltaTime * RotationSpeed);
                 // rotate character transform immediatly
                 //transform.localRotation = Quaternion.LookRotation(Direction);
 
-                if (Vector3.Distance(transform.position, NextWaypoint.transform.position) > Speed / 2f)
+                if (Vector3.Distance(transform.position, NextWaypoint.transform.position) > MoveSpeed / 2f)
                 {
-                    transform.localPosition += Direction * Speed;
+                    transform.localPosition += Direction * MoveSpeed;
 
                     //IsMoving = true;
                 }
@@ -167,8 +172,6 @@ namespace Systems.Units
                     if (NeedStop)
                     {
                         IsMoving = false;
-                        //yield return null;
-
                         NeedStop = false;
 
                         NextWaypoint = null;

@@ -16,7 +16,7 @@ namespace Systems.Units
         {
             public IUnit Create(UnitSettingsScriptableObject unitSettings, Vertex at, GraphVisibility graph)
             {
-                var obj = MonoBehaviour.Instantiate(unitSettings.Prefab);
+                var obj = Object.Instantiate(unitSettings.Prefab);
 
                 var unit = obj.GetComponent<IUnit>();
 

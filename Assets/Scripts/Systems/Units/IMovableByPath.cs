@@ -16,10 +16,12 @@ namespace Systems.Units
         public bool NeedStop { get; }
         public bool IsMoving { get; }
         public bool OnBridge { get; }
-        public float Speed { get; }
+        public float MoveSpeed { get; }
+        public float RotationSpeed { get; }
+        public float MaxDistanceToWaypoint { get; }
         public MarkerParent TempParent { get; }
 
-        public void Initialize(float speed);
+        public void Initialize(float moveSpeed, float rotationSpeed, float maxDistanceToWaypoint);
         public void MoveBy(List<Vertex> path);
         public void Stop(Action onStopped = null);
         public void StopImmediate();

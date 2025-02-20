@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Systems.Leveling;
+using Systems.Settings;
 using UnityEngine;
 using Zenject;
 
@@ -10,8 +11,10 @@ namespace Systems.Movement
         private StateService _stateService;
 
         [Inject]
-        private void Construct(StateService stateService)
+        private void Construct(LevelSettingsScriptableObject levelSettings, StateService stateService)
         {
+            MaxDistanceToNeighbourVertex = levelSettings.MaxDistanceToNeighbourVertex;
+
             _stateService = stateService;
 
             _stateService.OnCompleteChangingState += ResetAndLoad;

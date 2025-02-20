@@ -8,6 +8,8 @@ namespace Systems.Settings
         [field: SerializeField]
         public GameObject Prefab { get; private set; }
         [field: SerializeField]
-        public float Speed { get; private set; }
+        public float MoveSpeed { get; private set; }
+        [field: SerializeField]
+        public float RotationSpeed { get; private set; }
     }
 }

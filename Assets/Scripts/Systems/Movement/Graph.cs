@@ -5,7 +5,7 @@ namespace Systems.Movement
 {
     public abstract class Graph : MonoBehaviour
     {
-        protected float MaxDistanceToNeighbourVertex = 2f;
+        public float MaxDistanceToNeighbourVertex { get; protected set; }
 
         protected List<Vertex> vertices;
         protected List<List<Vertex>> neighbours;
