@@ -12,11 +12,10 @@ namespace Systems.Units
 
         private readonly int _idleHash = Animator.StringToHash("Idle");
         private readonly int _moveHash = Animator.StringToHash("Walking");
-        private readonly int _climbingHash = Animator.StringToHash("Climbing Ladder");
-        private readonly int _finishClimbingHash = Animator.StringToHash("Finish Climbing");
-        private readonly int _startClimbingHash = Animator.StringToHash("Start Climbing");
-        private readonly int _runningUpHash = Animator.StringToHash("Running Up Stairs");
-        private readonly int _walkingUpHash = Animator.StringToHash("Walking UP");
+        private readonly int _climbingUpHash = Animator.StringToHash("Climbing_up");
+        private readonly int _climbingDownHash = Animator.StringToHash("Climbing_down");
+        private readonly int _stairsUpHash = Animator.StringToHash("Stairs_up");
+        private readonly int _stairsDownHash = Animator.StringToHash("Stairs_down");
 
         public AnimationService(Animator animator)
         {
@@ -26,21 +25,19 @@ namespace Systems.Units
             {
                 { _idleHash, 0.1f },
                 { _moveHash, 0.1f },
-                { _climbingHash, 0.1f },
-                { _finishClimbingHash, 0.1f },
-                { _startClimbingHash, 0.1f },
-                { _runningUpHash, 0.1f },
-                { _walkingUpHash, 0.1f },
+                { _climbingUpHash, 0.1f },
+                { _climbingDownHash, 0.1f },
+                { _stairsUpHash, 0.1f },
+                { _stairsDownHash, 0.1f },
             };
         }
 
         public float Idle() => PlayAnimation(_idleHash);
         public float Move() => PlayAnimation(_moveHash);
-        public float Climb() => PlayAnimation(_climbingHash);
-        public float FinishClimb() => PlayAnimation(_finishClimbingHash);
-        public float StartClimb() => PlayAnimation(_startClimbingHash);
-        public float RunUp() => PlayAnimation(_runningUpHash);
-        public float WalkUp() => PlayAnimation(_walkingUpHash);
+        public float ClimbUp() => PlayAnimation(_climbingUpHash);
+        public float ClimbDown() => PlayAnimation(_climbingDownHash);
+        public float WalkUpStairs() => PlayAnimation(_stairsUpHash);
+        public float WalkDownStairs() => PlayAnimation(_stairsDownHash);
 
         private float PlayAnimation(int animationHash)
         {

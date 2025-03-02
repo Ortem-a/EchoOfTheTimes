@@ -11,6 +11,10 @@ namespace Systems.Units
         {
             Idle,
             Moving,
+            LadderUp,
+            LadderDown,
+            StairsUp,
+            StairsDown
         }
 
         public Action<bool, Vector3> OnMovingStateChanched;
@@ -48,6 +52,31 @@ namespace Systems.Units
         {
             if (isMoving)
             {
+                float angleBetweenUp = Vector3.Angle(direction, Vector3.up);
+                Debug.LogWarning(angleBetweenUp);
+                // угол между Y == 90 -- движение по плоской поверхности
+                
+                if (angleBetweenUp > 80f && angleBetweenUp < 100f)
+                {
+                    return UnitState.Moving;
+                }
+                else if (angleBetweenUp < 40f)
+                {
+                    return UnitState.LadderUp;
+                }
+                else if (angleBetweenUp < 70f)
+                {
+                    return UnitState.StairsUp;
+                }
+                else if (angleBetweenUp < 145f)
+                {
+                    return UnitState.StairsDown;
+                }
+                else if (angleBetweenUp < 190f)
+                {
+                    return UnitState.LadderDown;
+                }
+
                 return UnitState.Moving;
             }
             else
@@ -67,6 +96,18 @@ namespace Systems.Units
                     break;
                 case UnitState.Moving:
                     _animationService.Move();
+                    break;
+                case UnitState.LadderUp:
+                    _animationService.ClimbUp();
+                    break;
+                case UnitState.LadderDown:
+                    _animationService.ClimbDown();
+                    break;
+                case UnitState.StairsUp:
+                    _animationService.WalkUpStairs();
+                    break;
+                case UnitState.StairsDown:
+                    _animationService.WalkDownStairs();
                     break;
                 default:
                     throw new ArgumentException($"Unexpected {nameof(UnitState)} for {_unitState}!");

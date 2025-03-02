@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Systems.Movement;
+using UnityEditor;
 using UnityEngine;
 
 namespace Systems.Units
@@ -84,6 +85,7 @@ namespace Systems.Units
 
             if (NextWaypoint != null)
             {
+                Direction = (NextWaypoint.transform.position - transform.position).normalized;
                 IsMoving = true;
 
                 if (Vector3.Distance(CurrentWaypoint.transform.position, NextWaypoint.transform.position) > MaxDistanceToWaypoint)
@@ -150,11 +152,18 @@ namespace Systems.Units
             {
                 SkipBridgeIfNeed();
 
-                Direction = (NextWaypoint.transform.position - transform.position).normalized;
+                // поворачивать только при движении по плоской поверхности
+                // угол между Y == 90 -- движение по плоской поверхности
+                float angleBetweenUp = Vector3.Angle(Direction, Vector3.up);
+                if (angleBetweenUp > 80f && angleBetweenUp < 100f)
+                {
+                    transform.localRotation = Quaternion.Slerp(transform.localRotation,
+                        Quaternion.LookRotation(Direction), Time.deltaTime * RotationSpeed);
+                }
 
                 // rotate character transform smoothly
-                transform.localRotation = Quaternion.Slerp(transform.localRotation,
-                    Quaternion.LookRotation(Direction), Time.deltaTime * RotationSpeed);
+                //transform.localRotation = Quaternion.Slerp(transform.localRotation,
+                //    Quaternion.LookRotation(Direction), Time.deltaTime * RotationSpeed);
                 // rotate character transform immediatly
                 //transform.localRotation = Quaternion.LookRotation(Direction);
 
