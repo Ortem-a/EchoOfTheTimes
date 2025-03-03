@@ -17,6 +17,8 @@ namespace Systems.Movement
 
         private Vertex[] _vertices;
 
+        private Sequence _sequence;
+
         private void Awake()
         {
             _bridgeService = GetComponent<BridgeService>();
@@ -26,25 +28,30 @@ namespace Systems.Movement
             Configure();
         }
 
+        private void OnDestroy()
+        {
+            _sequence.Kill();
+        }
+
         private void Configure()
         {
-            var sequence = DOTween.Sequence(transform);
+            _sequence = DOTween.Sequence(transform);
 
             for (int i = 0; i < Rules.Count; i++)
             {
-                sequence.Join(Rules[i].Option.Target.DOLocalMove(Rules[i].Option.LocalPosition, _moveDuration_sec));
-                sequence.Join(Rules[i].Option.Target.DOLocalRotateQuaternion(Rules[i].Option.LocalRotation, _moveDuration_sec));
-                sequence.Join(Rules[i].Option.Target.DOScale(Rules[i].Option.LocalScale, _moveDuration_sec));
+                _sequence.Join(Rules[i].Option.Target.DOLocalMove(Rules[i].Option.LocalPosition, _moveDuration_sec));
+                _sequence.Join(Rules[i].Option.Target.DOLocalRotateQuaternion(Rules[i].Option.LocalRotation, _moveDuration_sec));
+                _sequence.Join(Rules[i].Option.Target.DOScale(Rules[i].Option.LocalScale, _moveDuration_sec));
 
-                sequence.AppendCallback(HandleIncomeInRule);
+                _sequence.AppendCallback(HandleIncomeInRule);
 
-                sequence.AppendInterval(Rules[i].StayInDuration_sec);
+                _sequence.AppendInterval(Rules[i].StayInDuration_sec);
 
-                sequence.AppendCallback(HandleLeaveFromRule);
+                _sequence.AppendCallback(HandleLeaveFromRule);
             }
 
-            sequence.SetLoops(-1);
-            sequence.SetEase(Ease.Linear);
+            _sequence.SetLoops(-1);
+            _sequence.SetEase(Ease.Linear);
         }
 
         private void HandleIncomeInRule()

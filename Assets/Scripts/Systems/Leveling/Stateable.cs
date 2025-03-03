@@ -36,6 +36,11 @@ namespace Systems.Leveling
             _vertices = GetComponentsInChildren<Vertex>(includeInactive: true);
         }
 
+        private void OnDestroy()
+        {
+            _sequence?.Kill();
+        }
+
         public void AcceptState(int stateId, Action onComplete)
         {
             if (Options.TryGetValue(stateId, out var option))
