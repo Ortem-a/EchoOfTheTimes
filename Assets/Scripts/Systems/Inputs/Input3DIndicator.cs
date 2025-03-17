@@ -1,0 +1,60 @@
+﻿using DG.Tweening;
+using Systems.Movement;
+using UnityEngine;
+
+namespace Systems.Inputs
+{
+    public class Input3DIndicator : InputIndicationAnimator
+    {
+        private Renderer _renderer;
+
+        [SerializeField]
+        private Color _defaultSphere = Color.black;
+        [SerializeField]
+        private Color _splashSphere = Color.white;
+        [SerializeField]
+        private Color _defaultErrorSplashSphere = Color.white;
+        [SerializeField]
+        private Color _errorSplashSphere = Color.red;
+
+        protected override void Awake()
+        {
+            _renderer = inputIndicatorSettings.Indicator3DPrefab.GetComponent<Renderer>();
+        }
+
+        public void ShowSuccessIndicator(Vertex at) => SpawnSphere(at.transform, _defaultSphere, _splashSphere);
+
+        public void ShowErrorIndicator(Vertex at) => SpawnSphere(at.transform, _defaultErrorSplashSphere, _errorSplashSphere);
+
+        private void SpawnSphere(Transform at, Color defaultColor, Color splash)
+        {
+            if (spawnedIndicator != null)
+            {
+                Destroy(spawnedIndicator);
+            }
+
+            spawnedIndicator = Instantiate(inputIndicatorSettings.Indicator3DPrefab, Vector3.zero, Quaternion.identity, transform);
+            spawnedIndicator.SetActive(false);
+            _renderer = spawnedIndicator.GetComponent<Renderer>();
+            _renderer.material.color = defaultColor;
+            spawnedIndicator.transform.localScale = Vector3.one * inputIndicatorSettings.DefaultRadius;
+
+            spawnedIndicator.transform.localPosition = at.position;
+            spawnedIndicator.SetActive(true);
+
+            spawnedIndicator.transform.DOScale(inputIndicatorSettings.MaxRadius, inputIndicatorSettings.IndicatorDuration3D_sec)
+                .OnComplete(() =>
+                {
+                    _renderer.material.DOColor(splash, inputIndicatorSettings.IndicatorColorDuration3D_sec);
+
+                    spawnedIndicator.transform.DOScale(inputIndicatorSettings.DefaultRadius, inputIndicatorSettings.IndicatorDuration3D_sec)
+                        .OnComplete(() =>
+                        {
+                            spawnedIndicator.SetActive(false);
+                            _renderer.material.color = defaultColor;
+                            Destroy(spawnedIndicator); // Destroy the indicator after use
+                        });
+                });
+        }
+    }
+}

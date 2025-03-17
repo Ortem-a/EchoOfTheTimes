@@ -1,0 +1,80 @@
+using Systems.Leveling;
+using Systems.Movement;
+using Systems.Settings;
+using UnityEngine;
+
+namespace Systems.Units
+{
+    public class Player : MonoBehaviour, IUnit
+    {
+        public IMovableByPath Movable { get; private set; }
+        public ITeleportable Teleportable { get; private set; }
+
+        public Transform Transform => transform;
+
+        private bool _canTeleportate = true;
+
+        private GraphVisibility _graph;
+
+        private void OnDestroy()
+        {
+            Movable.OnWaypointChanged -= HandleNewWaypoint;
+        }
+
+        public IUnit Spawn(UnitSettingsScriptableObject unitSettings, Vertex at, GraphVisibility graph)
+        {
+            Movable = GetComponent<Movable>();
+            Teleportable = GetComponent<Teleportable>();
+
+            _graph = graph;
+
+            Movable.Initialize(unitSettings.MoveSpeed, unitSettings.RotationSpeed, _graph.MaxDistanceToNeighbourVertex);
+
+            Movable.OnWaypointChanged += HandleNewWaypoint;
+
+            transform.position = at.transform.position;
+            Movable.CurrentWaypoint = at;
+
+            TryMove(at);
+
+            return this;
+        }
+
+        public bool TryMove(Vertex to)
+        {
+            Vertex start = Movable.NextWaypoint != null ? Movable.NextWaypoint : Movable.CurrentWaypoint;
+
+            var path = _graph.GetPathBFS(start, to);
+
+            if (path.Count == 0)
+            {
+                return false;
+            }
+
+            Movable.MoveBy(path);
+            return true;
+        }
+
+        private void HandleNewWaypoint(Vertex waypoint)
+        {
+            if (waypoint.TryGetComponent<ISpecialVertex>(out var specialVertex))
+            {
+                switch (specialVertex.Type)
+                {
+                    case SpecialVertexType.Button:
+                        specialVertex.OnEnter(this);
+                        break;
+                    case SpecialVertexType.Teleportator:
+                        if (_canTeleportate)
+                        {
+                            specialVertex.OnEnter(this);
+                        }
+                        _canTeleportate = !_canTeleportate;
+                        break;
+                    default:
+                        throw new System.NotImplementedException(specialVertex.Type.ToString());
+                }
+            }
+        }
+    }
+}
