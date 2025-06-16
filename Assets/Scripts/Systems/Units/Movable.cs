@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Systems.Movement;
-using UnityEditor;
 using UnityEngine;
 
 namespace Systems.Units
@@ -152,13 +151,13 @@ namespace Systems.Units
             {
                 SkipBridgeIfNeed();
 
-                // ïîâîðà÷èâàòü òîëüêî ïðè äâèæåíèè ïî ïëîñêîé ïîâåðõíîñòè
-                // óãîë ìåæäó Y == 90 -- äâèæåíèå ïî ïëîñêîé ïîâåðõíîñòè
                 float angleBetweenUp = Vector3.Angle(Direction, Vector3.up);
                 if (angleBetweenUp > 80f && angleBetweenUp < 100f)
                 {
-                    transform.localRotation = Quaternion.Slerp(transform.localRotation,
-                        Quaternion.LookRotation(Direction), Time.deltaTime * RotationSpeed);
+                    transform.localRotation = Quaternion.Slerp(
+                        transform.localRotation,
+                        Quaternion.LookRotation(Direction),
+                        Time.deltaTime * RotationSpeed);
                 }
 
                 // rotate character transform smoothly
@@ -167,9 +166,13 @@ namespace Systems.Units
                 // rotate character transform immediatly
                 //transform.localRotation = Quaternion.LookRotation(Direction);
 
-                if (Vector3.Distance(transform.position, NextWaypoint.transform.position) > MoveSpeed / 2f)
+                if (Vector3.Distance(transform.position, NextWaypoint.transform.position) > MoveSpeed * Time.deltaTime)
                 {
-                    transform.localPosition += Direction * MoveSpeed * Time.deltaTime;
+                    transform.position = Vector3.MoveTowards(
+                        transform.position,
+                        NextWaypoint.transform.position,
+                        MoveSpeed * Time.deltaTime);
+                    //transform.localPosition += MoveSpeed * Time.deltaTime * Direction;
 
                     //IsMoving = true;
                 }
