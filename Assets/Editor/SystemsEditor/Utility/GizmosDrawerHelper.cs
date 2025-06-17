@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 namespace SystemsEditor
 {
@@ -71,33 +72,32 @@ namespace SystemsEditor
             DrawText(position, text, style);
         }
 
-        public static void DrawHierarchyRecursive(Transform current, Matrix4x4 parentMatrix)
+        public static void DrawHierarchyRecursive(Transform target, Matrix4x4 parentMatrix)
         {
-            // Вычисляем мировую матрицу для текущего объекта
-            Matrix4x4 localMatrix = Matrix4x4.TRS(
-                current.localPosition,
-                current.localRotation,
-                current.localScale
-            );
+            // Игнорируем текущий transform, используем сохранённые данные
 
-            Matrix4x4 matrix = parentMatrix * localMatrix;
-
-            // Отрисовываем меш если он есть
-            MeshFilter meshFilter = current.GetComponent<MeshFilter>();
+            // Отрисовка меша
+            MeshFilter meshFilter = target.GetComponent<MeshFilter>();
             if (meshFilter != null && meshFilter.sharedMesh != null)
             {
                 Gizmos.DrawMesh(
                     meshFilter.sharedMesh,
-                    matrix.GetPosition(),
-                    matrix.rotation,
-                    matrix.lossyScale
+                    parentMatrix.GetPosition(),
+                    parentMatrix.rotation,
+                    parentMatrix.lossyScale
                 );
             }
 
-            // Рекурсивно обрабатываем потомков
-            foreach (Transform child in current)
+            // Если у Stateable есть дети — отрисовываем их в локальных координатах
+            foreach (Transform child in target)
             {
-                DrawHierarchyRecursive(child, matrix);
+                Matrix4x4 localMatrix = Matrix4x4.TRS(
+                    child.localPosition,
+                    child.localRotation,
+                    child.localScale
+                );
+
+                DrawHierarchyRecursive(child, parentMatrix * localMatrix);
             }
         }
     }

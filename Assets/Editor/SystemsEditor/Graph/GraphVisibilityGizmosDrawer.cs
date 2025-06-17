@@ -7,7 +7,7 @@ namespace SystemsEditor
 {
     public static class GraphVisibilityGizmosDrawer
     {
-        [DrawGizmo(GizmoType.Active | GizmoType.NonSelected | GizmoType.Selected | GizmoType.Pickable)]
+        [DrawGizmo(GizmoType.Active | GizmoType.Selected | GizmoType.Pickable)]
         private static void DrawAllStateablesGizmos(GraphVisibility graph, GizmoType gizmoType)
         {
             Stateable[] stateables = graph.GetComponentsInChildren<Stateable>();

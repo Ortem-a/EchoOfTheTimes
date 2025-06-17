@@ -25,11 +25,9 @@ namespace SystemsEditor
             {
                 if (stateable.TryGetOption(stateId, out var option))
                 {
-                    var selectedObject = Selection.activeTransform;
-
-                    selectedObject.SetLocalPositionAndRotation(
+                    stateable.transform.SetLocalPositionAndRotation(
                         option.LocalPosition, option.LocalRotation);
-                    selectedObject.localScale = option.LocalScale;
+                    stateable.transform.localScale = option.LocalScale;
                 }
             }
         }
