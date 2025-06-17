@@ -91,10 +91,11 @@ namespace Systems.DI
         {
             this.Container
                 .BindInterfacesAndSelfTo<StateService>()
+                .FromNew()
                 .AsSingle();
 
             this.Container
-                .Bind<LevelStateMachine>()
+                .BindInterfacesAndSelfTo<LevelStateMachine>()
                 .FromNew()
                 .AsSingle();
 

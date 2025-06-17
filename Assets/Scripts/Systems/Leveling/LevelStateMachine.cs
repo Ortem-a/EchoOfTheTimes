@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace Systems.Leveling
 {
-    public class LevelStateMachine
+    public class LevelStateMachine : IInitializable
     {
         private Dictionary<int, List<IStateable>> _states;
 
@@ -45,6 +46,20 @@ namespace Systems.Leveling
                     {
                         _states[j].Add(stateables[i]);
                     }
+                }
+            }
+        }
+
+        public void Initialize()
+        {
+            _currentState = 0;
+
+            foreach (IStateable stateable in _states[_currentState])
+            {
+                if (stateable.TryGetOption(_currentState, out StateOption option))
+                {
+                    option.Target.SetLocalPositionAndRotation(option.LocalPosition, option.LocalRotation);
+                    option.Target.localScale = option.LocalScale;
                 }
             }
         }
