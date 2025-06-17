@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using Systems.Movement;
 using Systems.Tools;
 using UnityEngine;
-using Zenject;
 
 namespace Systems.Leveling
 {

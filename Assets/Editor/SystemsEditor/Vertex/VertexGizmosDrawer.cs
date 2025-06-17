@@ -6,8 +6,7 @@ namespace SystemsEditor
 {
     public static class VertexGizmosDrawer
     {
-        [DrawGizmo(GizmoType.Active | GizmoType.Selected | GizmoType.InSelectionHierarchy |
-            GizmoType.NotInSelectionHierarchy | GizmoType.NonSelected)]
+        [DrawGizmo(GizmoType.Active | GizmoType.NonSelected | GizmoType.Selected | GizmoType.Pickable)]
         private static void DrawGizmos(Vertex vertex, GizmoType gizmoType)
         {
             if (vertex.IsMoving)

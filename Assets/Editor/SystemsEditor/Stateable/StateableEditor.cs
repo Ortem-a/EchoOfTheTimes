@@ -1,11 +1,10 @@
 using Systems.Leveling;
-using Systems.Tools;
 using UnityEditor;
 using UnityEngine;
 
 namespace SystemsEditor
 {
-    [CustomEditor(typeof(Systems.Leveling.Stateable))]
+    [CustomEditor(typeof(Stateable))]
     public class StateableEditor : Editor
     {
         private int _stateIdToSet;

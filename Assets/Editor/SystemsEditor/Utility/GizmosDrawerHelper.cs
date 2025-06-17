@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Systems.Leveling;
 using UnityEditor;
 using UnityEngine;
 
@@ -24,61 +22,6 @@ namespace SystemsEditor
             float arrowHeadLength = 0.25f, float arrowHeadAngle = 20.0f)
         {
             DrawArrow((from + to) / 2f, (to - from).normalized, color, arrowHeadLength, arrowHeadAngle);
-        }
-
-        public static void DrawWireMeshesByTRS(MeshFilter[] meshFilters, Transform parent, StateOption option)
-        {
-            foreach (var filter in meshFilters)
-            {
-                DrawWireMeshByTRS(filter.sharedMesh, filter.transform, parent, option);
-            }
-        }
-
-        public static void DrawWireMeshByTRS(Mesh mesh, Transform t, Transform parent, StateOption option)
-        {
-            var oldMatrix = Gizmos.matrix;
-
-            Matrix4x4 rotationMatrix = Matrix4x4.TRS(
-                //parent.TransformPoint(option.LocalPosition),
-                option.LocalPosition,
-                option.LocalRotation,
-                option.LocalScale);
-
-            Gizmos.matrix = rotationMatrix;
-
-            var pos = rotationMatrix.GetPosition();
-            var rot = rotationMatrix.rotation.eulerAngles;
-            var scale = rotationMatrix.lossyScale;
-
-            //Gizmos.DrawWireMesh(mesh);
-
-            Gizmos.DrawWireMesh(mesh,
-                t.localPosition,
-                t.localRotation,
-                t.localScale);
-
-            Gizmos.matrix = oldMatrix;
-        }
-
-        public static void DrawWireMeshesByTRS(List<(Mesh mesh, Transform t)> meshes,
-            Vector3 position, Quaternion rotation, Vector3 localScale)
-        {
-            foreach (var mesh in meshes)
-            {
-                DrawWireMeshByTRS(mesh.mesh, mesh.t, position, rotation, localScale);
-            }
-        }
-
-        public static void DrawWireMeshByTRS(Mesh mesh, Transform parent,
-            Vector3 position, Quaternion rotation, Vector3 localScale)
-        {
-            Matrix4x4 rotationMatrix = Matrix4x4.TRS(position, rotation, localScale);
-            Gizmos.matrix = rotationMatrix;
-
-            Gizmos.DrawWireMesh(mesh,
-                parent.localPosition,
-                parent.localRotation,
-                parent.localScale);
         }
 
         public static void DrawBezierCurve(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, int segmentNumber, Color color)
@@ -116,7 +59,7 @@ namespace SystemsEditor
             Handles.Label(position, text, style);
         }
 
-        public static void DrawText(Vector3 position, string text, 
+        public static void DrawText(Vector3 position, string text,
             Color textColor, TextAnchor anchor = TextAnchor.MiddleCenter)
         {
             var style = new GUIStyle
@@ -126,6 +69,36 @@ namespace SystemsEditor
             style.normal.textColor = textColor;
 
             DrawText(position, text, style);
+        }
+
+        public static void DrawHierarchyRecursive(Transform current, Matrix4x4 parentMatrix)
+        {
+            // Вычисляем мировую матрицу для текущего объекта
+            Matrix4x4 localMatrix = Matrix4x4.TRS(
+                current.localPosition,
+                current.localRotation,
+                current.localScale
+            );
+
+            Matrix4x4 matrix = parentMatrix * localMatrix;
+
+            // Отрисовываем меш если он есть
+            MeshFilter meshFilter = current.GetComponent<MeshFilter>();
+            if (meshFilter != null && meshFilter.sharedMesh != null)
+            {
+                Gizmos.DrawWireMesh(
+                    meshFilter.sharedMesh,
+                    matrix.GetPosition(),
+                    matrix.rotation,
+                    matrix.lossyScale
+                );
+            }
+
+            // Рекурсивно обрабатываем потомков
+            foreach (Transform child in current)
+            {
+                DrawHierarchyRecursive(child, matrix);
+            }
         }
     }
 }

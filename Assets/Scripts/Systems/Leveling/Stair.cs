@@ -1,13 +1,11 @@
-﻿using UnityEditor;
-using UnityEngine;
-using static Google.DialogWindow;
+﻿using UnityEngine;
 
 namespace Systems.Leveling
 {
     public class Stair : MonoBehaviour
     {
         private Stateable _stateable;
-        public Stateable Stateable 
+        public Stateable Stateable
         {
             get
             {
