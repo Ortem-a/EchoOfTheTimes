@@ -13,7 +13,7 @@ namespace SystemsEditor
 
             foreach (int state in stateable.Options.Keys)
             {
-                Gizmos.color = GizmosUtils.GetGizmoColorByState(state);
+                Gizmos.color = GizmoColorUtils.GetGizmoColorByState(state);
 
                 Matrix4x4 matrix = Matrix4x4.TRS(
                     stateable.Options[state].LocalPosition,

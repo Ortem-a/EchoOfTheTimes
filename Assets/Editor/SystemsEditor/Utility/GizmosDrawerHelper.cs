@@ -86,7 +86,7 @@ namespace SystemsEditor
             MeshFilter meshFilter = current.GetComponent<MeshFilter>();
             if (meshFilter != null && meshFilter.sharedMesh != null)
             {
-                Gizmos.DrawWireMesh(
+                Gizmos.DrawMesh(
                     meshFilter.sharedMesh,
                     matrix.GetPosition(),
                     matrix.rotation,

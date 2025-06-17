@@ -7,7 +7,7 @@ namespace Systems.Leveling
     {
         private Dictionary<int, List<IStateable>> _states;
 
-        private StateService _stateService;
+        private readonly StateService _stateService;
 
         private int _currentState = 0;
 

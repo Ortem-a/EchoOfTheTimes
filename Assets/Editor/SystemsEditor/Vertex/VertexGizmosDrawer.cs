@@ -11,14 +11,14 @@ namespace SystemsEditor
         {
             if (vertex.IsMoving)
             {
-                Gizmos.color = Color.yellow;
+                Gizmos.color = GizmoColorUtils.MovingColor();
             }
             else
             {
-                Gizmos.color = Color.green;
+                Gizmos.color = GizmoColorUtils.StaticColor();
             }
 
-            Gizmos.DrawWireSphere(vertex.transform.position, 0.15f);
+            Gizmos.DrawSphere(vertex.transform.position, 0.15f);
 
             if (vertex.Neighbours == null) return;
 
@@ -26,15 +26,15 @@ namespace SystemsEditor
             {
                 if (n.Vertex == null) continue;
 
-                GizmosDrawerHelper.DrawArrowBetween(vertex.transform.position, n.Vertex.transform.position, Color.yellow);
+                GizmosDrawerHelper.DrawArrowBetween(vertex.transform.position, n.Vertex.transform.position, GizmoColorUtils.ArrowColor());
 
                 if (vertex.IsBridge && n.Vertex.IsBridge)
                 {
-                    Gizmos.color = Color.blue;
+                    Gizmos.color = GizmoColorUtils.BridgeColor();
                 }
                 else
                 {
-                    Gizmos.color = Color.red;
+                    Gizmos.color = GizmoColorUtils.ConnectionColor();
                 }
 
                 Gizmos.DrawLine(vertex.transform.position, n.Vertex.transform.position);
@@ -43,7 +43,8 @@ namespace SystemsEditor
             GizmosDrawerHelper.DrawText(
                 vertex.transform.position + Vector3.up * 0.4f,
                 vertex.Id.ToString(),
-                textColor: Color.white, anchor: TextAnchor.MiddleCenter);
+                textColor: GizmoColorUtils.TextColor(),
+                anchor: TextAnchor.MiddleCenter);
         }
     }
 }
