@@ -1,12 +1,14 @@
 ﻿using Systems.Movement;
+using Systems.Settings;
 using Systems.Tools;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Systems.Inputs
 {
     [RequireComponent(typeof(MonoBehaviourTimer))]
-    public class Input2DIndicator : InputIndicationAnimator
+    public class Input2DIndicator : MonoBehaviour
     {
         [SerializeField]
         private Transform _parent;
@@ -19,22 +21,28 @@ namespace Systems.Inputs
 
         private MonoBehaviourTimer _timer;
 
-        protected override void Awake()
+        private GameObject _spawnedIndicator;
+        private InputIndicatorSettingsScriptableObject _inputIndicatorSettings;
+
+        [Inject]
+        private void Construct(InputIndicatorSettingsScriptableObject inputIndicatorSettings)
         {
+            _inputIndicatorSettings = inputIndicatorSettings;
+
             _camera = Camera.main;
             _timer = GetComponent<MonoBehaviourTimer>();
         }
 
         public void ShowIndicator(Vertex at)
         {
-            if (spawnedIndicator != null)
+            if (_spawnedIndicator != null)
             {
-                Destroy(spawnedIndicator);
+                Destroy(_spawnedIndicator);
             }
 
-            spawnedIndicator = Instantiate(inputIndicatorSettings.Indicator2DPrefab, Vector3.zero, Quaternion.identity, _parent);
-            spawnedIndicator.SetActive(false);
-            spawnedIndicator.GetComponent<Image>().color = _defaultColor;
+            _spawnedIndicator = Instantiate(_inputIndicatorSettings.Indicator2DPrefab, Vector3.zero, Quaternion.identity, _parent);
+            _spawnedIndicator.SetActive(false);
+            _spawnedIndicator.GetComponent<Image>().color = _defaultColor;
 
             SpawnIndicator(at.transform);
         }
@@ -43,13 +51,13 @@ namespace Systems.Inputs
         {
             _timer.Stop();
 
-            spawnedIndicator.SetActive(true);
+            _spawnedIndicator.SetActive(true);
             _isFollow = true;
             _target = at;
 
-            _timer.Run(inputIndicatorSettings.IndicatorDuration2D_sec, () =>
+            _timer.Run(_inputIndicatorSettings.IndicatorDuration2D_sec, () =>
             {
-                spawnedIndicator.SetActive(false);
+                _spawnedIndicator.SetActive(false);
                 _isFollow = false;
                 _target = null;
             });
@@ -59,7 +67,7 @@ namespace Systems.Inputs
         {
             if (_isFollow)
             {
-                spawnedIndicator.transform.position = _camera.WorldToScreenPoint(_target.transform.position);
+                _spawnedIndicator.transform.position = _camera.WorldToScreenPoint(_target.transform.position);
             }
         }
     }
