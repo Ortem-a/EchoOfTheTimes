@@ -45,8 +45,5 @@ namespace Systems.Movement
         public override bool Equals(object other) => other is Vertex vertex && Equals(vertex);
 
         public override int GetHashCode() => HashCode.Combine(Id, Neighbours);
-
-        public static bool operator ==(Vertex left, Vertex right) => left.Equals(right);
-        public static bool operator !=(Vertex left, Vertex right) => !left.Equals(right);
     }
 }

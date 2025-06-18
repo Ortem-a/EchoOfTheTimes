@@ -3,8 +3,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Systems.Movement;
+using Systems.Settings;
 using Systems.Tools;
 using UnityEngine;
+using Zenject;
 
 namespace Systems.Leveling
 {
@@ -29,6 +31,14 @@ namespace Systems.Leveling
         private Coroutine _coroutine;
 
         private Vertex[] _vertices;
+
+        private float _acceptingStateDuration_sec;
+
+        [Inject]
+        private void Construct(LevelSettingsScriptableObject levelSettings)
+        {
+            _acceptingStateDuration_sec = levelSettings.TimeToChangeState_sec;
+        }
 
         private void Awake()
         {
@@ -79,15 +89,13 @@ namespace Systems.Leveling
 
         private IEnumerator AcceptStateCoroutine(StateOption option, Action onComplete)
         {
-            float duration = 2f;
-
             MarkVerticesAs(true);
 
             _sequence = DOTween.Sequence();
 
-            _sequence.Join(option.Target.DOLocalMove(option.LocalPosition, duration));
-            _sequence.Join(option.Target.DOLocalRotateQuaternion(option.LocalRotation, duration));
-            _sequence.Join(option.Target.DOScale(option.LocalScale, duration));
+            _sequence.Join(option.Target.DOLocalMove(option.LocalPosition, _acceptingStateDuration_sec));
+            _sequence.Join(option.Target.DOLocalRotateQuaternion(option.LocalRotation, _acceptingStateDuration_sec));
+            _sequence.Join(option.Target.DOScale(option.LocalScale, _acceptingStateDuration_sec));
 
             yield return _sequence.WaitForCompletion();
 
