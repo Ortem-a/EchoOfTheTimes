@@ -1,14 +1,11 @@
 using Systems.Movement;
 using Systems.Units;
-using UnityEngine;
 using Zenject;
 
 namespace Systems.Leveling
 {
-    public class LevelButton : MonoBehaviour, ISpecialVertex
+    public sealed class LevelButton : AbstractSpecialVertex
     {
-        public SpecialVertexType Type => SpecialVertexType.Button;
-
         public StateableByButton[] Stateables;
 
         private bool _isActivated = false;
@@ -21,7 +18,7 @@ namespace Systems.Leveling
             _graph = graph;
         }
 
-        public void OnEnter(IUnit unit)
+        public override void OnEnter(IUnit unit)
         {
             if (Stateables == null) return;
 
@@ -38,9 +35,6 @@ namespace Systems.Leveling
             }
         }
 
-        public void OnExit(IUnit unit)
-        {
-            throw new System.NotImplementedException();
-        }
+        public override void OnExit(IUnit unit) { }
     }
 }

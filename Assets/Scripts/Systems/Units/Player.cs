@@ -9,11 +9,10 @@ namespace Systems.Units
     {
         public IMovableByPath Movable { get; private set; }
         public ITeleportable Teleportable { get; private set; }
-
         public Transform Transform => transform;
+        public bool CanInteractWithStates { get; set; } = true;
 
-        private bool _canTeleportate = true;
-
+        private ISpecialVertex _current;
         private GraphVisibility _graph;
 
         private void OnDestroy()
@@ -57,23 +56,16 @@ namespace Systems.Units
 
         private void HandleNewWaypoint(Vertex waypoint)
         {
+            if (_current != null)
+            {
+                _current.OnExit(this);
+                _current = null;
+            }
+
             if (waypoint.TryGetComponent<ISpecialVertex>(out var specialVertex))
             {
-                switch (specialVertex.Type)
-                {
-                    case SpecialVertexType.Button:
-                        specialVertex.OnEnter(this);
-                        break;
-                    case SpecialVertexType.Teleportator:
-                        if (_canTeleportate)
-                        {
-                            specialVertex.OnEnter(this);
-                        }
-                        _canTeleportate = !_canTeleportate;
-                        break;
-                    default:
-                        throw new System.NotImplementedException(specialVertex.Type.ToString());
-                }
+                specialVertex.OnEnter(this);
+                _current = specialVertex;
             }
         }
     }

@@ -35,7 +35,7 @@ namespace SystemsEditor
 
             for (int i = 0; i < contents.Length; i++)
             {
-                contents[i] = new GUIContent($"{_avaliableTeleports[i].name}_{_avaliableTeleports[i].Vertex.Id}");
+                contents[i] = new GUIContent($"{_avaliableTeleports[i].name}_{_avaliableTeleports[i].Id}");
             }
 
             GUILayout.Label("Connect with:");
@@ -49,7 +49,7 @@ namespace SystemsEditor
                 teleportator.Destination = _avaliableTeleports[_teleportIndex];
                 _avaliableTeleports[_teleportIndex].Destination = teleportator;
 
-                Debug.Log($"{teleportator.Destination.Vertex} and {_avaliableTeleports[_teleportIndex].Destination.Vertex} are connected!");
+                Debug.Log($"{teleportator.Destination} and {_avaliableTeleports[_teleportIndex].Destination} are connected!");
             }
 
             EditorGUILayout.Space();
@@ -62,8 +62,8 @@ namespace SystemsEditor
             {
                 Color color = Color.magenta;
 
-                Vector3 point1 = teleportator.Vertex.transform.position;
-                Vector3 point2 = _avaliableTeleports[_teleportIndex].Vertex.transform.position;
+                Vector3 point1 = teleportator.transform.position;
+                Vector3 point2 = _avaliableTeleports[_teleportIndex].transform.position;
 
                 GizmosDrawerHelper.DrawBezierCurveBetween(point1, point2, Vector3.up * 2f, 20, color);
             }

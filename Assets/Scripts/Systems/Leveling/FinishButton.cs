@@ -5,10 +5,8 @@ using Zenject;
 
 namespace Systems.Leveling
 {
-    public class FinishButton : MonoBehaviour, ISpecialVertex
+    public sealed class FinishButton : AbstractSpecialVertex
     {
-        public SpecialVertexType Type => SpecialVertexType.Button;
-
         private GameLoopService _gameLoop;
 
         [Inject]
@@ -17,16 +15,13 @@ namespace Systems.Leveling
             _gameLoop = gameLoop;
         }
 
-        public void OnEnter(IUnit unit)
+        public override void OnEnter(IUnit unit)
         {
             Debug.Log($"[FINISH BUTTON] {unit} enter");
 
             _gameLoop.FinishLevel();
         }
 
-        public void OnExit(IUnit unit)
-        {
-            throw new System.NotImplementedException();
-        }
+        public override void OnExit(IUnit unit) { }
     }
 }

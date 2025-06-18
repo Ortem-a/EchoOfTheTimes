@@ -47,7 +47,10 @@ namespace Systems.Inputs
 
         public void SwitchState(int stateId)
         {
-            _stateMachine.ChangeState(stateId);
+            if (_unit.CanInteractWithStates)
+            {
+                _stateMachine.ChangeState(stateId);
+            }
         }
     }
 }

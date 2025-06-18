@@ -1,38 +1,22 @@
-using Systems.Movement;
 using Systems.Units;
 using UnityEngine;
 
 namespace Systems.Leveling
 {
-    public class Teleportator : MonoBehaviour, ISpecialVertex
+    public sealed class Teleportator : AbstractSpecialVertex
     {
         [field: SerializeField]
         public Teleportator Destination { get; set; }
-        public SpecialVertexType Type { get; private set; } = SpecialVertexType.Teleportator;
 
-        public Vertex Vertex
+        public override void OnEnter(IUnit unit)
         {
-            get
-            {
-                if (_vertex == null)
-                {
-                    _vertex = GetComponent<Vertex>();
-                }
-
-                return _vertex;
-            }
-        }
-
-        private Vertex _vertex;
-
-        public void OnEnter(IUnit unit)
-        {
+            unit.Teleportable.CanTeleportate = false;
             Teleportate(unit);
         }
 
-        public void OnExit(IUnit unit)
+        public override void OnExit(IUnit unit)
         {
-            throw new System.NotImplementedException();
+            unit.Teleportable.CanTeleportate = !unit.Teleportable.CanTeleportate;
         }
 
         private void Teleportate(IUnit unit)
@@ -43,13 +27,13 @@ namespace Systems.Leveling
 
             OnStartTeleportation();
 
-            unit.Movable.CurrentWaypoint = Destination.Vertex;
+            unit.Movable.CurrentWaypoint = Destination;
 
-            unit.Teleportable.Teleportate(Destination.Vertex,
+            unit.Teleportable.Teleportate(Destination,
                 () =>
                 {
                     OnCompleteTeleportation();
-                    unit.Movable.SetParent(Destination.Vertex);
+                    unit.Movable.SetParent(Destination);
                 });
         }
 

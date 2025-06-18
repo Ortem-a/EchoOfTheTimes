@@ -9,6 +9,7 @@ namespace Systems.Units
     {
         public float TeleportDisappearDuration_sec { get; private set; } = 0.2f;
         public float TeleportDuration_sec { get; private set; } = 0.1f;
+        public bool CanTeleportate { get; set; }
 
         public void Teleportate(Vertex to, Action onComplete)
         {

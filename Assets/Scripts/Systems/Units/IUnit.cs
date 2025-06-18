@@ -9,6 +9,7 @@ namespace Systems.Units
         public IMovableByPath Movable { get; }
         public ITeleportable Teleportable { get; }
         public Transform Transform { get; }
+        public bool CanInteractWithStates { get; set; }
 
         public bool TryMove(Vertex to);
 
