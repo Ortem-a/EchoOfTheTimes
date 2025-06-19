@@ -9,7 +9,6 @@ namespace Systems.Units
     {
         public float TeleportDisappearDuration_sec { get; private set; } = 0.2f;
         public float TeleportDuration_sec { get; private set; } = 0.1f;
-        public bool CanTeleportate { get; set; }
 
         public void Teleportate(Vertex to, Action onComplete)
         {
@@ -21,7 +20,7 @@ namespace Systems.Units
                         OnCompleteTeleportation();
                         onComplete?.Invoke();
 
-                        // корректировка положения при телепортации на движущийся объект
+                        // correct position when teleportate to moving object
                         transform.position = to.transform.position;
                     });
             });

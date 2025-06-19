@@ -56,16 +56,29 @@ namespace Systems.Units
 
         private void HandleNewWaypoint(Vertex waypoint)
         {
-            if (_current != null)
-            {
-                _current.OnExit(this);
-                _current = null;
-            }
-
             if (waypoint.TryGetComponent<ISpecialVertex>(out var specialVertex))
             {
-                specialVertex.OnEnter(this);
-                _current = specialVertex;
+                // if previous waypoint was ISpecialVertex and current waypoint also special vertex
+                if (_current != null)
+                {
+                    _current.OnExit(this);
+                    _current = null;
+                }
+                // if previous waypoint not ISpecialVertex and current is
+                else
+                {
+                    specialVertex.OnEnter(this);
+                    _current = specialVertex;
+                }
+            }
+            else
+            {
+                // if current waypoint not ISpecialVertex
+                if (_current != null)
+                {
+                    _current.OnExit(this);
+                    _current = null;
+                }
             }
         }
     }

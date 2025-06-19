@@ -10,14 +10,10 @@ namespace Systems.Leveling
 
         public override void OnEnter(IUnit unit)
         {
-            unit.Teleportable.CanTeleportate = false;
             Teleportate(unit);
         }
 
-        public override void OnExit(IUnit unit)
-        {
-            unit.Teleportable.CanTeleportate = !unit.Teleportable.CanTeleportate;
-        }
+        public override void OnExit(IUnit unit) { }
 
         private void Teleportate(IUnit unit)
         {

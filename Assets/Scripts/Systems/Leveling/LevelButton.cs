@@ -1,5 +1,6 @@
 using Systems.Movement;
 using Systems.Units;
+using UnityEngine;
 using Zenject;
 
 namespace Systems.Leveling
@@ -8,7 +9,8 @@ namespace Systems.Leveling
     {
         public StateableByButton[] Stateables;
 
-        private bool _isActivated = false;
+        [field: SerializeField]
+        public bool IsActivated { get; private set; } = false;
 
         private GraphVisibility _graph;
 
@@ -22,9 +24,9 @@ namespace Systems.Leveling
         {
             if (Stateables == null) return;
 
-            if (!_isActivated)
+            if (!IsActivated)
             {
-                _isActivated = true;
+                IsActivated = true;
 
                 unit.Movable.StopImmediate();
 
