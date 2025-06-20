@@ -167,11 +167,6 @@ namespace SystemsEditor
 
         private void AddStatesToStairs(StairsCreator stairsCreator)
         {
-            for (int i = 0; i < _stairs.Count; i++)
-            {
-                _stairs[i].Initialize();
-            }
-
             AddStatesForFlatBottom(stairsCreator.StairsStates);
             AddStatesForFlatTop(stairsCreator.StairsStates);
             AddStatesForStartBottom(stairsCreator.StairsStates);

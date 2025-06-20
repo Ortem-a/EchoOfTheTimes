@@ -1,10 +1,9 @@
-﻿using DG.Tweening;
+﻿using AYellowpaper.SerializedCollections;
+using DG.Tweening;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Systems.Movement;
 using Systems.Settings;
-using Systems.Tools;
 using UnityEngine;
 using Zenject;
 
@@ -13,19 +12,11 @@ namespace Systems.Leveling
     [RequireComponent(typeof(MarkerParent))]
     public class Stateable : MonoBehaviour, IStateable
     {
-        private Dictionary<int, StateOption> _options;
+        [SerializeField]
+        [SerializedDictionary("State Id", "Option")]
+        private SerializedDictionary<int, StateOption> _options;
 
-        public Dictionary<int, StateOption> Options
-        {
-            get
-            {
-                _options ??= States.ToDictionary();
-
-                return _options;
-            }
-        }
-
-        public StateableSerializableDictionary States;
+        public SerializedDictionary<int, StateOption> Options => _options;
 
         private Sequence _sequence;
         private Coroutine _coroutine;
@@ -52,7 +43,7 @@ namespace Systems.Leveling
 
         public void AcceptState(int stateId, Action onComplete)
         {
-            if (Options.TryGetValue(stateId, out var option))
+            if (_options.TryGetValue(stateId, out var option))
             {
                 if (_coroutine != null) StopCoroutine(_coroutine);
 
@@ -64,18 +55,20 @@ namespace Systems.Leveling
         {
             var newOption = new StateOption()
             {
-                Target = target,
                 LocalPosition = target.localPosition,
                 LocalRotation = target.localRotation,
                 LocalScale = target.localScale,
             };
 
-            States.AddOrUpdate(stateId, target);
+            if (!_options.TryAdd(stateId, newOption))
+            {
+                _options[stateId] = newOption;
+            }
         }
 
         public bool TryGetOption(int stateId, out StateOption option)
         {
-            if (States.TryGetValue(stateId, out var newOption))
+            if (_options.TryGetValue(stateId, out var newOption))
             {
                 option = newOption;
                 return true;
@@ -93,9 +86,9 @@ namespace Systems.Leveling
 
             _sequence = DOTween.Sequence();
 
-            _sequence.Join(option.Target.DOLocalMove(option.LocalPosition, _acceptingStateDuration_sec));
-            _sequence.Join(option.Target.DOLocalRotateQuaternion(option.LocalRotation, _acceptingStateDuration_sec));
-            _sequence.Join(option.Target.DOScale(option.LocalScale, _acceptingStateDuration_sec));
+            _sequence.Join(transform.DOLocalMove(option.LocalPosition, _acceptingStateDuration_sec));
+            _sequence.Join(transform.DOLocalRotateQuaternion(option.LocalRotation, _acceptingStateDuration_sec));
+            _sequence.Join(transform.DOScale(option.LocalScale, _acceptingStateDuration_sec));
 
             yield return _sequence.WaitForCompletion();
 

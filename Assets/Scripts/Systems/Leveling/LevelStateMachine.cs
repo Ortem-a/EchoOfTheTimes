@@ -54,6 +54,12 @@ namespace Systems.Leveling
         {
             _currentState = 0;
 
+            if (!_states.ContainsKey(0))
+            {
+                Debug.LogWarning("There is no states with '0' state Id! Required at least one object with '0' state Id!");
+                return;
+            }
+
             foreach (IStateable stateable in _states[_currentState])
             {
                 if (stateable.TryGetOption(_currentState, out StateOption option))
@@ -67,7 +73,7 @@ namespace Systems.Leveling
         private int GetStatesNumber(List<IStateable> stateables)
         {
             int maxStateId = int.MinValue;
-            foreach (var stateable in stateables)
+            foreach (IStateable stateable in stateables)
             {
                 var max = stateable.Options.Count - 1;
 

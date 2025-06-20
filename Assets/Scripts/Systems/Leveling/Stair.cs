@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using AYellowpaper.SerializedCollections;
+using UnityEngine;
 
 namespace Systems.Leveling
 {
@@ -22,19 +23,24 @@ namespace Systems.Leveling
         }
 
 #if UNITY_EDITOR
-        public void Initialize()
-        {
-            Stateable.States = new Tools.StateableSerializableDictionary();
-        }
-
         public void SetOrUpdateState(int stateId)
         {
-            Stateable.States.AddOrUpdate(stateId, transform);
+            var option = new StateOption()
+            {
+                LocalPosition = transform.localPosition,
+                LocalRotation = transform.localRotation,
+                LocalScale = transform.localScale,
+            };
+
+            if (!Stateable.Options.TryAdd(stateId, option))
+            {
+                Stateable.Options[stateId] = option;
+            }
         }
 
         public void TransformStairsToState(int stateId)
         {
-            if (Stateable.States.TryGetValue(stateId, out var stateOption))
+            if (Stateable.Options.TryGetValue(stateId, out var stateOption))
             {
                 stateOption.Target.SetLocalPositionAndRotation(
                     stateOption.LocalPosition, stateOption.LocalRotation);
