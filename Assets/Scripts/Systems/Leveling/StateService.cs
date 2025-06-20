@@ -6,8 +6,8 @@ namespace Systems.Leveling
 {
     public class StateService : IDisposable
     {
-        public Action OnStartChangingState;
-        public Action OnCompleteChangingState;
+        public Action<int> OnStartChangingState;
+        public Action<int> OnCompleteChangingState;
 
         private int _optionsCount;
         private int _completedOptions = 0;
@@ -27,37 +27,37 @@ namespace Systems.Leveling
 #warning  ¿  Œ∆»ƒ¿“‹ ›“” ’”…Õﬁ œ–¿¬»À‹ÕŒ “ﬂ∆≈ÀŒŒŒŒŒŒ
         public void AcceptState(int stateId, List<IStateable> options)
         {
-            OnStartChangingState?.Invoke();
+            OnStartChangingState?.Invoke(stateId);
 
             _optionsCount = options.Count;
 
             for (int i = 0; i < options.Count; i++)
             {
-                options[i].AcceptState(stateId, HandleStepCompleted);
+                options[i].AcceptState(
+                    stateId,
+                    () => HandleStepCompleted(stateId));
             }
-
-            //OnCompleteChangingState?.Invoke();
         }
 
-        private void HandleStepCompleted()
+        private void HandleStepCompleted(int stateId)
         {
             _completedOptions++;
 
             if (_completedOptions == _optionsCount)
             {
                 _completedOptions = 0;
-                OnCompleteChangingState?.Invoke();
+                OnCompleteChangingState?.Invoke(stateId);
             }
         }
 
-        private void HandleStart()
+        private void HandleStart(int stateId)
         {
-            Debug.Log("Switching state: START");
+            Debug.Log($"Switching state to {stateId}: START");
         }
 
-        private void HandleComplete()
+        private void HandleComplete(int stateId)
         {
-            Debug.Log("Switching state: COMPLETE");
+            Debug.Log($"Switching state to {stateId}: COMPLETE");
         }
     }
 }
