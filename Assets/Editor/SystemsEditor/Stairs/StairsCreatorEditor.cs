@@ -235,14 +235,15 @@ namespace SystemsEditor
 
         private void SetOrUpdateState(int[] ids)
         {
-            foreach (int id in ids)
-            {
-                for (int i = 0; i < _stairs.Count; i++)
-                {
-                    throw new NotImplementedException();
-                    //_stairs[i].SetOrUpdateState(id);
-                }
-            }
+            throw new NotImplementedException();
+
+            //foreach (int id in ids)
+            //{
+            //    for (int i = 0; i < _stairs.Count; i++)
+            //    {
+            //        _stairs[i].SetOrUpdateState(id);
+            //    }
+            //}
         }
 
         private void ResetPositions()
