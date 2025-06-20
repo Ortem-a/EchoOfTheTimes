@@ -6,20 +6,17 @@ namespace Systems.Leveling
     [System.Serializable]
     public class StateOption
     {
-        public Transform Target;
-
         public Vector3 LocalPosition;
         public Quaternion LocalRotation;
         public Vector3 LocalScale;
 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
-            sb.Append($"{nameof(Target)}: {Target.name}\n");
-            sb.Append($"{nameof(LocalPosition)}: {LocalPosition}\n");
-            sb.Append($"{nameof(LocalRotation)}: {LocalRotation.eulerAngles}\n");
-            sb.Append($"{nameof(LocalScale)}: {LocalScale}\n");
+            sb.AppendLine($"{nameof(LocalPosition)}: {LocalPosition}");
+            sb.AppendLine($"{nameof(LocalRotation)}: {LocalRotation.eulerAngles}");
+            sb.AppendLine($"{nameof(LocalScale)}: {LocalScale}");
 
             return sb.ToString();
         }
@@ -28,7 +25,6 @@ namespace Systems.Leveling
         {
             return new StateOption()
             {
-                Target = target,
                 LocalPosition = target.localPosition,
                 LocalRotation = target.localRotation,
                 LocalScale = target.localScale
