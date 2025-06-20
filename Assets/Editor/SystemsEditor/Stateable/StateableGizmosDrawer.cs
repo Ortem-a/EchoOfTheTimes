@@ -14,7 +14,7 @@ namespace SystemsEditor
 
             foreach (int state in stateable.Options.Keys)
             {
-                if (stateable.Options[state] == null || stateable.Options[state].Target == null)
+                if (stateable.Options[state] == null)
                     continue;
 
                 // ÷вет по ID

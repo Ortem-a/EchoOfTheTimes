@@ -32,7 +32,9 @@ namespace Systems.Leveling
 
                 for (int i = 0; i < Stateables.Length; i++)
                 {
-                    Stateables[i].AcceptState(1, _graph.ResetAndLoad);
+                    Stateables[i].AcceptState(
+                        1,
+                        () => _graph.ResetAndLoad());
                 }
             }
         }

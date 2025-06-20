@@ -18,7 +18,10 @@ namespace Systems.Movement
             _stateService = stateService;
 
             _stateService.OnCompleteChangingState += ResetAndLoad;
+        }
 
+        private void Awake()
+        {
             ResetAndLoad();
         }
 
@@ -48,7 +51,7 @@ namespace Systems.Movement
             }
         }
 
-        public virtual void ResetAndLoad()
+        public virtual void ResetAndLoad(int stateId = 0)
         {
             Vertex[] verts = GetComponentsInChildren<Vertex>();
             vertices = new List<Vertex>(verts);

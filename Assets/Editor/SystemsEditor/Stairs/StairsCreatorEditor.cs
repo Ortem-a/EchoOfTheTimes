@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Systems.Leveling;
@@ -238,7 +239,8 @@ namespace SystemsEditor
             {
                 for (int i = 0; i < _stairs.Count; i++)
                 {
-                    _stairs[i].SetOrUpdateState(id);
+                    throw new NotImplementedException();
+                    //_stairs[i].SetOrUpdateState(id);
                 }
             }
         }
@@ -285,7 +287,10 @@ namespace SystemsEditor
 
             foreach (var stair in _stairs)
             {
-                stair.TransformStairsToState(_debugStateId);
+                if (!stair.TryAcceptStateImmediate(_debugStateId))
+                {
+                    Debug.LogError($"There is no state with Id '{_debugStateId}'");
+                }
             }
         }
 

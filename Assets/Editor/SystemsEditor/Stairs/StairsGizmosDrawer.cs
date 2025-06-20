@@ -9,20 +9,20 @@ namespace SystemsEditor
         [DrawGizmo(GizmoType.Active | GizmoType.NonSelected | GizmoType.Selected | GizmoType.Pickable)]
         private static void DrawGizmos(Stair stair, GizmoType gizmoType)
         {
-            if (stair.Stateable == null || stair.Stateable.Options == null) return;
+            if (stair == null || stair.Options == null) return;
 
-            foreach (int state in stair.Stateable.Options.Keys)
+            foreach (int state in stair.Options.Keys)
             {
                 Gizmos.color = GizmoColorUtils.GetGizmoColorByState(state);
 
                 Matrix4x4 matrix = Matrix4x4.TRS(
-                    stair.Stateable.Options[state].LocalPosition,
-                    stair.Stateable.Options[state].LocalRotation,
-                    stair.Stateable.Options[state].LocalScale
+                    stair.Options[state].LocalPosition,
+                    stair.Options[state].LocalRotation,
+                    stair.Options[state].LocalScale
                 );
 
                 GizmosDrawerHelper.DrawHierarchyRecursive(
-                    stair.Stateable.transform,
+                    stair.transform,
                     matrix
                 );
             }

@@ -62,10 +62,9 @@ namespace Systems.Leveling
 
             foreach (IStateable stateable in _states[_currentState])
             {
-                if (stateable.TryGetOption(_currentState, out StateOption option))
+                if (!stateable.TryAcceptStateImmediate(_currentState))
                 {
-                    option.Target.SetLocalPositionAndRotation(option.LocalPosition, option.LocalRotation);
-                    option.Target.localScale = option.LocalScale;
+                    Debug.LogError($"There is no state with Id '{_currentState}'");
                 }
             }
         }

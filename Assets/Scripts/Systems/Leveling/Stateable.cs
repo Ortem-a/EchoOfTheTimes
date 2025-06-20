@@ -80,6 +80,18 @@ namespace Systems.Leveling
             return false;
         }
 
+        public bool TryAcceptStateImmediate(int stateId)
+        {
+            if (!_options.ContainsKey(stateId)) return false;
+
+            transform.SetLocalPositionAndRotation(
+                _options[stateId].LocalPosition,
+                _options[stateId].LocalRotation);
+            transform.localScale = _options[stateId].LocalScale;
+
+            return true;
+        }
+
         private IEnumerator AcceptStateCoroutine(StateOption option, Action onComplete)
         {
             MarkVerticesAs(true);

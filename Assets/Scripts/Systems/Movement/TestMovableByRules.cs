@@ -39,9 +39,9 @@ namespace Systems.Movement
 
             for (int i = 0; i < Rules.Count; i++)
             {
-                _sequence.Join(Rules[i].Option.Target.DOLocalMove(Rules[i].Option.LocalPosition, _moveDuration_sec));
-                _sequence.Join(Rules[i].Option.Target.DOLocalRotateQuaternion(Rules[i].Option.LocalRotation, _moveDuration_sec));
-                _sequence.Join(Rules[i].Option.Target.DOScale(Rules[i].Option.LocalScale, _moveDuration_sec));
+                _sequence.Join(transform.DOLocalMove(Rules[i].Option.LocalPosition, _moveDuration_sec));
+                _sequence.Join(transform.DOLocalRotateQuaternion(Rules[i].Option.LocalRotation, _moveDuration_sec));
+                _sequence.Join(transform.DOScale(Rules[i].Option.LocalScale, _moveDuration_sec));
 
                 _sequence.AppendCallback(HandleIncomeInRule);
 

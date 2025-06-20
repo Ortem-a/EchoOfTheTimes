@@ -92,23 +92,19 @@ namespace Systems.Leveling
 
         private List<StateOption> PositionsToStateOptions(List<Vector3> positions)
         {
-            List<StateOption> stateOptions = new List<StateOption>();
-            StateOption option;
-
+            var options = new List<StateOption>();
+            
             for (int i = 0; i < Stairs.Length; i++)
             {
-                option = new StateOption()
-                {
-                    Target = Stairs[i].transform,
-                    LocalPosition = transform.TransformPoint(positions[i]),
-                    LocalRotation = Stairs[i].transform.rotation,
-                    LocalScale = Stairs[i].transform.localScale
-                };
-
-                stateOptions.Add(option);
+                options.Add(new StateOption()
+                    {
+                        LocalPosition = transform.TransformPoint(positions[i]),
+                        LocalRotation = Stairs[i].transform.rotation,
+                        LocalScale = Stairs[i].transform.localScale
+                    });
             }
 
-            return stateOptions;
+            return options;
         }
 
         private Stair[] GetOrFindStairs()

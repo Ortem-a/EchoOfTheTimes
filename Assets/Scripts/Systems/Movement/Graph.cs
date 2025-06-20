@@ -11,7 +11,7 @@ namespace Systems.Movement
         protected List<List<Vertex>> neighbours;
         protected List<List<float>> costs;
 
-        public virtual void Load() { }
+        public abstract void Load();
 
         public virtual int GetSize()
         {
@@ -23,10 +23,7 @@ namespace Systems.Movement
             return vertices.Count;
         }
 
-        public virtual Vertex GetNearestVertex(Vector3 position)
-        {
-            return null;
-        }
+        public abstract Vertex GetNearestVertex(Vector3 position);
 
         public virtual Vertex[] GetNeighbours(Vertex vertex)
         {
@@ -43,10 +40,7 @@ namespace Systems.Movement
             return neighbours[vertex.Id].ToArray();
         }
 
-        public virtual Edge[] GetEdges(Vertex vertex)
-        {
-            return null;
-        }
+        public abstract Edge[] GetEdges(Vertex vertex);
 
         public List<Vertex> GetPathBFS(GameObject srcObj, GameObject dstObj)
         {
