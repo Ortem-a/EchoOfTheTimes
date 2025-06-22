@@ -12051,20 +12051,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f26ff3f05f10ca14488d1f803af1ce72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  States:
-    Items:
-    - Key: 0
-      Value:
-        Target: {fileID: 718983910}
-        LocalPosition: {x: -1.6202512, y: 0.007726252, z: 1.5282639}
-        LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-        LocalScale: {x: 4, y: 4, z: 4}
-    - Key: 1
-      Value:
-        Target: {fileID: 718983910}
-        LocalPosition: {x: -1.6202512, y: 0.007726252, z: 1.5282639}
-        LocalRotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
-        LocalScale: {x: 4, y: 4, z: 4}
+  _options:
+    _serializedList: []
 --- !u!114 &860054904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18918,6 +18906,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d23d9ff7454eacd448cd298c0c33cc67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Id: 0
+  Neighbours: []
+  IsBridge: 0
+  IsMoving: 0
 --- !u!1 &1465572008
 GameObject:
   m_ObjectHideFlags: 0
