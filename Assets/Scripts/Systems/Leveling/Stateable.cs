@@ -51,7 +51,7 @@ namespace Systems.Leveling
             }
         }
 
-        public void SetOptionsFrom(int stateId, Transform target)
+        public void SetOptionsForState(int stateId, Transform target)
         {
             var newOption = new StateOption()
             {

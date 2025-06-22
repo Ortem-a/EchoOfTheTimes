@@ -23,7 +23,7 @@ namespace SystemsEditor
 
             if (GUILayout.Button("Set Or Update Params To State"))
             {
-                stateable.SetOptionsFrom(_stateIdToSet, Selection.activeTransform);
+                stateable.SetOptionsForState(_stateIdToSet, Selection.activeTransform);
 
                 EditorUtility.SetDirty(stateableObject);
             }

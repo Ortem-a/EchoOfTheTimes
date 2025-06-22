@@ -111,12 +111,6 @@ namespace SystemsEditor
             }
         }
 
-        [DrawGizmo(GizmoType.Selected)]
-        private static void DrawGizmos(StairsCreator stairsCreator, GizmoType gizmoType)
-        {
-
-        }
-
         private void Create(StairsCreator stairsCreator)
         {
             Despawn(stairsCreator);
@@ -235,15 +229,13 @@ namespace SystemsEditor
 
         private void SetOrUpdateState(int[] ids)
         {
-            throw new NotImplementedException();
-
-            //foreach (int id in ids)
-            //{
-            //    for (int i = 0; i < _stairs.Count; i++)
-            //    {
-            //        _stairs[i].SetOrUpdateState(id);
-            //    }
-            //}
+            foreach (int id in ids)
+            {
+                for (int i = 0; i < _stairs.Count; i++)
+                {
+                    _stairs[i].SetOrUpdateOption(id);
+                }
+            }
         }
 
         private void ResetPositions()
