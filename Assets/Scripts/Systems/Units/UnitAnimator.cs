@@ -53,7 +53,7 @@ namespace Systems.Units
             if (isMoving)
             {
                 float angleBetweenUp = Vector3.Angle(direction, Vector3.up);
-                Debug.LogWarning(angleBetweenUp);
+                //Debug.LogWarning(angleBetweenUp);
                 // угол между Y == 90 -- движение по плоской поверхности
                 
                 if (angleBetweenUp > 80f && angleBetweenUp < 100f)
