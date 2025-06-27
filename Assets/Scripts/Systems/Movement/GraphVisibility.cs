@@ -8,16 +8,16 @@ namespace Systems.Movement
 {
     public class GraphVisibility : Graph
     {
-        private StatesInvoker _stateService;
+        private LevelStateMachine _stateMachine;
 
         [Inject]
-        private void Construct(LevelSettingsScriptableObject levelSettings, StatesInvoker stateService)
+        private void Construct(LevelSettingsScriptableObject levelSettings, LevelStateMachine stateMachine)
         {
             MaxDistanceToNeighbourVertex = levelSettings.MaxDistanceToNeighbourVertex;
 
-            _stateService = stateService;
+            _stateMachine = stateMachine;
 
-            _stateService.OnCompleteChangingState += ResetAndLoad;
+            _stateMachine.OnCompleteChangingState += ResetAndLoad;
         }
 
         private void Awake()
@@ -27,7 +27,7 @@ namespace Systems.Movement
 
         private void OnDestroy()
         {
-            _stateService.OnCompleteChangingState -= ResetAndLoad;
+            _stateMachine.OnCompleteChangingState -= ResetAndLoad;
         }
 
         public List<Vertex> GetVertices()

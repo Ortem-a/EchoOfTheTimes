@@ -4,60 +4,36 @@ using UnityEngine;
 
 namespace Systems.Leveling
 {
-    public class StatesInvoker : IDisposable
+    public class StatesInvoker
     {
-        public Action<int> OnStartChangingState;
-        public Action<int> OnCompleteChangingState;
-
         private int _optionsCount;
         private int _completedOptions = 0;
 
-        public StatesInvoker()
-        {
-            OnStartChangingState += HandleStart;
-            OnCompleteChangingState += HandleComplete;
-        }
-
-        public void Dispose()
-        {
-            OnStartChangingState -= HandleStart;
-            OnCompleteChangingState -= HandleComplete;
-        }
+        private Action _onStateChanged;
 
 #warning  ¿  Œ∆»ƒ¿“‹ ›“” ’”…Õﬁ œ–¿¬»À‹ÕŒ “ﬂ∆≈ÀŒŒŒŒŒŒ
-        public void AcceptState(int stateId, List<IStateable> options)
+        public void AcceptState(int stateId, List<IStateable> options, Action onComplete)
         {
-            OnStartChangingState?.Invoke(stateId);
-
+            _onStateChanged = onComplete;
             _optionsCount = options.Count;
 
             for (int i = 0; i < options.Count; i++)
             {
                 options[i].AcceptState(
                     stateId,
-                    () => HandleStepCompleted(stateId));
+                    HandleStepCompleted);
             }
         }
 
-        private void HandleStepCompleted(int stateId)
+        private void HandleStepCompleted()
         {
             _completedOptions++;
 
             if (_completedOptions == _optionsCount)
             {
                 _completedOptions = 0;
-                OnCompleteChangingState?.Invoke(stateId);
+                _onStateChanged?.Invoke();
             }
-        }
-
-        private void HandleStart(int stateId)
-        {
-            Debug.Log($"Switching state to {stateId}: START");
-        }
-
-        private void HandleComplete(int stateId)
-        {
-            Debug.Log($"Switching state to {stateId}: COMPLETE");
         }
     }
 }

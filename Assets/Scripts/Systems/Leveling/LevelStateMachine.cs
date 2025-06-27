@@ -9,18 +9,19 @@ namespace Systems.Leveling
     {
         private Dictionary<int, List<IStateable>> _states;
 
-        private readonly StatesInvoker _stateService;
+        private readonly StatesInvoker _stateInvoker;
 
+        private bool _awailable = true;
         private int _currentState = 0;
 
-        public Action<int> OnStartChangingState { get; private set; }
-        public Action<int> OnCompleteChangingState { get; private set; }
+        public Action<int> OnStartChangingState;
+        public Action<int> OnCompleteChangingState;
 
         public int StatesNumber { get; private set; }
 
-        public LevelStateMachine(StatesInvoker stateService)
+        public LevelStateMachine()
         {
-            _stateService = stateService;
+            _stateInvoker = new StatesInvoker();
 
             var stateables = new List<IStateable>();
             foreach (var item in UnityEngine.Object.FindObjectsOfType<Stateable>())
@@ -101,6 +102,12 @@ namespace Systems.Leveling
 
         public void ChangeState(int stateId)
         {
+            if (!_awailable)
+            {
+                Debug.Log("[State Machine] Busy");
+                return;
+            }
+
             Debug.Log($"[State Machine] {_currentState} -> {stateId}");
 
             if (stateId == _currentState) return;
@@ -109,16 +116,20 @@ namespace Systems.Leveling
 
             var options = _states[stateId];
 
-            _stateService.AcceptState(stateId, options);
+            OnStartChangingState?.Invoke(stateId);
+
+            _stateInvoker.AcceptState(stateId, options, () => OnCompleteChangingState?.Invoke(stateId));
         }
 
         private void HandleStartChangingState(int stateId)
         {
+            _awailable = false;
             Debug.Log($"Switching state to {stateId}: START");
         }
 
         private void HandleCompleteChangingState(int stateId)
         {
+            _awailable = true;
             Debug.Log($"Switching state to {stateId}: COMPLETE");
         }
     }
