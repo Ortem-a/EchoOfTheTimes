@@ -8,10 +8,10 @@ namespace Systems.Movement
 {
     public class GraphVisibility : Graph
     {
-        private StateService _stateService;
+        private StatesInvoker _stateService;
 
         [Inject]
-        private void Construct(LevelSettingsScriptableObject levelSettings, StateService stateService)
+        private void Construct(LevelSettingsScriptableObject levelSettings, StatesInvoker stateService)
         {
             MaxDistanceToNeighbourVertex = levelSettings.MaxDistanceToNeighbourVertex;
 

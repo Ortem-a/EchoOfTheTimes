@@ -90,7 +90,7 @@ namespace Systems.DI
         private void InstallLeveling()
         {
             this.Container
-                .BindInterfacesAndSelfTo<StateService>()
+                .BindInterfacesAndSelfTo<StatesInvoker>()
                 .FromNew()
                 .AsSingle();
 

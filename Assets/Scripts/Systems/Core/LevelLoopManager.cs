@@ -6,26 +6,38 @@ using Zenject;
 
 namespace Systems.Core
 {
-    public class LevelEntryPoint : IInitializable, IDisposable
+    public class LevelLoopManager : IInitializable, IDisposable
     {
         private readonly GameLoopService _gameLoop;
 
-        public LevelEntryPoint(GameLoopService gameLoop)
+        public LevelLoopManager(GameLoopService gameLoop)
         {
             _gameLoop = gameLoop;
         }
 
         void IInitializable.Initialize()
         {
-            // level loaded
-            // prepare UI 
-            // show start splash screen
-            // when splash screen animation finished -> OnLevelStarted.Invoke()
+            StartLevel();
         }
 
         void IDisposable.Dispose() 
         {
+            FinishLevel();
+        }
 
+        private void StartLevel()
+        {
+            // level loaded
+            // prepare UI 
+            // show start splash screen
+            // when splash screen animation finished -> OnLevelStarted.Invoke()
+
+            throw new NotImplementedException();
+        }
+
+        private void FinishLevel()
+        {
+            throw new NotImplementedException();
         }
     }
 }

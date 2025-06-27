@@ -1,32 +1,64 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
 namespace Systems.Leveling
 {
-    public class LevelStateMachine : IInitializable
+    public class LevelStateMachine : IInitializable, IDisposable
     {
         private Dictionary<int, List<IStateable>> _states;
 
-        private readonly StateService _stateService;
+        private readonly StatesInvoker _stateService;
 
         private int _currentState = 0;
 
+        public Action<int> OnStartChangingState { get; private set; }
+        public Action<int> OnCompleteChangingState { get; private set; }
+
         public int StatesNumber { get; private set; }
 
-        public LevelStateMachine(StateService stateService)
+        public LevelStateMachine(StatesInvoker stateService)
         {
             _stateService = stateService;
 
             var stateables = new List<IStateable>();
-            foreach (var item in Object.FindObjectsOfType<Stateable>())
+            foreach (var item in UnityEngine.Object.FindObjectsOfType<Stateable>())
             {
                 stateables.Add(item);
             }
 
             StatesNumber = GetStatesNumber(stateables);
 
+            OnStartChangingState += HandleStartChangingState;
+            OnCompleteChangingState += HandleCompleteChangingState;
+
             InitializeStates(stateables);
+        }
+
+        public void Dispose()
+        {
+            OnStartChangingState -= HandleStartChangingState;
+            OnCompleteChangingState -= HandleCompleteChangingState;
+        }
+
+        public void Initialize()
+        {
+            _currentState = 0;
+
+            if (!_states.ContainsKey(0))
+            {
+                Debug.LogWarning("There is no states with '0' state Id! Required at least one object with '0' state Id!");
+                return;
+            }
+
+            foreach (IStateable stateable in _states[_currentState])
+            {
+                if (!stateable.TryAcceptStateImmediate(_currentState))
+                {
+                    Debug.LogError($"There is no state with Id '{_currentState}'");
+                }
+            }
         }
 
         private void InitializeStates(List<IStateable> stateables)
@@ -46,25 +78,6 @@ namespace Systems.Leveling
                     {
                         _states[j].Add(stateables[i]);
                     }
-                }
-            }
-        }
-
-        public void Initialize()
-        {
-            _currentState = 0;
-
-            if (!_states.ContainsKey(0))
-            {
-                Debug.LogWarning("There is no states with '0' state Id! Required at least one object with '0' state Id!");
-                return;
-            }
-
-            foreach (IStateable stateable in _states[_currentState])
-            {
-                if (!stateable.TryAcceptStateImmediate(_currentState))
-                {
-                    Debug.LogError($"There is no state with Id '{_currentState}'");
                 }
             }
         }
@@ -97,6 +110,16 @@ namespace Systems.Leveling
             var options = _states[stateId];
 
             _stateService.AcceptState(stateId, options);
+        }
+
+        private void HandleStartChangingState(int stateId)
+        {
+            Debug.Log($"Switching state to {stateId}: START");
+        }
+
+        private void HandleCompleteChangingState(int stateId)
+        {
+            Debug.Log($"Switching state to {stateId}: COMPLETE");
         }
     }
 }

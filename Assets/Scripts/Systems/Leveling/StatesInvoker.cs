@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Systems.Leveling
 {
-    public class StateService : IDisposable
+    public class StatesInvoker : IDisposable
     {
         public Action<int> OnStartChangingState;
         public Action<int> OnCompleteChangingState;
@@ -12,7 +12,7 @@ namespace Systems.Leveling
         private int _optionsCount;
         private int _completedOptions = 0;
 
-        public StateService()
+        public StatesInvoker()
         {
             OnStartChangingState += HandleStart;
             OnCompleteChangingState += HandleComplete;
