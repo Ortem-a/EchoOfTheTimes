@@ -24,6 +24,7 @@ namespace Systems.UI.Level
 
         private void InitializeButtons()
         {
+            // set 0 state as active
             _stateButtons[0].Animator.PlayEnableAnimation();
 
             for (int i = 1; i < _stateButtons.Length; i++)
@@ -38,21 +39,9 @@ namespace Systems.UI.Level
             if (_lastPressedButtonId == stateId) return;
 
             // activate pressed button
+            _stateButtons[stateId].Animator.PlayEnableAnimation();
             // disable previous button
-            for (int i = 0; i < _stateButtons.Length; i++)
-            {
-                if (_stateButtons[i].StateId == stateId)
-                {
-                    _stateButtons[i].Animator.PlayEnableAnimation();
-                    continue;
-                }
-                
-                if (_stateButtons[i].StateId == _lastPressedButtonId)
-                {
-                    _stateButtons[i].Animator.PlayDisableAnimation();
-                    continue;
-                }
-            }
+            _stateButtons[_lastPressedButtonId].Animator.PlayDisableAnimation();
 
             _lastPressedButtonId = stateId;
         }
