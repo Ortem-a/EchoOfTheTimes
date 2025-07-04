@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Systems.Movement
 {
-    [System.Serializable]
+    [Serializable]
     public class Vertex : MonoBehaviour, IEquatable<Vertex>
     {
         public int Id;
@@ -12,6 +12,13 @@ namespace Systems.Movement
 
         public bool IsBridge = false;
         public bool IsMoving = false;
+
+        public IndicationPlaceholder IndicationPlaceholder { get; private set; }
+
+        protected virtual void Awake()
+        {
+            IndicationPlaceholder = GetComponentInChildren<IndicationPlaceholder>();
+        }
 
         public bool ContainsNeighbour(Vertex v)
         {
