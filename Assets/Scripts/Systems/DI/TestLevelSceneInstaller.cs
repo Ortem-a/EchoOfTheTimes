@@ -34,6 +34,11 @@ namespace Systems.DI
             this.Container
                 .BindInterfacesAndSelfTo<SwitchUnitUiButton>()
                 .AsCached();
+
+            this.Container
+                .Bind<StateRadioButtonController>()
+                .FromComponentInHierarchy()
+                .AsSingle();
         }
 
         private void InstallCore()

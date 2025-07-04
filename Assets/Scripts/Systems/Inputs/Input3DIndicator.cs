@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using DG.Tweening.Core.Easing;
 using Systems.Movement;
 using Systems.Settings;
 using UnityEngine;
@@ -17,8 +18,11 @@ namespace Systems.Inputs
         [SerializeField]
         private Color _errorSplashSphere = Color.red;
 
+        private Sequence _animation;
         private GameObject _spawnedIndicator;
         private InputIndicatorSettingsScriptableObject _inputIndicatorSettings;
+
+        private Material _indicationMaterial;
 
         [Inject]
         private void Construct(InputIndicatorSettingsScriptableObject inputIndicatorSettings)
@@ -26,9 +30,47 @@ namespace Systems.Inputs
             _inputIndicatorSettings = inputIndicatorSettings;
         }
 
-        public void ShowSuccessIndicator(Vertex at) => SpawnSphere(at.transform, _defaultSphere, _splashSphere);
+        private void Awake()
+        {
+#warning подумать свежим мозгом
+            // хочу переиспользовать 1 объект для индикации
+            // создать 1 раз анимации для
+            // - успешного нажатия
+            // - нажатия с ошибкой
+            // при любом нажатии запускается уже созданная и подготовленная 
+            // анимация для ранее созданного объекта
+            _spawnedIndicator = Instantiate(
+                _inputIndicatorSettings.Indicator3DPrefab,
+                Vector3.zero,
+                Quaternion.identity,
+                transform);
 
-        public void ShowErrorIndicator(Vertex at) => SpawnSphere(at.transform, _defaultErrorSplashSphere, _errorSplashSphere);
+            _indicationMaterial = _spawnedIndicator.GetComponent<Renderer>().sharedMaterial;
+
+            _spawnedIndicator.SetActive(false);
+            _indicationMaterial.color = _defaultSphere;
+            _spawnedIndicator.transform.localScale = Vector3.one * _inputIndicatorSettings.DefaultRadius;
+
+            _animation = DOTween.Sequence()
+                .OnStart(() => _spawnedIndicator.SetActive(true))
+                .OnComplete(() => _spawnedIndicator.SetActive(false))
+                .Append(_spawnedIndicator.transform
+                    .DOScale(_inputIndicatorSettings.MaxRadius, _inputIndicatorSettings.IndicatorDuration3D_sec))
+                .Join(_indicationMaterial
+                    .DOColor(_defaultSphere, _inputIndicatorSettings.IndicatorColorDuration3D_sec))
+                .Join(_spawnedIndicator.transform
+                    .DOScale(_inputIndicatorSettings.DefaultRadius, _inputIndicatorSettings.IndicatorDuration3D_sec));
+        }
+
+        public void ShowSuccessIndicator(Vertex at) => SpawnSphere(
+            at.IndicationPlaceholder.transform,
+            _defaultSphere,
+            _splashSphere);
+
+        public void ShowErrorIndicator(Vertex at) => SpawnSphere(
+            at.IndicationPlaceholder.transform,
+            _defaultErrorSplashSphere,
+            _errorSplashSphere);
 
         private void SpawnSphere(Transform at, Color defaultColor, Color splash)
         {
@@ -59,6 +101,22 @@ namespace Systems.Inputs
                             Destroy(_spawnedIndicator); // Destroy the indicator after use
                         });
                 });
+        }
+
+        private void ShowIndicator(Transform at, Color defaultColor, Color splash)
+        {
+            if (_animation.IsPlaying())
+            {
+                // hide current indication
+                _animation.Kill();
+            }
+
+            _spawnedIndicator.transform.SetParent(at);
+            _indicationMaterial.color = defaultColor;
+            _spawnedIndicator.transform.localScale = Vector3.one * _inputIndicatorSettings.DefaultRadius;
+            _spawnedIndicator.transform.localPosition = at.position;
+            
+            _animation.Play();
         }
     }
 }
